@@ -11,6 +11,10 @@
 |
 */
 
+
+Route::get('/votacao', 'VotacaoController@index');
+Route::post('/votacao/addVoto', 'VotacaoController@addVoto');
+
 Route::get('/', function () {
     return view('welcome');
 });

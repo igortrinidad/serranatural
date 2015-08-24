@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace serranatural\Providers;
 
 use Illuminate\Support\ServiceProvider;
 

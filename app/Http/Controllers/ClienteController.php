@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use serranatural\Http\Requests;
 use serranatural\Http\Controllers\Controller;
 
-class VotacaoController extends Controller
+class ClienteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,37 +16,8 @@ class VotacaoController extends Controller
      */
     public function index()
     {
-        //$mes = formatandoData(date(time()));
-        //$inicioSemana = date('d');
-        //$fimSemana = date('d', strtotime("+6 days"));
-        //$semana = $inicioSemana . ' a ' . $fimSemana . ' de ' . $mes;
-//
-        //$opcoes = Opcoes::all();
-//
-        //$votos = DB::table('votos')
-        //             ->select(DB::raw('voto, COUNT(*) as qtdVoto'))
-        //             ->from('votos')
-        //             ->groupBY('voto')
-        //             ->orderBY('qtdVoto', 'DESC')
-        //             ->get();
-//
-        //$totalVotos = DB::table('votos')
-        //             ->select(DB::raw('voto, COUNT(*) as total'))
-        //             ->from('votos')
-        //             ->first();
-//
-        //$dados = [
-//
-        //'opcoes' => $opcoes,
-        //'semana' => $semana,
-        //'votos' => $votos,
-        //'totalVotos' => $totalVotos
-//
-        //];
-
-        return view('votacao/votacao');
+        //
     }
-    
 
     /**
      * Show the form for creating a new resource.
