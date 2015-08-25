@@ -13,7 +13,8 @@
 
 
 Route::get('/votacao', 'VotacaoController@index');
-Route::post('/votacao/addVoto', 'VotacaoController@addVoto');
+Route::post('/votacao/addVotoCliente', 'VotacaoController@addVotoCliente');
+Route::post('/votacao/addVotoCadastro', 'VotacaoController@addVotoCadastro');
 
 Route::get('/', function () {
     return view('welcome');

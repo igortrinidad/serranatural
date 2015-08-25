@@ -2,13 +2,12 @@
 
 namespace serranatural\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use serranatural\Http\Requests;
+use Illuminate\Support\Facades\Request;
 use serranatural\Http\Controllers\Controller;
 
 use Illuminate\Support\Facades\DB;
 use serranatural\Models\Pratos;
+use serranatural\Models\Voto;
 
 class VotacaoController extends Controller
 {
@@ -56,9 +55,30 @@ class VotacaoController extends Controller
      *
      * @return Response
      */
-    public function create()
+    public function addVotoCliente()
     {
-        //
+
+        $opcoesEscolhidas = Request::get('opcaoEscolhida');
+
+        $mes = retornaMesPorExtenso(date(time()));
+        $inicioSemana = date('d');
+        $fimSemana = date('d', strtotime("+6 days"));
+        $semana = $inicioSemana . ' a ' . $fimSemana . ' de ' . $mes;
+
+        foreach ($opcoesEscolhidas as $opcao){
+            Voto::create([
+                'opcaoEscolhida' => $opcao,
+                'semanaCorrente' => $semana,
+                ]);
+        }
+
+        $dados = [
+            'msg_retorno' => 'Obrigado pelo seu voto! Com Cliente',
+            'tipo_retorno' => 'info',
+            'semana' => $semana
+        ];
+
+        return redirect()->action('VotacaoController@index')->with($dados);
     }
 
     /**
@@ -67,9 +87,32 @@ class VotacaoController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request)
+    public function addVotoCadastro(Request $request)
     {
-        //
+        
+        $opcoesEscolhidas = Request::get('opcaoEscolhida');
+
+        $mes = retornaMesPorExtenso(date(time()));
+        $inicioSemana = date('d');
+        $fimSemana = date('d', strtotime("+6 days"));
+        $semana = $inicioSemana . ' a ' . $fimSemana . ' de ' . $mes;
+
+        foreach ($opcoesEscolhidas as $opcao){
+            Voto::create([
+                'opcaoEscolhida' => $opcao,
+                'semanaCorrente' => $semana,
+                ]);
+        }
+
+        $dados = [
+            'msg_retorno' => 'Obrigado pelo seu voto! Com Cadastro!',
+            'tipo_retorno' => 'info',
+            'semana' => $semana
+        ];
+
+        return redirect()->action('VotacaoController@index')->with($dados);
+
+
     }
 
     /**

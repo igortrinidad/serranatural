@@ -9,13 +9,19 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
+
+@if(Session::has('msg_retorno'))
+<div class="alert alert-{{Session::get('tipo_retorno')}}">
+<p>{{Session::get('msg_retorno')}}</p>
+</div>
+@endif
                     <h1>Escolha os pratos da próxima semana</h1>
 @foreach($pratos as $prato)
                      <div class="col-md-3">
                         <div class="panel panel paineis">
                             <div class="panel-heading panel-info"><strong>{{$prato->prato}}</strong></div>
                             <div class="panel-body text-center" style="max-height:200px">
-                                <input class="panel-body" type="checkbox" name="opcaoEscolhida[]" value="{{$prato->prato}}" data-toggle="toggle" data-on="Quero!" data-off="Escolha" data-onstyle="success"/>
+                                <input form="votoForm" class="panel-body" type="checkbox" name="opcaoEscolhida[]" value="{{$prato->prato}}" data-toggle="toggle" data-on="Quero!" data-off="Escolha" data-onstyle="success"/>
                                 <br /><br />
                                 <p>Acompanhamentos:</p>
                                 <p>{!!nl2br($prato->acompanhamentos)!!}</p>
@@ -49,48 +55,45 @@
                         </ul>
 
 
-                    <div class="tab-content">
-                          <div id="logar" class="tab-pane fade in active">
+                        <div class="tab-content">
+                            <div id="logar" class="tab-pane fade in active">
 
-                            <form action="votacao/addVoto" class="form-group">
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="email" class="form-control"/>
-                                </div>
+                                <form id="votoForm" action="votacao/addVotoCliente" class="form-group" method="POST">
+                                <input form="votoForm" type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input form="votoForm" type="email" name="email" class="form-control"/>
+                                    </div>
+                                    <button id="votoCliente" form="votoForm" type="submit" class="btn btn-primary" onclick="this.form.action='/votacao/addVotoCliente'">Votar !</button>
+                            </div>
 
+                            <div id="cadastre" class="tab-pane fade">
+                                    <div class="form-group">
+                                        <label>Nome</label>
+                                        <input form="votoForm" type="text" name="nome" class="form-control"/>
+                                    </div>
 
-                                <button type="submit" class="btn btn-primary">Votar !</button>
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input form="votoForm" type="email" name="email" class="form-control"/>
+                                    </div>
 
+                                    <div class="form-group">
+                                        <label>Telefone</label>
+                                        <input form="votoForm" type="text" name="telefone" class="form-control"/>
+                                    </div>
 
-                            </form>
-
-                          </div>
-
-                          <div id="cadastre" class="tab-pane fade">
-
-                            <form action="votacao/addVoto" class="form-group">
-                                        <div class="form-group">
-                                            <label>Nome</label>
-                                            <input type="text" class="form-control"/>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Email</label>
-                                            <input type="email" class="form-control"/>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Telefone</label>
-                                            <input type="text" class="form-control"/>
-                                        </div>
-
-                                        <button type="submit" class="btn btn-primary">Cadastrar e votar!</button>
+                                    <div class="form-group">
+                                        <button id="votoCadastro" form="votoForm" type="submit" class="btn btn-primary" onclick="this.form.action='/votacao/addVotoCadastro'">Cadastrar e votar!</button>
+                                
+                                    </div>
+                            </div>
 
                             </form>
 
-                          </div>
+                                
 
-                      </div>
+                                
                           
                           
 
@@ -98,9 +101,9 @@
 
                                     
                                 </div>
+                        
                             </div>
-        
-
+                        </div>
                     </div>
                 </div>
             </div>
@@ -136,5 +139,6 @@
     </section>
 <a class="page-scroll titulo" href="#cadastro">
 <img class="seta" src="/img/botao_seta.png" alt="Próximo"/></a>
+
 
 @stop
