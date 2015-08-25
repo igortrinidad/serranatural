@@ -12,8 +12,8 @@
                     <h1>Escolha os pratos da próxima semana</h1>
 @foreach($pratos as $prato)
                      <div class="col-md-3">
-                        <div class="panel panel-info">
-                            <div class="panel-heading"><strong>{{$prato->prato}}</strong></div>
+                        <div class="panel panel paineis">
+                            <div class="panel-heading panel-info"><strong>{{$prato->prato}}</strong></div>
                             <div class="panel-body text-center" style="max-height:200px">
                                 <input class="panel-body" type="checkbox" name="opcaoEscolhida[]" value="{{$prato->prato}}" data-toggle="toggle" data-on="Quero!" data-off="Escolha" data-onstyle="success"/>
                                 <br /><br />
@@ -34,10 +34,14 @@
     <section id="cadastro" class="services-section">
         <div class="container">
             <div class="row">
-                <div class="col-lg-2"></div>
-                    <div class="col-lg-8">
+                <div class="col-lg-3"></div>
+                    <div class="col-lg-6">
                     <h1>Cadastre-se</h1>
                     <p>Participe de promoções e fique por dentro de nossas novidades</p>
+<br />
+
+                        <div class="panel panel painel_cadastro paineis">
+                            <div class="panel-body text-left">
 
                     <form action="votacao/addVoto" class="form-group">
                         <div class="form-group">
@@ -60,6 +64,11 @@
                     </form>
                 </div>
             </div>
+        
+
+        </div>
+        </div>
+        </div>
         </div>
     </section>
 

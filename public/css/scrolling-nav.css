@@ -33,7 +33,7 @@ of those sections to manage the look and feel of the site. */
 
 .intro-section {
     //height: 100%;
-    padding-top: 100px;
+    padding-top: 60px;
     padding-bottom: 100px;
     text-align: center;
     background: #fff;
@@ -44,24 +44,27 @@ h1 {
 
 .about-section {
     //height: 100%;
-    padding-top: 100px;
+    padding-top: 60px;
     text-align: center;
     background: #eee;
     padding-bottom: 50px;
-    background-image: linear-gradient(130deg, #4FBDF0 0%, #1F3244 100%);
+    background-image: linear-gradient(130deg, RGB(128, 198, 104) 0%, RGB(38, 166, 80) 100%);
 }
 
 .services-section {
     //height: 100%;
-    padding-top: 100px;
+    padding-top: 60px;
     text-align: center;
     background: #fff;
     padding-bottom: 50px;
+    background-image: linear-gradient(130deg, RGB(245, 237, 51) 0%, RGB(237, 200, 75) 60%);
 }
 
 .contact-section {
     //height: 100%;
-    padding-top: 100px;
+    padding-top: 60px;
     text-align: center;
     background: #eee;
+    padding-bottom: 50px;
+    background-image: linear-gradient(130deg, #4FBDF0 0%, #1F3244 100%);
 }

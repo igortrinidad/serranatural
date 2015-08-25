@@ -6,3 +6,18 @@
 #pratos{
 	background-image: https://forge.laravel.com/images/dem-sparks.jpg;
 }
+
+.paineis{
+	-webkit-box-shadow: 7px 8px 30px -9px rgba(0,0,0,0.61);
+	-moz-box-shadow: 7px 8px 30px -9px rgba(0,0,0,0.61);
+	box-shadow: 7px 8px 30px -9px rgba(0,0,0,0.61);
+}
+
+.painel_cadastro{
+	padding: 20px;
+	padding-left: 50px;
+	padding-right: 50px;
+}
+
+.painel_cadastro label{
+}
