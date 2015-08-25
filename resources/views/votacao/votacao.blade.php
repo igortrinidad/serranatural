@@ -3,46 +3,89 @@
 @section('conteudo')
 
   <!-- Intro Section -->
-    <section id="intro" class="intro-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1>Scrolling Nav</h1>
-                    <p><strong>Usage Instructions:</strong> Make sure to include the <code>scrolling-nav.js</code>, <code>jquery.easing.min.js</code>, and <code>scrolling-nav.css</code> files. To make a link smooth scroll to another section on the page, give the link the <code>.page-scroll</code> class and set the link target to a corresponding ID on the page.</p>
-                    <a class="btn btn-default page-scroll" href="#about">Click Me to Scroll Down!</a>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- About Section -->
-    <section id="about" class="about-section">
+    <section id="pratos" class="about-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>About Section</h1>
+                    <h1>Escolha os pratos da próxima semana</h1>
+@foreach($pratos as $prato)
+                     <div class="col-md-3">
+                        <div class="panel panel-info">
+                            <div class="panel-heading"><strong>{{$prato->prato}}</strong></div>
+                            <div class="panel-body text-center" style="max-height:200px">
+                                <input class="panel-body" type="checkbox" name="opcaoEscolhida[]" value="{{$prato->prato}}" data-toggle="toggle" data-on="Quero!" data-off="Escolha" data-onstyle="success"/>
+                                <br /><br />
+                                <p>Acompanhamentos:</p>
+                                <p>{!!nl2br($prato->acompanhamentos)!!}</p>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+@endforeach
+
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="services-section">
+    <section id="cadastro" class="services-section">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12">
-                    <h1>Services Section</h1>
+                <div class="col-lg-2"></div>
+                    <div class="col-lg-8">
+                    <h1>Cadastre-se</h1>
+                    <p>Participe de promoções e fique por dentro de nossas novidades</p>
+
+                    <form action="votacao/addVoto" class="form-group">
+                        <div class="form-group">
+                            <label>Nome</label>
+                            <input type="text" class="form-control"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" class="form-control"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Telefone</label>
+                            <input type="text" class="form-control"/>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary"> Cadastrar </button>
+
+                    </form>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="contact-section">
+    <section id="status" class="contact-section">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12">
-                    <h1>Contact Section</h1>
+                <div class="col-lg-2"></div>
+                <div class="col-lg-8">
+                    <h1>Status</h1>
+
+
+<?php $i = 0;?>     
+@foreach($votos as $voto)
+<p class="text-left">{{$voto->opcaoEscolhida}}   {{calculaPorcentagem($totalVotos->total, $voto->qtdVoto)}}%</p>
+
+                            <div class="progress">
+                              <div class="progress-bar {{corBarraProgresso($i)}}" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{{calculaPorcentagem($totalVotos->total, $voto->qtdVoto)}}%">
+                                </div>
+                            </div>
+
+<?php $i++;?>
+@endforeach
+
+
+
                 </div>
             </div>
         </div>

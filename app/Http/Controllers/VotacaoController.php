@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use serranatural\Http\Requests;
 use serranatural\Http\Controllers\Controller;
 
+use Illuminate\Support\Facades\DB;
+use serranatural\Models\Pratos;
+
 class VotacaoController extends Controller
 {
     /**
@@ -16,35 +19,35 @@ class VotacaoController extends Controller
      */
     public function index()
     {
-        //$mes = formatandoData(date(time()));
-        //$inicioSemana = date('d');
-        //$fimSemana = date('d', strtotime("+6 days"));
-        //$semana = $inicioSemana . ' a ' . $fimSemana . ' de ' . $mes;
-//
-        //$opcoes = Opcoes::all();
-//
-        //$votos = DB::table('votos')
-        //             ->select(DB::raw('voto, COUNT(*) as qtdVoto'))
-        //             ->from('votos')
-        //             ->groupBY('voto')
-        //             ->orderBY('qtdVoto', 'DESC')
-        //             ->get();
-//
-        //$totalVotos = DB::table('votos')
-        //             ->select(DB::raw('voto, COUNT(*) as total'))
-        //             ->from('votos')
-        //             ->first();
-//
-        //$dados = [
-//
-        //'opcoes' => $opcoes,
-        //'semana' => $semana,
-        //'votos' => $votos,
-        //'totalVotos' => $totalVotos
-//
-        //];
+        $mes = retornaMesPorExtenso(date(time()));
+        $inicioSemana = date('d');
+        $fimSemana = date('d', strtotime("+6 days"));
+        $semana = $inicioSemana . ' a ' . $fimSemana . ' de ' . $mes;
+        
+        $pratos = Pratos::all();
+        
+        $votos = DB::table('votacaoPratosDoDia')
+                     ->select(DB::raw('opcaoEscolhida, COUNT(*) as qtdVoto'))
+                     ->from('votacaoPratosDoDia')
+                     ->groupBY('opcaoEscolhida')
+                     ->orderBY('qtdVoto', 'DESC')
+                     ->get();
+        
+        $totalVotos = DB::table('votacaoPratosDoDia')
+                     ->select(DB::raw('opcaoEscolhida, COUNT(*) as total'))
+                     ->from('votacaoPratosDoDia')
+                     ->first();
+        
+        $dados = [
+        
+        'pratos' => $pratos,
+        'semana' => $semana,
+        'votos' => $votos,
+        'totalVotos' => $totalVotos
+        
+        ];
 
-        return view('votacao/votacao');
+        return view('votacao/votacao')->with($dados);
     }
     
 

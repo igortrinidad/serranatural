@@ -15,7 +15,7 @@ class CriaTabelaPratosDoDia extends Migration
         Schema::create('pratosDoDia', function ($table) {
             $table->increments('id');
             $table->string('prato');
-            $table->string('acompanhamentos');
+            $table->text('acompanhamentos');
         });
     }
 

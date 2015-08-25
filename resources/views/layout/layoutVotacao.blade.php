@@ -17,6 +17,10 @@
     <!-- Custom CSS -->
     <link href="/css/scrolling-nav.css" rel="stylesheet">
 
+    <!-- Proprios CSS -->
+    <link href="/css/estilos.css" rel="stylesheet">
+    <link href="/css/bootstrap-toggle.min.css" rel="stylesheet">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -40,7 +44,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand page-scroll" href="#page-top">Start Bootstrap</a>
+                <a class="navbar-brand page-scroll titulo" href="#page-top">Serra Natural</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -51,13 +55,13 @@
                         <a class="page-scroll" href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#about">Pratos</a>
+                        <a class="page-scroll titulo" href="#pratos">Pratos</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#services">Promoção</a>
+                        <a class="page-scroll titulo" href="#cadastro">Cadastro</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#contact">Contato</a>
+                        <a class="page-scroll titulo" href="#status">Status</a>
                     </li>
                 </ul>
             </div>
@@ -66,13 +70,16 @@
         <!-- /.container -->
     </nav>
 
-  @yield('conteudo')
+@yield('conteudo')
 
     <!-- jQuery -->
     <script src="/js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="/js/bootstrap.min.js"></script>
+
+    <!-- Toogle Switch JavaScript -->
+    <script src="/js/bootstrap-toggle.min.js"></script>
 
     <!-- Scrolling Nav JavaScript -->
     <script src="/js/jquery.easing.min.js"></script>
