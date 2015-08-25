@@ -36,39 +36,74 @@
             <div class="row">
                 <div class="col-lg-3"></div>
                     <div class="col-lg-6">
-                    <h1>Cadastre-se</h1>
-                    <p>Participe de promoções e fique por dentro de nossas novidades</p>
-<br />
+                        <h1>Cadastre-se</h1>
+                        <p>Participe de promoções e fique por dentro de nossas novidades</p>
+                        <br />
 
                         <div class="panel panel painel_cadastro paineis">
-                            <div class="panel-body text-left">
+                                <div class="panel-body text-left">
 
-                    <form action="votacao/addVoto" class="form-group">
-                        <div class="form-group">
-                            <label>Nome</label>
-                            <input type="text" class="form-control"/>
-                        </div>
+                        <ul class="nav nav-tabs">
+                          <li class="active"><a data-toggle="tab" href="#logar">Login</a></li>
+                          <li><a data-toggle="tab" href="#cadastre">Cadastro</a></li>
+                        </ul>
 
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" class="form-control"/>
-                        </div>
 
-                        <div class="form-group">
-                            <label>Telefone</label>
-                            <input type="text" class="form-control"/>
-                        </div>
+                    <div class="tab-content">
+                          <div id="logar" class="tab-pane fade in active">
 
-                        <button type="submit" class="btn btn-primary"> Cadastrar </button>
+                            <form action="votacao/addVoto" class="form-group">
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" class="form-control"/>
+                                </div>
 
-                    </form>
-                </div>
-            </div>
+
+                                <button type="submit" class="btn btn-primary">Votar !</button>
+
+
+                            </form>
+
+                          </div>
+
+                          <div id="cadastre" class="tab-pane fade">
+
+                            <form action="votacao/addVoto" class="form-group">
+                                        <div class="form-group">
+                                            <label>Nome</label>
+                                            <input type="text" class="form-control"/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <input type="email" class="form-control"/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Telefone</label>
+                                            <input type="text" class="form-control"/>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Cadastrar e votar!</button>
+
+                            </form>
+
+                          </div>
+
+                      </div>
+                          
+                          
+
+                            
+
+                                    
+                                </div>
+                            </div>
         
 
-        </div>
-        </div>
-        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -99,5 +134,7 @@
             </div>
         </div>
     </section>
+
+<img class="seta" src="/img/botao_seta.png" alt="Próximo"/>
 
 @stop

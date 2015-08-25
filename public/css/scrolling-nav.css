@@ -56,15 +56,15 @@ h1 {
     padding-top: 60px;
     text-align: center;
     background: #fff;
-    padding-bottom: 50px;
+    padding-bottom: 150px;
     background-image: linear-gradient(130deg, RGB(245, 237, 51) 0%, RGB(237, 200, 75) 60%);
 }
 
 .contact-section {
-    //height: 100%;
+    height: 100%;
     padding-top: 60px;
     text-align: center;
     background: #eee;
     padding-bottom: 50px;
-    background-image: linear-gradient(130deg, #4FBDF0 0%, #1F3244 100%);
+    background-image: linear-gradient(130deg, RGB(231, 231, 231) 0%, RGB(190, 190, 190) 100%);
 }

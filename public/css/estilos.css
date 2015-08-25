@@ -21,3 +21,14 @@
 
 .painel_cadastro label{
 }
+
+.seta{
+	position: fixed;
+	right: 20px;
+	bottom: 10px;
+	width: 100px;
+}
+
+form{
+	padding-top: 30px;
+}
