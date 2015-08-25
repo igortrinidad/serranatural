@@ -134,7 +134,7 @@
             </div>
         </div>
     </section>
-
-<img class="seta" src="/img/botao_seta.png" alt="Próximo"/>
+<a class="page-scroll titulo" href="#cadastro">
+<img class="seta" src="/img/botao_seta.png" alt="Próximo"/></a>
 
 @stop
