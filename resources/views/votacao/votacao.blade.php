@@ -155,7 +155,7 @@
 <div id="loading" hidden="true"><i id="spinner" class="fa fa-spinner fa-4x"></i></div>
 
 <div class="fundoLogo">
-  <img class="logo" src="/img/LOGO.png" alt="Serra Natural"/>
+  <img class="logo" src="/img/logo.png" alt="Serra Natural"/>
 </div>
 
 @stop
