@@ -144,29 +144,15 @@
 <img class="seta" src="/img/botao_seta.png" alt="Próximo"/></a>
 
 
-<div id="retorno">
-
-    <div id="escurece"></div>
-    <div class="painel_teste text-center">
-
-        <a id="fecha"><i class="fa fa-times fa-2x"></i></a>
-        
-        <div class="alert alert-{{Session::get('tipo_retorno')}} msg_retorno">
-        <p></p>
-        </div>
-
-    </div>
-</div>
-
 @if(Session::has('msg_retorno'))
 <div id="retorno">
 
     <div id="escurece"></div>
-    <div class="painel_teste">
+    <div class="painel_teste alert alert-{{Session::get('tipo_retorno')}}">
 
         <a id="fecha"><i class="fa fa-times fa-2x"></i></a>
         
-        <div class="alert alert-{{Session::get('tipo_retorno')}} msg_retorno">
+        <div class="alert alert-{{Session::get('tipo_retorno')}} msg_retorno text-center">
         <p>{{Session::get('msg_retorno')}}</p>
         </div>
 @endif

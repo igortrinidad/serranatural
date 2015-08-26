@@ -24,9 +24,9 @@
 
 .painel_teste{
 	width: 400px;
-    height: 300px;
+    height: 120px;
     margin-left: -200px; /* metade da largura */
-    margin-top: -150px; /* metade da altura */
+    margin-top: -60px; /* metade da altura */
     position: fixed;
     top: 50%;
     left: 50%;
@@ -53,18 +53,16 @@
 
 #fecha{
 	position: absolute;
-	right: 12px;
-	top: 12px;
+	right: 10px;
+	top: 10px;
 }
 
 form{
 	padding-top: 30px;
 }
 .msg_retorno{
-	position: relative;
-	top: 50%
-	bottom: 50%;
-	margin: 10%;
+	margin-top: 25px;
+	margin-bottom: 10px;
 }
 
 .botao{
