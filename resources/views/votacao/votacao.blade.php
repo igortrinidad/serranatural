@@ -143,10 +143,23 @@
     <a class="page-scroll" id="seta" href="#cadastro">
 <img class="seta" src="/img/botao_seta.png" alt="Próximo"/></a>
 
-@if(Session::has('msg_retorno'))
+
 <div id="retorno">
 
+    <div id="escurece"></div>
+    <div class="painel_teste text-center">
 
+        <a id="fecha"><i class="fa fa-times fa-2x"></i></a>
+        
+        <div class="alert alert-{{Session::get('tipo_retorno')}} msg_retorno">
+        <p></p>
+        </div>
+
+    </div>
+</div>
+
+@if(Session::has('msg_retorno'))
+<div id="retorno">
 
     <div id="escurece"></div>
     <div class="painel_teste">
@@ -159,8 +172,6 @@
 @endif
     </div>
 </div>
-
-
 
 
 @stop

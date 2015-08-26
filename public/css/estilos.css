@@ -23,15 +23,16 @@
 }
 
 .painel_teste{
-	background-color: RGB(250, 250, 250);
-	width: 40%;
-	height: 40%;
-	position: fixed;
-	left: 30%;
-	right: 30%;
-	top: 30%;
-	min-width: 300px;
-		-webkit-box-shadow: 7px 8px 30px -9px rgba(0,0,0,0.61);
+	width: 400px;
+    height: 300px;
+    margin-left: -200px; /* metade da largura */
+    margin-top: -150px; /* metade da altura */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+
+	background-color: white;
+	-webkit-box-shadow: 7px 8px 30px -9px rgba(0,0,0,0.61);
 	-moz-box-shadow: 7px 8px 30px -9px rgba(0,0,0,0.61);
 	box-shadow: 7px 8px 30px -9px rgba(0,0,0,0.61);
 	border-radius: 4px;
@@ -41,7 +42,7 @@
 	background-color: rgba(90, 90, 90, 0.3);
 	width: 100%;
 	height: 100%;
-	right: 0px;
+	left:0px;
 	top: 0px;
 	position: fixed;
 	-webkit-box-shadow: 7px 8px 30px -9px rgba(0,0,0,0.61);

@@ -90,6 +90,13 @@
 
 
 <script>
+
+    $( document ).ready(function() {
+        $( ".painel_teste" ).fadeIn();
+        $( "#escurece" ).fadeIn();
+    });
+
+
 $('#retorno').attr('onload',function(){
         $( ".painel_teste" ).fadeIn();
         $( "#escurece" ).fadeIn();
