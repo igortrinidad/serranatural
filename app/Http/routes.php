@@ -19,3 +19,4 @@ Route::post('/votacao/addVotoCadastro', 'VotacaoController@addVotoCadastro');
 Route::get('/', function () {
     return view('welcome');
 });
+

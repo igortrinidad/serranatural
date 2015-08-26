@@ -22,6 +22,29 @@
 	width: 60px;
 }
 
+.logo{
+	position: fixed;
+	left: 0px;
+	top: -0px;
+	width: 13%;
+	min-width: 120px;
+
+	//background-color: white;
+	-webkit-box-shadow: 7px 8px 30px -9px rgba(0,0,0,0.61);
+	-moz-box-shadow: 7px 8px 30px -9px rgba(0,0,0,0.61);
+	box-shadow: 7px 8px 30px -9px rgba(0,0,0,0.61);
+	//border-radius: 100px;
+}
+
+.fundoLogo{
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 200px;
+
+
+}
+
 .painel_teste{
 	width: 400px;
     height: 120px;
