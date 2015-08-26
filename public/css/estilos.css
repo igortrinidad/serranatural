@@ -51,6 +51,16 @@
 	border-radius: 4px;
 }
 
+#loading{
+	width: 100px;
+    height: 100px;
+    margin-left: -50px; /* metade da largura */
+    margin-top: -50px; /* metade da altura */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+}
+
 #fecha{
 	position: absolute;
 	right: 10px;

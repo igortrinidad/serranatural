@@ -159,5 +159,8 @@
     </div>
 </div>
 
+<div id="escurece" hidden="true"></div>
+<div id="loading" hidden="true"><i id="spinner" class="fa fa-spinner fa-4x"></i></div>
+
 
 @stop

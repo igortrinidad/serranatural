@@ -91,11 +91,6 @@
 
 <script>
 
-    $( document ).ready(function() {
-        $( ".painel_teste" ).fadeIn();
-        $( "#escurece" ).fadeIn();
-    });
-
 
 $('#retorno').attr('onload',function(){
         $( ".painel_teste" ).fadeIn();
@@ -113,6 +108,25 @@ $('#retorno').attr('onload',function(){
     $("#fecha").click(function(){
         $( ".painel_teste" ).fadeOut();
         $( "#escurece" ).fadeOut();
+    });
+
+$(".botao").click(function(){
+        $( "#loading" ).fadeIn();
+        $( "#escurece" ).fadeIn();
+
+$(function() {
+        var $elie = $(".fa-spinner"), degree = 0, timer;
+        rotate();
+        function rotate() {
+
+            $elie.css({ WebkitTransform: 'rotate(' + degree + 'deg)'});  
+            $elie.css({ '-moz-transform': 'rotate(' + degree + 'deg)'});                      
+            timer = setTimeout(function() {
+                ++degree; rotate();
+            },5);
+        }
+        }); 
+
     });
 
 </script>
