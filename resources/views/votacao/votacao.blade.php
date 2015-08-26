@@ -2,6 +2,8 @@
 
 @section('conteudo')
 
+
+
   <!-- Intro Section -->
 
     <!-- About Section -->
@@ -10,11 +12,7 @@
             <div class="row">
                 <div class="col-lg-12">
 
-@if(Session::has('msg_retorno'))
-<div class="alert alert-{{Session::get('tipo_retorno')}}">
-<p>{{Session::get('msg_retorno')}}</p>
-</div>
-@endif
+
                     <h1>Escolha os pratos da próxima semana</h1>
 @foreach($pratos as $prato)
                      <div class="col-md-3">
@@ -47,35 +45,36 @@
                         <br />
 
                         <div class="panel panel painel_cadastro paineis">
-                                <div class="panel-body text-left">
+                            <div class="panel-body text-left">
 
-                        <ul class="nav nav-tabs">
-                          <li class="active"><a data-toggle="tab" href="#logar">Login</a></li>
-                          <li><a data-toggle="tab" href="#cadastre">Cadastro</a></li>
-                        </ul>
+                                <ul class="nav nav-tabs">
+                                  <li class="active"><a data-toggle="tab" href="#logar">Já sou cadastrado</a></li>
+                                  <li><a data-toggle="tab" href="#cadastre">Quero cadastrar!</a></li>
+                                </ul>
 
 
-                        <div class="tab-content">
-                            <div id="logar" class="tab-pane fade in active">
+                            <div class="tab-content">
+                                <div id="logar" class="tab-pane fade in active">
 
-                                <form id="votoForm" action="votacao/addVotoCliente" class="form-group" method="POST">
-                                <input form="votoForm" type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-                                    <div class="form-group">
-                                        <label>Email</label>
-                                        <input form="votoForm" type="email" name="email" class="form-control"/>
-                                    </div>
-                                    <button id="votoCliente" form="votoForm" type="submit" class="btn btn-primary" onclick="this.form.action='/votacao/addVotoCliente'">Votar !</button>
+                                    <form id="votoForm" action="votacao/addVotoCliente" class="form-group" method="POST">
+                                    <input form="votoForm" type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <input form="votoForm" type="email" name="emailCliente" class="form-control"/>
+                                        </div>
+                                        <button form="votoForm" type="submit" class="btn btn-primary botao" onclick="this.form.action='/votacao/addVotoCliente'">Votar !</button>
                             </div>
 
-                            <div id="cadastre" class="tab-pane fade">
+                            <div id="cadastre" class="tab-pane fade in">
                                     <div class="form-group">
+                                    <br />
                                         <label>Nome</label>
                                         <input form="votoForm" type="text" name="nome" class="form-control"/>
                                     </div>
 
                                     <div class="form-group">
                                         <label>Email</label>
-                                        <input form="votoForm" type="email" name="email" class="form-control"/>
+                                        <input form="votoForm" type="email" name="emailCadastro" class="form-control"/>
                                     </div>
 
                                     <div class="form-group">
@@ -84,12 +83,15 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <button id="votoCadastro" form="votoForm" type="submit" class="btn btn-primary" onclick="this.form.action='/votacao/addVotoCadastro'">Cadastrar e votar!</button>
+                                        <button id="votoCadastro" form="votoForm" type="submit" class="btn btn-primary botao" onclick="this.form.action='/votacao/addVotoCadastro'">Cadastrar e votar!</button>
                                 
                                     </div>
                             </div>
 
                             </form>
+
+
+
 
                                 
 
@@ -137,8 +139,28 @@
             </div>
         </div>
     </section>
-<a class="page-scroll titulo" href="#cadastro">
+
+    <a class="page-scroll" id="seta" href="#cadastro">
 <img class="seta" src="/img/botao_seta.png" alt="Próximo"/></a>
+
+@if(Session::has('msg_retorno'))
+<div id="retorno">
+
+
+
+    <div id="escurece"></div>
+    <div class="painel_teste">
+
+        <a id="fecha"><i class="fa fa-times fa-2x"></i></a>
+        
+        <div class="alert alert-{{Session::get('tipo_retorno')}} msg_retorno">
+        <p>{{Session::get('msg_retorno')}}</p>
+        </div>
+@endif
+    </div>
+</div>
+
+
 
 
 @stop

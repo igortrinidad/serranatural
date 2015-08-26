@@ -21,6 +21,9 @@
     <link href="/css/estilos.css" rel="stylesheet">
     <link href="/css/bootstrap-toggle.min.css" rel="stylesheet">
 
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -85,6 +88,27 @@
     <script src="/js/jquery.easing.min.js"></script>
     <script src="/js/scrolling-nav.js"></script>
 
+
+<script>
+$('#retorno').attr('onload',function(){
+        $( ".painel_teste" ).fadeIn();
+        $( "#escurece" ).fadeIn();
+    });
+
+    
+
+    setTimeout(function(){
+        $( ".painel_teste" ).fadeOut();
+        $( "#escurece" ).fadeOut();
+
+    }, 5000);
+
+    $("#fecha").click(function(){
+        $( ".painel_teste" ).fadeOut();
+        $( "#escurece" ).fadeOut();
+    });
+
+</script>
 
 </body>
 
