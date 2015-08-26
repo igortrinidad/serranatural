@@ -31,6 +31,7 @@ class VotacaoController extends Controller
                      ->from('votacaoPratosDoDia')
                      ->groupBY('opcaoEscolhida')
                      ->orderBY('qtdVoto', 'DESC')
+                     ->take(5)
                      ->get();
         
         $totalVotos = DB::table('votacaoPratosDoDia')
