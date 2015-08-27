@@ -1,4 +1,4 @@
-@extends('layout/superadm')
+@extends('layout/adm')
 
 @section('conteudo')
         <br><br>
