@@ -39,29 +39,29 @@ of those sections to manage the look and feel of the site. */
     background: #fff;
 }
 h1 {
-    padding-bottom: 40px;
+    padding-bottom: 20px;
 }
 
 .about-section {
     //height: 100%;
-    padding-top: 50px;
+    padding-top: 40px;
     text-align: center;
-    padding-bottom: 50px;
+    padding-bottom: 20px;
     background-image: linear-gradient(160deg, rgba(128, 198, 104, 0.8) 0%, rgba(38, 166, 80, 0.9) 100%);
 }
 
 .services-section {
     //height: 100%;
-    padding-top: 50px;
+    padding-top: 40px;
     text-align: center;
-    padding-bottom: 150px;
+    padding-bottom: 20px;
     background-image: linear-gradient(160deg, rgba(245, 237, 51, 0.3) 0%, rgba(237, 200, 75, 0.9) 60%);
 }
 
 .contact-section {
     //height: 100%;
-    padding-top: 50px;
+    padding-top: 40px;
     text-align: center;
-    padding-bottom: 50px;
+    padding-bottom: 20px;
     background-image: linear-gradient(180deg, rgba(110, 146, 204, 1) 0%, rgba(64, 38, 113, 1) 100%);
 }

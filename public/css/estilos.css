@@ -90,7 +90,22 @@
 	top: 10px;
 }
 
-form{
+h1 + p {
+	font-style: italic;
+	color: #777;
+	text-transform: none;
+    font-family: "Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    font-style: italic;
+    font-weight: 400;
+    padding-bottom: 20px;
+}
+
+.label_form{
+	padding-top: 10px;
+}
+
+.primeiro_label_form{
 	padding-top: 30px;
 }
 .msg_retorno{

@@ -15,7 +15,8 @@
                 <div class="col-lg-12">
 
 
-                    <h1>Escolha os pratos da próxima semana</h1>
+                    <h1>Você quem manda!</h1>
+                    <p>Escolha até 5 pratos que você gostaria para a próxima semana.</p>
 @foreach($pratos as $prato)
                      <div class="col-md-3">
                         <div class="panel paineis">
@@ -43,54 +44,60 @@
                 <div class="col-lg-3"></div>
                     <div class="col-lg-6">
                         <h1>Cadastre-se</h1>
-                        <p>Participe de promoções e fique por dentro de nossas novidades</p>
+                        <p>Participe de nossas promoções e fique por dentro de todas as novidades.</p>
                         <br />
 
                         <div class="panel painel_cadastro paineis">
                             <div class="panel-body text-left">
 
                                 <ul class="nav nav-tabs">
-                                  <li class="active"><a data-toggle="tab" href="#logar">Já sou cadastrado</a></li>
-                                  <li><a data-toggle="tab" href="#cadastre">Quero cadastrar!</a></li>
+                                    <li class="active"><a data-toggle="tab" href="#cadastre">Quero cadastrar!</a></li>
+                                    <li><a data-toggle="tab" href="#logar">Já sou cadastrado</a></li>
+                                  
                                 </ul>
 
 
                             <div class="tab-content">
-                                <div id="logar" class="tab-pane fade in active">
+
+
+                                <div id="cadastre" class="tab-pane fade in active">
                                     <form id="votoForm" action="votacao/addVotoCliente" class="form-group" method="POST">
                                         <input form="votoForm" type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+                                        
                                         <div class="form-group">
-                                            <label>Email</label>
-                                            <input form="votoForm" type="email" name="emailCliente" class="form-control"/>
-                                        </div>
-                                        <button form="votoForm" type="submit" class="btn btn-primary botao" onclick="this.form.action='/votacao/addVotoCliente'">Votar !</button>
-                                </div>
-
-                                <div id="cadastre" class="tab-pane fade in">
-                                        <div class="form-group">
-                                        <br />
-                                            <label>Nome</label>
+                                        
+                                            <label class="label_form primeiro_label_form">Nome</label>
                                             <input form="votoForm" type="text" name="nome" class="form-control"/>
                                         </div>
 
                                         <div class="form-group">
-                                            <label>Email</label>
+                                            <label class="label_form">Email</label>
                                             <input form="votoForm" type="email" name="emailCadastro" class="form-control"/>
                                         </div>
 
                                         <div class="form-group">
-                                            <label>Telefone</label>
+                                            <label class="label_form">Telefone</label>
                                             <input form="votoForm" type="text" name="telefone" class="form-control"/>
                                         </div>
 
                                         <div class="form-group">
                                             <button id="votoCadastro" form="votoForm" type="submit" class="btn btn-primary botao" onclick="this.form.action='/votacao/addVotoCadastro'">Cadastrar e votar!</button>
                                     
-                                        </form>
+                                        
 
                                         </div>
                                 </div>
 
+                                <div id="logar" class="tab-pane fade in">
+                                    <div class="form-group">
+                                            <label class="label_form primeiro_label_form">Email</label>
+                                            <input form="votoForm" type="email" name="emailCliente" class="form-control"/>
+                                        </div>
+                                        <button form="votoForm" type="submit" class="btn btn-primary botao" onclick="this.form.action='/votacao/addVotoCliente'">Votar !</button>
+                                </div>
+
+                                
+                            </form>
                                     
                                     
                                 
@@ -110,6 +117,7 @@
                 <div class="col-lg-2"></div>
                 <div class="col-lg-8">
                     <h1>Os mais votados</h1>
+                    <p>Confira os 5 pratos mais votados até o momento.
 
                     <div class="panel panel painel_cadastro paineis">
                         <div class="panel-body text-left">
@@ -124,6 +132,14 @@
                             </div>
 <?php $i++;?>
 @endforeach
+
+                        <p>Exemplo de sorteio:</p>
+
+                            <?php 
+                            $sorteio = $votos[mt_rand(0, count($votos) - 1)];
+                            echo $sorteio->opcaoEscolhida; 
+                            ?>
+                         
                         </div>
                     </div>
                 
