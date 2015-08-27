@@ -1,5 +1,7 @@
 @extends('layout/adm')
 
+
+
 @section('conteudo')
         <br><br>
         <div class="row">
@@ -7,10 +9,14 @@
 
             <div class="col-md-6">
 
-@if(Session::has('msg_retorno'))
-<div class="alert alert-danger">
-     {{Session::get('msg_retorno')}}
- </div>
+@if (count($errors) > 0)
+  <div class="alert alert-danger">
+    <ul>
+      @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+      @endforeach
+    </ul>
+  </div>
 @endif
 
 <form method="POST" action="/auth/login">

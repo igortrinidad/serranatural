@@ -17,7 +17,18 @@ class PasswordController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+
+        $this->middleware('guest', [
+
+            'except' => ['formSenha', 'novoUser', 'salvaUsuario'],
+
+            ]);
+
+        $this->middleware('auth', [
+
+            'except' => ['formSenha', 'resetPass'],
+
+            ]);
     }
 
 

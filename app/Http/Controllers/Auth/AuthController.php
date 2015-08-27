@@ -8,6 +8,9 @@ use serranatural\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
+use Illuminate\Support\Facades\Request;
+use serranatural\Http\Requests;
+
 class AuthController extends Controller
 {
     /*
@@ -23,14 +26,21 @@ class AuthController extends Controller
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
-    /**
-     * Create a new authentication controller instance.
-     *
-     * @return void
-     */
+
+    protected $redirectPath = '/';
+
+    protected $loginPath = '/auth/login';
+
+
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'getLogout']);
+        $this->middleware('guest', [
+
+            'except' => ['getLogout', 'novoUser', 'salvaUsuario'],
+
+            ]);
+
+        $this->middleware('auth', ['only' => ['novoUser']]);
     }
 
     /**
@@ -54,12 +64,40 @@ class AuthController extends Controller
      * @param  array  $data
      * @return User
      */
-    protected function create(array $data)
+    protected function salvaUsuario()
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+
+        $usuario = Request::all();
+            
+        User::create([
+            'name' => $usuario['name'],
+            'email' => $usuario['email'],
+            'password' => bcrypt($usuario['password']),
         ]);
+
+        $dados = [
+
+        'msg_retorno' => 'Usuario cadastrado com sucesso',
+        'tipo_retorno' => 'success'
+
+        ];
+
+        return redirect()->action('ProdutosController@formPrato')->with($dados);
     }
+
+    public function novoUser()
+    {
+
+        return view('auth/register');
+
+    }
+
+    public function messages()
+{
+    return [
+        'email' => 'Er, you forgot your email address!',
+    ];
+}
+
+
 }
