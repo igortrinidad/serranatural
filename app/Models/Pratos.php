@@ -8,6 +8,8 @@ class Pratos extends Model
 {
     protected $table = 'pratosDoDia';
 
-    protected $fillable = array('pratos', 'acompanhamentos');
+    public $timestamps = false;
+
+    protected $fillable = array('prato', 'acompanhamentos');
 
 }

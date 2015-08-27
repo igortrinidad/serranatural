@@ -16,6 +16,9 @@ Route::get('/votacao', 'VotacaoController@index');
 Route::post('/votacao/addVotoCliente', 'VotacaoController@addVotoCliente');
 Route::post('/votacao/addVotoCadastro', 'VotacaoController@addVotoCadastro');
 
+Route::get('/adm/produtos/pratos', 'ProdutosController@formPrato');
+Route::post('/adm/produtos/salvaPratos', 'ProdutosController@salvaPrato');
+
 Route::get('/', function () {
     return view('welcome');
 });
