@@ -79,6 +79,10 @@
                                             <label class="label_form">Telefone</label>
                                             <input form="votoForm" type="text" name="telefone" value="{{ old('telefone') }}"class="form-control"/>
                                         </div>
+                                        <div class="form-group">
+                                            <input form="votoForm" type="checkbox" name="emailOpt" value="{{ old('telefone') }}" class="checkbox" checked/>
+                                            <p class="texto_votacao">Aceito receber informações sobre promoções e novidades da Serra Natural.</p>
+                                        </div>
 
                                         <div class="form-group">
                                             <button id="votoCadastro" form="votoForm" type="submit" class="btn btn-primary botao" onclick="this.form.action='/votacao/addVotoCadastro'">Cadastrar e votar!</button>

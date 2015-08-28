@@ -101,6 +101,17 @@ h1 + p {
     padding-bottom: 20px;
 }
 
+.texto_votacao {
+	font-style: italic;
+	color: #777;
+	text-transform: none;
+    font-family: "Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 400;
+    padding-bottom: 20px;
+}
+
 .label_form{
 	padding-top: 10px;
 }
