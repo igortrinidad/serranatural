@@ -56,7 +56,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'contato@maisbartenders.com.br', 'name' => 'Igor Trindade - mais.BAR'],
+    'from' => ['address' => 'mkt@serranatural.com.br', 'name' => 'Serra Natural'],
 
     /*
     |--------------------------------------------------------------------------
