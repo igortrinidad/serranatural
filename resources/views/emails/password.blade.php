@@ -1,4 +1,4 @@
-!<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 	<title>Recuperar a senha</title>
@@ -6,14 +6,14 @@
 <body>
 <h3>E-mail de recuperação de senha</h3>
 
-Recebemos a sua solicitação de senha.
+<p>Recebemos a sua solicitação de senha.</p>
 
-Utilize a nova senha para logar no sistema.
+<p>Utilize a nova senha para logar no sistema.</p>
 
-Nova senha: {{$pass}}
+<p><strong>Nova senha: {{$pass}}</strong></p>
 
-Lembranças,
-Equipe Serra Natural
+<p>Lembranças,<p>
+<p>Equipe Serra Natural</p>
 
 </body>
 </html>
