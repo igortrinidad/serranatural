@@ -50,27 +50,34 @@ class PasswordController extends Controller
     $usuario = User::where('email', '=', $email)
                      ->first();
 
-    $usuario->password = bcrypt($newPass);
-    $usuario->save();
+    if( is_null($usuario))
+        {
+           return redirect()->back()->withErrors(['Usuário não encontrado']); 
 
-    $data = [
+        } else {
 
-    'pass' => $newPass
+        $usuario->password = bcrypt($newPass);
+        $usuario->save();
 
-    ];
+        $data = [
 
+        'pass' => $newPass
 
-    Mail::send('emails.password', $data, function ($message) use ($email, $data){
-
-            $message->from('contato@mais.bar', 'MaIS.BAR');
-            $message->to($email, 'teste');
-            $message->subject('Email testado');
-            $message->getSwiftMessage();
-});
+        ];
 
 
-        return redirect()->action('Auth\AuthController@getLogin');
+        Mail::send('emails.password', $data, function ($message) use ($email, $data){
 
+                $message->from('contato@mais.bar', 'MaIS.BAR');
+                $message->to($email, '');
+                $message->subject('Email testado');
+                $message->getSwiftMessage();
+    });
+
+
+            return redirect()->action('Auth\AuthController@getLogin');
+
+            }
     }
 
 }

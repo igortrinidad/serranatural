@@ -92,12 +92,5 @@ class AuthController extends Controller
 
     }
 
-    public function messages()
-{
-    return [
-        'email' => 'Er, you forgot your email address!',
-    ];
-}
-
 
 }
