@@ -69,6 +69,7 @@ class PasswordController extends Controller
         Mail::send('emails.password', $data, function ($message) use ($email, $data){
 
                 $message->to($email, '');
+                $message->from('contato@serranatural.com', 'Serra Natural');
                 $message->subject('Recuperação de senha');
                 $message->getSwiftMessage();
     });

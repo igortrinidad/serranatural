@@ -24,7 +24,8 @@
         },
 
         "files": [
-        "app/Helpers/helpers_igor.php"
+        "app/Helpers/helpers_igor.php",
+        "app/Helpers/helpers_promocoes.php"
         ]
     },
     "autoload-dev": {

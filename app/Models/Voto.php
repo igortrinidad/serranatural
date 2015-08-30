@@ -8,7 +8,7 @@ class Voto extends Model
 {
     protected $table = 'votacaoPratosDoDia';
 
-    protected $fillable = array('id', 'clienteId', 'opcaoEscolhida', 'semanaCorrente');
+    protected $fillable = array('id', 'clienteId', 'opcaoEscolhida', 'semanaCorrente', 'diaVoto');
 
     public function cliente(){
     	return $this->belongsTo('serranatural\Models\Cliente');

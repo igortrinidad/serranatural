@@ -85,7 +85,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <button id="votoCadastro" form="votoForm" type="submit" class="btn btn-primary botao" onclick="this.form.action='/votacao/addVotoCadastro'">Cadastrar e votar!</button>
+                                            <button id="votoCadastro" form="votoForm" type="submit" class="btn btn-primary botao" onclick="this.form.action='/adm/promocoes/addVotoCadastro'">Cadastrar e votar!</button>
                                     
                                         
 
@@ -95,9 +95,9 @@
                                 <div id="logar" class="tab-pane fade in">
                                     <div class="form-group">
                                             <label class="label_form primeiro_label_form">Email</label>
-                                            <input form="votoForm" type="email" name="emailCliente" value="{{ old('emailCliente') }}"class="form-control"/>
+                                            <input form="votoForm" type="email" name="emailCliente" value=""class="form-control"/>
                                         </div>
-                                        <button form="votoForm" type="submit" class="btn btn-primary botao" onclick="this.form.action='/votacao/addVotoCliente'">Votar !</button>
+                                        <button form="votoForm" type="submit" class="btn btn-primary botao" onclick="this.form.action='/adm/promocoes/votacao/addVotoCliente'">Votar !</button>
                                 </div>
 
                                 
@@ -140,8 +140,13 @@
                         <p>Exemplo de sorteio:</p>
 
                             <?php 
+
+                            if(isset($votos)){
+
+                            } else {
                             $sorteio = $votos[mt_rand(0, count($votos) - 1)];
                             echo $sorteio->opcaoEscolhida; 
+                        }
                             ?>
                          
                         </div>
@@ -170,6 +175,16 @@
 @endif
         </div>
     </div>
+
+@if (count($errors) > 0)
+  <div class="alert alert-danger">
+    <ul>
+      @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+      @endforeach
+    </ul>
+  </div>
+@endif
 
 <div id="escurece" hidden="true"></div>
 <div id="loading" hidden="true"><i id="spinner" class="fa fa-spinner fa-4x"></i></div>

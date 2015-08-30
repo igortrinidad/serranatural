@@ -5,6 +5,8 @@ namespace serranatural\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+use DB;
+
 class Kernel extends ConsoleKernel
 {
     /**
@@ -14,6 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \serranatural\Console\Commands\Inspire::class,
+        \serranatural\Commands\log_votos::class,
     ];
 
     /**
@@ -26,5 +29,10 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('inspire')
                  ->hourly();
+
+        //$schedule->command('log_votos')
+         //        ->sundays('22:00');
     }
-}
+
+    }
+
