@@ -137,17 +137,6 @@
 <?php $i++;?>
 @endforeach
 
-                        <p>Exemplo de sorteio:</p>
-
-                            <?php 
-
-                            if(isset($votos)){
-
-                            } else {
-                            $sorteio = $votos[mt_rand(0, count($votos) - 1)];
-                            echo $sorteio->opcaoEscolhida; 
-                        }
-                            ?>
                          
                         </div>
                     </div>

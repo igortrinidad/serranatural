@@ -12,14 +12,14 @@
     <title>Serra Natural - Votação de prato do dia</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/core/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="/css/scrolling-nav.css" rel="stylesheet">
+    <link href="/css/estilos/scrolling-nav.css" rel="stylesheet">
 
     <!-- Proprios CSS -->
-    <link href="/css/estilos.css" rel="stylesheet">
-    <link href="/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <link href="/css/estilos/estilos.css" rel="stylesheet">
+    <link href="/css/plugins/bootstrap-toggle.min.css" rel="stylesheet">
 
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -43,17 +43,17 @@
 @yield('conteudo')
 
     <!-- jQuery -->
-    <script src="/js/jquery.js"></script>
+    <script src="/js/core/jquery-2.1.4.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/core/bootstrap.min.js"></script>
 
     <!-- Toogle Switch JavaScript -->
-    <script src="/js/bootstrap-toggle.min.js"></script>
+    <script src="/js/plugins/bootstrap-toggle.min.js"></script>
 
     <!-- Scrolling Nav JavaScript -->
-    <script src="/js/jquery.easing.min.js"></script>
-    <script src="/js/scrolling-nav.js"></script>
+    <script src="/js/core/jquery.easing.min.js"></script>
+    <script src="/js/estilos/scrolling-nav.js"></script>
 
 
 <script>

@@ -1,20 +1,16 @@
-@extends('layout/adm')
+@extends('layout/admin')
 
 @section('conteudo')
-
-<div class="container">
-	<div class="row">
-		<div class="col-mg-12">
 			
+<h1 class="page-header">Promoções</h1>
+
 			<div class="col-lg-2"></div>
 
 				<div class="col-lg-8">
 
-					<h2 class="text-right">Promoções</h2>
 
-
-					<div class="panel painel-sorteio">
-						<div class="panel-heading panel-info"><strong>Votação</strong></div>
+					<div class="panel panel-default painel-sorteio">
+						<div class="panel-heading"><strong>Votação</strong></div>
 						<div class="panel-body">
 						<div class="col-md-1"></div>
 						<div class="col-md-8">
@@ -37,8 +33,6 @@
 				</div>
 			</div>
 		</div>
-    </div>
-</div>
 
 
 @stop

@@ -11,11 +11,19 @@
 |
 */
 
+Route::get('/admin', function(){
+	return view('layout/admin');
+});
+
+Route::get('/login', function(){
+	return view('auth/login');
+});
+
 
 Route::get('/PromoVotacao', 'PromocoesController@paginaVotacao');
 Route::post('/adm/promocoes/votacao/addVotoCliente', 'PromocoesController@addVotoCliente');
 Route::post('/adm/promocoes/addVotoCadastro', 'PromocoesController@addVotoCadastro');
-Route::get('adm/promocoes', 'PromocoesController@indexPromocoes');
+Route::get('admin/promocoes', 'PromocoesController@indexPromocoes');
 
 Route::get('/adm/produtos/pratos', 'ProdutosController@formPrato');
 Route::get('/adm', 'ProdutosController@formPrato');
