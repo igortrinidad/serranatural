@@ -79,7 +79,7 @@
                                             <input form="votoForm" type="text" name="telefone" value="{{ old('telefone') }}"class="form-control phone_with_ddd"/>
                                         </div>
                                         <div class="form-group">
-                                            <input form="votoForm" type="checkbox" name="emailOpt" value="{{ old('telefone') }}" class="checkbox" checked/>
+                                            <input form="votoForm" type="checkbox" name="opt_email" value="1" class="checkbox" checked/>
                                             <p class="texto_votacao">Aceito receber informações sobre promoções e novidades da Serra Natural.</p>
                                         </div>
 

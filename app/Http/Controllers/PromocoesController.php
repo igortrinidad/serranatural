@@ -19,7 +19,7 @@ class PromocoesController extends Controller
     {
         $this->middleware('auth', [
 
-            'except' => ['paginaVotacao'],
+            'except' => ['paginaVotacao', 'addVotoCadastro', 'addVotoCliente'],
 
             ]);
     }
@@ -85,6 +85,7 @@ class PromocoesController extends Controller
         $opcoesEscolhidas = Request::get('opcaoEscolhida');
 
         $cliente = Request::all();
+
         $verificaClienteExiste = Cliente::where('email', '=', $cliente['emailCadastro'])->first();
 
         if(is_null($verificaClienteExiste)){
@@ -93,7 +94,8 @@ class PromocoesController extends Controller
 
                 'email' => $cliente['emailCadastro'],
                 'nome' => $cliente['nome'],
-                'telefone' => $cliente['telefone']
+                'telefone' => $cliente['telefone'],
+                'opt_email' => 1,
                 ]);
 
             $id = Cliente::where('email', '=', $cliente['emailCadastro'])->first();
