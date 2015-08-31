@@ -15,6 +15,16 @@ use serranatural\Models\Promocoes;
 
 class PromocoesController extends Controller
 {
+        public function __construct()
+    {
+        $this->middleware('auth', [
+
+            'except' => ['paginaVotacao'],
+
+            ]);
+    }
+
+
    
    //Página do formulario de votação dos clientes.
     public function paginaVotacao()
@@ -75,7 +85,6 @@ class PromocoesController extends Controller
         $opcoesEscolhidas = Request::get('opcaoEscolhida');
 
         $cliente = Request::all();
-
         $verificaClienteExiste = Cliente::where('email', '=', $cliente['emailCadastro'])->first();
 
         if(is_null($verificaClienteExiste)){
@@ -89,18 +98,19 @@ class PromocoesController extends Controller
 
             $id = Cliente::where('email', '=', $cliente['emailCadastro'])->first();
 
-            $mes = retornaMesPorExtenso(date(time()));
-            $inicioSemana = date('d');
-            $fimSemana = date('d', strtotime("+6 days"));
-            $semana = $inicioSemana . ' a ' . $fimSemana . ' de ' . $mes;
+            $idPromocao = Promocoes::where('nome_promocao', '=', 'Votação')
+                    ->where('ativo', '=', '1')
+                    ->orderBy('id', 'desc')
+                    ->first(); 
+
             $diaVoto = date('d/m/Y');
     
             foreach ($opcoesEscolhidas as $opcao){
                 Voto::create([
                     'opcaoEscolhida' => $opcao,
-                    'semanaCorrente' => $semana,
                     'clienteId' => $id['id'],
                     'diaVoto' => $diaVoto,
+                    'promocaoID' => $idPromocao->id
                     ]);
 
                 Preferencias::create([
@@ -165,18 +175,18 @@ class PromocoesController extends Controller
 
             } else {
 
-                $mes = retornaMesPorExtenso(date(time()));
-                $inicioSemana = date('d');
-                $fimSemana = date('d', strtotime("+6 days"));
-                $semana = $inicioSemana . ' a ' . $fimSemana . ' de ' . $mes;
+                $idPromocao = Promocoes::where('nome_promocao', '=', 'Votação')
+                    ->where('ativo', '=', '1')
+                    ->orderBy('id', 'desc')
+                    ->first(); 
                 $diaVoto = date('d/m/Y');
 
                foreach ($opcoesEscolhidas as $opcao){
                    Voto::create([
                        'opcaoEscolhida' => $opcao,
-                       'semanaCorrente' => $semana, 
                        'clienteId' => $cliente['id'],
                        'diaVoto' => $diaVoto,
+                       'promocaoID' => $idPromocao->id
                        ]);
 
                 $consultaPreferencias = Preferencias::where('clienteId', '=', $cliente['id'])->where('preferencias', '=', $opcao)->first();
@@ -300,7 +310,8 @@ class PromocoesController extends Controller
         Promocoes::where('id', '=', Request::input('sorteio'))
                 ->update([
                     'clienteId' => Request::input('sortudoId'),
-                    'nomeCliente' => Request::input('sortudo')
+                    'nomeCliente' => Request::input('sortudo'),
+                    'ativo' => 0,
                     ]);
 
             return redirect()->action('PromocoesController@indexPromocoes')->with(['message' => 'Sucesso']);

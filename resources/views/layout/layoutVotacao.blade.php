@@ -55,8 +55,12 @@
     <script src="/js/core/jquery.easing.min.js"></script>
     <script src="/js/estilos/scrolling-nav.js"></script>
 
+    <script src="/js/plugins/jquery.mask.min.js"></script>
+
 
 <script>
+
+$('.phone_with_ddd').mask('(00) 0000-0000');
 
 
 $('#retorno').attr('onload',function(){

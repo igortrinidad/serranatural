@@ -76,7 +76,7 @@
 
                                         <div class="form-group">
                                             <label class="label_form">Telefone</label>
-                                            <input form="votoForm" type="text" name="telefone" value="{{ old('telefone') }}"class="form-control"/>
+                                            <input form="votoForm" type="text" name="telefone" value="{{ old('telefone') }}"class="form-control phone_with_ddd"/>
                                         </div>
                                         <div class="form-group">
                                             <input form="votoForm" type="checkbox" name="emailOpt" value="{{ old('telefone') }}" class="checkbox" checked/>

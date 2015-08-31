@@ -289,7 +289,7 @@
                             <a href="#"><i class="fa fa-th-list"></i> Produtos<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="admin/produtos/lista">Lista</a>
+                                    <a href="produtos/addPrato">Add Pratos</a>
                                 </li>
                                 <li>
                                     <a href="admin/produtos/add">Adiciona</a>

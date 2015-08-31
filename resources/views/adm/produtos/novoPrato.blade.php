@@ -1,4 +1,4 @@
-@extends('layout/adm')
+@extends('layout/admin')
 
 @section('conteudo')
 
@@ -15,7 +15,7 @@
 
 			<div class="col-lg-8">
 
-				<form action="/adm/produtos/salvaPratos" method="POST" class="form-group">
+				<form action="/admin/produtos/salvaPratos" method="POST" class="form-group">
 
 					<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 	

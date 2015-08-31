@@ -11,13 +11,8 @@
 |
 */
 
-Route::get('/admin', function(){
-	return view('layout/admin');
-});
 
-Route::get('/login', function(){
-	return view('auth/login');
-});
+Route::get('/login', function(){return view('auth/login');});
 
 
 Route::get('/PromoVotacao', 'PromocoesController@paginaVotacao');
@@ -28,9 +23,9 @@ Route::post('admin/promocoes/sorteioVotacao', 'PromocoesController@sorteioVotaca
 Route::post('admin/promocoes/salvaSorteado', 'PromocoesController@salvaSorteado');
 
 
-Route::get('/adm/produtos/pratos', 'ProdutosController@formPrato');
-Route::get('/adm', 'ProdutosController@formPrato');
-Route::post('/adm/produtos/salvaPratos', 'ProdutosController@salvaPrato');
+Route::get('/admin', 'ProdutosController@formPrato');
+Route::get('/admin/produtos/addPrato', 'ProdutosController@formPrato');
+Route::post('/admin/produtos/salvaPratos', 'ProdutosController@salvaPrato');
 
 Route::get('/', function () {
     return view('welcome');
