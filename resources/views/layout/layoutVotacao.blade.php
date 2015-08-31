@@ -18,7 +18,7 @@
     <link href="/css/estilos/scrolling-nav.css" rel="stylesheet">
 
     <!-- Proprios CSS -->
-    <link href="/css/estilos/estilos.css" rel="stylesheet">
+    <link href="/css/estilos/votacao.css" rel="stylesheet">
     <link href="/css/plugins/bootstrap-toggle.min.css" rel="stylesheet">
 
     <!-- FontAwesome -->
@@ -93,6 +93,10 @@ $(function() {
             },5);
         }
         }); 
+setTimeout(function(){
+        $( "#loading" ).fadeOut();
+        $( "#escurece" ).fadeOut();
+    }, 5000);
 
     });
 

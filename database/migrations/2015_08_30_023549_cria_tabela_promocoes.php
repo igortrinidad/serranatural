@@ -15,7 +15,7 @@ class CriaTabelaPromocoes extends Migration
             $table->boolean('ativo')->default(0);
             $table->date('data_inicio');
             $table->date('data_termino');
-            $table->integer('clientId');
+            $table->integer('clienteId');
             $table->string('nomeCliente');
             $table->timestamps();
 

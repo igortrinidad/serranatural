@@ -3,6 +3,7 @@
 namespace serranatural\Http\Controllers;
 
 use Illuminate\Support\Facades\Request;
+use Symfony\Component\HttpFoundation\Response;
 use serranatural\Http\Controllers\Controller;
 
 use Illuminate\Support\Facades\DB;
@@ -10,6 +11,7 @@ use serranatural\Models\Pratos;
 use serranatural\Models\Voto;
 use serranatural\Models\Cliente;
 use serranatural\Models\Preferencias;
+use serranatural\Models\Promocoes;
 
 class PromocoesController extends Controller
 {
@@ -220,22 +222,64 @@ class PromocoesController extends Controller
             where('id', '=', $sorteio->clienteId)
             ->first();
 
+            $ganhadores = DB::table('promocoes')
+            ->where('clienteId');
 
-           return view('adm/promocoes/indexPromocoes')->with(['sortudo' => $sortudo]);
+            $sorteio = Promocoes::where('nome_promocao', '=', 'Votação')
+                    ->where('ativo', '=', '1')
+                    ->orderBy('id', 'desc')
+                    ->first();
+
+            $ticketsValidos = DB::table('votacaoPratosDoDia')->select(DB::raw('COUNT(DISTINCT clienteId, diaVoto) AS total'))->first();
+            $participantes = DB::table('votacaoPratosDoDia')->select(DB::raw('COUNT(DISTINCT clienteId) AS total'))->first();
+            $dias = DB::table('votacaoPratosDoDia')->select(DB::raw('COUNT(DISTINCT diaVoto) AS total'))->first();
+    
+            $media = $ticketsValidos->total / $dias->total;
+
+            $listaSorteado = Promocoes::where('clienteId', '>', '0')->take(5)->get();
+
+
+            $dados = [
+                'sortudo' => $sortudo,
+                'sorteio' => $sorteio,
+                'participantes' => $participantes,
+                'ticketsValidos' => $ticketsValidos,
+                'mediaTickets' => $media,
+                'lista' => $listaSorteado
+            ];
+
+
+           return view('adm/promocoes/indexPromocoes')->with($dados);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
+
     public function indexPromocoes()
     {
 
+        $sorteio = Promocoes::where('nome_promocao', '=', 'Votação')
+                    ->where('ativo', '=', '1')
+                    ->orderBy('id', 'desc')
+                    ->first();          
 
+        $ticketsValidos = DB::table('votacaoPratosDoDia')->select(DB::raw('COUNT(DISTINCT clienteId, diaVoto) AS total'))->first();
+        $participantes = DB::table('votacaoPratosDoDia')->select(DB::raw('COUNT(DISTINCT clienteId) AS total'))->first();
+        $dias = DB::table('votacaoPratosDoDia')->select(DB::raw('COUNT(DISTINCT diaVoto) AS total'))->first();
 
-        return view('adm/promocoes/indexPromocoes');
+        $media = $ticketsValidos->total / $dias->total;
+
+        $listaSorteado = Promocoes::where('clienteId', '>', '0')->take(5)->get();
+
+        $dados = [
+
+            'participantes' => $participantes,
+            'sorteio' => $sorteio,
+            'ticketsValidos' => $ticketsValidos,
+            'mediaTickets' => $media,
+            'lista' => $listaSorteado
+
+        ];
+
+        return view('adm/promocoes/indexPromocoes')->with($dados);
     }
 
     /**
@@ -245,9 +289,27 @@ class PromocoesController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function salvaSorteado()
     {
-        //
+
+        $verificaSorteio = Promocoes::where('id', '=', Request::input('sorteio'))
+                                        ->where('clienteId', '>', 1)->first();
+
+        if(is_null($verificaSorteio)){
+
+        Promocoes::where('id', '=', Request::input('sorteio'))
+                ->update([
+                    'clienteId' => Request::input('sortudoId'),
+                    'nomeCliente' => Request::input('sortudo')
+                    ]);
+
+            return redirect()->action('PromocoesController@indexPromocoes')->with(['message' => 'Sucesso']);
+        } else {
+
+            return redirect()->action('PromocoesController@indexPromocoes')->with(['message' => 'Já foi sorteado']);
+        }
+
+
     }
 
     /**

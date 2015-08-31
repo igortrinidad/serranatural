@@ -24,6 +24,9 @@ Route::get('/PromoVotacao', 'PromocoesController@paginaVotacao');
 Route::post('/adm/promocoes/votacao/addVotoCliente', 'PromocoesController@addVotoCliente');
 Route::post('/adm/promocoes/addVotoCadastro', 'PromocoesController@addVotoCadastro');
 Route::get('admin/promocoes', 'PromocoesController@indexPromocoes');
+Route::post('admin/promocoes/sorteioVotacao', 'PromocoesController@sorteioVotacao');
+Route::post('admin/promocoes/salvaSorteado', 'PromocoesController@salvaSorteado');
+
 
 Route::get('/adm/produtos/pratos', 'ProdutosController@formPrato');
 Route::get('/adm', 'ProdutosController@formPrato');

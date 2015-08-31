@@ -4,35 +4,94 @@
 			
 <h1 class="page-header">Promoções</h1>
 
-			<div class="col-lg-2"></div>
+	<div class="col-md-6">
 
-				<div class="col-lg-8">
+		<div class="panel panel-default painel-sorteio">
+			<div class="panel-heading"><strong>Votação {{date('H:i:s')}}</strong></div>
+			<div class="panel-body">
+				<table class="table">
+
+					<tr>
+						<td>Número promoção
+						</td>
+						<td>{{ isset($sorteio) ? $sorteio->id : '' }}
+						</td>
+					</tr>
+					<tr>
+						<td>Total de tickets válidos
+						</td>
+						<td>{{isset($ticketsValidos) ? $ticketsValidos->total : ''}}
+						</td>						
+					</tr>
+					<tr>
+						<td>Participantes únicos
+						</td>
+						<td>{{isset($participantes) ? $participantes->total : ''}}
+						</td>						
+					</tr>
+					<tr>
+						<td>Média ticket's por dia
+						</td>
+						<td>{{isset($mediaTickets) ? $mediaTickets : ''}}
+						</td>						
+					</tr>
+
+				</table>
 
 
-					<div class="panel panel-default painel-sorteio">
-						<div class="panel-heading"><strong>Votação</strong></div>
-						<div class="panel-body">
-						<div class="col-md-1"></div>
-						<div class="col-md-8">
-							<h5 class="h5-sorteio">Número promoção:</h5>
-							<h5 class="h5-sorteio">Total de tickets válidos:</h5>
-							<h5 class="h5-sorteio">Total de participantes:</h5>
-							<h5 class="h5-sorteio">Média de tickets válidos por dia:</h5>
+				<form action="/admin/promocoes/sorteioVotacao" method="POST">
+				<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+				<input type="text" name="sorteio" value="{{ isset($sorteio) ? $sorteio->id : '' }}" hidden=true/>
+				<input type="text" name="ticketsValidos" value="{{ isset($ticketsValidos) ? $ticketsValidos->total : '' }}" hidden=true/>
+				<input type="text" name="participantes" value="{{ isset($participantes) ? $participantes->total : '' }}" hidden=true/>
+				<input type="text" name="mediaTickets" value="{{ isset($mediaTickets) ? $mediaTickets : '' }}" hidden=true/>
+				<input type="text" name="sortudo" value="{{ isset($sortudo) ? $sortudo->nome : '' }}" hidden=true/>
+				<input type="text" name="sortudoId" value="{{ isset($sortudo) ? $sortudo->id : '' }}" hidden=true/>
 
-				<form action="adm/promocoes/sorteioVotacao" method="POST">
-
-					<button type="submit" class="btn btn-primary">Sortear ganhador</button>
-
+					<div class="col-md-6">
+						<button type="submit" class="btn btn-primary">Sortear ganhador</button>
+					</div>
+					<div class="col-md-6">
+						<button type="submit" class="btn btn-primary" onclick="this.form.action='/admin/promocoes/salvaSorteado'">Salvar ganhador</button>
+					</div>
 				</form>
+				<br />
 
 				<h4>Sorteado: </h4>
 
-				<button class="btn btn-success btn-sorteio">Nome: <br />Telefone:</button>
-</div>
-
-				</div>
+				<button class="btn btn-success btn-sorteio btn-block" onclick="this.form.action='/admin/promocoes/sorteioVotacao'">Nome: {{ isset($sortudo) ? $sortudo->nome : '' }}<br />Telefone: {{ isset($sortudo) ? $sortudo->telefone : '' }}</button>
 			</div>
+
 		</div>
+	</div>
+
+	<div class="col-md-6">
+	<div class="panel panel-default painel-sorteio">
+		<div class="panel-heading"><strong>Lista de ganhadores</strong></div>
+		<div class="panel-body">
+			<table class="table bordered">
+			<thead>
+				<tr>
+					<td>Nome</td>
+					<td>Telefone</td>
+					<td>Data resgate</td>
+				</tr>	
+			</thead>
+
+			@foreach($lista as $l)
+			 <tr>
+			 	<td>{{$l->nomeCliente}}</td>
+			 	<td>31 3131</td>
+			 	<td> 23/08/2015</td>
+			 </tr>
+			 @endforeach
+			</table>
+
+		</div>
+		</div>
+	</div>
+
+
 
 
 @stop

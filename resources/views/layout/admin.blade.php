@@ -9,13 +9,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>Serra Natural - Adiministrativo</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/css/core/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="/css/plugins/metisMenu.min.css" rel="stylesheet">
+    <link href="/css/plugins/metisMenu.css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link href="/css/estilos/sb-admin-2.css" rel="stylesheet">
@@ -281,7 +281,7 @@
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            <a href="/admin"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
 
 <!-- inicio itens do menu -->
@@ -305,7 +305,7 @@
                             <a href="admin/promocoes"><i class="fa fa-diamond"></i> Promoções<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="admin/promocoes">Dashboard</a>
+                                    <a href="/admin/promocoes">Dashboard</a>
                                 </li>
                                 <li>
                                     <a href="admin/promocoes/vouche rs">Vouchers</a>
@@ -380,7 +380,7 @@
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-    <script src="/js/core/jquery.min.js"></script>
+    <script src="/js/core/jquery-2.1.4.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="/js/core/bootstrap.min.js"></script>
