@@ -1,5 +1,5 @@
 body{
-	margin-top: 50px;
+	margin-top: 100px;
 }
 
 .titulo {
@@ -27,7 +27,7 @@ body{
 .logo{
 	position: fixed;
 	left: 0px;
-	top: 0px;
+	top: 100px;
 	width: 14%;
 	min-width: 120px;
 
