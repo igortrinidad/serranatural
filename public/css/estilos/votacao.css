@@ -1,11 +1,11 @@
-body{
-	margin-top: 100px;
-}
-
-.titulo {
-	color: RGB(68, 180, 49)!important;
-
-}
+//body{
+//	margin-top: 100px;
+//}
+//
+//.titulo {
+//	color: RGB(68, 180, 49)!important;
+//
+//}
 
 .paineis{
 	-webkit-box-shadow: 7px 8px 30px -9px rgba(0,0,0,0.61);
@@ -27,7 +27,7 @@ body{
 .logo{
 	position: fixed;
 	left: 0px;
-	top: 100px;
+	top: 0px;
 	width: 14%;
 	min-width: 120px;
 
