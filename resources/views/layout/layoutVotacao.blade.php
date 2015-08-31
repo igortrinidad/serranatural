@@ -31,6 +31,18 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+<?php
+    //ugly workaround for fontawesome issue in Safari
+    $ua = $_SERVER["HTTP_USER_AGENT"];
+    $safariorchrome = strpos($ua, 'Safari') ? true : false;
+    $chrome = strpos($ua, 'Chrome') ? true : false;
+    if ($safariorchrome == true AND $chrome == false):
+    ?>
+    <style type="text/css">
+         @font-face{font-family:'FontAwesome';src:url('/css/current-font-awesome/fonts/fontawesome-webfont.eot?v=4.3.0');src:url('/css/current-font-awesome/fonts/fontawesome-webfont.eot?#iefix&v=4.3.0') format('embedded-opentype'),url('/css/current-font-awesome/fonts/fontawesome-webfont.woff2?v=4.3.0') format('woff2'),url('/css/current-font-awesome/fonts/fontawesome-webfont.woff?v=4.3.0') format('woff'),url('/css/current-font-awesome/fonts/fontawesome-webfont.ttf?v=4.3.0') format('truetype'),url('/css/current-font-awesome/fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular') format('svg');font-weight:normal;font-style:normal}
+    </style>
+    <?php endif; ?> 
+
 </head>
 
 <!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->

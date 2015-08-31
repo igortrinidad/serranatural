@@ -29,10 +29,6 @@ class PromocoesController extends Controller
    //Página do formulario de votação dos clientes.
     public function paginaVotacao()
     {
-        $mes = retornaMesPorExtenso(date(time()));
-        $inicioSemana = date('d');
-        $fimSemana = date('d', strtotime("+6 days"));
-        $semana = $inicioSemana . ' a ' . $fimSemana . ' de ' . $mes;
         
         $pratos = Pratos::all();
         
@@ -52,7 +48,6 @@ class PromocoesController extends Controller
         $dados = [
         
         'pratos' => $pratos,
-        'semana' => $semana,
         'votos' => $votos,
         'totalVotos' => $totalVotos
         
@@ -71,10 +66,10 @@ class PromocoesController extends Controller
     {
         $opcoesEscolhidas = Request::get('opcaoEscolhida');
 
-        if($opcoesEscolhidas == ''){
+        if($opcoesEscolhidas == '' OR Request::get('emailCadastro') == ''){
 
            $dados = [
-           'msg_retorno' => 'Por favor, escolha alguma opção.',
+           'msg_retorno' => 'Por favor, preencha o formulário e vote.',
            'tipo_retorno' => 'danger'
        ];
 
@@ -151,10 +146,10 @@ class PromocoesController extends Controller
     {
 
         $opcoesEscolhidas = Request::get('opcaoEscolhida');
-        if($opcoesEscolhidas == ''){
+        if($opcoesEscolhidas == '' OR Request::get('emailCliente') == ''){
 
            $dados = [
-           'msg_retorno' => 'Por favor, escolha alguma opção.',
+           'msg_retorno' => 'Por favor, escolha uma opção e vote!',
            'tipo_retorno' => 'danger'
             ];
 
