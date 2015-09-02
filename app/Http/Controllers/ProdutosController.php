@@ -74,7 +74,7 @@ class ProdutosController extends Controller
        $votos = Voto::select(DB::raw('pratos_id, COUNT(*) as qtdVoto'))
                      ->from('votacaoPratosDoDia')
                      ->groupBY('pratos_id')
-                     ->orderBY('qtdVoto', 'ASC')
+                     ->orderBY('qtdVoto', 'DESC')
                      ->take(5)
                      ->get();
         
