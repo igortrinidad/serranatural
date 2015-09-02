@@ -26,6 +26,10 @@ Route::post('admin/promocoes/salvaSorteado', 'PromocoesController@salvaSorteado'
 Route::get('/admin', 'ProdutosController@formPrato');
 Route::get('/admin/produtos/addPrato', 'ProdutosController@formPrato');
 Route::post('/admin/produtos/salvaPratos', 'ProdutosController@salvaPrato');
+Route::get('/admin/produtos/pratosSemana', 'ProdutosController@semanaIndex');
+Route::post('/admin/produtos/salvaPratoSemana', 'ProdutosController@salvaPratoSemana');
+Route::get('/admin/produtos/excluiPratoSemana/{id}', 'ProdutosController@excluiPratoSemana');
+Route::post('/admin/produtos/addPratoSemana/{id}', 'ProdutosController@addPratoSemana');
 
 Route::get('/', function () {
     return view('welcome');

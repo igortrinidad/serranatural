@@ -29,28 +29,24 @@ class PromocoesController extends Controller
    //Página do formulario de votação dos clientes.
     public function paginaVotacao()
     {
-        
         $pratos = Pratos::all();
         
-        $votos = DB::table('votacaoPratosDoDia')
-                     ->select(DB::raw('opcaoEscolhida, COUNT(*) as qtdVoto'))
+        $votos = Voto::select(DB::raw('pratos_id, COUNT(*) as qtdVoto'))
                      ->from('votacaoPratosDoDia')
-                     ->groupBY('opcaoEscolhida')
+                     ->groupBY('pratos_id')
                      ->orderBY('qtdVoto', 'DESC')
                      ->take(5)
                      ->get();
         
         $totalVotos = DB::table('votacaoPratosDoDia')
-                     ->select(DB::raw('opcaoEscolhida, COUNT(*) as total'))
+                     ->select(DB::raw('pratos_id, COUNT(*) as total'))
                      ->from('votacaoPratosDoDia')
                      ->first();
         
         $dados = [
-        
         'pratos' => $pratos,
         'votos' => $votos,
         'totalVotos' => $totalVotos
-        
         ];
 
         return view('votacao/votacao')->with($dados);
@@ -75,7 +71,7 @@ class PromocoesController extends Controller
 
        return redirect()->action('PromocoesController@paginaVotacao')->with($dados); 
 
-        } else {
+        }
         
         $opcoesEscolhidas = Request::get('opcaoEscolhida');
 
@@ -104,7 +100,7 @@ class PromocoesController extends Controller
     
             foreach ($opcoesEscolhidas as $opcao){
                 Voto::create([
-                    'opcaoEscolhida' => $opcao,
+                    'pratos_id' => $opcao,
                     'clienteId' => $id['id'],
                     'diaVoto' => $diaVoto,
                     'promocaoID' => $idPromocao->id
@@ -112,7 +108,7 @@ class PromocoesController extends Controller
 
                 Preferencias::create([
                     'clienteId' => $id['id'],
-                    'preferencias' => $opcao
+                    'preferencias' => $opcao,
                     ]);
                 
             }
@@ -139,13 +135,14 @@ class PromocoesController extends Controller
 
     }
 
-}
+
 
 
         public function addVotoCliente()
     {
 
         $opcoesEscolhidas = Request::get('opcaoEscolhida');
+
         if($opcoesEscolhidas == '' OR Request::get('emailCliente') == ''){
 
            $dados = [
@@ -180,7 +177,7 @@ class PromocoesController extends Controller
 
                foreach ($opcoesEscolhidas as $opcao){
                    Voto::create([
-                       'opcaoEscolhida' => $opcao,
+                       'pratos_id' => $opcao,
                        'clienteId' => $cliente['id'],
                        'diaVoto' => $diaVoto,
                        'promocaoID' => $idPromocao->id
@@ -192,7 +189,6 @@ class PromocoesController extends Controller
                     Preferencias::create([
                         'clienteId' => $cliente['id'],
                         'preferencias' => $opcao
-
                         ]);
                     }
                 }
@@ -276,13 +272,14 @@ class PromocoesController extends Controller
 
         $listaSorteado = Promocoes::where('clienteId', '>', '0')->take(5)->get();
 
+
         $dados = [
 
             'participantes' => $participantes,
             'sorteio' => $sorteio,
             'ticketsValidos' => $ticketsValidos,
             'mediaTickets' => $media,
-            'lista' => $listaSorteado
+            'lista' => $listaSorteado,
 
         ];
 

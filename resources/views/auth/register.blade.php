@@ -1,6 +1,6 @@
 <!-- resources/views/auth/register.blade.php -->
 
-@extends('layout/adm')
+@extends('layout/admin')
 
 @section('conteudo')
 

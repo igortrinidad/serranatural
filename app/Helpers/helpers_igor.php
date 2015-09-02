@@ -4,7 +4,7 @@
 
 function calculaPorcentagem($total, $atual){
 
-    $porcentagem = 300 / $total * $atual;
+    $porcentagem = 100 / $total * $atual;
 
     return substr($porcentagem, 0, 2);
 }
@@ -39,5 +39,41 @@ function retornaMesPorExtenso($stamp) {
          
          return $printme;
          }
+
+
+function dataMysqlParaDateTime($data){
+
+    $semana = [
+        1=>"Segunda",
+        2=>"Terça",
+        3=>"Quarta",
+        4=>"Quinta",
+        5=>"Sexta",
+        6=>"Sábado",
+        7=>"Domingo",
+
+    ];
+
+    $dia = new DateTime($data);
+    $print = $semana[$dia->format('N')];
+
+    return $print;
+}
+
+
+function dataPtBrParaMysql($dataPtBr) {
+    $partes = explode("/", $dataPtBr);
+    return "{$partes[2]}-{$partes[1]}-{$partes[0]}";
+}
+
+function dataMysqlParaPtBr($dataMySql) {
+    $partes = explode("-", $dataMySql);
+    return "{$partes[2]}/{$partes[1]}/{$partes[0]}";
+}
+
+function geraTimestamp($data) {
+$partes = explode('/', $data);
+return mktime(0, 0, 0, $partes[1], $partes[0], $partes[2]);
+}
 
 ?>

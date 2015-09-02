@@ -17,8 +17,16 @@
     <!-- MetisMenu CSS -->
     <link href="/css/plugins/metisMenu.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
+    <!-- Estilos do template CSS -->
     <link href="/css/estilos/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Estilos proprio CSS -->
+    <link href="/css/estilos/estilosADMIN.css" rel="stylesheet">
+
+    <!-- Datepicker CSS -->
+    <link href="/css/plugins/bootstrap-datepicker3.min.css" rel="stylesheet">
+    <link href="/css/plugins/bootstrap-datepicker3.standalone.min.css" rel="stylesheet">
+
 
     <!-- Custom Fonts -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -289,13 +297,13 @@
                             <a href="#"><i class="fa fa-th-list"></i> Produtos<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="produtos/addPrato">Add Pratos</a>
+                                    <a href="/admin/produtos/addPrato">Monta Prato do Dia</a>
                                 </li>
                                 <li>
-                                    <a href="admin/produtos/add">Adiciona</a>
+                                    <a href="/admin/produtos/pratosSemana">Pratos da semana</a>
                                 </li>
                                 <li>
-                                    <a href="admin/produtos/relatorios">Relatórios</a>
+                                    <a href="#">Relatórios</a>
                                 </li>
 
                             </ul>
@@ -308,10 +316,10 @@
                                     <a href="/admin/promocoes">Dashboard</a>
                                 </li>
                                 <li>
-                                    <a href="admin/promocoes/vouche rs">Vouchers</a>
+                                    <a href="#">Vouchers</a>
                                 </li>
                                 <li>
-                                    <a href="admin/promocoes/relatorios">Relatórios</a>
+                                    <a href="#">Relatórios</a>
                                 </li>
 
                             </ul>
@@ -390,6 +398,12 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="/js/estilos/sb-admin-2.js"></script>
+
+    <!-- Datepicker -->
+    <script src="/js/plugins/bootstrap-datepicker.min.js"></script>
+    <script src="/js/plugins/bootstrap-datepicker.PT-BR.js"></script>
+
+    <script src="/js/appGeral.js"></script>
 
 </body>
 

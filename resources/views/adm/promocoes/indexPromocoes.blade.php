@@ -33,7 +33,8 @@
 						<td>Média ticket's por dia
 						</td>
 						<td>{{isset($mediaTickets) ? $mediaTickets : ''}}
-						</td>						
+						</td>		
+
 					</tr>
 
 				</table>

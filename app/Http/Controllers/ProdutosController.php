@@ -3,11 +3,15 @@
 namespace serranatural\Http\Controllers;
 
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\DB;
 
 use serranatural\Http\Requests;
 use serranatural\Http\Controllers\Controller;
 
 use serranatural\Models\Pratos;
+use serranatural\Models\AgendaPratos;
+use serranatural\Models\Promocoes;
+use serranatural\Models\Voto;
 
 class ProdutosController extends Controller
 {
@@ -60,9 +64,32 @@ class ProdutosController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id)
+    public function semanaIndex()
     {
-        //
+        
+        $pratos = Pratos::all();
+
+        $agenda = AgendaPratos::orderBy('dataStamp', 'ASC')->get();
+
+       $votos = Voto::select(DB::raw('pratos_id, COUNT(*) as qtdVoto'))
+                     ->from('votacaoPratosDoDia')
+                     ->groupBY('pratos_id')
+                     ->orderBY('qtdVoto', 'ASC')
+                     ->take(5)
+                     ->get();
+        
+        $totalVotos = DB::table('votacaoPratosDoDia')
+                     ->select(DB::raw('pratos_id, COUNT(*) as total'))
+                     ->from('votacaoPratosDoDia')
+                     ->first();
+
+
+        return view('adm/produtos/pratosSemana')->with(
+            ['pratos' => $pratos, 
+            'agenda' => $agenda,
+            'votos' => $votos,
+            'totalVotos' => $totalVotos
+            ]);
     }
 
     /**
@@ -71,10 +98,51 @@ class ProdutosController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit($id)
+    public function salvaPratoSemana()
     {
-        //
+        $dataMysql = dataPtBrParaMysql(Request::get('dataStr'));
+
+        $prato = AgendaPratos::create([
+
+            'pratos_id' => Request::get('pratos_id'),
+            'dataStr' => Request::get('dataStr'),
+            'dataStamp' => $dataMysql,
+
+            ]);
+
+        $dados = [
+
+        'msg_retorno' => 'Prato adicionado com sucesso',
+        'tipo_retorno' => 'success'
+
+        ];
+
+        return redirect()->action('ProdutosController@semanaIndex')->with($dados);
+
     }
+
+    public function addPratoSemana()
+    {
+        $dataMysql = dataPtBrParaMysql(Request::get('dataStr'));
+
+        $prato = AgendaPratos::create([
+
+            'pratos_id' => Request::route('id'),
+            'dataStr' => Request::get('dataStr'),
+            'dataStamp' => $dataMysql,
+            ]);
+
+        $dados = [
+
+        'msg_retorno' => 'Prato adicionado com sucesso',
+        'tipo_retorno' => 'success'
+
+        ];
+
+        return redirect()->action('ProdutosController@semanaIndex')->with($dados);
+
+    }
+
 
     /**
      * Update the specified resource in storage.
@@ -83,9 +151,21 @@ class ProdutosController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function excluiPratoSemana()
     {
-        //
+        $id = Request::route('id');
+
+        $produto = AgendaPratos::find($id)->delete();
+
+        $dados = [
+
+        'msg_retorno' => 'Prato excluido com sucesso',
+        'tipo_retorno' => 'danger',
+
+        ];
+
+        return redirect()->action('ProdutosController@semanaIndex')->with($dados);
+
     }
 
     /**

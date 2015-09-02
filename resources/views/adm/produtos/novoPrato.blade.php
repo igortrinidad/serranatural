@@ -2,18 +2,19 @@
 
 @section('conteudo')
 
-@if(Session::has('msg_retorno'))
-<div class="alert alert-{{Session::get('tipo_retorno')}}">
-     {{Session::get('msg_retorno')}}
- </div>
-@endif
+<h1 class="text-right">Adiciona novo prato</h1>
 
-	<div class="row">
-	<h1 class="text-right">Adiciona novo prato</h1>
+	@if(Session::has('msg_retorno'))
+	<div class="alert alert-{{Session::get('tipo_retorno')}}">
+	     {{Session::get('msg_retorno')}}
+	 </div>
+	@endif
 
 		<div class="col-lg-2"></div>
 
 			<div class="col-lg-8">
+
+
 
 				<form action="/admin/produtos/salvaPratos" method="POST" class="form-group">
 

@@ -21,7 +21,7 @@
                         <div class="panel paineis">
                             <div class="panel-heading panel-info"><strong>{{$prato->prato}}</strong></div>
                             <div class="panel-body text-center" style="max-height:200px">
-                                <input form="votoForm" class="panel-body" type="checkbox" name="opcaoEscolhida[]" value="{{$prato->prato}}" data-toggle="toggle" data-on="Quero!" data-off="Escolha" data-onstyle="success"/>
+                                <input form="votoForm" class="panel-body" type="checkbox" name="opcaoEscolhida[]" value="{{$prato->id}}" data-toggle="toggle" data-on="Quero!" data-off="Escolha" data-onstyle="success"/>
                                 <br /><br />
                                 <p>Acompanhamentos:</p>
                                 <p>{!!nl2br($prato->acompanhamentos)!!}</p>
@@ -128,7 +128,7 @@
 
 <?php $i = 0;?>     
 @foreach($votos as $voto)
-                        <p class="text-left">{{$voto->opcaoEscolhida}}   {{calculaPorcentagem($totalVotos->total, $voto->qtdVoto)}}%</p>
+                        <p class="text-left">{{$voto->pratos['prato']}}   {{calculaPorcentagem($totalVotos->total, $voto->qtdVoto)}}%</p>
                             <div class="progress">
                               <div class="progress-bar {{corBarraProgresso($i)}}" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{{calculaPorcentagem($totalVotos->total, $voto->qtdVoto)}}%">
                                 </div>
