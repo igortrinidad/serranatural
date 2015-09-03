@@ -21,7 +21,7 @@
     <link href="/css/estilos/sb-admin-2.css" rel="stylesheet">
 
     <!-- Estilos proprio CSS -->
-    <link href="/css/estilos/estilosADMIN.css" rel="stylesheet">
+    <link href="/css/estilos/estilosAdmin.css" rel="stylesheet">
 
     <!-- Datepicker CSS -->
     <link href="/css/plugins/bootstrap-datepicker3.min.css" rel="stylesheet">
@@ -401,7 +401,7 @@
 
     <!-- Datepicker -->
     <script src="/js/plugins/bootstrap-datepicker.min.js"></script>
-    <script src="/js/plugins/bootstrap-datepicker.PT-BR.js"></script>
+    <script src="/js/plugins/bootstrap-datepicker.pt-BR.js"></script>
 
     <script src="/js/appGeral.js"></script>
 
