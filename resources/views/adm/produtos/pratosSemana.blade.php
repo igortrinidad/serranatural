@@ -38,13 +38,12 @@
 
   		<table class="table table-hover">
   			<thead>
-  				<tr>
+  				<tr><strong>
   					<td>Data programada</td>
             <td>Prato</td>
   					<td>Acompanhamentos</td>
-  					<td>Edita</td>
   					<td>Exclui</td>
-  				</tr>
+  				</tr></strong>
   			</thead>
 
 @foreach($agenda as $a)
@@ -67,11 +66,11 @@
 
       <table class="table table-hover">
         <thead>
-          <tr>
-            <td>Prato</td>
-            <td>%</td>
-            <td>Data</td>
-            <td>Adicionar</td>
+          <tr class="text-center">
+            <td class="col-md-3">Prato</td>
+            <td class="col-md-4">%</td>
+            <td class="col-md-3">Data</td>
+            <td class="col-md-2 text-center">Adicionar</td>
           </tr>
         </thead>
 
@@ -80,9 +79,17 @@
 <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
         <tr>
           <td>{{$voto->pratos['prato']}}</td>
-          <td>{{calculaPorcentagem($totalVotos->total, $voto->qtdVoto)}}%</td>
-          <td><input type="text" name="dataStr" class="form-control datepicker" placeholder="dd/mm/aaaa"></td>
-          <td><button type="submit" onclick="this.form.action='/admin/produtos/addPratoSemana/{{$voto->pratos['id']}}'"><i class="fa fa-floppy-o"></i></button></td>
+          <td><div class="progress">
+                              <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{{calculaPorcentagem($totalVotos->total, $voto->qtdVoto)}}%;color:black;">{{calculaPorcentagem($totalVotos->total, $voto->qtdVoto)}}%
+                                </div>
+                            </div></td>
+          <td>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-calendar fa-1x"></i></span>
+              <input type="text" name="dataStr" class="form-control datepicker" placeholder="dd/mm/aaaa">
+            </div>
+          </td>
+          <td class="col-md-2 text-center"><button type="submit" onclick="this.form.action='/admin/produtos/addPratoSemana/{{$voto->pratos['id']}}'"><i class="fa fa-floppy-o"></i></button></td>
         </tr>
 </form>
 @endforeach
