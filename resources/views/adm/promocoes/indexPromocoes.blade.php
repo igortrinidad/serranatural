@@ -7,7 +7,7 @@
 	<div class="col-md-6">
 
 		<div class="panel panel-default painel-sorteio">
-			<div class="panel-heading"><strong>Votação {{date('H:i:s')}}</strong></div>
+			<div class="panel-heading"><strong>Votação {{date('d/m/Y H:i:s')}}</strong></div>
 			<div class="panel-body">
 				<table class="table">
 
