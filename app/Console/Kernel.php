@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
                  ->hourly();
 
         $schedule->command('email_preferencias')
-                 ->weekly()->mondays()->at('22:59');
+                 ->weekly()->saturdays()->at('20:23');
     }
 
     }
