@@ -19,7 +19,7 @@ margin-bottom: 30px;
 <div class="col-md-6">
 <div class="panel">
 <div class="panel-heading text-center">
-	<img src="https://lh5.googleusercontent.com/-EgbVX_pkBVc/VUfx53ls4-I/AAAAAAAAADc/7ny4hjr_G7s/s203-k-no/" />
+	<img src="http://45.55.224.49/img/logo_fundobranco.png" />
 </div>
 <div class="panel-body">
 <h3>E-mail de recuperação de senha</h3>
