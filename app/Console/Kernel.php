@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \serranatural\Console\Commands\Inspire::class,
         \serranatural\Commands\log_votos::class,
-        \serranatural\Commands\fechamento_promocao::class,
+        \serranatural\Commands\email_preferencias::class,
     ];
 
     /**
@@ -31,8 +31,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('inspire')
                  ->hourly();
 
-        $schedule->command('fechamento_promocao')
-                 ->weekly()->mondays()->at('18:22');
+        $schedule->command('email_preferencias')
+                 ->weekly()->mondays()->at('22:59');
     }
 
     }

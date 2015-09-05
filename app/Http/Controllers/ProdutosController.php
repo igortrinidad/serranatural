@@ -7,11 +7,13 @@ use Illuminate\Support\Facades\DB;
 
 use serranatural\Http\Requests;
 use serranatural\Http\Controllers\Controller;
+use Mail;
 
 use serranatural\Models\Pratos;
 use serranatural\Models\AgendaPratos;
 use serranatural\Models\Promocoes;
 use serranatural\Models\Voto;
+use serranatural\Models\Cliente;
 
 class ProdutosController extends Controller
 {
@@ -33,7 +35,6 @@ class ProdutosController extends Controller
      */
     public function formPrato()
     {
-        
 
         return view('adm/produtos/novoPrato');
     }
