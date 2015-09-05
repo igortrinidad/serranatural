@@ -42,12 +42,12 @@
 
 				<form action="/admin/promocoes/sorteioVotacao" method="POST">
 				<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-				<input type="text" name="sorteio" value="{{ isset($sorteio) ? $sorteio->id : '' }}" hidden=true/>
+				<input type="text" name="sorteioID" value="{{ isset($sorteio) ? $sorteio->id : '' }}" hidden=true/>
 				<input type="text" name="ticketsValidos" value="{{ isset($ticketsValidos) ? $ticketsValidos->total : '' }}" hidden=true/>
 				<input type="text" name="participantes" value="{{ isset($participantes) ? $participantes->total : '' }}" hidden=true/>
 				<input type="text" name="mediaTickets" value="{{ isset($mediaTickets) ? $mediaTickets : '' }}" hidden=true/>
-				<input type="text" name="sortudo" value="{{ isset($sortudo) ? $sortudo->nome : '' }}" hidden=true/>
-				<input type="text" name="sortudoId" value="{{ isset($sortudo) ? $sortudo->id : '' }}" hidden=true/>
+				<input type="text" name="sortudoNOME" value="{{ isset($sortudo) ? $sortudo->nome : '' }}" hidden=true/>
+				<input type="text" name="sortudoID" value="{{ isset($sortudo) ? $sortudo->id : '' }}" hidden=true/>
 
 					<div class="col-md-6">
 						<button type="submit" class="btn btn-primary btn-block">Sortear</button>
@@ -82,8 +82,8 @@
 			@foreach($lista as $l)
 			 <tr>
 			 	<td>{{$l->nomeCliente}}</td>
-			 	<td>31 3131</td>
-			 	<td> 23/08/2015</td>
+			 	<td>{{$l->clienteId}}</td>
+			 	<td></td>
 			 </tr>
 			 @endforeach
 			</table>

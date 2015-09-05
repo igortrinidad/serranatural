@@ -96,7 +96,7 @@ class PromocoesController extends Controller
                     ->orderBy('id', 'desc')
                     ->first(); 
 
-            $diaVoto = date('d/m/Y');
+            $diaVoto = date('Y-m-d');
     
             foreach ($opcoesEscolhidas as $opcao){
                 Voto::create([
@@ -173,7 +173,7 @@ class PromocoesController extends Controller
                     ->where('ativo', '=', '1')
                     ->orderBy('id', 'desc')
                     ->first(); 
-                $diaVoto = date('d/m/Y');
+                $diaVoto = date('Y-m-d');
 
                foreach ($opcoesEscolhidas as $opcao){
                    Voto::create([
@@ -296,15 +296,15 @@ class PromocoesController extends Controller
     public function salvaSorteado()
     {
 
-        $verificaSorteio = Promocoes::where('id', '=', Request::input('sorteio'))
+        $verificaSorteio = Promocoes::where('id', '=', Request::input('sorteioID'))
                                         ->where('clienteId', '>', 1)->first();
 
         if(is_null($verificaSorteio)){
 
-        Promocoes::where('id', '=', Request::input('sorteio'))
+        Promocoes::where('id', '=', Request::input('sorteioID'))
                 ->update([
-                    'clienteId' => Request::input('sortudoId'),
-                    'nomeCliente' => Request::input('sortudo'),
+                    'clienteId' => Request::input('sortudoID'),
+                    'nomeCliente' => Request::input('sortudoNOME'),
                     'ativo' => 0,
                     ]);
 
