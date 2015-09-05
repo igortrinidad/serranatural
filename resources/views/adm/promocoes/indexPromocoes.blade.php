@@ -50,17 +50,17 @@
 				<input type="text" name="sortudoId" value="{{ isset($sortudo) ? $sortudo->id : '' }}" hidden=true/>
 
 					<div class="col-md-6">
-						<button type="submit" class="btn btn-primary">Sortear ganhador</button>
+						<button type="submit" class="btn btn-primary btn-block">Sortear</button>
 					</div>
 					<div class="col-md-6">
-						<button type="submit" class="btn btn-primary" onclick="this.form.action='/admin/promocoes/salvaSorteado'">Salvar ganhador</button>
+						<button type="submit" class="btn btn-primary btn-block" onclick="this.form.action='/admin/promocoes/salvaSorteado'">Salvar</button>
 					</div>
 				</form>
-				<br />
+				<br /><br />
 
 				<h4>Sorteado: </h4>
 
-				<button class="btn btn-success btn-sorteio btn-block" onclick="this.form.action='/admin/promocoes/sorteioVotacao'">Nome: {{ isset($sortudo) ? $sortudo->nome : '' }}<br />Telefone: {{ isset($sortudo) ? $sortudo->telefone : '' }}</button>
+				<button class="btn btn-success btn-sorteio btn-block" onclick="this.form.action='/admin/promocoes/sorteioVotacao'">Nome: {{ isset($sortudo) ? $sortudo->nome : '' }}<br />Telefone: (**) ***{{ isset($sortudo) ? substr($sortudo->telefone, -6) : '' }}</button>
 			</div>
 
 		</div>

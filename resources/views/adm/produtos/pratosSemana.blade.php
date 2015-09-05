@@ -80,7 +80,7 @@
         <tr>
           <td>{{$voto->pratos['prato']}}</td>
           <td><div class="progress">
-                              <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{{calculaPorcentagem($totalVotos->total, $voto->qtdVoto)}}%;color:black;">{{calculaPorcentagem($totalVotos->total, $voto->qtdVoto)}}%
+                              <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{{calculaPorcentagem($totalVotos->total, $voto->qtdVoto)}}%;color:black;"><strong>{{calculaPorcentagem($totalVotos->total, $voto->qtdVoto)}}%</strong>
                                 </div>
                             </div></td>
           <td>
