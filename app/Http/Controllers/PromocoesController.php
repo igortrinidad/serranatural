@@ -52,12 +52,7 @@ class PromocoesController extends Controller
         return view('votacao/votacao')->with($dados);
     }
     
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
+    // Cadastra o cliente e adiciona o voto e preferencias.
     public function addVotoCadastro()
     {
         $opcoesEscolhidas = Request::get('opcaoEscolhida');
@@ -137,7 +132,7 @@ class PromocoesController extends Controller
 
 
 
-
+        //Adiciona o voto do cliente cadastrado e preferencias
         public function addVotoCliente()
     {
 
@@ -213,33 +208,49 @@ class PromocoesController extends Controller
      */
     public function sorteioVotacao()
     {
-
-
+            // Seleciona os votos válidos da promoção com determinado ID
             $votos = Voto::groupBY('diaVoto')
             ->groupBY('clienteId')
+            ->where('promocaoID', '=', Request::input('sorteioID'))
             ->get();
 
+            // Faz os sorteio dos votos válidos
             $sorteio = $votos[mt_rand(0, count($votos) - 1)];
             
+            // Busco o sorteado de acordo com o ID
             $sortudo = Cliente::
             where('id', '=', $sorteio->clienteId)
             ->first();
-
+            // Busca os ganhadores para a tabela da direita
             $ganhadores = DB::table('promocoes')
             ->where('clienteId');
-
-            $sorteio = Promocoes::where('nome_promocao', '=', 'Votação')
+            // Retorna a promoção valida para lista novamente
+        $sorteio = Promocoes::where('nome_promocao', '=', 'Votação')
                     ->where('ativo', '=', '1')
                     ->orderBy('id', 'desc')
-                    ->first();
+                    ->first();          
 
-            $ticketsValidos = DB::table('votacaoPratosDoDia')->select(DB::raw('COUNT(DISTINCT clienteId, diaVoto) AS total'))->first();
-            $participantes = DB::table('votacaoPratosDoDia')->select(DB::raw('COUNT(DISTINCT clienteId) AS total'))->first();
-            $dias = DB::table('votacaoPratosDoDia')->select(DB::raw('COUNT(DISTINCT diaVoto) AS total'))->first();
-    
+        $ticketsValidos = Voto::select(DB::raw('COUNT(DISTINCT clienteId, diaVoto) AS total'))
+                        ->where('promocaoID', '=', $sorteio->id)
+                        ->first();
+        $participantes = Voto::select(DB::raw('COUNT(DISTINCT clienteId) AS total'))
+                        ->where('promocaoID', '=', $sorteio->id)
+                        ->first();
+        $dias = Voto::select(DB::raw('COUNT(DISTINCT diaVoto) AS total'))
+                        ->where('promocaoID', '=', $sorteio->id)
+                        ->first();
+
+        // Verifica se existem tickets válidos e calcula a média de tickets válidos por dia
+        if($ticketsValidos->total >= 1){
             $media = $ticketsValidos->total / $dias->total;
+        } else {}
 
-            $listaSorteado = Promocoes::where('clienteId', '>', '0')->take(5)->get();
+        // Lista dos ultimos cinco sorteados
+        $listaSorteado = Promocoes::join('clientes', 'promocoes.clienteId', '=', 'clientes.id')
+                            ->where('promocoes.clienteId', '>', 0)
+                            ->orderBy('promocoes.id', 'desc')
+                            ->take(5)
+                            ->get();
 
 
             $dados = [
@@ -251,8 +262,8 @@ class PromocoesController extends Controller
                 'lista' => $listaSorteado
             ];
 
-
            return view('adm/promocoes/indexPromocoes')->with($dados);
+           
     }
 
 
@@ -264,20 +275,34 @@ class PromocoesController extends Controller
                     ->orderBy('id', 'desc')
                     ->first();          
 
-        $ticketsValidos = DB::table('votacaoPratosDoDia')->select(DB::raw('COUNT(DISTINCT clienteId, diaVoto) AS total'))->first();
-        $participantes = DB::table('votacaoPratosDoDia')->select(DB::raw('COUNT(DISTINCT clienteId) AS total'))->first();
-        $dias = DB::table('votacaoPratosDoDia')->select(DB::raw('COUNT(DISTINCT diaVoto) AS total'))->first();
+        $ticketsValidos = Voto::select(DB::raw('COUNT(DISTINCT clienteId, diaVoto) AS total'))
+                        ->where('promocaoID', '=', $sorteio->id)
+                        ->first();
+        $participantes = Voto::select(DB::raw('COUNT(DISTINCT clienteId) AS total'))
+                        ->where('promocaoID', '=', $sorteio->id)
+                        ->first();
+        $dias = Voto::select(DB::raw('COUNT(DISTINCT diaVoto) AS total'))
+                        ->where('promocaoID', '=', $sorteio->id)
+                        ->first();
 
-        $media = $ticketsValidos->total / $dias->total;
+        // Verifica se existem tickets válidos e calcula a média de tickets válidos por dia
+        if($ticketsValidos->total >= 1){
+            $media = $ticketsValidos->total / $dias->total;
+        }
 
-        $listaSorteado = Promocoes::where('clienteId', '>', '0')->take(5)->get();
-
+        // Lista dos ultimos cinco sorteados
+        $listaSorteado = Promocoes::join('clientes', 'promocoes.clienteId', '=', 'clientes.id')
+                            ->where('promocoes.clienteId', '>', 0)
+                            ->orderBy('promocoes.id', 'desc')
+                            ->take(5)
+                            ->get();
 
         $dados = [
 
             'participantes' => $participantes,
             'sorteio' => $sorteio,
             'ticketsValidos' => $ticketsValidos,
+            'mediaTickets' => isset($media) ? $media : $media = 0,
             'mediaTickets' => $media,
             'lista' => $listaSorteado,
 
@@ -301,12 +326,28 @@ class PromocoesController extends Controller
 
         if(is_null($verificaSorteio)){
 
+        //Grava os dados do sorteado e desativa a promoção sorteada
         Promocoes::where('id', '=', Request::input('sorteioID'))
                 ->update([
                     'clienteId' => Request::input('sortudoID'),
                     'nomeCliente' => Request::input('sortudoNOME'),
                     'ativo' => 0,
+                    'ticketsValidos' => Request::input('ticketsValidos'),
+                    'participantesUnicos' => Request::input('participantes'),
+                    'mediaTicketDia' => Request::input('mediaTickets')
                     ]);
+
+        // Determina o inicio e fim da próxima promoção
+        $inicioPromo = date('Y-m-d');
+        $fimPromo = date('Y-m-d', strtotime("+6 days"));
+
+        //Cria a nova promoção com as respectivas datas
+        $votos = Promocoes::create([
+            'nome_promocao' => 'Votação',
+            'data_inicio' => $inicioPromo,
+            'data_termino' => $fimPromo,
+            'ativo' => '1'
+            ]);
 
             return redirect()->action('PromocoesController@indexPromocoes')->with(['message' => 'Sucesso']);
         } else {

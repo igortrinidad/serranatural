@@ -50,10 +50,14 @@
 				<input type="text" name="sortudoID" value="{{ isset($sortudo) ? $sortudo->id : '' }}" hidden=true/>
 
 					<div class="col-md-6">
+						@if($ticketsValidos->total >= 1)
 						<button type="submit" class="btn btn-primary btn-block">Sortear</button>
+						@endif
 					</div>
 					<div class="col-md-6">
+					@if($ticketsValidos->total >= 1)
 						<button type="submit" class="btn btn-primary btn-block" onclick="this.form.action='/admin/promocoes/salvaSorteado'">Salvar</button>
+					@endif
 					</div>
 				</form>
 				<br /><br />
@@ -82,7 +86,7 @@
 			@foreach($lista as $l)
 			 <tr>
 			 	<td>{{$l->nomeCliente}}</td>
-			 	<td>{{$l->clienteId}}</td>
+			 	<td>{{$l->telefone}}</td>
 			 	<td></td>
 			 </tr>
 			 @endforeach
