@@ -15,7 +15,7 @@ return [
     */
 
     'mailgun' => [
-        'domain' => 'postmaster@sandboxad0d60c6cc1d4a60bfa0b88bc1ff74ae.mailgun.org',
+        'domain' => 'https://api.mailgun.net/v3/mg.serranatural.com',
         'secret' => 'key-02c7bfdc17d833537049a4d403b578b4',
     ],
 
