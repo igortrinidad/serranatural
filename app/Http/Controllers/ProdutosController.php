@@ -227,7 +227,7 @@ class ProdutosController extends Controller
 
     }
 
-    public function excluiPrato()
+    public function excluiPratoSemana()
 
         {
         $id = Request::route('id');
