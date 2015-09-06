@@ -36,7 +36,7 @@ Route::get('/', function () {
 });
 
 Route::get('/teste', function () {
-    return view('emails/password');
+    return view('emails/marketing/pratoDoDia');
 });
 
 // Authentication routes...
