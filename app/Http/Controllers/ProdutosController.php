@@ -23,8 +23,39 @@ class ProdutosController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function editaPrato()
     {
+        $id = Request::route('id');
+
+        $prato = Pratos::where('id', '=', $id)->first();
+
+        $dados = [
+            'p' => $prato
+        ];
+
+        return view('adm/produtos/prato/edita')->with($dados);
+
+    }
+
+        public function updatePrato()
+    {
+        $id = Request::route('id');
+
+        $prato = Pratos::where('id', '=', $id)
+        ->update([
+            'prato' => Request::input('prato'),
+            'acompanhamentos' => Request::input('acompanhamento'),
+
+            ]);
+
+        $dados = [
+
+        'msg_retorno' => 'Prato alterado com sucesso',
+        'tipo_retorno' => 'success'
+
+        ];
+
+        return redirect()->action('ProdutosController@indexPrato')->with($dados);
 
     }
 
@@ -33,10 +64,18 @@ class ProdutosController extends Controller
      *
      * @return Response
      */
-    public function formPrato()
+    public function indexPrato()
     {
 
-        return view('adm/produtos/novoPrato');
+        $listaPratos = Pratos::orderBy('ativo', 'DESC')->paginate(8);
+
+        $dados = [
+
+            'listaPratos' => $listaPratos,
+
+        ];
+
+        return view('adm/produtos/novoPrato')->with($dados);
     }
 
     /**
@@ -56,7 +95,7 @@ class ProdutosController extends Controller
 
         ];
 
-        return redirect()->action('ProdutosController@formPrato')->with($dados);
+        return redirect()->action('ProdutosController@indexPrato')->with($dados);
     }
 
     /**
@@ -152,8 +191,45 @@ class ProdutosController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function excluiPratoSemana()
+    public function ativarPrato()
     {
+        $id = Request::route('id');
+
+        $produto = Pratos::where('id', '=', $id)
+                    ->update(['ativo' => 1]);
+
+        $dados = [
+
+        'msg_retorno' => 'Prato ativado com sucesso',
+        'tipo_retorno' => 'danger',
+
+        ];
+
+        return redirect()->action('ProdutosController@indexPrato')->with($dados);
+
+    }
+
+    public function desativarPrato()
+    {
+        $id = Request::route('id');
+
+        $produto = Pratos::where('id', '=', $id)
+                    ->update(['ativo' => 0]);
+
+        $dados = [
+
+        'msg_retorno' => 'Prato desativado com sucesso',
+        'tipo_retorno' => 'danger',
+
+        ];
+
+        return redirect()->action('ProdutosController@indexPrato')->with($dados);
+
+    }
+
+    public function excluiPrato()
+
+        {
         $id = Request::route('id');
 
         $produto = AgendaPratos::find($id)->delete();

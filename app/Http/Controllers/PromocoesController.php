@@ -29,7 +29,7 @@ class PromocoesController extends Controller
    //Página do formulario de votação dos clientes.
     public function paginaVotacao()
     {
-        $pratos = Pratos::all();
+        $pratos = Pratos::where('ativo', '=', 1)->get();
         
         $votos = Voto::select(DB::raw('pratos_id, COUNT(*) as qtdVoto'))
                      ->from('votacaoPratosDoDia')

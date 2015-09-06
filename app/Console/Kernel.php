@@ -27,13 +27,13 @@ class Kernel extends ConsoleKernel
      * @return void
      */
     protected function schedule(Schedule $schedule)
-    {
-        $schedule->command('inspire')
-                 ->hourly();
+        {
+            $schedule->command('inspire')
+                     ->hourly();
 
-        $schedule->command('email_preferencias')
-                 ->weekly()->saturdays()->at('20:23');
-    }
+            $schedule->command('email_preferencias')
+                     ->dailyAt('09:00');
+        }
 
     }
 
