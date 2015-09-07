@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use serranatural\Http\Requests;
 use serranatural\Http\Controllers\Controller;
 
+use serranatural\Models\Cliente;
+
 class ClienteController extends Controller
 {
     /**
@@ -14,9 +16,17 @@ class ClienteController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function lista()
     {
-        //
+        $lista = Cliente::all();
+
+        $dados = [
+
+            'lista' => $lista
+
+        ];
+
+        return view('adm/clientes/lista')->with($dados);
     }
 
     /**

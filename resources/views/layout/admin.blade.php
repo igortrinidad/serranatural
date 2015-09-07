@@ -294,6 +294,25 @@
 
 <!-- inicio itens do menu -->
                         <li>
+                            <a href="#"><i class="fa fa-sitemap"></i> Clientes<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/admin/clientes/lista">Lista</a>
+                                </li>
+                                <li>
+                                    <a href="#">Adiciona</a>
+                                </li>
+                                <li>
+                                    <a href="#">Preferência</a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+
+
+
+                        <li>
                             <a href="#"><i class="fa fa-th-list"></i> Produtos<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>

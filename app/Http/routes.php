@@ -37,6 +37,8 @@ Route::post('/admin/produtos/salvaPratoSemana', 'ProdutosController@salvaPratoSe
 Route::get('/admin/produtos/excluiPratoSemana/{id}', 'ProdutosController@excluiPratoSemana');
 Route::post('/admin/produtos/addPratoSemana/{id}', 'ProdutosController@addPratoSemana');
 
+Route::get('/admin/clientes/lista', 'ClienteController@lista');
+
 Route::get('/', function () {
     return view('welcome');
 });
