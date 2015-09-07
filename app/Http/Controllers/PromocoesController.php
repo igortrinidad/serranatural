@@ -33,6 +33,8 @@ class PromocoesController extends Controller
         
         $votos = Voto::select(DB::raw('pratos_id, COUNT(*) as qtdVoto'))
                      ->from('votacaoPratosDoDia')
+                     ->join('promocoes', 'votacaoPratosDoDia.promocaoID', '=', 'promocoes.id')
+                     ->where('promocoes.ativo', '=', 1)
                      ->groupBY('pratos_id')
                      ->orderBY('qtdVoto', 'DESC')
                      ->take(5)
@@ -41,6 +43,8 @@ class PromocoesController extends Controller
         $totalVotos = DB::table('votacaoPratosDoDia')
                      ->select(DB::raw('pratos_id, COUNT(*) as total'))
                      ->from('votacaoPratosDoDia')
+                     ->join('promocoes', 'votacaoPratosDoDia.promocaoID', '=', 'promocoes.id')
+                     ->where('promocoes.ativo', '=', 1)
                      ->first();
         
         $dados = [

@@ -111,8 +111,10 @@ class ProdutosController extends Controller
 
         $agenda = AgendaPratos::orderBy('dataStamp', 'ASC')->get();
 
-       $votos = Voto::select(DB::raw('pratos_id, COUNT(*) as qtdVoto'))
+        $votos = Voto::select(DB::raw('pratos_id, COUNT(*) as qtdVoto'))
                      ->from('votacaoPratosDoDia')
+                     ->join('promocoes', 'votacaoPratosDoDia.promocaoID', '=', 'promocoes.id')
+                     ->where('promocoes.ativo', '=', 1)
                      ->groupBY('pratos_id')
                      ->orderBY('qtdVoto', 'DESC')
                      ->take(5)
@@ -121,6 +123,8 @@ class ProdutosController extends Controller
         $totalVotos = DB::table('votacaoPratosDoDia')
                      ->select(DB::raw('pratos_id, COUNT(*) as total'))
                      ->from('votacaoPratosDoDia')
+                     ->join('promocoes', 'votacaoPratosDoDia.promocaoID', '=', 'promocoes.id')
+                     ->where('promocoes.ativo', '=', 1)
                      ->first();
 
 
@@ -152,7 +156,7 @@ class ProdutosController extends Controller
 
         $dados = [
 
-        'msg_retorno' => 'Prato adicionado com sucesso',
+        'msg_retorno' => 'Prato agendado para ' . Request::get('dataStr') . ' com sucesso',
         'tipo_retorno' => 'success'
 
         ];
@@ -174,7 +178,7 @@ class ProdutosController extends Controller
 
         $dados = [
 
-        'msg_retorno' => 'Prato adicionado com sucesso',
+        'msg_retorno' => 'Prato agendado para ' . Request::get('dataStr') . ' com sucesso',
         'tipo_retorno' => 'success'
 
         ];
