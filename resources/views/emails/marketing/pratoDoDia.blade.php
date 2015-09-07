@@ -1,15 +1,19 @@
+
 <center>
-            <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" style="border-collapse:collapse;margin:0;padding:0;background-color:#f2f2f2;height:100%!important;width:100%!important">
+            <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" style="border-collapse:collapse;margin:0;padding:0;background-color:#eeeeee;height:100%!important;width:100%!important">
                 <tbody><tr>
-                    <td align="center" valign="top" style="margin:0;padding:20px;border-top:0;height:100%!important;width:100%!important">
+                    <td align="center" valign="top" style="margin:0;padding:0;border-top:0;height:100%!important;width:100%!important">
                         
-                        <table border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse:collapse;border:0">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
                             <tbody><tr>
                                 <td align="center" valign="top">
                                     
-                                    <table border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse:collapse;background-color:#ffffff;border-top:0;border-bottom:0">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;background-color:#212223;border-top:0;border-bottom:0">
                                         <tbody><tr>
-                                        	<td valign="top" style="padding-top:9px"><table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
+                                            <td align="center" valign="top">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse:collapse">
+                                                    <tbody><tr>
+                                                        <td valign="top" style="padding-top:10px;padding-bottom:10px"><table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
     <tbody>
         <tr>
             <td valign="top">
@@ -17,9 +21,9 @@
                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="366" style="border-collapse:collapse">
                     <tbody><tr>
                         
-                        <td valign="top" style="padding-top:9px;padding-left:18px;padding-bottom:9px;padding-right:0;color:#606060;font-family:Helvetica;font-size:11px;line-height:125%;text-align:left">
+                        <td valign="top" style="padding-top:9px;padding-left:18px;padding-bottom:9px;padding-right:0;color:#ffffff;font-family:Helvetica;font-size:10px;line-height:125%;text-align:left">
                         
-                            Cardápio Serra Natural: {{isset($prato) ? $prato : ''}}&nbsp;
+                            Cardápio de hoje: {{isset($prato) ? $prato : 'prato'}}
                         </td>
                     </tr>
                 </tbody></table>
@@ -27,9 +31,9 @@
                 <table align="right" border="0" cellpadding="0" cellspacing="0" width="197" style="border-collapse:collapse">
                     <tbody><tr>
                         
-                        <td valign="top" style="padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:0;color:#606060;font-family:Helvetica;font-size:11px;line-height:125%;text-align:left">
+                        <td valign="top" style="padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:0;color:#ffffff;font-family:Helvetica;font-size:10px;line-height:125%;text-align:left">
                         
-                            
+                            Serra Natural
                         </td>
                     </tr>
                 </tbody></table>
@@ -38,6 +42,9 @@
         </tr>
     </tbody>
 </table></td>
+                                                    </tr>
+                                                </tbody></table>
+                                            </td>                                            
                                         </tr>
                                     </tbody></table>
                                     
@@ -46,9 +53,12 @@
                             <tr>
                                 <td align="center" valign="top">
                                     
-                                    <table border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse:collapse;background-color:#ffffff;border-top:0;border-bottom:0">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;background-color:#eeeeee;border-top:0;border-bottom:0">
                                         <tbody><tr>
-                                            <td valign="top"><table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
+                                            <td align="center" valign="top">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse:collapse">
+                                                    <tbody><tr>
+                                                        <td valign="top" style="padding-top:10px;padding-bottom:10px"><table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
     <tbody>
             <tr>
                 <td valign="top" style="padding:9px">
@@ -57,7 +67,7 @@
                             <td valign="top" style="padding-right:9px;padding-left:9px;padding-top:0;padding-bottom:0;text-align:center">
                                 
                                     
-                                        <img align="center" alt="" src="https://ci3.googleusercontent.com/proxy/Kn53BHqBJwqKPaZZ2lTNXv9MdZSmqDl24TrFn82n9Kb2Ek8pStg2LEgzIIqiB0L_l2nLh8YtxjCssf6oycFISGn0Vp5U4dbAdpc-SYhuM1SHbqXqmeke9-8n7OLc88fB0dH2bpYQ1eDfB7xKdk5nZtjJRZ40tYHXWluortY=s0-d-e1-ft#https://gallery.mailchimp.com/c2e69283f81b0ca8baeeeab86/images/3e5afdde-6c5a-4780-bc97-a57e11b64481.png" width="300" style="max-width:300px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;outline:none;text-decoration:none" class="CToWUd a6T" tabindex="0"><div class="a6S" dir="ltr" style="opacity: 0.01; left: 471.5px; top: 219px;"><div id=":1h9" class="T-I J-J5-Ji aQv T-I-ax7 L3 a5q" role="button" tabindex="0" aria-label="Fazer o download do anexo " data-tooltip-class="a1V" data-tooltip="Fazer o download"><div class="aSK J-J5-Ji aYr"></div></div></div>
+                                        <img align="center" alt="" src="https://ci4.googleusercontent.com/proxy/PrjeYH1pBQ4a9aHJp0YtLz3xTLSgXqZgsZXklBtCc1O0RNrFLJ8eI9eEVkCg2hxTVQBfZGoLpb85g3tBqzT1Y1J0bjYDEyKWaq8TtXxliWQYcDSMuBvVDmUwAavQYiPN9_u_utYIgqNMzeup-hEP9Vn9m15PCdfpXhO7Jd4=s0-d-e1-ft#https://gallery.mailchimp.com/c2e69283f81b0ca8baeeeab86/images/ce1de324-a8c4-4abf-a2b3-476ebf4e74ba.png" width="280" style="max-width:280px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;outline:none;text-decoration:none" class="CToWUd">
                                     
                                 
                             </td>
@@ -67,6 +77,9 @@
             </tr>
     </tbody>
 </table></td>
+                                                    </tr>
+                                                </tbody></table>
+                                            </td>
                                         </tr>
                                     </tbody></table>
                                     
@@ -74,10 +87,26 @@
                             </tr>
                             <tr>
                                 <td align="center" valign="top">
-                                    
-                                    <table border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse:collapse;background-color:#ffffff;border-top:0;border-bottom:0">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;background-color:#eeeeee;border-top:0;border-bottom:0">
                                         <tbody><tr>
-                                            <td valign="top"><table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
+                                            <td align="center" valign="top" style="padding-top:10px;padding-bottom:10px">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse:collapse">
+                                                    <tbody><tr>
+                                                        <td align="center" valign="top">
+                                                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;background-color:#ffffff">
+                                                                <tbody><tr>
+                                                                    <td align="center" valign="top">
+                                                                        
+                                                                   
+                                                                        
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="center" valign="top">
+                                                                        
+                                                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
+                                                                            <tbody><tr>
+                                                                                <td valign="top" style="padding-top:10px;padding-bottom:10px"><table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
     <tbody>
         <tr>
             <td valign="top">
@@ -85,15 +114,15 @@
                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse:collapse">
                     <tbody><tr>
                         
-                        <td valign="top" style="padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:18px;color:#606060;font-family:Helvetica;font-size:15px;line-height:150%;text-align:left">
+                        <td valign="top" style="padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:18px;color:#212223;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
                         
-                            <h1 style="margin:0;padding:0;display:block;font-family:Helvetica;font-size:40px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:-1px;text-align:left;color:#606060!important"><span style="font-size:25px">Cardápio de hoje: </span></h1>
-
-<h3 style="margin:0;padding:0;display:block;font-family:Helvetica;font-size:18px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:-.5px;text-align:left;color:#606060!important"><span style="font-size:25px"><span style="color:#008000">{{isset($prato) ? $prato : 'prato'}}</span></span></h3>
+                            <h1 style="margin:0;padding:0;display:block;font-family:Georgia;font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:-1px;text-align:left;color:#212223!important"><span style="font-size:32px">Prato do dia: <span style="color:#008000">{{isset($prato) ? $prato : 'prato'}}</span></span></h1>
 
                         </td>
                     </tr>
                 </tbody></table>
+
+
                 
             </td>
         </tr>
@@ -106,68 +135,52 @@
                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse:collapse">
                     <tbody><tr>
                         
-                        <td valign="top" style="padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:18px;color:#606060;font-family:Helvetica;font-size:15px;line-height:150%;text-align:left">
+                        <td valign="top" style="padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:18px;color:#212223;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
                         
-                            Olá <span style="font-size:18px"><strong>{{isset($nomeCliente) ? $nomeCliente : 'cliente'}}</strong>!</span><br>
+                            Olá {{isset($nomeCliente) ? $nomeCliente : 'cliente'}},<br>
 <br>
-Acabei de ver que você gosta de <span style="font-size:18px"><strong>{{isset($prato) ? $prato : 'prato'}},</strong></span> não é mesmo?<br>
+Acabei de me lembrar que você gosta de <span style="color:#008000"><strong>{{isset($prato) ? $prato : 'prato'}}</strong></span>, não é mesmo?<br>
 <br>
-Venha almoçar com a gente e aproveite para escolher os pratos da próxima semana.<br>
+Venha almoçar conosco e aproveite essa delícia que preparamos para você.<br>
 <br>
 Lembranças,<br>
-<strong>Equipe Serra Natural</strong>
+Equipe Serra Natural.
                         </td>
                     </tr>
                 </tbody></table>
                 
-            </td>
-        </tr>
-    </tbody>
-</table><table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
-    <tbody>
-        <tr>
-            <td valign="top">
-                
-                <table align="left" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse:collapse">
-                    <tbody><tr>
-                        
-                        <td valign="top" style="padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:18px;color:#606060;font-family:Helvetica;font-size:15px;line-height:150%;text-align:left">
-                        
-                            <div style="text-align:center">Servimos de 11:30 as 14:30</div>
-
-                        </td>
-                    </tr>
-                </tbody></table>
-                
-            </td>
-        </tr>
-    </tbody>
-</table><table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
-    <tbody>
-        <tr>
-            <td style="padding:18px">
-                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-top-width:1px;border-top-style:solid;border-top-color:#999999;border-collapse:collapse">
-                    <tbody><tr>
-                        <td>
-                            <span></span>
-                        </td>
-                    </tr>
-                </tbody></table>
             </td>
         </tr>
     </tbody>
 </table></td>
+                                                                            </tr>
+                                                                        </tbody></table>
+                                                                        
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="center" valign="top" style="background-color:#eeeeee">
+                                                                        <img src="https://ci3.googleusercontent.com/proxy/e8Xmu5XtHtY1JVZ_rHqM2ce1XjVWJYBAosUgRXlnsCCHeygJSGBLzI3D-xCGW7RsaAo4cWqe79TmjodeVAqXpfJy1tCWIjd4qcgwjqwT_jrdEVuJyYyAqYG37Eyutb56UJ0=s0-d-e1-ft#http://gallery.mailchimp.com/27aac8a65e64c994c4416d6b8/images/eb_stubend.png" height="10" width="600" style="display:block;max-width:600px;border:0;outline:none;text-decoration:none" class="CToWUd">
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody></table>
+                                                        </td>
+                                                    </tr>
+                                                </tbody></table>
+                                            </td>
                                         </tr>
                                     </tbody></table>
-                                    
                                 </td>
                             </tr>
                             <tr>
-                                <td align="center" valign="top">
+                                <td align="center" valign="top" style="padding-bottom:40px">
                                     
-                                    <table border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse:collapse;background-color:#ffffff;border-top:0;border-bottom:0">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;background-color:#eeeeee;border-top:0;border-bottom:0">
                                         <tbody><tr>
-                                            <td valign="top" style="padding-bottom:9px"><table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
+                                            <td align="center" valign="top">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse:collapse">
+                                                    <tbody><tr>
+                                                        <td valign="top" style="padding-top:10px;padding-bottom:10px"><table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
     <tbody>
         <tr>
             <td valign="top">
@@ -175,17 +188,18 @@ Lembranças,<br>
                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse:collapse">
                     <tbody><tr>
                         
-                        <td valign="top" style="padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:18px;color:#606060;font-family:Helvetica;font-size:11px;line-height:125%;text-align:left">
+                        <td valign="top" style="padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:18px;color:#212223;font-family:Helvetica;font-size:10px;line-height:125%;text-align:center">
                         
-                            <em>Copyright © Serra Natural 2015.</em><br>
-                            <em>Alameda do Ingá, 754 - Vila da Serra - Nova Lima.</em><br>
+                            <strong><em>Copyright © 2015 Serra Natural</em><br>
 <br>
-<strong>Nosso endereço de e-mail:</strong><br>
+Alameda do Ingá, 754 - Vila da Serra - Nova Lima<br>
+<a href="tel:31%208282-8052" value="+553182828052" target="_blank">31 8282-8052</a></strong><br>
+<br>
+<strong>Nosso email é:</strong><br>
 <a href="mailto:mkt@serranatural.com" target="_blank">mkt@serranatural.com</a><br>
 <br>
-Envie e-mail para <a href="mailto:contato@serranatural.com" target="_blank">contato@serranatural.com</a> com o assunto <strong>SAIR </strong>para cancelar o recebimento deste.<br>
-<br>
-&nbsp;
+Não quer mais receber nossos e-mails?<br>
+Envie e-mail com o assunto SAIR para <a href="mailto:contato@serranatural.com" target="_blank">contato@serranatural.com</a>.
                         </td>
                     </tr>
                 </tbody></table>
@@ -194,6 +208,9 @@ Envie e-mail para <a href="mailto:contato@serranatural.com" target="_blank">cont
         </tr>
     </tbody>
 </table></td>
+                                                    </tr>
+                                                </tbody></table>
+                                            </td>
                                         </tr>
                                     </tbody></table>
                                     
@@ -205,4 +222,3 @@ Envie e-mail para <a href="mailto:contato@serranatural.com" target="_blank">cont
                 </tr>
             </tbody></table>
         </center>
-
