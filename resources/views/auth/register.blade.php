@@ -4,36 +4,45 @@
 
 @section('conteudo')
 
-<form method="POST" action="/auth/register">
-    {!! csrf_field() !!}
+<h1 class="text-right">Novo usuário</h1>
 
-    <div>
-        Name
-        <input type="text" name="name" value="{{ old('name') }}" class="form-control">
-    </div>
+<div class="panel panel-default">
+        <div class="panel-heading"><h5>Dados do usuário</h5></div>
+        <div class="panel-body">
 
-    <div>
-        Email
-        <input type="email" name="email" value="{{ old('email') }}" class="form-control">
-    </div>
-    <br />
-    <div>
-        Tipo usuario
-        <input type="text" name="tipo_usuario" value="{{ old('tipo_usuario') }}" class="form-control">
-    </div>
-    <div>
-        Password
-        <input type="password" name="password" class="form-control">
-    </div>
+        <form method="POST" action="/auth/register">
+            {!! csrf_field() !!}
 
-    <div>
-        Confirm Password
-        <input type="password" name="password_confirmation" class="form-control">
-    </div>
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="name" value="{{ old('name') }}" class="form-control">
+            </div>
 
-    <div>
-        <button type="submit" class="btn btn-primary">Registrar</button>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" value="{{ old('email') }}" class="form-control">
+            </div>
+            <br />
+            <div class="form-group">
+                <label>Tipo usuario</label>
+                <input type="text" name="tipo_usuario" value="{{ old('tipo_usuario') }}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" name="password_confirmation" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Registrar</button>
+            </div>
+        </form>
+
     </div>
-</form>
+</div>
 
 @stop

@@ -36,11 +36,11 @@ class AuthController extends Controller
     {
         $this->middleware('guest', [
 
-            'except' => ['getLogout', 'novoUser', 'salvaUsuario'],
+            'except' => ['getLogout', 'novoUser', 'salvaUsuario', 'editaUsuario', 'updateUsuario'],
 
             ]);
 
-        $this->middleware('auth', ['only' => ['novoUser']]);
+        $this->middleware('auth', ['only' => ['novoUser', 'editaUsuario', 'updateUsuario', 'salvaUsuario']]);
     }
 
     /**
@@ -82,7 +82,7 @@ class AuthController extends Controller
 
         ];
 
-        return redirect()->action('ProdutosController@formPrato')->with($dados);
+        return redirect('/admin')->with($dados);
     }
 
     public function novoUser()
@@ -90,6 +90,34 @@ class AuthController extends Controller
 
         return view('auth/register');
 
+    }
+
+        protected function updateUsuario()
+    {
+
+        $usuario = Request::all();
+            
+        User::where('id', '=', \Auth::user()->id)
+            ->update([
+                'name' => $usuario['name'],
+                'email' => $usuario['email'],
+                'password' => bcrypt($usuario['password']),
+                ]);
+
+        $dados = [
+
+        'msg_retorno' => 'Usuario alterado com sucesso',
+        'tipo_retorno' => 'success'
+
+        ];
+
+        return view('adm/usuarios/config')->with($dados);
+    }
+
+    public function editaUsuario()
+    {
+
+        return view('adm/usuarios/config');
     }
 
 

@@ -53,9 +53,12 @@ Route::post('auth/login', 'Auth\AuthController@postLogin');
 Route::get('/auth/logout', 'Auth\AuthController@getLogout');
 
 // Registration routes...
-Route::get('auth/register', 'Auth\AuthController@novoUser');
+Route::get('/admin/usuarios/add', 'Auth\AuthController@novoUser');
 Route::post('auth/register', 'Auth\AuthController@salvaUsuario');
 
-Route::get('auth/password', 'Auth\PasswordController@formSenha');
+Route::get('password', 'Auth\PasswordController@formSenha');
 Route::post('password/email', 'Auth\PasswordController@resetPass');
+
+Route::get('/admin/usuarios/configuracoes', 'Auth\AuthController@editaUsuario');
+Route::post('/admin/usuarios/configuracoes/update', 'Auth\AuthController@updateUsuario');
 

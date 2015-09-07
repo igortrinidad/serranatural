@@ -1,6 +1,8 @@
 @extends('layout/admin')
 
 @section('conteudo')
+
+<h1 class="text-right">Recuperação de senha</h1>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
@@ -9,16 +11,15 @@
 				<div class="panel-heading">Reset Password</div>
 				<div class="panel-body">
 
-@if (count($errors) > 0)
-  <div class="alert alert-danger">
-    <ul>
-      @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-      @endforeach
-    </ul>
- </div>
-@endif
-
+					@if (count($errors) > 0)
+					  <div class="alert alert-danger">
+					    <ul>
+					      @foreach ($errors->all() as $error)
+					        <li>{{ $error }}</li>
+					      @endforeach
+					    </ul>
+					 </div>
+					@endif
 
 					<form class="form-horizontal" role="form" method="POST" action="{{ url('/password/email') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">

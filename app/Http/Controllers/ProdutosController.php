@@ -119,7 +119,8 @@ class ProdutosController extends Controller
                      ->orderBY('qtdVoto', 'DESC')
                      ->take(5)
                      ->get();
-        
+
+
         $totalVotos = DB::table('votacaoPratosDoDia')
                      ->select(DB::raw('pratos_id, COUNT(*) as total'))
                      ->from('votacaoPratosDoDia')
@@ -127,12 +128,27 @@ class ProdutosController extends Controller
                      ->where('promocoes.ativo', '=', 1)
                      ->first();
 
+        $votosGeral = Voto::select(DB::raw('pratos_id, COUNT(*) as qtdVoto'))
+             ->from('votacaoPratosDoDia')
+             ->groupBY('pratos_id')
+             ->orderBY('qtdVoto', 'DESC')
+             ->take(5)
+             ->get();
+
+        $totalVotosGeral = DB::table('votacaoPratosDoDia')
+                     ->select(DB::raw('pratos_id, COUNT(*) as total'))
+                     ->from('votacaoPratosDoDia')
+                     ->first();
+        
+
 
         return view('adm/produtos/pratosSemana')->with(
             ['pratos' => $pratos, 
             'agenda' => $agenda,
             'votos' => $votos,
-            'totalVotos' => $totalVotos
+            'totalVotos' => $totalVotos,
+            'votosGeral' => $votosGeral,
+            'totalVotosGeral' => $totalVotosGeral,
             ]);
     }
 

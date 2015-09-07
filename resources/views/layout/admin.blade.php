@@ -262,7 +262,9 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="#"><i class="fa fa-user fa-fw"></i> {{ Auth::user()->name }}</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Configurações</a>
+                        <li><a href="/admin/usuarios/configuracoes"><i class="fa fa-gear fa-fw"></i> Configurações</a>
+                        </li>
+                        <li><a href="/admin/usuarios/add"><i class="fa fa-plus fa-fw"></i> Adiciona novo</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/auth/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
