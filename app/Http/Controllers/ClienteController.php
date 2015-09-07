@@ -19,7 +19,7 @@ class ClienteController extends Controller
 
     public function lista()
     {
-        $lista = Cliente::all();
+        $lista = Cliente::paginate(10);
 
         $dados = [
 

@@ -10,6 +10,42 @@
 	 </div>
 	@endif
 
+ <div class="panel panel-default">
+	<div class="panel-heading"><h5>Lista Pratos</h5></div>
+	<div class="panel-body">
+
+		<div class="inline text-right">
+					<a href="{!! $listaPratos->previousPageUrl() !!}" class="btn btn-primary"><i class="fa fa-chevron-left"></i></a>
+					<a href="{!! $listaPratos->nextPageUrl() !!}" class="btn btn-primary"><i class="fa fa-chevron-right"></i></a>
+				</div><br />
+
+		<table class="table table-bordered">
+			<thead><strong>
+				<tr>
+					<td>Nome</td>
+					<td>Acompanhamentos</td>
+					<td>Edita</td>
+					<td>Ativo</td>
+				</tr>
+			</thead></strong>
+			@foreach($listaPratos as $p)
+			<tr>
+				<td>{{isset($p) ? $p->prato : ''}}</td>
+				<td>{{isset($p) ? $p->acompanhamentos : ''}}</td>
+				<td><a href="/admin/produtos/pratos/edita/{{$p->id}}"><i class="fa fa-pencil"></i></a></td>
+				<td>
+					@if($p->ativo == 1)
+						<a href="/admin/produtos/pratos/desativar/{{$p->id}}"><i class="fa fa-check-square-o"></i></a>
+					@else
+						<a href="/admin/produtos/pratos/ativar/{{$p->id}}"><i class="fa fa-square-o"></i></a>
+					@endif
+				</td>
+			</tr>
+			@endforeach
+		</table>
+
+	</div>
+</div>
 
 <div class="panel panel-default">
 	<div class="panel-heading"><h5>Cadastrar Pratos</h5></div>
@@ -34,38 +70,6 @@
 
 			</form>
 
-	</div>
-</div>
-
- <div class="panel panel-default">
-	<div class="panel-heading"><h5>Lista Pratos</h5></div>
-	<div class="panel-body">
-
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<td>Nome</td>
-					<td>Acompanhamentos</td>
-					<td>Edita</td>
-					<td>Ativo</td>
-				</tr>
-			</thead>
-			@foreach($listaPratos as $p)
-			<tr>
-				<td>{{isset($p) ? $p->prato : ''}}</td>
-				<td>{{isset($p) ? $p->acompanhamentos : ''}}</td>
-				<td><a href="/admin/produtos/pratos/edita/{{$p->id}}"><i class="fa fa-pencil"></i></a></td>
-				<td>
-					@if($p->ativo == 1)
-						<a href="/admin/produtos/pratos/desativar/{{$p->id}}"><i class="fa fa-check-square-o"></i></a>
-					@else
-						<a href="/admin/produtos/pratos/ativar/{{$p->id}}"><i class="fa fa-square-o"></i></a>
-					@endif
-				</td>
-			</tr>
-			@endforeach
-		</table>
-		{!! $listaPratos->render() !!}
 	</div>
 </div>
 

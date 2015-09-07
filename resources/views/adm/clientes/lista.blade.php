@@ -7,6 +7,10 @@
 		<div class="panel panel-default">
 			<div class="panel-heading"><h5>Lista</h5></div>
 			<div class="panel-body">
+				<div class="inline text-right">
+					<a href="{!! $lista->previousPageUrl() !!}" class="btn btn-primary"><i class="fa fa-chevron-left"></i></a>
+					<a href="{!! $lista->nextPageUrl() !!}" class="btn btn-primary"><i class="fa fa-chevron-right"></i></a>
+				</div><br />
 
 			<table class="table table-bordered">
 				<thead>

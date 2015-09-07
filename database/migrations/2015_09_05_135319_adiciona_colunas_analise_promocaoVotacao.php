@@ -28,8 +28,8 @@ class AdicionaColunasAnalisePromocaoVotacao extends Migration
      */
     public function down()
     {
-            $table->integer('ticketsValidos');
-            $table->integer('participantesUnicos');
-            $table->integer('mediaTicketDia');
+            $table->dropColumn('ticketsValidos');
+            $table->dropColumn('participantesUnicos');
+            $table->dropColumn('mediaTicketDia');
         }
 }
