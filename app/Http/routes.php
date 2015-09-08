@@ -11,10 +11,10 @@
 |
 */
 
-
+//Login
 Route::get('/login', function(){return view('auth/login');});
 
-
+//Promoções
 Route::get('/PromoVotacao', 'PromocoesController@paginaVotacao');
 Route::post('/adm/promocoes/votacao/addVotoCliente', 'PromocoesController@addVotoCliente');
 Route::post('/adm/promocoes/addVotoCadastro', 'PromocoesController@addVotoCadastro');
@@ -22,7 +22,7 @@ Route::get('admin/promocoes', 'PromocoesController@indexPromocoes');
 Route::post('admin/promocoes/sorteioVotacao', 'PromocoesController@sorteioVotacao');
 Route::post('admin/promocoes/salvaSorteado', 'PromocoesController@salvaSorteado');
 
-
+//Produtos
 Route::get('/admin', 'ProdutosController@indexPrato');
 Route::get('/admin/produtos/pratos/lista', 'ProdutosController@indexPrato');
 Route::get('/admin/produtos/pratos/mostra/{id}', 'ProdutosController@mostraPrato');
@@ -31,6 +31,7 @@ Route::post('/admin/produtos/pratos/edita/{id}', 'ProdutosController@updatePrato
 Route::get('/admin/produtos/pratos/ativar/{id}', 'ProdutosController@ativarPrato');
 Route::get('/admin/produtos/pratos/desativar/{id}', 'ProdutosController@desativarPrato');
 
+//Pratos
 Route::post('/admin/produtos/salvaPratos', 'ProdutosController@salvaPrato');
 Route::post('/admin/produtos/pratos/ingredientes/add', 'ReceitasController@addIngrediente');
 Route::post('/admin/produtos/ingrediente/editar/{id}', 'ReceitasController@editaIngrediente');
@@ -41,12 +42,16 @@ Route::post('/admin/produtos/salvaPratoSemana', 'ProdutosController@salvaPratoSe
 Route::get('/admin/produtos/excluiPratoSemana/{id}', 'ProdutosController@excluiPratoSemana');
 Route::post('/admin/produtos/addPratoSemana/{id}', 'ProdutosController@addPratoSemana');
 
+// Clientes
 Route::get('/admin/clientes/lista', 'ClienteController@lista');
+Route::get('/admin/clientes/mostra/{id}', 'ClienteController@mostraCliente');
 
+//A bertura
 Route::get('/', function () {
     return view('welcome');
 });
 
+// Função para testar views
 Route::get('/teste', function () {
     return view('emails/marketing/pratoDoDia');
 });

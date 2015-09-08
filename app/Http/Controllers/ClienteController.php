@@ -35,9 +35,17 @@ class ClienteController extends Controller
      *
      * @return Response
      */
-    public function create()
+    public function mostraCliente()
     {
-        //
+        $id = Request::route('id');
+        $cliente = Cliente::where('id', '=', $id);
+
+        $dados = [
+            'cliente' => $cliente,
+        ];
+
+        return view('adm/clientes/mostra')->with($dados);
+
     }
 
     /**

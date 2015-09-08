@@ -35,6 +35,7 @@ class email_preferencias extends Command implements SelfHandling
         $prato = Pratos::where('id', '=', $pratoDoDia->pratos_id)->first();
 
 
+        dd($clientes);
 
         foreach($clientes as $cliente){
 
