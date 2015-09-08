@@ -43,15 +43,24 @@ class email_preferencias extends Command implements SelfHandling
 
         ];
 
-            Mail::send('emails.marketing.pratoDoDia', $dados, function ($message) use ($cliente, $dados)
+            Queue::push(function($job)
             {
 
-                $message->to($cliente->email, $cliente->nome);
-                $message->from('mkt@serranatural.com', 'Serra Natural');
-                $message->subject('Cardápio do dia');
-                $message->getSwiftMessage();
+                Mail::send('emails.marketing.pratoDoDia', $dados, function ($message) use ($cliente, $dados)
+                {
+
+                    $message->to($cliente->email, $cliente->nome);
+                    $message->from('mkt@serranatural.com', 'Serra Natural');
+                    $message->subject('Cardápio do dia');
+                    $message->getSwiftMessage();
+
+                });
+
+                $job->delete();
 
             });
+
+            
         }
 
     }
