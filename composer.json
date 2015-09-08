@@ -8,7 +8,8 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
         "guzzlehttp/guzzle": "~6.0",
-        "vinicius73/lavatar": "dev-master"
+        "vinicius73/lavatar": "dev-master",
+        "pda/pheanstalk": "^3.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
