@@ -32,7 +32,7 @@
 			<tr>
 				<td>{{isset($p) ? $p->prato : ''}}</td>
 				<td>{{isset($p) ? $p->acompanhamentos : ''}}</td>
-				<td><a href="/admin/produtos/pratos/edita/{{$p->id}}"><i class="fa fa-pencil"></i></a></td>
+				<td><a href="/admin/produtos/pratos/mostra/{{$p->id}}"><i class="fa fa-pencil"></i></a></td>
 				<td>
 					@if($p->ativo == 1)
 						<a href="/admin/produtos/pratos/desativar/{{$p->id}}"><i class="fa fa-check-square-o"></i></a>

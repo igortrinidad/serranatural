@@ -24,13 +24,17 @@ Route::post('admin/promocoes/salvaSorteado', 'PromocoesController@salvaSorteado'
 
 
 Route::get('/admin', 'ProdutosController@indexPrato');
-Route::get('/admin/produtos/addPrato', 'ProdutosController@indexPrato');
+Route::get('/admin/produtos/pratos/lista', 'ProdutosController@indexPrato');
+Route::get('/admin/produtos/pratos/mostra/{id}', 'ProdutosController@mostraPrato');
 Route::get('/admin/produtos/pratos/edita/{id}', 'ProdutosController@editaPrato');
 Route::post('/admin/produtos/pratos/edita/{id}', 'ProdutosController@updatePrato');
 Route::get('/admin/produtos/pratos/ativar/{id}', 'ProdutosController@ativarPrato');
 Route::get('/admin/produtos/pratos/desativar/{id}', 'ProdutosController@desativarPrato');
 
 Route::post('/admin/produtos/salvaPratos', 'ProdutosController@salvaPrato');
+Route::post('/admin/produtos/pratos/ingredientes/add', 'ReceitasController@addIngrediente');
+Route::post('/admin/produtos/ingrediente/editar/{id}', 'ReceitasController@editaIngrediente');
+Route::get('/admin/produtos/ingrediente/excluir/{id}', 'ReceitasController@excluiIngrediente');
 
 Route::get('/admin/produtos/pratosSemana', 'ProdutosController@semanaIndex');
 Route::post('/admin/produtos/salvaPratoSemana', 'ProdutosController@salvaPratoSemana');

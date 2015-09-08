@@ -22,6 +22,11 @@
 		<label>Acompanhamentos</label>
 		<textarea type="textarea" rows="5" name="acompanhamento" class="form-control">{!!$p->acompanhamentos!!}</textarea>
 	</div>
+
+	<div class="form-group">
+		<label>Modo de preparo</label>
+		<textarea type="textarea" rows="5" name="modo_preparo" class="form-control">{!!$p->modo_preparo!!}</textarea>
+	</div>
 	<button type="submit" class="btn btn-primary">Salvar</button>
 
 	</form>

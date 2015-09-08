@@ -10,7 +10,7 @@ class Pratos extends Model
 
     public $timestamps = false;
 
-    protected $fillable = array('id', 'prato', 'acompanhamentos');
+    protected $fillable = array('id', 'prato', 'acompanhamentos', 'modo_preparo');
 
 	public function agendaPratos(){
 		return $this->hasMany('serranatural\Models\AgendaPratos');

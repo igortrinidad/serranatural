@@ -318,7 +318,7 @@
                             <a href="#"><i class="fa fa-th-list"></i> Produtos<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="/admin/produtos/addPrato">Pratos do Dia</a>
+                                    <a href="/admin/produtos/pratos/lista">Pratos do Dia</a>
                                 </li>
                                 <li>
                                     <a href="/admin/produtos/pratosSemana">Agenda Pratos</a>

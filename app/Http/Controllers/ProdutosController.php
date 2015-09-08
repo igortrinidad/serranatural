@@ -14,6 +14,8 @@ use serranatural\Models\AgendaPratos;
 use serranatural\Models\Promocoes;
 use serranatural\Models\Voto;
 use serranatural\Models\Cliente;
+use serranatural\Models\Produto;
+use serranatural\Models\ReceitaPrato;
 
 class ProdutosController extends Controller
 {
@@ -21,6 +23,34 @@ class ProdutosController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    public function criaProduto()
+    {
+
+    }
+
+
+
+    public function mostraPrato()
+    {
+        $id = Request::route('id');
+
+        $prato = Pratos::where('id', '=', $id)->first();
+
+        $ingredientes = ReceitaPrato::where('prato_id', '=', $id)->get();
+
+
+        $produtos = Produto::where('is_materiaPrima', '=', 1)->get();
+
+        $dados = [
+            'prato' => $prato,
+            'produtos' => $produtos,
+            'ingredientes' => $ingredientes,
+        ];
+
+        return view('adm/produtos/prato/mostra')->with($dados);
+
     }
 
     public function editaPrato()
@@ -45,6 +75,7 @@ class ProdutosController extends Controller
         ->update([
             'prato' => Request::input('prato'),
             'acompanhamentos' => Request::input('acompanhamento'),
+            'modo_preparo' => Request::input('modo_preparo'),
 
             ]);
 
@@ -55,7 +86,7 @@ class ProdutosController extends Controller
 
         ];
 
-        return redirect()->action('ProdutosController@indexPrato')->with($dados);
+        return redirect('/admin/produtos/pratos/mostra/'.$id)->with($dados);
 
     }
 
@@ -75,7 +106,7 @@ class ProdutosController extends Controller
 
         ];
 
-        return view('adm/produtos/novoPrato')->with($dados);
+        return view('adm/produtos/prato/novoPrato')->with($dados);
     }
 
     /**
@@ -142,7 +173,7 @@ class ProdutosController extends Controller
         
 
 
-        return view('adm/produtos/pratosSemana')->with(
+        return view('adm/produtos/prato/pratosSemana')->with(
             ['pratos' => $pratos, 
             'agenda' => $agenda,
             'votos' => $votos,
