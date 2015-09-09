@@ -29,7 +29,7 @@
 					<td>{{$li->nome}}</td>
 					<td>{{$li->email}}</td>
 					<td>{{$li->telefone}}</td>
-					<td class="text-center"><a href="/admin/clientes/edita/{{$li->id}}"><i class="fa fa-search"></i></a></td>
+					<td class="text-center"><a href="/admin/clientes/mostra/{{$li->id}}"><i class="fa fa-search"></i></a></td>
 					<td>--</td>
 					<td>
 					@if($li->opt_email == 1)

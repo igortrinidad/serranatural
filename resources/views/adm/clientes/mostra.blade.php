@@ -2,7 +2,6 @@
 
 @section('conteudo')
 
-
 <h2 class="text-right">Detalhes</h2>
 
 	@if(Session::has('msg_retorno'))
@@ -23,45 +22,39 @@
 		<div class="form-group">
 			<label>Telefone</label>
 			<p>{{$cliente->telefone}}</p>
+		</div>
+				
 			
-			<div class="form-group">
+		<div class="form-group">
 			<label>E-mail</label>
 			<p>{{$cliente->email}}</p>
-			</div>
+		</div>
+
+		<div class="form-group">
+			<label>Newsletter</label>
+
+			@if($cliente->opt_email == 1)
+			<a href="/admin/clientes/sairEmail/{{$cliente->id}}"><i class="fa fa-check-square-o"></i></a>
+			@else
+			<a href="/admin/clientes/entrarEmail/{{$cliente->id}}"><i class="fa fa-square-o"></i></a>
+			@endif
+		</div>
 
 		<a href="/admin/clientes/edita/{{$cliente->id}}" class="btn btn-primary">Editar<i class="fa fa-pencil"></i></a>
 
 	</div>
 </div>
 
-</div>
-
 
 	<div class="panel panel-default">
 		<div class="panel-heading"><h5>Preferências</h5></div>
 		<div class="panel-body">
+			@foreach($preferencias as $preferencia)
 
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<td class="text-center">Nome</td>
-						<td class="text-center">Quantidade / prato</td>
-						<td class="text-center">Unidade</td>
-						<td class="text-center">Editar</td>
-						<td class="text-center">Excluir</td>
-					</tr>
-				</thead>
+			{{$preferencia->prato}}, 
 
-				@foreach($ingredientes as $ingrediente)
-				<tr>
-					<td>{{$ingrediente->produto->nome_produto}}</td>
-					<td>{{$ingrediente->quantidade}}</td>
-					<td>{{$ingrediente->medida}}</td>
-					<td class="text-center"><a href="/admin/produtos/ingrediente/editar/{{$ingrediente->id}}"><i class="fa fa-pencil"></i></td>
-					<td class="text-center"><a href="/admin/produtos/ingrediente/excluir/{{$ingrediente->id}}"><i class="fa fa-trash"></i></td>
-				</tr>
-				@endforeach
-			</table>
+			@endforeach
+			
 		</div>
 	</div>
 

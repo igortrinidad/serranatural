@@ -9,6 +9,7 @@ use serranatural\Http\Requests;
 use serranatural\Http\Controllers\Controller;
 
 use serranatural\Models\Cliente;
+use serranatural\Models\Preferencias;
 
 class ClienteController extends Controller
 {
@@ -39,10 +40,13 @@ class ClienteController extends Controller
     public function mostraCliente()
     {
         $id = Request::route('id');
-        $cliente = Cliente::where('id', '=', $id);
+        $cliente = Cliente::where('id', '=', $id)->first();
+        $preferencias = Preferencias::join('pratosDoDia', 'preferenciaClientes.preferencias', '=', 'pratosDoDia.id')
+                                        ->where('clienteId', '=', $id)->get();
 
         $dados = [
             'cliente' => $cliente,
+            'preferencias' => $preferencias
         ];
 
         return view('adm/clientes/mostra')->with($dados);

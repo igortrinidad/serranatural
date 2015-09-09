@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
                      ->hourly();
 
             $schedule->command('email_preferencias')
-                     ->dailyAt('09:00');
+                     ->dailyAt('07:23');
         }
 
     }
