@@ -14,6 +14,8 @@ use serranatural\Models\Promocoes;
 use serranatural\Models\Voto;
 use serranatural\Models\Cliente;
 
+
+
 class email_preferencias extends Command implements SelfHandling
 {
      
@@ -34,7 +36,11 @@ class email_preferencias extends Command implements SelfHandling
 
         $prato = Pratos::where('id', '=', $pratoDoDia->pratos_id)->first();
 
+        set_time_limit(900);
+
         foreach($clientes as $cliente){
+
+
 
         $dados = [
 
@@ -43,10 +49,7 @@ class email_preferencias extends Command implements SelfHandling
 
         ];
 
-            Queue::push(function($job)
-            {
-
-                Mail::send('emails.marketing.pratoDoDia', $dados, function ($message) use ($cliente, $dados)
+                Mail::queue('emails.marketing.pratoDoDia', $dados, function ($message) use ($cliente, $dados)
                 {
 
                     $message->to($cliente->email, $cliente->nome);
@@ -55,10 +58,6 @@ class email_preferencias extends Command implements SelfHandling
                     $message->getSwiftMessage();
 
                 });
-
-                $job->delete();
-
-            });
 
             
         }
