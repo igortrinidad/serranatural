@@ -45,6 +45,8 @@ Route::post('/admin/produtos/addPratoSemana/{id}', 'ProdutosController@addPratoS
 // Clientes
 Route::get('/admin/clientes/lista', 'ClienteController@lista');
 Route::get('/admin/clientes/mostra/{id}', 'ClienteController@mostraCliente');
+Route::get('/admin/clientes/sairEmail/{id}', 'ClienteController@sairEmail');
+Route::get('/admin/clientes/entrarEmail/{id}', 'ClienteController@entrarEmail');
 
 //A bertura
 Route::get('/', function () {

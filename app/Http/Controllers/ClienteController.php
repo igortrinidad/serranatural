@@ -2,7 +2,8 @@
 
 namespace serranatural\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\DB;
 
 use serranatural\Http\Requests;
 use serranatural\Http\Controllers\Controller;
@@ -54,9 +55,17 @@ class ClienteController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request)
+    public function sairEmail($id)
     {
-        //
+        Cliente::where('id', '=', $id)
+                ->update(['opt_email' => 0]);
+
+        $dados = [
+            'msg_retorno' => 'Cliente retirado da lista de e-mail',
+            'tipo_retorno' => 'Cliente adicionado à lista de e-mail',
+        ];
+
+        return back()->with($dados);
     }
 
     /**
@@ -65,9 +74,19 @@ class ClienteController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id)
+    public function entrarEmail()
     {
-        //
+        $id = Request::route('id');
+
+        Cliente::where('id', '=', $id)
+        ->update(['opt_email' => 1]);
+
+        $dados = [
+            'msg_retorno' => 'Cliente retirado da lista de e-mail',
+            'tipo_retorno' => 'Cliente adicionado à lista de e-mail',
+        ];
+
+        return back()->with($dados);
     }
 
     /**

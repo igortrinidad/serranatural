@@ -18,7 +18,7 @@
 						<td>Nome</td>
 						<td>E-mail</td>
 						<td>Telefone</td>
-						<td>Edita</td>
+						<td>Mostra</td>
 						<td>Excluir</td>
 						<td>Lista Email</td>
 					</tr>
@@ -29,9 +29,16 @@
 					<td>{{$li->nome}}</td>
 					<td>{{$li->email}}</td>
 					<td>{{$li->telefone}}</td>
+					<td class="text-center"><a href="/admin/clientes/edita/{{$li->id}}"><i class="fa fa-search"></i></a></td>
 					<td>--</td>
-					<td>--</td>
-					<td>--</td>
+					<td>
+					@if($li->opt_email == 1)
+						<a href="/admin/clientes/sairEmail/{{$li->id}}"><i class="fa fa-check-square-o"></i></a>
+					@else
+						<a href="/admin/clientes/entrarEmail/{{$li->id}}"><i class="fa fa-square-o"></i></a>
+					@endif
+
+					</td>
 				</tr>	
 		@endforeach
 			</table>

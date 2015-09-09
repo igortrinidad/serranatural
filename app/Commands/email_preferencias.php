@@ -32,6 +32,7 @@ class email_preferencias extends Command implements SelfHandling
 
         $clientes = Cliente::join('preferenciaClientes', 'clientes.id', '=', 'preferenciaClientes.clienteId')
                             ->where('preferenciaClientes.preferencias', '=', $pratoDoDia->pratos_id)
+                            ->where('clientes.opt_email', '=', 1)
                             ->get();
 
         $prato = Pratos::where('id', '=', $pratoDoDia->pratos_id)->first();
