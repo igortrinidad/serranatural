@@ -35,7 +35,8 @@
     <div class="row">
     <div class="col-lg-12">
         <div class="col-lg-4"></div>
-        <div class="col-lg-4">
+        <div class="col-lg-8">
+            <div class="row">
 
             <div class="panel panel-default painel-sorteio" id="painel">
                 <div class="panel-heading text-right"><strong>Login</strong></div>
@@ -74,6 +75,7 @@
                             <button type="submit" class="btn btn-primary btn-block">Login</button>
                         </div>
                     </form>
+                        </div>
                         </div>
 
                 </div>
