@@ -11,10 +11,12 @@ body{
     margin-top: -225px; /* metade da altura */
     position: fixed;
     top: 50%;
-    width: 22em;
+    width: 24em;
      -webkit-box-shadow: 7px 8px 30px -9px rgba(0,0,0,0.61);
 	-moz-box-shadow: 7px 8px 30px -9px rgba(0,0,0,0.61);
 	box-shadow: 7px 8px 30px -9px rgba(0,0,0,0.61);
+    margin-right: 20px;
+    margin-left:20px;
 
 }
 
