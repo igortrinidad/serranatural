@@ -33,58 +33,57 @@
 
 <div class="container">
     <div class="row">
-    <div class="col-lg-12">
-        <div class="col-lg-4"></div>
-        <div class="col-lg-8">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
             <div class="row">
 
-            <div class="panel panel-default painel-sorteio" id="painel">
-                <div class="panel-heading text-right"><strong>Login</strong></div>
-                <div class="panel-body">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10">
-                        <img src="img/logo_fundotransp.png" width="140px" class="img-responsive text-center logo"/>
-                        <span class="divisor"></span>
+                <div class="panel panel-default painel-sorteio" id="painel">
+                    <div class="panel-heading text-right"><strong>Login</strong></div>
+                    <div class="panel-body">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <img src="img/logo_fundotransp.png" width="140px" class="img-responsive text-center logo"/>
+                            <span class="divisor"></span>
 
-@if (count($errors) > 0)
-  <div class="alert alert-danger">
-    <ul>
-      @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-      @endforeach
-    </ul>
-  </div>
-@endif
+    @if (count($errors) > 0)
+      <div class="alert alert-danger">
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
+                            <form method="POST" action="/auth/login">
+                                                    {!! csrf_field() !!}
 
-
-                    <form method="POST" action="/auth/login">
-                        {!! csrf_field() !!}
-
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" name="email" value="{{ old('email') }}" class="form-control"/>
-                        </div>
-                            <label>Password</label>
-                            <input type="password" name="password" id="password" class="form-control"/>
-                        
-                            <div class="form-group">
-                            <input type="checkbox" name="remember" class="form-control"/> Lembrar-me
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" name="email" value="{{ old('email') }}" class="form-control"/>
+                                </div>
+                                    <label>Password</label>
+                                    <input type="password" name="password" id="password" class="form-control"/>
+                                
+                                    <div class="form-group">
+                                    <input type="checkbox" name="remember" class="form-control"/> Lembrar-me
+                                    </div>
+                                
+                                <div class="botao_login">
+                                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                                </div>
+                            </form>
                             </div>
-                        
-                        <div class="botao_login">
-                            <button type="submit" class="btn btn-primary btn-block">Login</button>
-                        </div>
-                    </form>
-                        </div>
+                        <div class="col-md-1"></div>
                         </div>
 
                 </div>
+
             </div>
-
         </div>
+        <div class="col-md-3"></div>
 
     </div>
-    </div>
+
 </div>
 
 
