@@ -47,6 +47,8 @@ Route::get('/admin/clientes/lista', 'ClienteController@lista');
 Route::get('/admin/clientes/mostra/{id}', 'ClienteController@mostraCliente');
 Route::get('/admin/clientes/sairEmail/{id}', 'ClienteController@sairEmail');
 Route::get('/admin/clientes/entrarEmail/{id}', 'ClienteController@entrarEmail');
+Route::get('/admin/clientes/retiraPreferencias/{clienteId}/{preferencia}', 'ClienteController@excluiPreferencia');
+Route::post('/admin/clientes/addPreferencia', 'ClienteController@addPreferencia');
 
 //A bertura
 Route::get('/', function () {

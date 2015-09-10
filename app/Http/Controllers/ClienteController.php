@@ -10,6 +10,7 @@ use serranatural\Http\Controllers\Controller;
 
 use serranatural\Models\Cliente;
 use serranatural\Models\Preferencias;
+use serranatural\Models\Pratos;
 
 class ClienteController extends Controller
 {
@@ -43,10 +44,12 @@ class ClienteController extends Controller
         $cliente = Cliente::where('id', '=', $id)->first();
         $preferencias = Preferencias::join('pratosDoDia', 'preferenciaClientes.preferencias', '=', 'pratosDoDia.id')
                                         ->where('clienteId', '=', $id)->get();
+        $pratos = Pratos::all();
 
         $dados = [
             'cliente' => $cliente,
-            'preferencias' => $preferencias
+            'preferencias' => $preferencias,
+            'pratos' => $pratos,
         ];
 
         return view('adm/clientes/mostra')->with($dados);
@@ -87,7 +90,7 @@ class ClienteController extends Controller
 
         $dados = [
             'msg_retorno' => 'Cliente retirado da lista de e-mail',
-            'tipo_retorno' => 'Cliente adicionado à lista de e-mail',
+            'tipo_retorno' => 'danger',
         ];
 
         return back()->with($dados);
@@ -99,9 +102,22 @@ class ClienteController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit($id)
+    public function excluiPreferencia()
     {
-        //
+        $clienteID = Request::route('clienteId');
+        $preferencia = Request::route('preferencia');
+
+        Preferencias::where('preferencias', '=', $preferencia)
+                        ->where('clienteId', '=', $clienteID)
+                        ->delete();
+
+         $dados = [
+            'msg_retorno' => 'Preferência excluida com sucesso.',
+            'tipo_retorno' => 'danger',
+        ];
+
+        return back()->with($dados);
+
     }
 
     /**
@@ -111,9 +127,22 @@ class ClienteController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function addPreferencia()
     {
-        //
+        $request = Request::all();
+
+        Preferencias::create([
+            'clienteId' => $request['clienteId'],
+            'preferencias' => $request['pratos_id'],
+            ]);
+
+        $dados = [
+            'msg_retorno' => 'Preferência adicionada com sucesso.',
+            'tipo_retorno' => 'success',
+        ];
+
+        return back()->with($dados);
+
     }
 
     /**

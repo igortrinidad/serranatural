@@ -49,11 +49,33 @@
 	<div class="panel panel-default">
 		<div class="panel-heading"><h5>Preferências</h5></div>
 		<div class="panel-body">
+
+			<p>
+				<form action="/admin/clientes/addPreferencia" class="form-inline" method="POST">
+			        <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+			        <input type="hidden" name="clienteId" value="{{$cliente->id}}" />
+					    <div class="form-group">
+					      <label>Prato:</label>
+								<select name="pratos_id" class="form-control">
+									@foreach($pratos as $prato)
+										<option value="{{$prato->id}}">{{$prato->prato}}</option>
+									@endforeach
+								</select>
+					    </div>
+					    <div class="form-group">
+					    	<button type="submit" class="btn btn-default">Salvar preferência</button>
+					  	</div>
+					  </form>
+			</p>
+
+			<span class="divisor"></span>
 			@foreach($preferencias as $preferencia)
 
-			{{$preferencia->prato}}, 
-
+				<div class="btn btn-default inline">{{$preferencia->prato}}<a href="/admin/clientes/retiraPreferencias/{{$cliente->id}}/{{$preferencia->preferencias}}"> <i class="fa fa-times"></i></a>
+				</div>
 			@endforeach
+
+
 			
 		</div>
 	</div>
