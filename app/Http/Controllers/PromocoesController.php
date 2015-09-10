@@ -68,7 +68,7 @@ class PromocoesController extends Controller
            'tipo_retorno' => 'danger'
        ];
 
-       return redirect()->action('PromocoesController@paginaVotacao')->with($dados); 
+       return redirect()->action('PromocoesController@paginaVotacao')->withinput()->with($dados); 
 
         }
         
@@ -126,7 +126,7 @@ class PromocoesController extends Controller
             'tipo_retorno' => 'danger'
         ];
 
-        return redirect()->action('PromocoesController@paginaVotacao')->with($dados);
+        return redirect()->action('PromocoesController@paginaVotacao')->withinput()->with($dados);
 
         }
 
@@ -149,7 +149,7 @@ class PromocoesController extends Controller
            'tipo_retorno' => 'danger'
             ];
 
-            return redirect()->action('PromocoesController@paginaVotacao')->with($dados); 
+            return redirect()->action('PromocoesController@paginaVotacao')->withinput()->with($dados); 
 
             } else {
 
@@ -160,11 +160,11 @@ class PromocoesController extends Controller
 
             if ($cliente['id'] == ''){
                 $dados = [
-               'msg_retorno' => 'Usuario não encontrado',
+               'msg_retorno' => 'Usuario não encontrados',
                'tipo_retorno' => 'danger'
            ];
 
-           return redirect()->action('PromocoesController@paginaVotacao')->with($dados); 
+           return redirect()->back()->withinput()->with($dados); 
 
             } else {
 

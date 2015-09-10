@@ -8,9 +8,9 @@ body{
 #painel{
 
 	width: 400px;
-    height: 400px;
+    height: 450px;
     margin-left: -200px; /* metade da largura */
-    margin-top: -200px; /* metade da altura */
+    margin-top: -225px; /* metade da altura */
     position: fixed;
     top: 50%;
     left: 50%;
@@ -22,4 +22,19 @@ body{
 
 .div_separa{
 	margin-top: 15px;
+}
+
+.logo{
+    margin-right: auto;
+    margin-left: auto;
+    padding-bottom: 15px;
+}
+
+.divisor {
+  height: 1px;
+  width:100%;
+  display:block; /* for use on default inline elements like span */
+  margin: 9px 0;
+  overflow: hidden;
+  background-color: #e5e5e5;
 }

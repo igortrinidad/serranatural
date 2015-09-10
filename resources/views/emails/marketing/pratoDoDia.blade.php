@@ -67,7 +67,7 @@
                             <td valign="top" style="padding-right:9px;padding-left:9px;padding-top:0;padding-bottom:0;text-align:center">
                                 
                                     
-                                        <img align="center" alt="" src="https://ci4.googleusercontent.com/proxy/PrjeYH1pBQ4a9aHJp0YtLz3xTLSgXqZgsZXklBtCc1O0RNrFLJ8eI9eEVkCg2hxTVQBfZGoLpb85g3tBqzT1Y1J0bjYDEyKWaq8TtXxliWQYcDSMuBvVDmUwAavQYiPN9_u_utYIgqNMzeup-hEP9Vn9m15PCdfpXhO7Jd4=s0-d-e1-ft#https://gallery.mailchimp.com/c2e69283f81b0ca8baeeeab86/images/ce1de324-a8c4-4abf-a2b3-476ebf4e74ba.png" width="280" style="max-width:280px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;outline:none;text-decoration:none" class="CToWUd">
+                                        <a href="http://www.serranatural.com"><img align="center" alt="" src="https://ci4.googleusercontent.com/proxy/PrjeYH1pBQ4a9aHJp0YtLz3xTLSgXqZgsZXklBtCc1O0RNrFLJ8eI9eEVkCg2hxTVQBfZGoLpb85g3tBqzT1Y1J0bjYDEyKWaq8TtXxliWQYcDSMuBvVDmUwAavQYiPN9_u_utYIgqNMzeup-hEP9Vn9m15PCdfpXhO7Jd4=s0-d-e1-ft#https://gallery.mailchimp.com/c2e69283f81b0ca8baeeeab86/images/ce1de324-a8c4-4abf-a2b3-476ebf4e74ba.png" width="280" style="max-width:280px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;outline:none;text-decoration:none" class="CToWUd"></a>
                                     
                                 
                             </td>
