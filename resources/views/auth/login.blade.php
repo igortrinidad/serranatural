@@ -40,18 +40,20 @@
             <div class="panel panel-default painel-sorteio" id="painel">
                     <div class="panel-heading text-right"><strong>Login</strong></div>
                     <div class="panel-body">
-                            <img src="img/logo_fundotransp.png" width="140px" class="img-responsive text-center logo"/>
+                            <img src="/img/logo_fundotransp.png" width="140px" class="img-responsive text-center logo"/>
+                        <div class="formulario">
                             <span class="divisor"></span>
 
-    @if (count($errors) > 0)
-      <div class="alert alert-danger">
-        <ul>
-          @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-          @endforeach
-        </ul>
-      </div>
-    @endif
+                            @if (count($errors) > 0)
+                              <div class="alert alert-danger">
+                                <ul>
+                                  @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                  @endforeach
+                                </ul>
+                              </div>
+                            @endif
+
                             <form method="POST" action="/auth/login">
                                                     {!! csrf_field() !!}
 
@@ -71,6 +73,7 @@
                                     <button type="submit" class="btn btn-primary btn-block">Login</button>
                                 </div>
                             </form>
+                        </div>
                     </div>
 
                 </div>
@@ -79,6 +82,8 @@
         <div class="col-md-4">
         </div>
     </div>
+
+
 </div>
 
 
