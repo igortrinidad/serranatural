@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         \serranatural\Console\Commands\Inspire::class,
         \serranatural\Commands\log_votos::class,
         \serranatural\Commands\email_preferencias::class,
+        \serranatural\Commands\email_pratoDoDia::class,
     ];
 
     /**
