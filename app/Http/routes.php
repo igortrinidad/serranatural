@@ -62,7 +62,7 @@ Route::get('/teste', function () {
     return view('adm/produtos/prato/landPratoDoDia');
 });
 
-Route::get('/prato', 'ProdutosController@landPratoDoDia');
+Route::get('/hoje', 'ProdutosController@landPratoDoDia');
 
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');

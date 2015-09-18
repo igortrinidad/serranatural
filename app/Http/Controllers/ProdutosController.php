@@ -22,14 +22,14 @@ class ProdutosController extends Controller
     
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => 'landPratoDoDia']);
+
     }
 
     public function criaProduto()
     {
 
     }
-
 
 
     public function mostraPrato()
