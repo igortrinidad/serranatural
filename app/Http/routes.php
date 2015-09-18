@@ -59,8 +59,10 @@ Route::get('/', function () {
 
 // Função para testar views
 Route::get('/teste', function () {
-    return view('emails/marketing/pratoDoDia');
+    return view('adm/produtos/prato/landPratoDoDia');
 });
+
+Route::get('/prato', 'ProdutosController@landPratoDoDia');
 
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');

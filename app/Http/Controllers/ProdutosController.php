@@ -302,8 +302,18 @@ class ProdutosController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
+    public function landPratoDoDia()
     {
-        //
+        $pratoDoDia = AgendaPratos::where('dataStamp', '=', date('Y-m-d'))
+                                    ->first();
+
+        $prato = Pratos::where('id', '=', $pratoDoDia->pratos_id)->first();
+
+        $dados = [
+            'prato' => $prato,
+            'data' => date('d/m/Y')
+        ];
+
+        return view('adm/produtos/prato/landPratoDoDia')->with($dados);
     }
 }
