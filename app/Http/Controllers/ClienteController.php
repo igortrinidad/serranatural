@@ -56,6 +56,43 @@ class ClienteController extends Controller
 
     }
 
+    public function editaCliente()
+    {
+        $id = Request::route('id');
+
+        $cliente = Cliente::where('id', '=', $id)->first();
+
+        $dados = [
+            'c' => $cliente
+        ];
+
+        return view('adm/clientes/edita')->with($dados);
+
+    }
+
+    public function updateCliente()
+    {
+        $request = Request::all();
+
+        $id = Request::route('id');
+
+        $cliente = Cliente::where('id', '=', $id)
+                            ->update(
+                                [
+                                'nome' => $request['nome'],
+                                'telefone' => $request['telefone'],
+                                'email' => $request['email']
+                                ]);
+
+        $dados = [
+            'msg_retorno' => 'Cliente alterado com sucesso',
+            'tipo_retorno' => 'success',
+        ];
+
+        return redirect('/admin/clientes/mostra/'.$id)->with($dados);
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *

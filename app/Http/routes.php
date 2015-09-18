@@ -50,6 +50,7 @@ Route::get('/admin/clientes/entrarEmail/{id}', 'ClienteController@entrarEmail');
 Route::get('/admin/clientes/retiraPreferencias/{clienteId}/{preferencia}', 'ClienteController@excluiPreferencia');
 Route::post('/admin/clientes/addPreferencia', 'ClienteController@addPreferencia');
 Route::get('/admin/clientes/edita/{id}', 'ClienteController@editaCliente');
+Route::post('/admin/clientes/edita/{id}', 'ClienteController@updateCliente');
 
 //A bertura
 Route::get('/', function () {
