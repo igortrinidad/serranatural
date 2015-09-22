@@ -22,7 +22,7 @@ class ProdutosController extends Controller
     
     public function __construct()
     {
-        $this->middleware('auth', ['except' => 'landPratoDoDia']);
+        $this->middleware('auth', ['except' => ['landPratoDoDia', 'landAmanha']]);
 
     }
 
@@ -315,5 +315,36 @@ class ProdutosController extends Controller
         ];
 
         return view('adm/produtos/prato/landPratoDoDia')->with($dados);
+    }
+
+    public function landAmanha()
+    {
+        $timestamp = strtotime("+1 days");
+        $pratoDoDia = AgendaPratos::where('dataStamp', '=', date('Y-m-d', $timestamp))
+                                    ->first();
+
+        if(!is_null($pratoDoDia))
+        {
+            $prato = Pratos::where('id', '=', $pratoDoDia->pratos_id)->first();
+
+            $dados = [
+                'prato' => $prato,
+                'data' => date('d/m/Y')
+        ];
+            return view('adm/produtos/prato/landAmanha')->with($dados);
+
+        } else {
+
+            $prato = ['prato' => 'surpresa',
+            'acompanhamentos' => 'surpresa'];
+
+            $dados = [
+                'prato' => $prato,
+                'data' => date('d/m/Y', $timestamp)
+        ];
+            return view('adm/produtos/prato/landAmanha')->with($dados);
+
+        }
+        
     }
 }

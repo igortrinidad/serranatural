@@ -75,5 +75,3 @@ function geraTimestamp($data) {
 $partes = explode('/', $data);
 return mktime(0, 0, 0, $partes[1], $partes[0], $partes[2]);
 }
-
-?>
