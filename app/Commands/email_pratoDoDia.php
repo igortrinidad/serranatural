@@ -21,7 +21,7 @@ class email_pratoDoDia extends Command implements SelfHandling
      
         protected $signature = 'email_pratoDoDia';
 
-        protected $description = 'Envia e-mail para os clientes com o prato do dia';
+        protected $description = 'Envia e-mail para todos os clientes com o prato do dia';
 
 
     public function handle()
@@ -46,7 +46,7 @@ class email_pratoDoDia extends Command implements SelfHandling
 
         ];
 
-                Mail::queue('emails.marketing.pratoDoDia', $dados, function ($message) use ($cliente, $dados)
+                Mail::queue('emails.marketing.pratoNovo', $dados, function ($message) use ($cliente, $dados)
                 {
 
                     $message->to($cliente->email, $cliente->nome);
