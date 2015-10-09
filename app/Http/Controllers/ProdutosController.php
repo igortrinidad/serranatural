@@ -307,14 +307,29 @@ class ProdutosController extends Controller
         $pratoDoDia = AgendaPratos::where('dataStamp', '=', date('Y-m-d'))
                                     ->first();
 
-        $prato = Pratos::where('id', '=', $pratoDoDia->pratos_id)->first();
+        if(!is_null($pratoDoDia))
+        {
+            $prato = Pratos::where('id', '=', $pratoDoDia->pratos_id)->first();
 
-        $dados = [
-            'prato' => $prato,
-            'data' => date('d/m/Y')
+            $dados = [
+                'prato' => $prato,
+                'data' => date('d/m/Y')
         ];
+            return view('adm/produtos/prato/landAmanha')->with($dados);
 
-        return view('adm/produtos/prato/landPratoDoDia')->with($dados);
+        } else {
+
+            $prato = ['prato' => 'surpresa',
+            'acompanhamentos' => 'surpresa'];
+
+            $dados = [
+                'prato' => $prato,
+                'data' => date('d/m/Y')
+        ];
+            return view('adm/produtos/prato/landAmanha')->with($dados);
+
+        }
+        
     }
 
     public function landAmanha()
@@ -329,7 +344,7 @@ class ProdutosController extends Controller
 
             $dados = [
                 'prato' => $prato,
-                'data' => date('d/m/Y')
+                'data' => date('d/m/Y', $timestamp)
         ];
             return view('adm/produtos/prato/landAmanha')->with($dados);
 
