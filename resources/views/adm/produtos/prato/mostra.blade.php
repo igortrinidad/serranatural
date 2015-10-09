@@ -30,6 +30,7 @@
 			</div>
 
 		<a href="/admin/produtos/pratos/edita/{{$prato->id}}" class="btn btn-primary">Editar<i class="fa fa-pencil"></i></a>
+		<a href="/admin/produtos/pratos/excluir/{{$prato->id}}" class="btn btn-danger">Excluir<i class="fa fa-trash"></i></a>
 
 	</div>
 </div>

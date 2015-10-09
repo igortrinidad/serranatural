@@ -30,6 +30,7 @@ Route::get('/admin/produtos/pratos/edita/{id}', 'ProdutosController@editaPrato')
 Route::post('/admin/produtos/pratos/edita/{id}', 'ProdutosController@updatePrato');
 Route::get('/admin/produtos/pratos/ativar/{id}', 'ProdutosController@ativarPrato');
 Route::get('/admin/produtos/pratos/desativar/{id}', 'ProdutosController@desativarPrato');
+Route::get('/admin/produtos/pratos/excluir/{id}', 'ProdutosController@destroyPrato');
 
 //Pratos
 Route::post('/admin/produtos/salvaPratos', 'ProdutosController@salvaPrato');

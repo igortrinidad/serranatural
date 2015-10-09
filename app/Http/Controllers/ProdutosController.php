@@ -16,6 +16,7 @@ use serranatural\Models\Voto;
 use serranatural\Models\Cliente;
 use serranatural\Models\Produto;
 use serranatural\Models\ReceitaPrato;
+use serranatural\Models\Preferencias;
 
 class ProdutosController extends Controller
 {
@@ -117,12 +118,40 @@ class ProdutosController extends Controller
      */
     public function salvaPrato()
     {
-        Pratos::create(Request::all());
+        $prato = Pratos::create(Request::all());
+
+        $cliente = Cliente::get();
+
+        foreach($cliente as $cliente) {
+
+            Preferencias::create([
+
+                    'clienteId' => $cliente->id,
+                    'preferencias' => $prato->id
+                ]);
+        }
 
         $dados = [
 
         'msg_retorno' => 'Prato adicionado com sucesso',
         'tipo_retorno' => 'success'
+
+        ];
+
+        return redirect()->action('ProdutosController@indexPrato')->with($dados);
+    }
+
+        public function destroyPrato($id)
+    {
+
+        $prato = Pratos::find($id)->delete();
+
+        $preferencias = Preferencias::where('preferencias', '=', $id)->delete();
+
+        $dados = [
+
+        'msg_retorno' => 'Prato EXCLUIDO com sucesso',
+        'tipo_retorno' => 'danger'
 
         ];
 
