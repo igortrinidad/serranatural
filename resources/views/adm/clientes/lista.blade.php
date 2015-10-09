@@ -4,6 +4,12 @@
 
 <h1 class="text-right">Clientes</h1>
 
+	@if(Session::has('msg_retorno'))
+	<div class="alert alert-{{Session::get('tipo_retorno')}}">
+	     {{Session::get('msg_retorno')}}
+	 </div>
+	@endif
+
 		<div class="panel panel-default">
 			<div class="panel-heading"><h5>Lista</h5></div>
 			<div class="panel-body">
@@ -30,7 +36,7 @@
 					<td>{{$li->email}}</td>
 					<td>{{$li->telefone}}</td>
 					<td class="text-center"><a href="/admin/clientes/mostra/{{$li->id}}"><i class="fa fa-search"></i></a></td>
-					<td>--</td>
+					<td class="text-center"><a href="/admin/clientes/excluir/{{$li->id}}"><i class="fa fa-trash"></i></a></td>
 					<td>
 					@if($li->opt_email == 1)
 						<a href="/admin/clientes/sairEmail/{{$li->id}}"><i class="fa fa-check-square-o"></i></a>

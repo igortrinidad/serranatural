@@ -112,12 +112,7 @@ class ClienteController extends Controller
         return back()->with($dados);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
+
     public function entrarEmail()
     {
         $id = Request::route('id');
@@ -188,8 +183,16 @@ class ClienteController extends Controller
      * @param  int  $id
      * @return Response
      */
+    
     public function destroy($id)
     {
-        //
+        Cliente::find($id)->delete();
+
+        $dados = [
+            'msg_retorno' => 'Cliente deletado com sucesso',
+            'tipo_retorno' => 'danger',
+        ];
+
+        return back()->with($dados);
     }
 }
