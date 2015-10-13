@@ -391,4 +391,51 @@ class ProdutosController extends Controller
         }
         
     }
+
+    public function enviaPratoDoDia()
+    {
+
+        $pratoDoDia = AgendaPratos::where('dataStamp', '=', date('Y-m-d'))
+                                    ->first();
+
+        $clientes = Cliente::where('clientes.opt_email', '=', 1)
+                            ->get();
+
+        $total = count($clientes);
+
+        $prato = Pratos::where('id', '=', $pratoDoDia->pratos_id)->first();
+
+        set_time_limit(900);
+
+        foreach($clientes as $cliente){
+
+        $dados = [
+
+        'prato' => $prato,
+        'nomeCliente' => $cliente->nome
+
+        ];
+
+                Mail::queue('emails.marketing.pratoNovo', $dados, function ($message) use ($cliente, $dados)
+                {
+
+                    $message->to($cliente->email, $cliente->nome);
+                    $message->from('mkt@serranatural.com', 'Serra Natural');
+                    $message->subject('Cardápio do dia');
+                    $message->getSwiftMessage();
+
+                });
+
+            
+        }
+
+        $data = [
+            'msg_retorno' => 'Email prato do dia enviado com sucesso para ' . $total . ' clientes',
+            'tipo_retorno' => 'success',
+        ];
+
+        return back()->with($data);
+
+
+    }
 }

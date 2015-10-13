@@ -13,22 +13,30 @@
 <div class="panel panel-default">
 	<div class="panel-heading"><h5>Agendar Pratos</h5></div>
 		<div class="panel-body">
-		  <form action="/admin/produtos/salvaPratoSemana" class="form-inline" method="POST">
-        <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-		    <div class="form-group">
-		      <label>Prato:</label>
-					<select name="pratos_id" class="form-control">
-						@foreach($pratos as $prato)
-							<option value="{{$prato->id}}">{{$prato->prato}}</option>
-						@endforeach
-					</select>
-		    </div>
-		    <div class="form-group">
-		      <label>Data:</label>
-		      <input type="text" name="dataStr" class="form-control datepicker" placeholder="dd/mm/aaaa">
-		    </div>
-		    <button type="submit" class="btn btn-default">Agendar Prato</button>
-		  </form>
+      <div class="row">
+        <div class="col-md-8">
+    		  <form action="/admin/produtos/salvaPratoSemana" class="form-inline" method="POST">
+            <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+    		    <div class="form-group">
+    		      <label>Prato:</label>
+    					<select name="pratos_id" class="form-control">
+    						@foreach($pratos as $prato)
+    							<option value="{{$prato->id}}">{{$prato->prato}}</option>
+    						@endforeach
+    					</select>
+    		    </div>
+    		    <div class="form-group">
+    		      <label>Data:</label>
+    		      <input type="text" name="dataStr" class="form-control datepicker" placeholder="dd/mm/aaaa">
+    		    </div>
+    		    <button type="submit" class="btn btn-default">Agendar Prato</button>
+    		  </form>
+        </div>
+        <div class="col-md-4">
+
+          <a class="btn btn-default pull-right" href="/admin/produtos/enviaPratoDoDia">Enviar prato do dia</a>
+        </div>
+      </div>
 	  </div>
   </div>
 

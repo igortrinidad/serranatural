@@ -5,12 +5,15 @@ namespace serranatural\Http\Controllers;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\DB;
 
+use Mail;
+
 use serranatural\Http\Requests;
 use serranatural\Http\Controllers\Controller;
 
 use serranatural\Models\Cliente;
 use serranatural\Models\Preferencias;
 use serranatural\Models\Pratos;
+use serranatural\Models\AgendaPratos;
 
 class ClienteController extends Controller
 {
@@ -194,5 +197,45 @@ class ClienteController extends Controller
         ];
 
         return back()->with($dados);
+    }
+
+    public function enviaEmailPratoDoDia($id)
+    {
+
+        $pratoDoDia = AgendaPratos::where('dataStamp', '=', date('Y-m-d'))
+                                    ->first();
+
+        $cliente = Cliente::find($id)->first();
+
+        $prato = Pratos::where('id', '=', $pratoDoDia->pratos_id)->first();
+
+        set_time_limit(900);
+
+        $dados = [
+
+        'prato' => $prato,
+        'nomeCliente' => $cliente->nome
+
+        ];
+
+                Mail::queue('emails.marketing.pratoNovo', $dados, function ($message) use ($cliente, $dados)
+                {
+
+                    $message->to($cliente->email, $cliente->nome);
+                    $message->from('mkt@serranatural.com', 'Serra Natural');
+                    $message->subject('Cardápio do dia');
+                    $message->getSwiftMessage();
+
+                });
+
+            
+
+        $data = [
+            'msg_retorno' => 'Email enviado com sucesso',
+            'tipo_retorno' => 'success',
+        ];
+
+        return back()->with($data);
+
     }
 }

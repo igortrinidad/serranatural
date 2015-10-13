@@ -42,6 +42,7 @@ Route::get('/admin/produtos/pratosSemana', 'ProdutosController@semanaIndex');
 Route::post('/admin/produtos/salvaPratoSemana', 'ProdutosController@salvaPratoSemana');
 Route::get('/admin/produtos/excluiPratoSemana/{id}', 'ProdutosController@excluiPratoSemana');
 Route::post('/admin/produtos/addPratoSemana/{id}', 'ProdutosController@addPratoSemana');
+Route::get('/admin/produtos/enviaPratoDoDia', 'ProdutosController@enviaPratoDoDia');
 
 // Clientes
 Route::get('/admin/clientes/lista', 'ClienteController@lista');
@@ -53,6 +54,7 @@ Route::post('/admin/clientes/addPreferencia', 'ClienteController@addPreferencia'
 Route::get('/admin/clientes/edita/{id}', 'ClienteController@editaCliente');
 Route::get('/admin/clientes/excluir/{id}', 'ClienteController@destroy');
 Route::post('/admin/clientes/edita/{id}', 'ClienteController@updateCliente');
+Route::get('/admin/clientes/enviaPrato/{id}', 'ClienteController@enviaEmailPratoDoDia');
 
 //A bertura
 Route::get('/', function () {

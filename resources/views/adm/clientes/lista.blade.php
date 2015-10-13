@@ -27,6 +27,7 @@
 						<td>Mostra</td>
 						<td>Excluir</td>
 						<td>Lista Email</td>
+						<td>Envia prato</td>
 					</tr>
 				</thead>
 
@@ -45,6 +46,7 @@
 					@endif
 
 					</td>
+					<td class="text-center"><a href="/admin/clientes/enviaPrato/{{$li->id}}"><i class="fa fa-envelope-o"></i></a></td>
 				</tr>	
 		@endforeach
 			</table>
