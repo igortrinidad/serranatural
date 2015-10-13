@@ -14,7 +14,7 @@
 	<div class="panel-heading"><h5>Agendar Pratos</h5></div>
 		<div class="panel-body">
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-9">
     		  <form action="/admin/produtos/salvaPratoSemana" class="form-inline" method="POST">
             <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
     		    <div class="form-group">
@@ -32,7 +32,7 @@
     		    <button type="submit" class="btn btn-default">Agendar Prato</button>
     		  </form>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
 
           <a class="btn btn-default pull-right" href="/admin/produtos/enviaPratoDoDia">Enviar prato do dia</a>
         </div>
