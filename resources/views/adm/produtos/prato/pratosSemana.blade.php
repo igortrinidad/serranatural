@@ -41,6 +41,23 @@
   </div>
 
   <div class="panel panel-default">
+  <div class="panel-heading"><h5>Envia Prato do Dia</h5></div>
+    <div class="panel-body">
+      
+          <form action="/admin/produtos/enviaPratoDoDia" method="POST">
+            <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+            <div class="form-group">
+                <label>Mensagem</label>
+                <textarea type="textarea" name="mensagem" class="form-control"></textarea>
+            </div>
+      
+          <button type="submit" class="btn btn-default">Enviar emails</button>
+          </form>
+    </div>
+  </div>
+    
+
+  <div class="panel panel-default">
   	<div class="panel-heading"><h5>Próximos pratos</h5></div>
   	<div class="panel-body">
 

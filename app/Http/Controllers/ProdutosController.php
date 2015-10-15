@@ -2,10 +2,13 @@
 
 namespace serranatural\Http\Controllers;
 
-use Illuminate\Support\Facades\Request;
+//use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Http\Request;
 use serranatural\Http\Requests;
+
+//use serranatural\Http\Requests;
 use serranatural\Http\Controllers\Controller;
 use Mail;
 
@@ -33,9 +36,8 @@ class ProdutosController extends Controller
     }
 
 
-    public function mostraPrato()
+    public function mostraPrato($id)
     {
-        $id = Request::route('id');
 
         $prato = Pratos::where('id', '=', $id)->first();
 
@@ -54,9 +56,8 @@ class ProdutosController extends Controller
 
     }
 
-    public function editaPrato()
+    public function editaPrato($id)
     {
-        $id = Request::route('id');
 
         $prato = Pratos::where('id', '=', $id)->first();
 
@@ -68,15 +69,15 @@ class ProdutosController extends Controller
 
     }
 
-        public function updatePrato()
+        public function updatePrato(Request $request)
     {
-        $id = Request::route('id');
+        $id = $request->id;
 
         $prato = Pratos::where('id', '=', $id)
         ->update([
-            'prato' => Request::input('prato'),
-            'acompanhamentos' => Request::input('acompanhamento'),
-            'modo_preparo' => Request::input('modo_preparo'),
+            'prato' => $request->prato,
+            'acompanhamentos' => $request->acompanhamento,
+            'modo_preparo' => $request->modo_preparo,
 
             ]);
 
@@ -116,9 +117,9 @@ class ProdutosController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function salvaPrato()
+    public function salvaPrato(Request $request)
     {
-        $prato = Pratos::create(Request::all());
+        $prato = Pratos::create($request->all());
 
         $cliente = Cliente::get();
 
@@ -218,21 +219,21 @@ class ProdutosController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function salvaPratoSemana()
+    public function salvaPratoSemana(Request $request)
     {
-        $dataMysql = dataPtBrParaMysql(Request::get('dataStr'));
+        $dataMysql = dataPtBrParaMysql($request->get('dataStr'));
 
         $prato = AgendaPratos::create([
 
-            'pratos_id' => Request::get('pratos_id'),
-            'dataStr' => Request::get('dataStr'),
+            'pratos_id' => $request->get('pratos_id'),
+            'dataStr' => $request->get('dataStr'),
             'dataStamp' => $dataMysql,
 
             ]);
 
         $dados = [
 
-        'msg_retorno' => 'Prato agendado para ' . Request::get('dataStr') . ' com sucesso',
+        'msg_retorno' => 'Prato agendado para ' . $request->get('dataStr') . ' com sucesso',
         'tipo_retorno' => 'success'
 
         ];
@@ -241,20 +242,20 @@ class ProdutosController extends Controller
 
     }
 
-    public function addPratoSemana()
+    public function addPratoSemana(Request $request)
     {
-        $dataMysql = dataPtBrParaMysql(Request::get('dataStr'));
+        $dataMysql = dataPtBrParaMysql($request->get('dataStr'));
 
         $prato = AgendaPratos::create([
 
-            'pratos_id' => Request::route('id'),
-            'dataStr' => Request::get('dataStr'),
+            'pratos_id' => $request->route('id'),
+            'dataStr' => $request->get('dataStr'),
             'dataStamp' => $dataMysql,
             ]);
 
         $dados = [
 
-        'msg_retorno' => 'Prato agendado para ' . Request::get('dataStr') . ' com sucesso',
+        'msg_retorno' => 'Prato agendado para ' . $request->get('dataStr') . ' com sucesso',
         'tipo_retorno' => 'success'
 
         ];
@@ -307,10 +308,9 @@ class ProdutosController extends Controller
 
     }
 
-    public function excluiPratoSemana()
+    public function excluiPratoSemana($id)
 
         {
-        $id = Request::route('id');
 
         $produto = AgendaPratos::find($id)->delete();
 
@@ -392,8 +392,10 @@ class ProdutosController extends Controller
         
     }
 
-    public function enviaPratoDoDia()
+    public function enviaPratoDoDia(Request $request)
     {
+
+        $mensagem = $request->mensagem;
 
         $pratoDoDia = AgendaPratos::where('dataStamp', '=', date('Y-m-d'))
                                     ->first();
@@ -412,11 +414,12 @@ class ProdutosController extends Controller
         $dados = [
 
         'prato' => $prato,
-        'nomeCliente' => $cliente->nome
+        'nomeCliente' => $cliente->nome,
+        'mensagem' => $mensagem
 
         ];
 
-                Mail::queue('emails.marketing.pratoNovo', $dados, function ($message) use ($cliente, $dados)
+                Mail::queue('emails.marketing.pratoComMensagem', $dados, function ($message) use ($cliente, $dados)
                 {
 
                     $message->to($cliente->email, $cliente->nome);

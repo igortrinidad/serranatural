@@ -42,7 +42,7 @@ Route::get('/admin/produtos/pratosSemana', 'ProdutosController@semanaIndex');
 Route::post('/admin/produtos/salvaPratoSemana', 'ProdutosController@salvaPratoSemana');
 Route::get('/admin/produtos/excluiPratoSemana/{id}', 'ProdutosController@excluiPratoSemana');
 Route::post('/admin/produtos/addPratoSemana/{id}', 'ProdutosController@addPratoSemana');
-Route::get('/admin/produtos/enviaPratoDoDia', 'ProdutosController@enviaPratoDoDia');
+Route::post('/admin/produtos/enviaPratoDoDia', 'ProdutosController@enviaPratoDoDia');
 
 // Clientes
 Route::get('/admin/clientes/lista', 'ClienteController@lista');
