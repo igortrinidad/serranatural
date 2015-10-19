@@ -2,13 +2,11 @@
 
 namespace serranatural\Http\Controllers;
 
-//use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 use serranatural\Http\Requests;
 
-//use serranatural\Http\Requests;
 use serranatural\Http\Controllers\Controller;
 use Mail;
 
@@ -20,6 +18,9 @@ use serranatural\Models\Cliente;
 use serranatural\Models\Produto;
 use serranatural\Models\ReceitaPrato;
 use serranatural\Models\Preferencias;
+
+use QrCode;
+
 
 class ProdutosController extends Controller
 {
@@ -41,6 +42,17 @@ class ProdutosController extends Controller
 
         $prato = Pratos::where('id', '=', $id)->first();
 
+        $link = 'http://www.maisbartenders.com.br/'.$prato->prato.','.date('d/m/Y');
+
+        $arquivo = time() .'.png';
+
+        $caminho = '../public/qrcodes/'. $arquivo;
+
+        QrCode::format('png');
+        QrCode::size(300);
+        $teste = QrCode::generate($link, $caminho);
+
+
         $ingredientes = ReceitaPrato::where('prato_id', '=', $id)->get();
 
 
@@ -50,6 +62,7 @@ class ProdutosController extends Controller
             'prato' => $prato,
             'produtos' => $produtos,
             'ingredientes' => $ingredientes,
+            'arquivo' => $arquivo
         ];
 
         return view('adm/produtos/prato/mostra')->with($dados);
@@ -78,6 +91,8 @@ class ProdutosController extends Controller
             'prato' => $request->prato,
             'acompanhamentos' => $request->acompanhamento,
             'modo_preparo' => $request->modo_preparo,
+            'valor_pequeno' => $request->valor_pequeno,
+            'valor_grande' => $request->valor_grande,
 
             ]);
 
@@ -419,7 +434,9 @@ class ProdutosController extends Controller
 
         ];
 
-                Mail::queue('emails.marketing.pratoComMensagem', $dados, function ($message) use ($cliente, $dados)
+        //dd($dados);
+
+                Mail::queue('emails.marketing.pratoNovo', $dados, function ($message) use ($cliente, $dados)
                 {
 
                     $message->to($cliente->email, $cliente->nome);

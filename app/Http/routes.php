@@ -63,7 +63,7 @@ Route::get('/', function () {
 
 // Função para testar views
 Route::get('/teste', function () {
-    return view('adm/produtos/prato/landPratoDoDia');
+    return view('emails/marketing/pratoNovo');
 });
 
 Route::get('/hoje', 'ProdutosController@landPratoDoDia');

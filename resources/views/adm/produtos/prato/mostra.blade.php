@@ -23,11 +23,27 @@
 		<div class="form-group">
 			<label>Acompanhamentos</label>
 			<p>{!!nl2br($prato->acompanhamentos)!!}</p>
+		</div>
 			
-			<div class="form-group">
+		<div class="form-group">
 			<label>Modo de preparo</label>
 			<p>{!!nl2br($prato->modo_preparo)!!}</p>
-			</div>
+		</div>
+
+		<table class="table table-bordered table-hover table-striped">
+		    <thead>
+		        <tr>
+		            <th>Preço pequeno</th>
+		            <th>Preço grande</th>
+		        </tr>
+		    </thead>
+		    <tbody>
+		        <tr>
+		            <th>R$ {{number_format($prato->valor_pequeno, 2, ',', '.')}}</th>
+		            <th>R$ {{number_format($prato->valor_grande, 2, ',', '.')}}</th>
+		        </tr>
+		    </tbody>
+		</table>
 
 		<a href="/admin/produtos/pratos/edita/{{$prato->id}}" class="btn btn-primary">Editar<i class="fa fa-pencil"></i></a>
 		<a href="/admin/produtos/pratos/excluir/{{$prato->id}}" class="btn btn-danger">Excluir<i class="fa fa-trash"></i></a>
@@ -105,6 +121,10 @@
                                
 
 			</form>
+
+
+			<img alt="image" class="" src="{{ URL::to('/').'/qrcodes/'.$arquivo}}">
+			
 
 	</div>
 </div>

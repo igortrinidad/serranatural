@@ -15,7 +15,7 @@ return [
     */
 
     'mailgun' => [
-        'domain' => 'https://api.mailgun.net/v3/mg.serranatural.com',
+        'domain' => 'mg.serranatural.com',
         'secret' => 'key-02c7bfdc17d833537049a4d403b578b4',
     ],
 

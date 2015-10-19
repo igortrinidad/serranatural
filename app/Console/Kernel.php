@@ -33,8 +33,8 @@ class Kernel extends ConsoleKernel
             $schedule->command('inspire')
                      ->hourly();
 
-            $schedule->command('email_preferencias')
-                     ->dailyAt('08:23');
+            $schedule->command('email_pratoDodia')
+                     ->dailyAt('10:01');
         }
 
     }

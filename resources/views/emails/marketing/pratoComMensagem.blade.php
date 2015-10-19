@@ -150,10 +150,11 @@
                         
                             Olá <strong>{{isset($nomeCliente) ? $nomeCliente : 'cliente'}}</strong>,<br>
 <br>
-{!! isset($mensagem) ? nl2br($mensagem) : 'mensagem' !!}
-<br><br>
 Hoje temos um prato especial: <span style="color:#008000">{{isset($prato) ? $prato['prato'] : 'prato'}}</span>.<br>
 <br>
+
+
+<br><br>
 Venha almoçar conosco.<br>
 <br>
 Lembranças,<br>
@@ -180,31 +181,52 @@ Equipe Serra Natural.
             </td>
         </tr>
     </tbody>
-</table><table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
     <tbody>
         <tr>
             <td valign="top">
                 
                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse:collapse">
-                    <tbody><tr>
-                        
-                        <td valign="top" style="padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#212223;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                    <tbody>
+                        <tr>
+                            <td valign="top" style="padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#212223;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
                         
                             <h1 style="text-align:center;display:block;margin:0;padding:0;font-family:Georgia;font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:-1px;color:#212223!important"><span style="color:#008000"><span style="font-size:32px">{{isset($prato) ? $prato['prato'] : 'prato'}}</span></span></h1>
 
 <div style="text-align:center"><span style="font-size:12px"><u>Acompanhamentos</u></span><br>
 <strong><span style="font-size:14px">{!! isset($prato) ? nl2br($prato['acompanhamentos']) : 'acompanhamentos' !!}</span></strong></div>
 
-                        </td>
-                    </tr>
-                </tbody></table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
                 
             </td>
         </tr>
     </tbody>
 </table></td>
-                                                                            </tr>
-                                                                        </tbody></table>
+
+                                                                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;border-collapse:collapse;table-layout:fixed!important">
+    <tbody>
+        <tr>
+            <td style="min-width:100%;padding:18px">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;border-top-width:2px;border-top-style:solid;border-top-color:#eaeaea;border-collapse:collapse">
+                    <tbody><tr>
+                        <td>
+                            <span></span>
+                        </td>
+                    </tr>
+   </tbody>
+</table>
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<br>
                                                                         
                                                                     </td>
                                                                 </tr>
@@ -230,7 +252,8 @@ Equipe Serra Natural.
                                             <td align="center" valign="top">
                                                 <table border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse:collapse">
                                                     <tbody><tr>
-                                                        <td valign="top" style="padding-top:10px;padding-bottom:10px"><table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
+                                                        <td valign="top" style="padding-top:10px;padding-bottom:10px">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
     <tbody>
         <tr>
             <td valign="top">
