@@ -359,7 +359,7 @@ class ProdutosController extends Controller
                 'prato' => $prato,
                 'data' => date('d/m/Y')
         ];
-            return view('adm/produtos/prato/landAmanha')->with($dados);
+            return view('adm/produtos/prato/landPratoDoDia')->with($dados);
 
         } else {
 
@@ -370,7 +370,7 @@ class ProdutosController extends Controller
                 'prato' => $prato,
                 'data' => date('d/m/Y')
         ];
-            return view('adm/produtos/prato/landAmanha')->with($dados);
+            return view('adm/produtos/prato/landPratoDoDia')->with($dados);
 
         }
         

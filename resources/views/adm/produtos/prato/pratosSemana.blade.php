@@ -34,7 +34,6 @@
         </div>
         <div class="col-md-3">
 
-          <a class="btn btn-default pull-right" href="/admin/produtos/enviaPratoDoDia">Enviar prato do dia</a>
         </div>
       </div>
 	  </div>

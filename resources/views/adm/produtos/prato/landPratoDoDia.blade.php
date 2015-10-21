@@ -22,7 +22,7 @@
                         
                         <td valign="top" style="padding-top:9px;padding-left:18px;padding-bottom:9px;padding-right:0;word-break:break-word;color:#ffffff;font-family:Helvetica;font-size:10px;line-height:125%;text-align:left">
                         
-                            Prato do dia: {{isset($prato) ? $prato['prato'] : 'prato'}}
+                            Prato de hoje: {{isset($prato) ? $prato['prato'] : 'prato'}}
                         </td>
                     </tr>
                 </tbody></table>
@@ -32,7 +32,7 @@
                         
                         <td valign="top" style="padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:0;word-break:break-word;color:#ffffff;font-family:Helvetica;font-size:10px;line-height:125%;text-align:left">
                         
-                            <div style="text-align:right">Data: {{isset($data) ? $data : 'Data'}}</div>
+                            <div style="text-align:right">Serra Natural</div>
 
                         </td>
                     </tr>
@@ -98,13 +98,47 @@
                                                                     <td align="center" valign="top">
                                                                         
                                                                         <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;background-color:#ffffff;border-top:0;border-bottom:1px solid #efefef">
-                                                                           
+                                                                            <tbody><tr>
+                                                                                <td align="left" valign="top" width="50%" style="padding-top:9px;padding-bottom:9px">
+                                                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
+                                                                                        <tbody><tr>
+                                                                                            <td valign="top">
+                                                                                                            <td valign="top">
+                
+                                                                                                <table align="left" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse:collapse">
+                                                                                                    <tbody><tr>
+                                                                                                        
+                                                                                                       <td valign="top" style="padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#212223;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                        
+                                                                                                        <h1 style="text-align:left;display:block;margin:0;padding:0;font-family:Georgia;font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:-1px;color:#212223!important"><span style="color:#008000"><span style="font-size:32px">{{isset($prato) ? $prato['prato'] : 'prato'}}</span></span></h1>
+
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                </tbody></table>
+
+
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody></table>
+                                                                                </td>
+                                                                                <td align="left" valign="top" width="50%" style="padding-top:9px;padding-bottom:9px">
+                                                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
+                                                                                        <tbody><tr>
+                                                                                            <td valign="top"></td>
+                                                                                        </tr>
+                                                                                    </tbody></table>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody></table>
                                                                         
                                                                     </td>
                                                                 </tr>
-                                                                
-
-<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
+                                                                <tr>
+                                                                    <td align="center" valign="top">
+                                                                        
+                                                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
+                                                                            <tbody><tr>
+                                                                                <td valign="top" style="padding-top:10px;padding-bottom:10px"><table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
     <tbody>
         <tr>
             <td valign="top">
@@ -114,11 +148,17 @@
                         
                         <td valign="top" style="padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#212223;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
                         
-                            <h1 style="text-align:center;display:block;margin:0;padding:0;font-family:Georgia;font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:-1px;color:#212223!important"><span style="color:#008000"><span style="font-size:32px">{{isset($prato) ? $prato['prato'] : 'prato'}}</span></span></h1>
+                            <strong>Olá !</strong><br>
+<br>
+Hoje temos um prato especial: <span style="color:#008000">{{isset($prato) ? $prato['prato'] : 'surpresa'}}</span>.<br>
+<br>
 
-<div style="text-align:center"><span style="font-size:12px"><u>Acompanhamentos</u></span><br>
-<strong><span style="font-size:14px">{!! isset($prato) ? nl2br($prato['acompanhamentos']) : 'acompanhamentos' !!}</span></strong></div>
+{!! isset($mensagem) ? $mensagem."<br>" : '' !!}
 
+Venha almoçar conosco.<br>
+<br>
+Lembranças,<br>
+Equipe Serra Natural.
                         </td>
                     </tr>
                 </tbody></table>
@@ -126,9 +166,108 @@
             </td>
         </tr>
     </tbody>
+</table><table border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;border-collapse:collapse;table-layout:fixed!important">
+    <tbody>
+        <tr>
+            <td style="min-width:100%;padding:18px">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;border-top-width:2px;border-top-style:solid;border-top-color:#eaeaea;border-collapse:collapse">
+                    <tbody><tr>
+                        <td>
+                            <span></span>
+                        </td>
+                    </tr>
+                </tbody></table>
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
+    <tbody>
+        <tr>
+            <td valign="top">
+                
+                <table align="left" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse:collapse">
+                    <tbody>
+                        <tr>
+                            <td valign="top" style="padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#212223;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                        
+                            <h1 style="text-align:center;display:block;margin:0;padding:0;font-family:Georgia;font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:-1px;color:#212223!important"><span style="color:#008000"><span style="font-size:32px">{{isset($prato) ? $prato['prato'] : 'prato'}}</span></span></h1>
+
+<div style="text-align:center"><span style="font-size:12px"><u>Acompanhamentos</u></span><br>
+<strong><span style="font-size:14px">{!! isset($prato) ? nl2br($prato['acompanhamentos']) : 'acompanhamentos' !!}</span></strong></div>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+            </td>
+        </tr>
+    </tbody>
 </table></td>
-                                                                            </tr>
-                                                                        </tbody></table>
+
+                                                                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;border-collapse:collapse;table-layout:fixed!important">
+    <tbody>
+        <tr>
+            <td style="min-width:100%;padding:18px">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;border-top-width:2px;border-top-style:solid;border-top-color:#eaeaea;border-collapse:collapse">
+                    <tbody><tr>
+                        <td>
+                            <span></span>
+                        </td>
+                    </tr>
+   </tbody>
+</table>
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
+    <tbody>
+        <tr>
+            <td valign="top">
+                
+                <table align="left" border="0" cellpadding="0" cellspacing="0" width="282" style="border-collapse:collapse">
+                    <tbody>
+
+                        <tr>
+                            
+                            <td valign="top" style="padding:9px 0px 9px 18px;line-height:normal;word-break:break-word;color:#212223;font-family:Helvetica;font-size:16px;text-align:left">
+                            
+                                <div style="text-align:center">Pequeno<br>
+    <br>
+    <strong><span style="font-size:24px">R$ {!! isset($prato->valor_pequeno) ? number_format($prato['valor_pequeno'], 2, ',', '.') : '' !!}</span></strong></div>
+
+                            </td>
+                        </tr>
+                </tbody>
+              </table>
+
+                <table align="right" border="0" cellpadding="0" cellspacing="0" width="282" style="border-collapse:collapse">
+                    <tbody>
+                        <tr>
+                        
+                            <td valign="top" style="padding:9px 18px 9px 0px;line-height:normal;word-break:break-word;color:#212223;font-family:Helvetica;font-size:16px;text-align:left">
+                            
+                                <div style="text-align:center"><span style="line-height:20.8px;text-align:center">Grande</span><br>
+    &nbsp;</div>
+
+    <div style="text-align:center"><strong style="line-height:20.8px;text-align:center"><span style="font-size:24px">R$ {!! isset($prato->valor_grande) ? number_format($prato['valor_grande'], 2, ',', '.') : '' !!}</span></strong></div>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+        </tr>
+    </tbody>
+</table>
+
+<br>
                                                                         
                                                                     </td>
                                                                 </tr>
@@ -154,29 +293,13 @@
                                             <td align="center" valign="top">
                                                 <table border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse:collapse">
                                                     <tbody><tr>
-                                                        <td valign="top" style="padding-top:10px;padding-bottom:10px"><table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
+                                                        <td valign="top" style="padding-top:10px;padding-bottom:10px">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
     <tbody>
         <tr>
             <td valign="top">
                 
-                <table align="left" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse:collapse">
-                    <tbody><tr>
-                        
-                        <td valign="top" style="padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#212223;font-family:Helvetica;font-size:10px;line-height:125%;text-align:center">
-                        
-                            <strong><em>Copyright © 2015 Serra Natural</em><br>
-<br>
-Alameda do Ingá, 754 - Vila da Serra - Nova Lima<br>
-<a href="tel:31%208282-8052" value="+553182828052" target="_blank">31 8282-8052</a></strong><br>
-<br>
-<strong>Nosso email é:</strong><br>
-<a href="mailto:mkt@serranatural.com" target="_blank">mkt@serranatural.com</a><br>
-<br>
-Não quer mais receber nossos e-mails?<br>
-Envie e-mail com o assunto SAIR para <a href="mailto:contato@serranatural.com" target="_blank">contato@serranatural.com</a>.
-                        </td>
-                    </tr>
-                </tbody></table>
+
                 
             </td>
         </tr>
