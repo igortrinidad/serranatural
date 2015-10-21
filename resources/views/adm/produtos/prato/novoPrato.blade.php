@@ -24,6 +24,8 @@
 				<tr>
 					<td>Nome</td>
 					<td>Acompanhamentos</td>
+					<td>Pequeno</td>
+					<td>Grande</td>
 					<td>Edita</td>
 					<td>Ativo</td>
 				</tr>
@@ -32,6 +34,8 @@
 			<tr>
 				<td>{{isset($p) ? $p->prato : ''}}</td>
 				<td>{{isset($p) ? $p->acompanhamentos : ''}}</td>
+				<td>{{isset($p) ? $p->valor_pequeno : ''}}</td>
+				<td>{{isset($p) ? $p->valor_grande : ''}}</td>
 				<td><a href="/admin/produtos/pratos/mostra/{{$p->id}}"><i class="fa fa-pencil"></i></a></td>
 				<td>
 					@if($p->ativo == 1)
