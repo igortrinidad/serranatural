@@ -19,7 +19,7 @@ class Kernel extends ConsoleKernel
         \serranatural\Commands\log_votos::class,
         \serranatural\Commands\email_preferencias::class,
         \serranatural\Commands\email_pratoDoDia::class,
-        \serranatural\Commands\email_pratoDoDiaMicrocity::class,
+        \serranatural\Commands\email_Microcity::class,
     ];
 
     /**

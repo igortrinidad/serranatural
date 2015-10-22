@@ -11,32 +11,8 @@
 
     <title>Serra Natural - Adiministrativo</title>
 
-    <!-- Bootstrap Core CSS -->
-    <link href="/css/core/bootstrap.min.css" rel="stylesheet">
-
-    <!-- MetisMenu CSS -->
-    <link href="/css/plugins/metisMenu.css" rel="stylesheet">
-
-    <!-- Estilos do template CSS -->
-    <link href="/css/estilos/sb-admin-2.css" rel="stylesheet">
-
-    <!-- Estilos proprio CSS -->
-    <link href="/css/estilos/estilosAdmin.css" rel="stylesheet">
-
-    <!-- Datepicker CSS -->
-    <link href="/css/plugins/bootstrap-datepicker3.min.css" rel="stylesheet">
-    <link href="/css/plugins/bootstrap-datepicker3.standalone.min.css" rel="stylesheet">
-
-
-    <!-- Custom Fonts -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <link href="{!! asset('css/vendor.css') !!}" rel="stylesheet">
+    <link href="{!! asset('css/app.css') !!}" rel="stylesheet">
 
 </head>
 
@@ -408,23 +384,13 @@
     </div>
     <!-- /#wrapper -->
 
-    <!-- jQuery -->
-    <script src="/js/core/jquery-2.1.4.min.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="/js/core/bootstrap.min.js"></script>
+    @section('scripts')
 
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="/js/plugins/metisMenu.min.js"></script>
+    <script src="{!! asset('js/vendor.js') !!}"></script>
+    <script src="{!! elixir('js/app.js') !!}"></script>
 
-    <!-- Custom Theme JavaScript -->
-    <script src="/js/estilos/sb-admin-2.js"></script>
-
-    <!-- Datepicker -->
-    <script src="/js/plugins/bootstrap-datepicker.min.js"></script>
-    <script src="/js/plugins/bootstrap-datepicker.pt-BR.js"></script>
-
-    <script src="/js/appGeral.js"></script>
+    @show
 
 </body>
 

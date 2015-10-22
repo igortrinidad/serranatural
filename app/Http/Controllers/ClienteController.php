@@ -2,12 +2,14 @@
 
 namespace serranatural\Http\Controllers;
 
-use Illuminate\Support\Facades\Request;
+//use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\DB;
 
 use Mail;
 
+use Illuminate\Http\Request;
 use serranatural\Http\Requests;
+
 use serranatural\Http\Controllers\Controller;
 
 use serranatural\Models\Cliente;
@@ -20,7 +22,7 @@ class ClienteController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => ['cadastro', 'storeSelfCliente']]);
     }
 
     public function lista()
@@ -238,4 +240,24 @@ class ClienteController extends Controller
         return back()->with($data);
 
     }
+
+    public function cadastro()
+    {
+        return view('adm.clientes.selfCadastro');
+
+    }
+
+    public function storeSelfCliente(Request $request)
+    {
+        $cliente = Cliente::create($request->all());
+
+        $data = [
+            'msg_retornos' => 'Cadastro efetuado com sucesso!',
+            'tipo_retornos' => 'success',
+        ];
+
+        return redirect()->back()->with($data);
+    }
+
+
 }
