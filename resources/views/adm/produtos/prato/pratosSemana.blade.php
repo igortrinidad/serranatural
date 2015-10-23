@@ -48,7 +48,10 @@
   				<tr><strong>
   					<td>Data programada</td>
             <td>Prato</td>
-  					<td>Acompanhamentos</td>
+            <td>Acompanhamentos</td>
+            <td>Pequeno</td>
+            <td>Grande</td>
+  					<td>Edita</td>
   					<td>Exclui</td>
   				</tr></strong>
   			</thead>
@@ -57,8 +60,11 @@
   			<tr>
   				<td>{{ dataMysqlParaDateTime($a->dataStamp) }}, {{ dataMysqlParaPtBr($a->dataStamp) }}</td>
           <td>{{ $a->pratos['prato'] }}</td>
-  				<td>{{ $a->pratos['acompanhamentos'] }}</td>
-  				<td><a href="/admin/produtos/excluiPratoSemana/{{$a->id}}"><i class="fa fa-trash"></i></a></td>
+          <td>{{ $a->pratos['acompanhamentos'] }}</td>
+          <td>{{ $a->pratos['valor_pequeno'] }}</td>
+  				<td>{{ $a->pratos['valor_grande'] }}</td>
+          <td><a href="/admin/produtos/pratos/edita/{{$a->pratos->id}}"><i class="fa fa-pencil"></i></a></td>
+          <td><a href="/admin/produtos/excluiPratoSemana/{{$a->id}}"><i class="fa fa-trash"></i></a></td>
   			</tr>
 @endforeach
 

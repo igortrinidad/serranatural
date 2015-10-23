@@ -436,15 +436,25 @@ class ProdutosController extends Controller
 
         //dd($dados);
 
-                Mail::queue('emails.marketing.pratoNovo', $dados, function ($message) use ($cliente, $dados)
-                {
+        Mail::queue('emails.marketing.pratoNovo', $dados, function ($message) use ($cliente, $dados)
+        {
 
-                    $message->to($cliente->email, $cliente->nome);
-                    $message->from('mkt@serranatural.com', 'Serra Natural');
-                    $message->subject('Cardápio do dia');
-                    $message->getSwiftMessage();
+            $message->to($cliente->email, $cliente->nome);
+            $message->from('mkt@serranatural.com', 'Serra Natural');
+            $message->subject('Cardápio do dia');
+            $message->getSwiftMessage();
 
-                });
+        });
+
+        $body = json_encode($dados);
+
+        \serranatural\Models\LogEmail::create([
+
+        'email' => $cliente->email,
+        'assunto' => 'Cardapio do dia',
+        'mensagem' => $body
+
+        ]);
 
             
         }
