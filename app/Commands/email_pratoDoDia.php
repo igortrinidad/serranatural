@@ -46,16 +46,25 @@ class email_pratoDoDia extends Command implements SelfHandling
 
         ];
 
-                Mail::queue('emails.marketing.pratoNovo', $dados, function ($message) use ($cliente, $dados)
-                {
+        $mensagem = json_encode($dados);
 
-                    $message->to($cliente->email, $cliente->nome);
-                    $message->from('mkt@serranatural.com', 'Serra Natural');
-                    $message->subject('Cardápio do dia');
-                    $message->getSwiftMessage();
+            Mail::queue('emails.marketing.pratoNovo', $dados, function ($message) use ($cliente, $dados)
+            {
 
-                });
+                $message->to($cliente->email, $cliente->nome);
+                $message->from('mkt@serranatural.com', 'Serra Natural');
+                $message->subject('Cardápio do dia');
+                $message->getSwiftMessage();
 
+            });
+
+            \serranatural\Models\LogEmail::create([
+
+                'email' => $cliente->email,
+                'assunto' => 'Cardapio do dia',
+                'mensagem' => $mensagem
+
+                ]);
             
         }
 
