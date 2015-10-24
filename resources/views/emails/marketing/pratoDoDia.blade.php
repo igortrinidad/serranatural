@@ -247,7 +247,7 @@ Alameda do Ingá, 754 - Vila da Serra - Nova Lima<br>
 <a href="mailto:mkt@serranatural.com" target="_blank">mkt@serranatural.com</a><br>
 <br>
 Não quer mais receber nossos e-mails?<br>
-Envie e-mail com o assunto SAIR para <a href="mailto:contato@serranatural.com" target="_blank">contato@serranatural.com</a>.
+<strong><a href="{{base_url().'/me/'.$emailCliente}}" target="_blank">Clique aqui</a> e altere suas preferências de recebimento.
                         </td>
                     </tr>
                 </tbody></table>

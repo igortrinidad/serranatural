@@ -19,7 +19,8 @@
                     <div class="col-lg-6">
                         <h1>Ops!</h1>
                         <p>Não localizamos nenhum cadastro com o email: {{$email}}</p>
-                        
+
+                        <a href="{{ url().'/cadastro'}}" class="btn btn-lg btn-block btn-primary">Cadastre-se</a>
                     </div>
                 </div>
             </div>

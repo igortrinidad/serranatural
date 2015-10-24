@@ -430,6 +430,7 @@ class ProdutosController extends Controller
 
         'prato' => $prato,
         'nomeCliente' => $cliente->nome,
+        'emailCliente' => $cliente->email,
         'mensagem' => $mensagem
 
         ];
