@@ -22,7 +22,7 @@ class ClienteController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['cadastro', 'storeSelfCliente']]);
+        $this->middleware('auth', ['except' => ['cadastro', 'storeSelfCliente', 'clienteMostra', 'selfChangeClient']]);
     }
 
     public function lista()
@@ -75,11 +75,9 @@ class ClienteController extends Controller
 
     }
 
-    public function updateCliente()
+    public function updateCliente(Request $request)
     {
-        $request = Request::all();
-
-        $id = Request::route('id');
+        $id = $request->route('id');
 
         $cliente = Cliente::where('id', '=', $id)
                             ->update(
@@ -111,23 +109,21 @@ class ClienteController extends Controller
 
         $dados = [
             'msg_retorno' => 'Cliente retirado da lista de e-mail',
-            'tipo_retorno' => 'Cliente adicionado à lista de e-mail',
+            'tipo_retorno' => 'danger',
         ];
 
         return back()->with($dados);
     }
 
 
-    public function entrarEmail()
+    public function entrarEmail($id)
     {
-        $id = Request::route('id');
-
         Cliente::where('id', '=', $id)
         ->update(['opt_email' => 1]);
 
         $dados = [
-            'msg_retorno' => 'Cliente retirado da lista de e-mail',
-            'tipo_retorno' => 'danger',
+            'msg_retorno' => 'Cliente adicionado à lista de e-mail',
+            'tipo_retorno' => 'success',
         ];
 
         return back()->with($dados);
@@ -257,6 +253,54 @@ class ClienteController extends Controller
         ];
 
         return redirect()->back()->with($data);
+    }
+
+    public function clienteMostra($email)
+    {
+
+        $cliente = Cliente::where('email', '=', $email)->first();
+
+        if(is_null($cliente) OR empty($cliente)) 
+        {
+            $dados = [
+
+            'email' => $email
+        ];
+
+        return view('cliente.clienteNotFound')->with($dados);
+
+        }
+
+        $dados = [
+
+            'cliente' => $cliente
+        ];
+
+        return view('cliente.clienteMostra')->with($dados);
+    }
+
+    public function selfChangeClient(Request $request)
+    {
+
+        $cliente = $request->all();
+
+        //dd($cliente);
+
+        $cliente = Cliente::where('email', '=', $cliente['email'])
+                            ->update(
+                                [
+                                'nome' => $cliente['nome'],
+                                'telefone' => $cliente['telefone'],
+                                'email' => $cliente['email'],
+                                'opt_email' => $cliente['opt_email']
+                                ]);
+
+        $dados = [
+            'msg_retorno' => 'Cliente alterado com sucesso',
+            'tipo_retorno' => 'success',
+        ];
+
+        return redirect()->back()->with($dados);
     }
 
 

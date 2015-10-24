@@ -86,3 +86,5 @@ Route::post('password/email', 'Auth\PasswordController@resetPass');
 Route::get('/admin/usuarios/configuracoes', 'Auth\AuthController@editaUsuario');
 Route::post('/admin/usuarios/configuracoes/update', 'Auth\AuthController@updateUsuario');
 
+Route::get('/me/{email}', 'ClienteController@clienteMostra');
+Route::post('/me/selfChangeClient', 'ClienteController@selfChangeClient');

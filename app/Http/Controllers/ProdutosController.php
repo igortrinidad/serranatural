@@ -287,9 +287,9 @@ class ProdutosController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function ativarPrato()
+    public function ativarPrato(Request $request)
     {
-        $id = Request::route('id');
+        $id = $request->route('id');
 
         $produto = Pratos::where('id', '=', $id)
                     ->update(['ativo' => 1]);
@@ -305,9 +305,9 @@ class ProdutosController extends Controller
 
     }
 
-    public function desativarPrato()
+    public function desativarPrato(Request $request)
     {
-        $id = Request::route('id');
+        $id = $request->route('id');
 
         $produto = Pratos::where('id', '=', $id)
                     ->update(['ativo' => 0]);
