@@ -17,13 +17,13 @@
 
                                 <div id="cadastre" class="tab-pane fade in active">
 
-                                	@if(Session::has('msg_retornos'))
-									<div class="alert alert-{{Session::get('tipo_retornos')}}">
-									     {{Session::get('msg_retornos')}}
+                                	@if(Session::has('msg_retorno'))
+									<div class="alert alert-{{Session::get('tipo_retorno')}}">
+									     {{Session::get('msg_retorno')}}
 									 </div>
 									@endif
 
-                                    <img alt="image" class="img-circle block text-center" src="{{get_gravatar($cliente->email, 150)}}"/>
+                                    <img class="img-circle block text-center" src="{{get_gravatar($cliente->email, 150)}}" alt="Não tem avatar? Adicione um pelo serviço Gravatar" title="Não tem avatar? Adicione um pelo serviço Gravatar.com" />
 
                                     <form id="votoForm" action="/me/selfChangeClient" class="form-group" method="POST">
                                         <input form="votoForm" type="hidden" name="_token" value="{{{ csrf_token() }}}" />
@@ -47,7 +47,7 @@
                                             <input form="votoForm" type="hidden" name="opt_email" value="0" class="checkbox"/>
                                             <input form="votoForm" type="checkbox" name="opt_email" value="1" class="checkbox" @if($cliente->opt_email == 1) checked @endif/>
                                             <p class="texto_votacao">Aceito receber informações sobre promoções e novidades da Serra Natural.
-                                            <br>Ao desmarcar essa opção você não mais receberá nossos e-mails.</p>
+                                            <br>Ao desmarcar essa opção você <strong style="color:red">não</strong> receberá nossos e-mails.</p>
                                         </div>
                                         
                 

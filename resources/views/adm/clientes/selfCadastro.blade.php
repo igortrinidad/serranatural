@@ -9,7 +9,7 @@
                 <div class="col-lg-3"></div>
                     <div class="col-lg-6">
                         <h1>Cadastre-se</h1>
-                        <p>Receba os pratos de cada dia em seu e-mail.</p>
+                        <p>Receba novidades e o cardápio do dia em seu email.</p>
                         
 
                         <div class="panel painel_cadastro paineis">

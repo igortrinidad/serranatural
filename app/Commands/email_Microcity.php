@@ -43,7 +43,8 @@ class email_Microcity extends Command implements SelfHandling
         $dados = [
 
         'prato' => $prato,
-        'nomeCliente' => $cliente->nome
+        'nomeCliente' => $cliente->nome,
+        'emailCliente' => $cliente->email,
 
         ];
 

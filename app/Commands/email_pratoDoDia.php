@@ -42,7 +42,8 @@ class email_pratoDoDia extends Command implements SelfHandling
         $dados = [
 
         'prato' => $prato,
-        'nomeCliente' => $cliente->nome
+        'nomeCliente' => $cliente->nome,
+        'emailCliente' => $cliente->email,
 
         ];
 

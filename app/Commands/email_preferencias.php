@@ -46,7 +46,8 @@ class email_preferencias extends Command implements SelfHandling
         $dados = [
 
         'prato' => $prato,
-        'nomeCliente' => $cliente->nome
+        'nomeCliente' => $cliente->nome,
+        'emailCliente' => $cliente->email,
 
         ];
 

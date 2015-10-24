@@ -301,7 +301,7 @@
 
 
                         <li>
-                            <a href="#"><i class="fa fa-th-list"></i> Produtos<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-th-list"></i> Pratos<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="/admin/produtos/pratos/lista">Pratos do Dia</a>

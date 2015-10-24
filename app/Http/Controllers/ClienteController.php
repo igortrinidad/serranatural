@@ -212,7 +212,8 @@ class ClienteController extends Controller
         $dados = [
 
         'prato' => $prato,
-        'nomeCliente' => $cliente->nome
+        'nomeCliente' => $cliente->nome,
+        'emailCliente' => $cliente->email,
 
         ];
 
@@ -296,7 +297,7 @@ class ClienteController extends Controller
                                 ]);
 
         $dados = [
-            'msg_retorno' => 'Cliente alterado com sucesso',
+            'msg_retorno' => 'Dados alterados com sucesso',
             'tipo_retorno' => 'success',
         ];
 
