@@ -307,7 +307,11 @@ class ClienteController extends Controller
 
     public function testeApi(Request $request)
     {
-        return $request->all();
+        $request =  $request->all();
+
+        $retorno = json_decode($request);
+
+        return $retorno->city;
     }
 
 
