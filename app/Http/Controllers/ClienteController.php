@@ -309,9 +309,7 @@ class ClienteController extends Controller
     {
         $json = $request->all();
 
-        $retorno = json_decode($json);
-
-        return $retorno->city;
+        return $json->city;
     }
 
 
