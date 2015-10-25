@@ -304,5 +304,13 @@ class ClienteController extends Controller
         return redirect()->back()->with($dados);
     }
 
+    public function testeApi(Request $request)
+    {
+
+        $retorno = json_decode($request->all);
+
+        return $retorno;
+    }
+
 
 }

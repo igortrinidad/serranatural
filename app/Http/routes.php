@@ -88,3 +88,6 @@ Route::post('/admin/usuarios/configuracoes/update', 'Auth\AuthController@updateU
 
 Route::get('/me/{email}', 'ClienteController@clienteMostra');
 Route::post('/me/selfChangeClient', 'ClienteController@selfChangeClient');
+
+
+Route::post('/teste/testeApi', 'ClienteController@testeApi');
