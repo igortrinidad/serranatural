@@ -23,10 +23,6 @@ class ClienteController extends Controller
     public function __construct()
     {
         $this->middleware('auth', ['except' => ['cadastro', 'storeSelfCliente', 'clienteMostra', 'selfChangeClient', 'testeApi']]);
-    
-        $this->beforeFilter('csrf', array('on' => 'post', 
-                                 'except'=>array('testeApi')
-                                  ));
 
     }
 
@@ -311,11 +307,13 @@ class ClienteController extends Controller
 
     public function testeApi(Request $request)
     {
-
         $retorno = json_decode($request->all);
+
+        //dd($request);
 
         return $retorno;
     }
+
 
 
 }

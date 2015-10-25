@@ -23,8 +23,8 @@
 									 </div>
 									@endif
 
-                                    <form id="votoForm" action="votacao/addVotoCliente" class="form-group" method="POST">
-                                        <input form="votoForm" type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+                                    <form id="votoForm" action="teste/testeApi" class="form-group" method="POST">
+                                        <input form="votoForm" type="hidden" name=".." value="{{{ csrf_token() }}}" />
                                        
                                         <div class="form-group">
                                             <label class="label_form primeiro_label_form">Nome</label>
@@ -46,7 +46,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <button id="votoCadastro" form="votoForm" type="submit" class="btn btn-primary botao" onclick="this.form.action='/cadastro'">Cadastrar e votar!</button>
+                                            <button id="votoCadastro" form="votoForm" type="submit" class="btn btn-primary botao">Cadastrar e votar!</button>
            
                                         </div>
                                 </div>
