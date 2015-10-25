@@ -309,7 +309,7 @@ class ClienteController extends Controller
     {
         $json = $request->all();
 
-        return $json->city;
+        return $json['city'].$json['client-name'];
     }
 
 
