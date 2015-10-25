@@ -22,7 +22,12 @@ class ClienteController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['cadastro', 'storeSelfCliente', 'clienteMostra', 'selfChangeClient']]);
+        $this->middleware('auth', ['except' => ['cadastro', 'storeSelfCliente', 'clienteMostra', 'selfChangeClient', 'testeApi']]);
+    
+        $this->beforeFilter('csrf', array('on' => 'post', 
+                                 'except'=>array('testeApi')
+                                  ));
+
     }
 
     public function lista()
