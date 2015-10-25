@@ -30,9 +30,12 @@ class ClienteController extends Controller
     {
         $lista = Cliente::paginate(10);
 
+        $clientesForSelect = $this->clientesForSelect();
+
         $dados = [
 
-            'lista' => $lista
+            'lista' => $lista,
+            'clientesForSelect' => $clientesForSelect
 
         ];
 
@@ -44,9 +47,9 @@ class ClienteController extends Controller
      *
      * @return Response
      */
-    public function mostraCliente()
+    public function mostraCliente(Request $request)
     {
-        $id = Request::route('id');
+        $id = $request->id;
         $cliente = Cliente::where('id', '=', $id)->first();
         $preferencias = Preferencias::join('pratosDoDia', 'preferenciaClientes.preferencias', '=', 'pratosDoDia.id')
                                         ->where('clienteId', '=', $id)->get();
@@ -62,9 +65,9 @@ class ClienteController extends Controller
 
     }
 
-    public function editaCliente()
+    public function editaCliente(Request $request)
     {
-        $id = Request::route('id');
+        $id = $request->id;
 
         $cliente = Cliente::where('id', '=', $id)->first();
 
@@ -78,7 +81,8 @@ class ClienteController extends Controller
 
     public function updateCliente(Request $request)
     {
-        $id = $request->route('id');
+
+        $id = $request->id;
 
         $cliente = Cliente::where('id', '=', $id)
                             ->update(
@@ -316,6 +320,32 @@ class ClienteController extends Controller
         ];
 
         return $json;
+    }
+
+    public function clientesForSelect()
+    {
+        $clientes = Cliente::all();
+        $result = array();
+
+        foreach($clientes as $key => $value) {
+            $result[$value->id] = $value->nome;
+        }
+
+        return $result;
+    }
+
+    public function editaSelected(Request $request)
+    {
+
+        $cliente = Cliente::find($request->cliente);
+
+        $dados = [
+            'c' => $cliente
+        ];
+
+        return view('adm/clientes/edita')->with($dados);
+
+
     }
 
 

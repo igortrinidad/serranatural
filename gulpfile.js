@@ -20,6 +20,7 @@ elixir(function(mix) {
 		'/../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js',
 		'/../bower_components/jquery-mask-plugin/dist/jquery.mask.js',
 		'/../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.pt-BR.js',
+		'/../bower_components/select2/dist/js/select2.js',
 		'sb-admin-2.js',
 		'appGeral.js',
 
@@ -28,6 +29,10 @@ elixir(function(mix) {
 	mix.scripts([
 		'appGeral.js'
 		], 'public/js/app.js');
+
+	mix.scripts([
+		'clientes.js'
+		], 'public/js/clientes.js');
 
 	mix.scripts([
 		'votacao.js',
@@ -42,6 +47,8 @@ elixir(function(mix) {
 		'/../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
 		'/../bower_components/metisMenu/dist/metisMenu.css',
 		'/../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.standalone.css',
+		'/../bower_components/select2/dist/css/select2.css',
+		'/../bower_components/select2-bootstrap-css/select2-bootstrap.css',
 		'sb-admin-2.css',
 		], 'public/css/vendor.css');
 
@@ -59,5 +66,5 @@ elixir(function(mix) {
 
 	mix.styles('estilos/login.css', 'public/css/login.css');
 
-	mix.version(['js/app.js', 'js/votacao.js'])
+	mix.version(['js/app.js', 'js/votacao.js', 'js/clientes.js'])
 });

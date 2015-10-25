@@ -55,6 +55,10 @@ Route::get('/admin/clientes/edita/{id}', 'ClienteController@editaCliente');
 Route::get('/admin/clientes/excluir/{id}', 'ClienteController@destroy');
 Route::post('/admin/clientes/edita/{id}', 'ClienteController@updateCliente');
 Route::get('/admin/clientes/enviaPrato/{id}', 'ClienteController@enviaEmailPratoDoDia');
+Route::post('/admin/clientes/editaSelected', [
+    'as' => 'client.editaSelected', 'uses' => 'ClienteController@editaSelected'
+]);
+
 
 //A bertura
 Route::get('/', function () {
@@ -91,3 +95,5 @@ Route::post('/me/selfChangeClient', 'ClienteController@selfChangeClient');
 
 
 Route::post('/teste/testeApi', 'ClienteController@testeApi');
+
+

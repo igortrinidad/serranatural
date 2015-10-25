@@ -145,6 +145,7 @@ return [
         serranatural\Providers\RouteServiceProvider::class,
         Vinicius73\Lavatar\LavatarServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
 
     ],
 
@@ -195,6 +196,8 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
         'Lavatar' => Vinicius73\Lavatar\Facade\LavatarFacade::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
 
     ],
 

@@ -13,10 +13,33 @@
 		<div class="panel panel-default">
 			<div class="panel-heading"><h5>Lista</h5></div>
 			<div class="panel-body">
-				<div class="inline text-right">
-					<a href="{!! $lista->previousPageUrl() !!}" class="btn btn-primary"><i class="fa fa-chevron-left"></i></a>
-					<a href="{!! $lista->nextPageUrl() !!}" class="btn btn-primary"><i class="fa fa-chevron-right"></i></a>
-				</div><br />
+
+				<div class="row">
+					<div class="col-md-8">
+						
+						<div class="form-group">
+							{!! Form::open(array('action' => 'ClienteController@editaSelected')) !!}
+							{!! Form::select('cliente', $clientesForSelect, null, ['class' => 'form-control', 
+							'single' => 'single', 'id' => 'clientes'])   !!}
+						</div>
+
+					</div>
+					<div class="col-md-2">
+						<div class="form-group">
+							{!! Form::submit('Editar!', ['class' => 'btn btn-default']) !!}
+							{!! Form::close() !!}
+						</div>
+					</div>
+
+				
+					<div class="col-md-2">
+					<div class="inline text-right">
+							<a href="{!! $lista->previousPageUrl() !!}" class="btn btn-primary"><i class="fa fa-chevron-left"></i></a>
+							<a href="{!! $lista->nextPageUrl() !!}" class="btn btn-primary"><i class="fa fa-chevron-right"></i></a>
+						</div><br />
+					</div>
+				</div>
+
 
 			<table class="table table-bordered">
 				<thead>
@@ -53,6 +76,13 @@
 			
 			</div>
 		</div>
+
+
+    @section('scripts')
+	    @parent
+	        <script src="{!! elixir('js/clientes.js') !!}"></script>
+
+	    @stop
 
 
 
