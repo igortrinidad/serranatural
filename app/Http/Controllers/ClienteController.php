@@ -307,7 +307,7 @@ class ClienteController extends Controller
 
     public function testeApi(Request $request)
     {
-        return $request;
+        return $request->all();
     }
 
 
