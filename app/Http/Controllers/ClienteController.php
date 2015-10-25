@@ -307,7 +307,7 @@ class ClienteController extends Controller
 
     public function testeApi(Request $request)
     {
-        return $request['city', 'client-name'];
+        return $request['city', '_token'];
     }
 
 
