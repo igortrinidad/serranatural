@@ -309,7 +309,13 @@ class ClienteController extends Controller
     {
         $json = $request->all();
 
-        return $json;
+        $retorno = [
+            'status' => 'Ok',
+            'Mensagem' => 'Dados recebidos com sucesso.'
+
+        ];
+
+        return $retorno;
     }
 
 
