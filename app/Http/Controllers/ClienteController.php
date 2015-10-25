@@ -315,7 +315,7 @@ class ClienteController extends Controller
 
         ];
 
-        return $retorno;
+        return $json;
     }
 
 
