@@ -21,6 +21,7 @@ elixir(function(mix) {
 		'/../bower_components/jquery-mask-plugin/dist/jquery.mask.js',
 		'/../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.pt-BR.js',
 		'/../bower_components/select2/dist/js/select2.js',
+		'/../bower_components/summernote/dist/summernote.js',
 		'sb-admin-2.js',
 		'appGeral.js',
 
@@ -49,6 +50,7 @@ elixir(function(mix) {
 		'/../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.standalone.css',
 		'/../bower_components/select2/dist/css/select2.css',
 		'/../bower_components/select2-bootstrap-css/select2-bootstrap.css',
+		'/../bower_components/summernote/dist/summernote.css',
 		'sb-admin-2.css',
 		], 'public/css/vendor.css');
 

@@ -22,7 +22,7 @@ class ClienteController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['cadastro', 'storeSelfCliente', 'clienteMostra', 'selfChangeClient', 'testeApi']]);
+        $this->middleware('auth', ['except' => ['cadastro', 'storeSelfCliente', 'clienteSelfMostra', 'clienteSelfMostra', 'selfChangeClient', 'testeApi']]);
 
     }
 
@@ -261,7 +261,7 @@ class ClienteController extends Controller
         return redirect()->back()->with($data);
     }
 
-    public function clienteMostra($email)
+    public function clienteSelfMostra($email)
     {
 
         $cliente = Cliente::where('email', '=', $email)->first();
@@ -282,7 +282,31 @@ class ClienteController extends Controller
             'cliente' => $cliente
         ];
 
-        return view('cliente.clienteMostra')->with($dados);
+        return view('cliente.formMostra')->with($dados);
+    }
+
+    public function clienteSelfEdita($email)
+    {
+
+        $cliente = Cliente::where('email', '=', $email)->first();
+
+        if(is_null($cliente) OR empty($cliente)) 
+        {
+            $dados = [
+
+            'email' => $email
+        ];
+
+        return view('cliente.clienteNotFound')->with($dados);
+
+        }
+
+        $dados = [
+
+            'cliente' => $cliente
+        ];
+
+        return view('cliente.formEdita')->with($dados);
     }
 
     public function selfChangeClient(Request $request)
@@ -291,6 +315,8 @@ class ClienteController extends Controller
         $cliente = $request->all();
 
         //dd($cliente);
+
+        $email = $cliente['email'];
 
         $cliente = Cliente::where('email', '=', $cliente['email'])
                             ->update(
@@ -306,7 +332,7 @@ class ClienteController extends Controller
             'tipo_retorno' => 'success',
         ];
 
-        return redirect()->back()->with($dados);
+        return redirect()->route('selfClient.mostraSelected', [$email])->with($dados);
     }
 
     public function testeApi(Request $request)

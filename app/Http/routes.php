@@ -23,7 +23,7 @@ Route::post('admin/promocoes/sorteioVotacao', 'PromocoesController@sorteioVotaca
 Route::post('admin/promocoes/salvaSorteado', 'PromocoesController@salvaSorteado');
 
 //Produtos
-Route::get('/admin', 'ProdutosController@indexPrato');
+Route::get('/admin', 'SystemController@indexDashboard');
 Route::get('/admin/produtos/pratos/lista', 'ProdutosController@indexPrato');
 Route::get('/admin/produtos/pratos/mostra/{id}', 'ProdutosController@mostraPrato');
 Route::get('/admin/produtos/pratos/edita/{id}', 'ProdutosController@editaPrato');
@@ -61,8 +61,8 @@ Route::post('/admin/clientes/editaSelected', [
 
 
 //A bertura
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', function() {
+	return view('auth/login');
 });
 
 // Função para testar views
@@ -90,10 +90,14 @@ Route::post('password/email', 'Auth\PasswordController@resetPass');
 Route::get('/admin/usuarios/configuracoes', 'Auth\AuthController@editaUsuario');
 Route::post('/admin/usuarios/configuracoes/update', 'Auth\AuthController@updateUsuario');
 
-Route::get('/me/{email}', 'ClienteController@clienteMostra');
 Route::post('/me/selfChangeClient', 'ClienteController@selfChangeClient');
-
+Route::get('/me/edita/{email}', 'ClienteController@clienteSelfEdita');
+Route::get('/me/{email}', [
+    'as' => 'selfClient.mostraSelected', 'uses' => 'ClienteController@clienteSelfMostra'
+]);
 
 Route::post('/teste/testeApi', 'ClienteController@testeApi');
+
+Route::post('teste/summernote', 'TesteController@summernote');
 
 

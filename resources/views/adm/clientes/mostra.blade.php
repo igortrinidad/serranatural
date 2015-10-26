@@ -80,5 +80,34 @@
 		</div>
 	</div>
 
+	<div class="panel panel-default">
+		<div class="panel-heading"><h5>Preferências</h5></div>
+		<div class="panel-body">
+
+			<p>
+				<form id="postForm" action="/teste/summernote" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
+			        <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+			        <input type="hidden" name="clienteId" value="{{$cliente->id}}" />
+					    <div class="form-group">
+					    	<textarea class="input-block-level" id="summernote" name="content" rows="12">
+							</textarea>
+					    </div>
+					    <div class="form-group">
+					    	<button type="submit" class="btn btn-primary btn-block">Ir</button>
+					  	</div>
+				</form>
+
+
+
+			
+		</div>
+	</div>
+
+
+    @section('scripts')
+	    @parent
+	        <script src="{!! elixir('js/clientes.js') !!}"></script>
+
+	    @stop
 
 @stop
