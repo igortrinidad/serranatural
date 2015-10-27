@@ -58,6 +58,13 @@ Route::get('/admin/clientes/enviaPrato/{id}', 'ClienteController@enviaEmailPrato
 Route::post('/admin/clientes/editaSelected', [
     'as' => 'client.editaSelected', 'uses' => 'ClienteController@editaSelected'
 ]);
+Route::get('/admin/clientes/fidelidade', [
+    'as' => 'client.fidelidade', 'uses' => 'ClienteController@fidelidadeIndex'
+]);
+
+Route::post('/admin/clientes/salvaPonto', [
+    'as' => 'client.salvaPonto', 'uses' => 'ClienteController@salvaPonto'
+]);
 
 
 //A bertura
@@ -99,5 +106,8 @@ Route::get('/me/{email}', [
 Route::post('/teste/testeApi', 'ClienteController@testeApi');
 
 Route::post('teste/summernote', 'TesteController@summernote');
+
+Route::post('teste/index', 'TesteController@index');
+
 
 

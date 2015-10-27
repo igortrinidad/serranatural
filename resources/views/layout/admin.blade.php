@@ -291,7 +291,7 @@
                                     <a href="#">Adiciona</a>
                                 </li>
                                 <li>
-                                    <a href="#">Preferência</a>
+                                    <a href="/admin/clientes/fidelidade">Fidelidade</a>
                                 </li>
 
                             </ul>

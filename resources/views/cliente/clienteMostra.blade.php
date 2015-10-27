@@ -40,17 +40,44 @@
                             <div class="panel painel_cadastro paineis">
                                 <div class="panel-body">
                                     <h4 class="text-left">Pontos</h4>
-
-                                      <span class="fa-stack fa-4x">
-                                        <strong class="fa-stack-1x fa-stack-text">12</strong>
-                                      </span>
-
-                                      <div class="progress">
-                                      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="70"
-                                      aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                                        <span class="sr-only">70% Complete</span>
-                                      </div>
+                                    
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-6 text-center">
+                                            <p>Açaí</p>
+                                        </div>
+                                        <div class="col-md-6 text-center">
+                                            <p>Almoço</p>
+                                        </div>
                                     </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6 text-center">
+                                                <p style="font-weight:700;font-size:50px">{{$qtdPontosAcai}}
+                                            </div>
+                                            <div class="col-md-6 text-center">
+                                                <p style="font-weight:700;font-size:50px">{{$qtdPontosAlmoco}}
+                                            </div>
+                                        </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="70"
+                                                    aria-valuemin="0" aria-valuemax="100" style="width:{{calculaPorcentagem(15, $qtdPontosAcai)}}%">
+                                                    <span class="sr-only">70% Complete</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">                                            <div class="progress">
+                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="70"
+                                                    aria-valuemin="0" aria-valuemax="100" style="width:{{calculaPorcentagem(15, $qtdPontosAlmoco)}}%">
+                                                    <span class="sr-only">70% Complete</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
 
                             
                                       <div class="" data-toggle="collapse" data-target="#demo"> Seus pontos <i class="fa fa-chevron-down"></i></div>
@@ -63,13 +90,17 @@
                                             <tr>
                                                 <th class="text-center">Compra</th>
                                                 <th class="text-center">Vencimento</th>
+                                                <th class="text-center">Produto</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        @foreach($pontosAll as $ponto)
                                             <tr>
-                                                <th class="text-center">20/10/2015</th>
-                                                <th class="text-center">20/12/2015</th>
+                                                <th class="text-center">{{$ponto->data_coleta}}</th>
+                                                <th class="text-center">{{$ponto->vencimento}}</th>
+                                                <th class="text-center">{{$ponto->produto}}</th>
                                             </tr>
+                                        @endforeach
                                         </tbody>
                                     </table>
 
@@ -89,19 +120,26 @@
 
 
                                     <table class="table">
-                                          <col width="50%">
+                                          <col width="10%">
+                                            <col width="45%">
                                             <col width="50%">
                                         <thead>
                                             <tr>
+                                                <th class="text-center">ID</th>
+                                                <th class="text-center">Produto</th>
                                                 <th class="text-center">Vencimento</th>
                                                 <th class="text-center">Data utilizado</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        @foreach($vouchers as $voucher)
                                             <tr>
-                                                <th class="text-center">20/02/2016</th>
-                                                <th class="text-center">--</th>
+                                                <th class="text-center">{{$voucher->id}}</th>
+                                                <th class="text-center">{{$voucher->produto}}</th>
+                                                <th class="text-center">{{$voucher->vencimento}}</th>
+                                                <th class="text-center">@if($voucher->data_utilizado <= '2015-01-01'){{$voucher->data_utilizado}} @endif</th>
                                             </tr>
+                                        @endforeach
                                         </tbody>
                                     </table>
 

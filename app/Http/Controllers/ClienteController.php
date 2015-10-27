@@ -16,6 +16,8 @@ use serranatural\Models\Cliente;
 use serranatural\Models\Preferencias;
 use serranatural\Models\Pratos;
 use serranatural\Models\AgendaPratos;
+use serranatural\Models\PontoColetado;
+use serranatural\Models\Voucher;
 
 class ClienteController extends Controller
 {
@@ -277,9 +279,35 @@ class ClienteController extends Controller
 
         }
 
+
+        $pontosAcai = PontoColetado::where('cliente_id', '=', $cliente->id)
+                                ->where('is_valido', '=', 1)
+                                ->where('produto', '=', 'Açaí')
+                                ->get();
+
+        $pontosAlmoco = PontoColetado::where('cliente_id', '=', $cliente->id)
+                                ->where('is_valido', '=', 1)
+                                ->where('produto', '=', 'Almoço')
+                                ->get();
+
+        $pontosAll = PontoColetado::where('cliente_id', '=', $cliente->id)
+                                ->where('is_valido', '=', 1)
+                                ->get();
+
+        $vouchers = Voucher::where('cliente_id', '=', $cliente->id)
+                                ->where('is_valido', '=', 1)
+                                ->get();
+
+        $qtdPontosAcai = count($pontosAcai);
+        $qtdPontosAlmoco = count($pontosAlmoco);
+
         $dados = [
 
-            'cliente' => $cliente
+            'cliente' => $cliente,
+            'pontosAll' => $pontosAll,
+            'qtdPontosAcai' => $qtdPontosAcai,
+            'qtdPontosAlmoco' => $qtdPontosAlmoco,
+            'vouchers' => $vouchers
         ];
 
         return view('cliente.formMostra')->with($dados);
@@ -354,7 +382,7 @@ class ClienteController extends Controller
         $result = array();
 
         foreach($clientes as $key => $value) {
-            $result[$value->id] = $value->nome;
+            $result[$value->id] = $value->id.' - '.$value->nome;
         }
 
         return $result;
@@ -374,6 +402,45 @@ class ClienteController extends Controller
 
     }
 
+    public function fidelidadeIndex()
+    {
+
+        $lista = Cliente::paginate(10);
+
+        $clientesForSelect = $this->clientesForSelect();
+
+        $dados = [
+
+            'lista' => $lista,
+            'clientesForSelect' => $clientesForSelect
+
+        ];
+
+        return view('adm.clientes.fidelidadeIndex')->with($dados);
+    }
+
+    public function salvaPonto(Request $request)
+    {
+        $cliente = $request->all();
+
+        $timestamp = strtotime("+2 month");
+
+        $ponto = PontoColetado::create([
+                'cliente_id' => $cliente['cliente_id'],
+                'data_coleta' => date('Y-m-d'),
+                'vencimento' => date('Y-m-d', $timestamp),
+                'is_valido' => 1,
+                'produto' => $cliente['produto']
+            ]);
+
+        $dados = [
+            'msg_retorno' => 'Pontos adicionados com sucesso',
+            'tipo_retorno' => 'success'
+        ];
+
+        return redirect()->back()->with($dados);
+
+    }
 
 
 }
