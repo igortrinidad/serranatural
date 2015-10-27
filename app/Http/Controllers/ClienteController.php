@@ -24,7 +24,7 @@ class ClienteController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['cadastro', 'storeSelfCliente', 'clienteSelfMostra', 'clienteSelfMostra', 'selfChangeClient', 'testeApi']]);
+        $this->middleware('auth', ['except' => ['cadastro', 'storeSelfCliente', 'clienteSelfEdita', 'clienteSelfMostra', 'selfChangeClient', 'testeApi']]);
 
     }
 

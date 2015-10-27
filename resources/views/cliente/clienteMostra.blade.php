@@ -150,10 +150,24 @@
 
 
                         </div>
-
-                
-                                
+             
             </div>
+            
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10">
+                    <div class="panel painel_cadastro paineis">
+                        <div class="panel-body">
+                            <h4 class="text-left">Regulamento</h4>
+                            <p>O cliente Serra Natural pode coletar pontos a cada compra.</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
         </div>
 </section>
 
