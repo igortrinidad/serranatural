@@ -382,7 +382,7 @@ class ClienteController extends Controller
         $result = array();
 
         foreach($clientes as $key => $value) {
-            $result[$value->id] = $value->id.' - '.$value->nome;
+            $result[$value->id] = $value->id.' - '.$value->nome . ' - ' . $value->email;
         }
 
         return $result;
@@ -433,12 +433,104 @@ class ClienteController extends Controller
                 'produto' => $cliente['produto']
             ]);
 
+        $pontos = PontoColetado::where('cliente_id', '=', $cliente['cliente_id'])
+                                ->where('is_valido', '=', 1)
+                                ->where('produto', '=', $cliente['produto'])
+                                ->get();
+
+
+        $this->enviaEmailPontoColetado($cliente['cliente_id'], $cliente['produto']);
+
+        if (count($pontos) >= 15)
+        {
+            $voucher = Voucher::create([
+                    'cliente_id' => $cliente['cliente_id'],
+                    'data_voucher' => date('Y-m-d'),
+                    'vencimento' => date('Y-m-d', $timestamp),
+                    'is_valido' => 1,
+                    'produto' => $cliente['produto']
+
+                ]);
+
+            PontoColetado::where('cliente_id', '=', $cliente['cliente_id'])
+                        ->where('is_valido', '=', 1)
+                        ->where('produto', '=', $cliente['produto'])
+                        ->update([
+                            'voucher_id' => $voucher->id,
+                            'is_valido' => 0
+                            ]);
+
+            PontoColetado::where('cliente_id', '=', $cliente['cliente_id'])
+                        ->where('voucher_id', '=', $voucher->id)
+                        ->delete();
+
+        $dados = [
+            'msg_retorno' => 'Pontos adicionados com sucesso. Cliente acaba de ganhar um voucher de'.$cliente['produto'].'.',
+            'tipo_retorno' => 'info'
+        ];
+
+        return redirect()->back()->with($dados);
+
+        }
+
         $dados = [
             'msg_retorno' => 'Pontos adicionados com sucesso',
             'tipo_retorno' => 'success'
         ];
 
         return redirect()->back()->with($dados);
+
+    }
+
+    public function enviaEmailPontoColetado($id, $produtoAdiquirido)
+    {
+
+        $cliente = Cliente::find($id);
+
+        $produto = $produtoAdiquirido;
+
+        $pontosAcai = PontoColetado::where('cliente_id', '=', $id)
+                                ->where('is_valido', '=', 1)
+                                ->where('produto', '=', 'Açaí')
+                                ->get();
+
+        $pontosAlmoco = PontoColetado::where('cliente_id', '=', $id)
+                                ->where('is_valido', '=', 1)
+                                ->where('produto', '=', 'Almoço')
+                                ->get();
+
+        $pontosAll = PontoColetado::where('cliente_id', '=', $id)
+                                ->where('is_valido', '=', 1)
+                                ->get();
+
+        $vouchers = Voucher::where('cliente_id', '=', $id)
+                                ->where('is_valido', '=', 1)
+                                ->get();
+
+        $qtdPontosAcai = count($pontosAcai);
+        $qtdPontosAlmoco = count($pontosAlmoco);
+
+        $data = [
+
+        'nomeCliente' => $cliente->nome,
+        'emailCliente' => $cliente->email,
+        'produto' => $produto,
+        'qtdPontosAcai' => $qtdPontosAcai,
+        'qtdPontosAlmoco' => $qtdPontosAlmoco,
+        'vouchers' => $vouchers,
+        ];
+
+                Mail::queue('emails.marketing.pontoColetado', $data, function ($message) use ($cliente, $data)
+                {
+
+                    $message->to($cliente->email, $cliente->nome);
+                    $message->from('mkt@serranatural.com', 'Serra Natural');
+                    $message->subject('Fidelidade Serra Natural');
+                    $message->getSwiftMessage();
+
+                });
+
+        return true;
 
     }
 

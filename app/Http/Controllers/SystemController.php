@@ -8,11 +8,13 @@ use serranatural\Http\Controllers\Controller;
 
 class SystemController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    public function __construct()
+    {
+        $this->middleware('auth', []);
+
+    }
+
     public function indexDashboard()
     {
         return view('adm.dashboard.index');
