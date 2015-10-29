@@ -107,7 +107,7 @@ Route::post('/teste/testeApi', 'ClienteController@testeApi');
 
 Route::post('teste/summernote', 'TesteController@summernote');
 
-Route::post('teste/index', 'TesteController@index');
+Route::get('teste/index', 'TesteController@index');
 
 
 
