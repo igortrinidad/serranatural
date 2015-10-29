@@ -34,10 +34,13 @@ class ClienteController extends Controller
 
         $clientesForSelect = $this->clientesForSelect();
 
+        $urlPagination = '/admin/clientes/lista/?page=';
+
         $dados = [
 
             'lista' => $lista,
-            'clientesForSelect' => $clientesForSelect
+            'clientesForSelect' => $clientesForSelect,
+            'urlPagination' => $urlPagination
 
         ];
 
@@ -413,12 +416,13 @@ class ClienteController extends Controller
                                         ->orderBY('created_at', 'DESC')
                                         ->paginate(10);
 
-        $dados = [
+        $urlPagination = '/admin/clientes/fidelidade/?page=';
 
+        $dados = [
             'lista' => $lista,
             'clientesForSelect' => $clientesForSelect,
-            'pontosColetados' => $pontosColetados
-
+            'pontosColetados' => $pontosColetados,
+            'urlPagination' => $urlPagination
         ];
 
         return view('adm.clientes.fidelidadeIndex')->with($dados);

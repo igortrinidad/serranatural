@@ -12,23 +12,39 @@
 
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<div class="row">
-					<div class="col-md-8">
-						<h5>Lista de clientes</h5>
-					</div>
-					<div class="col-md-4">
-						<div class="inline text-right">
 
-							{!! $lista->render() !!}
-							
+			<div class="row">
+				<div class="col-md-6">
+					<h4>Lista de clientes</h4>
+				</div>
+					<div class="col-md-6">
+						<div class="inline text-right">
+							<ul class="pagination">
+								<li>
+									<a href="{!! $lista->previousPageUrl() !!}" rel="prev">«</a>
+								</li>
+								<li>
+									<a href="{!! $urlPagination.'1' !!}">1</a>
+								</li>
+								<li class="active">
+									<a href="#">{!! $lista->currentPage() !!}</a>
+								</li>
+								<li>
+									<a href="{!! $urlPagination.$lista->lastPage() !!}" rel="prev">{!! $lista->lastPage() !!}</a>
+								</li>
+								<li>
+									<a href="{!! $lista->nextPageUrl() !!}" rel="prev">»</a>
+								</li>
+							</ul>	
 						</div>
 					</div>
-				</div>
 			</div>
+			</div>
+
 			<div class="panel-body">
 
 				<div class="row">
-					<div class="col-md-8">
+					<div class="col-md-7">
 						
 						<div class="form-group">
 							{!! Form::open(array('action' => 'ClienteController@editaSelected')) !!}
@@ -44,6 +60,10 @@
 						</div>
 					</div>
 
+				
+					<div class="col-md-3">
+
+					</div>
 				</div>
 
 
