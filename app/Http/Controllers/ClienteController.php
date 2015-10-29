@@ -409,10 +409,15 @@ class ClienteController extends Controller
 
         $clientesForSelect = $this->clientesForSelect();
 
+        $pontosColetados = PontoColetado::with('cliente')
+                                        ->orderBY('created_at', 'DESC')
+                                        ->paginate(10);
+
         $dados = [
 
             'lista' => $lista,
-            'clientesForSelect' => $clientesForSelect
+            'clientesForSelect' => $clientesForSelect,
+            'pontosColetados' => $pontosColetados
 
         ];
 

@@ -23,6 +23,10 @@ class PontoColetado extends Model
     						'produto',
     					];
 
+    public function cliente(){
+        return $this->belongsTo('serranatural\Models\Cliente', 'cliente_id', 'id');
+    }
+
 
     public function getDataColetaAttribute($value)
     {

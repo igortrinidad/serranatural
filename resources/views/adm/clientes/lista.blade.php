@@ -33,9 +33,10 @@
 
 				
 					<div class="col-md-2">
-					<div class="inline text-right">
-							<a href="{!! $lista->previousPageUrl() !!}" class="btn btn-primary"><i class="fa fa-chevron-left"></i></a>
-							<a href="{!! $lista->nextPageUrl() !!}" class="btn btn-primary"><i class="fa fa-chevron-right"></i></a>
+						<div class="inline text-right">
+							
+							{!! $lista->render() !!}
+
 						</div><br />
 					</div>
 				</div>

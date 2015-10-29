@@ -47,6 +47,49 @@
 		</div>
 
 
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-md-8">
+						<h5>Pontos coletados</h5>
+					</div>
+					<div class="col-md-4">
+						<div class="inline text-right">
+
+							{!! $pontosColetados->render() !!}
+							
+						</div>
+					</div>
+				</div>
+			</div>	
+			<div class="panel-body">
+
+
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<td>Nome cliente</td>
+						<td>E-mail</td>
+						<td>Data coleta</td>
+						<td>Produto</td>
+						<td>Valido</td>
+					</tr>
+				</thead>
+
+		@foreach($pontosColetados as $ponto)
+				<tr>
+					<td>{{$ponto->cliente->nome}}</td>
+					<td>{{$ponto->cliente->email}}</td>
+					<td>{{$ponto->data_coleta}}</td>
+					<td>{{$ponto->produto}}</td>
+					<td>{{$ponto->is_valido}}</td>
+				</tr>	
+		@endforeach
+			</table>
+			
+			</div>
+		</div>
+
     @section('scripts')
 	    @parent
 	        <script src="{!! elixir('js/clientes.js') !!}"></script>
