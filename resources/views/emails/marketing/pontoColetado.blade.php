@@ -1,7 +1,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="full" object="drag-module" bgcolor="#303030" c-style="not3BG" style="background-color: rgb(255, 255, 255);">
 	<tbody>
         <tr mc:repeatable="">
-            <td align="center" style="background-image: url('http://rocketway.net/themebuilder/template/templates/notify/images/not3_bg_image.jpg'); -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; background-position: center center; background-repeat: repeat-y; background-color: rgb(255, 255, 255);" c-style="not3BG" id="not3">
+            <td align="center" style="background-image: url('http://www.admin.serranatural.com/img/bg_food.jpg'); -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; background-position: center center; background-repeat: repeat-y; background-color: rgb(255, 255, 255);" c-style="not3BG" id="not3">
               <div mc:hideable="">						
                 <!-- Mobile Wrapper -->			
                 <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile">
