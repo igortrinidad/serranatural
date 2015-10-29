@@ -56,8 +56,24 @@
 					<div class="col-md-4">
 						<div class="inline text-right">
 
-							{!! $pontosColetados->render() !!}
-							
+								<ul class="pagination">
+									<li>
+										<a href="{!! $pontosColetados->previousPageUrl() !!}" rel="prev">«</a>
+									</li>
+									<li>
+										<a href="{!! url().'/admin/clientes/fidelidade/?page=1' !!}">1</a>
+									</li>
+									<li class="active">
+										<a href="#">{!! $pontosColetados->currentPage() !!}</a>
+									</li>
+									<li>
+										<a href="{!! url().'/admin/clientes/fidelidade/?page='.$pontosColetados->lastPage() !!}" rel="prev">{!! $pontosColetados->lastPage() !!}</a>
+									</li>
+									<li>
+										<a href="{!! $pontosColetados->nextPageUrl() !!}" rel="prev">»</a>
+									</li>
+								<ul>
+								
 						</div>
 					</div>
 				</div>
