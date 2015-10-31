@@ -32,6 +32,15 @@ class Voucher extends Model
 
     public function getDataUtilizadoAttribute($value)
     {
+        if($value <= '2001-01-01')
+        {
+            return '--';
+        }
+
         return date('d/m/Y', strtotime($value));
+    }
+
+    public function cliente(){
+        return $this->belongsTo('serranatural\Models\Cliente', 'cliente_id', 'id');
     }
 }

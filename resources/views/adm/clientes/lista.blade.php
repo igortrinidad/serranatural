@@ -55,7 +55,7 @@
 					</div>
 					<div class="col-md-2">
 						<div class="form-group">
-							{!! Form::submit('Editar!', ['class' => 'btn btn-default']) !!}
+							{!! Form::submit('Editar!', ['class' => 'btn btn-default btn-sm']) !!}
 							{!! Form::close() !!}
 						</div>
 					</div>

@@ -8,7 +8,7 @@ class Cliente extends Model
 {
     protected $table = 'clientes';
 
-    protected $fillable = array('id', 'nome', 'email', 'telefone', 'opt_email');
+    protected $fillable = array('id', 'nome', 'email', 'telefone', 'opt_email', 'senha_resgate');
 
     public function preferencias(){
 		return $this->hasMany('serranatural\Models\Voto');

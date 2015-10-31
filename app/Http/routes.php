@@ -1,29 +1,71 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
-
-//Login
+//Home
+Route::get('/', function() {
+	return view('auth/login');
+});
 Route::get('/login', function(){return view('auth/login');});
 
-//Promoções
-Route::get('/PromoVotacao', 'PromocoesController@paginaVotacao');
-Route::post('/adm/promocoes/votacao/addVotoCliente', 'PromocoesController@addVotoCliente');
-Route::post('/adm/promocoes/addVotoCadastro', 'PromocoesController@addVotoCadastro');
-Route::get('admin/promocoes', 'PromocoesController@indexPromocoes');
-Route::post('admin/promocoes/sorteioVotacao', 'PromocoesController@sorteioVotacao');
-Route::post('admin/promocoes/salvaSorteado', 'PromocoesController@salvaSorteado');
+//Rota adimin geral
+Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
+{
+		// Clientes
+	Route::group(['as' => 'client.'], function()
 
-//Produtos
-Route::get('/admin', 'SystemController@indexDashboard');
+	{
+		Route::get('clientes/lista', ['as' => 'lista', 'uses' => 'ClienteController@lista']);
+		Route::get('clientes/mostra/{id}', ['as' => 'show', 'uses' => 'ClienteController@mostraCliente']);
+		Route::get('clientes/sairEmail/{id}', ['as' => 'sairEmail', 'uses' => 'ClienteController@sairEmail']);
+		Route::get('clientes/entrarEmail/{id}', ['as' => 'entrarEmail', 'uses' => 'ClienteController@entrarEmail']);
+		Route::get('clientes/retiraPreferencias/{clienteId}/{preferencia}', ['as' => 'retiraPreferencias', 'uses' => 'ClienteController@excluiPreferencia']);
+		Route::post('clientes/addPreferencia', ['as' => 'addPreferencia', 'uses' => 'ClienteController@addPreferencia']);
+		Route::get('clientes/edita/{id}', ['as' => 'edit', 'uses' => 'ClienteController@editaCliente']);
+		Route::get('clientes/excluir/{id}', ['as' => 'destroy', 'uses' => 'ClienteController@destroy']);
+		Route::post('clientes/edita/{id}', ['as' => 'update', 'uses' => 'ClienteController@updateCliente']);
+		Route::get('clientes/enviaPrato/{id}', ['as' => 'enviaPrato', 'uses' => 'ClienteController@enviaEmailPratoDoDia']);
+		Route::post('clientes/editaSelected', ['as' => 'editaSelected', 'uses' => 'ClienteController@editaSelected']);
+		Route::get('clientes/fidelidade', ['as' => 'fidelidade', 'uses' => 'ClienteController@fidelidadeIndex']);
+		Route::post('clientes/salvaPonto', ['as' => 'salvaPonto', 'uses' => 'ClienteController@salvaPonto']);
+		Route::post('clientes/fidelidade/usaVoucher/{voucher}', ['as' => 'usesVoucher', 'uses' => 'ClienteController@usesVoucher']);
+
+	});
+
+	//Rota index dashboard
+	Route::get('', ['as' => 'index', 'uses' => 'SystemController@indexDashboard']);
+	//Rotas de login e usuario
+	Route::group(['as' => 'users.'], function()
+	{
+		Route::get('usuarios/add', ['as' => 'add', 'uses' =>'Auth\AuthController@novoUser']);
+		Route::get('password', ['as' => 'password', 'uses' =>'Auth\PasswordController@formSenha']);
+		Route::post('password/email', ['as' => 'reset', 'uses' =>'Auth\PasswordController@resetPass']);
+		Route::get('usuarios/configuracoes', ['as' => 'edit', 'uses' =>'Auth\AuthController@editaUsuario']);
+		Route::post('usuarios/configuracoes/update', ['as' => 'update', 'uses' =>'Auth\AuthController@updateUsuario']);
+
+	});
+
+
+});
+
+//Rotas originais Auth Laravel
+Route::group(['as' => 'auth.', 'prefix' => 'auth'], function()
+{
+		Route::get('login', ['as' => 'login', 'uses' => 'Auth\AuthController@getLogin']);
+		Route::post('login', ['as' => 'postLogin', 'uses' => 'Auth\AuthController@postLogin']);
+		Route::get('logout', ['as' => 'logout', 'uses' => 'Auth\AuthController@getLogout']);
+		Route::post('register', ['as' => 'register', 'uses' =>'Auth\AuthController@salvaUsuario']);		
+});
+
+//Promoções
+Route::group(['as' => 'promocoes.'], function()
+{
+	Route::get('/PromoVotacao', ['as' => 'landVotacao', 'uses' => 'PromocoesController@paginaVotacao']);
+	Route::post('/adm/promocoes/votacao/addVotoCliente', ['as' => 'addVotoCliente', 'uses' => 'PromocoesController@addVotoCliente']);
+	Route::post('/adm/promocoes/addVotoCadastro', ['as' => 'addVotoCadastro', 'uses' => 'PromocoesController@addVotoCadastro']);
+	Route::get('admin/promocoes', ['as' => 'index', 'uses' => 'PromocoesController@indexPromocoes']);
+	Route::post('admin/promocoes/sorteioVotacao', ['as' => 'sorteioVotacao', 'uses' => 'PromocoesController@sorteioVotacao']);
+	Route::post('admin/promocoes/salvaSorteado', ['as' => 'salvaSorteado', 'uses' => 'PromocoesController@salvaSorteado']);
+});
+
 Route::get('/admin/produtos/pratos/lista', 'ProdutosController@indexPrato');
 Route::get('/admin/produtos/pratos/mostra/{id}', 'ProdutosController@mostraPrato');
 Route::get('/admin/produtos/pratos/edita/{id}', 'ProdutosController@editaPrato');
@@ -44,58 +86,16 @@ Route::get('/admin/produtos/excluiPratoSemana/{id}', 'ProdutosController@excluiP
 Route::post('/admin/produtos/addPratoSemana/{id}', 'ProdutosController@addPratoSemana');
 Route::post('/admin/produtos/enviaPratoDoDia', 'ProdutosController@enviaPratoDoDia');
 
-// Clientes
-Route::get('/admin/clientes/lista', 'ClienteController@lista');
-Route::get('/admin/clientes/mostra/{id}', 'ClienteController@mostraCliente');
-Route::get('/admin/clientes/sairEmail/{id}', 'ClienteController@sairEmail');
-Route::get('/admin/clientes/entrarEmail/{id}', 'ClienteController@entrarEmail');
-Route::get('/admin/clientes/retiraPreferencias/{clienteId}/{preferencia}', 'ClienteController@excluiPreferencia');
-Route::post('/admin/clientes/addPreferencia', 'ClienteController@addPreferencia');
-Route::get('/admin/clientes/edita/{id}', 'ClienteController@editaCliente');
-Route::get('/admin/clientes/excluir/{id}', 'ClienteController@destroy');
-Route::post('/admin/clientes/edita/{id}', 'ClienteController@updateCliente');
-Route::get('/admin/clientes/enviaPrato/{id}', 'ClienteController@enviaEmailPratoDoDia');
-Route::post('/admin/clientes/editaSelected', [
-    'as' => 'client.editaSelected', 'uses' => 'ClienteController@editaSelected'
-]);
-Route::get('/admin/clientes/fidelidade', [
-    'as' => 'client.fidelidade', 'uses' => 'ClienteController@fidelidadeIndex'
-]);
-
-Route::post('/admin/clientes/salvaPonto', [
-    'as' => 'client.salvaPonto', 'uses' => 'ClienteController@salvaPonto'
-]);
 
 
-//A bertura
-Route::get('/', function() {
-	return view('auth/login');
-});
 
-// Função para testar views
-Route::get('/teste', function () {
-    return view('emails/marketing/pratoNovo');
-});
+
 
 Route::get('/hoje', 'ProdutosController@landPratoDoDia');
 Route::get('/amanha', 'ProdutosController@landAmanha');
 Route::get('/cadastro', 'ClienteController@cadastro');
 Route::post('/cadastro', 'ClienteController@storeSelfCliente');
 
-// Authentication routes...
-Route::get('auth/login', 'Auth\AuthController@getLogin');
-Route::post('auth/login', 'Auth\AuthController@postLogin');
-Route::get('/auth/logout', 'Auth\AuthController@getLogout');
-
-// Registration routes...
-Route::get('/admin/usuarios/add', 'Auth\AuthController@novoUser');
-Route::post('auth/register', 'Auth\AuthController@salvaUsuario');
-
-Route::get('password', 'Auth\PasswordController@formSenha');
-Route::post('password/email', 'Auth\PasswordController@resetPass');
-
-Route::get('/admin/usuarios/configuracoes', 'Auth\AuthController@editaUsuario');
-Route::post('/admin/usuarios/configuracoes/update', 'Auth\AuthController@updateUsuario');
 
 Route::post('/me/selfChangeClient', 'ClienteController@selfChangeClient');
 Route::get('/me/edita/{email}', 'ClienteController@clienteSelfEdita');
@@ -103,11 +103,17 @@ Route::get('/me/{email}', [
     'as' => 'selfClient.mostraSelected', 'uses' => 'ClienteController@clienteSelfMostra'
 ]);
 
-Route::post('/teste/testeApi', 'ClienteController@testeApi');
+// Rotas para teste
+Route::group(['as' => 'teste.', 'prefix' => 'teste'], function()
+{
+	Route::get('', function () 
+	{
+		return view('emails/marketing/pratoNovo');
+	});
+    Route::post('testeApi', ['as' => 'testeApi', 'uses' => 'ClienteController@testeApi']);
+	Route::post('summernote', ['as' => 'summernote', 'uses' => 'TesteController@summernote']);
+	Route::get('index', ['as' => 'index', 'uses' => 'TesteController@index']);
 
-Route::post('teste/summernote', 'TesteController@summernote');
-
-Route::get('teste/index', 'TesteController@index');
-
+});
 
 

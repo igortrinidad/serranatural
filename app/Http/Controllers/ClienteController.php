@@ -60,10 +60,25 @@ class ClienteController extends Controller
                                         ->where('clienteId', '=', $id)->get();
         $pratos = Pratos::all();
 
+        $pontos = PontoColetado::where('cliente_id', '=', $id)
+                                ->where('is_valido', '=', 1)
+                                ->orderBY('vencimento', 'ASC')
+                                ->paginate(8);
+
+        $vouchers = Voucher::where('cliente_id', '=', $id)
+                            ->where('is_valido', '=', 1)
+                            ->orderBY('vencimento', 'ASC')
+                            ->paginate(8);
+
+        $pontosTotal = count(PontoColetado::all());
+
         $dados = [
             'cliente' => $cliente,
             'preferencias' => $preferencias,
             'pratos' => $pratos,
+            'pontos' => $pontos,
+            'vouchers' => $vouchers,
+            'pontosTotal' => $pontosTotal
         ];
 
         return view('adm/clientes/mostra')->with($dados);
@@ -489,6 +504,31 @@ class ClienteController extends Controller
 
         return redirect()->back()->with($dados);
 
+    }
+
+    public function usesVoucher(Request $request)
+    {
+
+        $cliente = Cliente::where('id', '=', $request->cliente_id)
+                            ->where('senha_resgate', '=', $request->senha_resgate)
+                            ->first();
+
+        if (is_null($cliente) OR empty($cliente))
+        {
+            $dados = [
+                'msg_retorno' => 'Senha errada!',
+                'tipo_retorno' => 'danger'
+            ];
+
+            return redirect()->back()->with($dados);
+        } 
+
+            $dados = [
+                'msg_retorno' => 'Voucher utilizado com sucesso.',
+                'tipo_retorno' => 'success'
+            ];
+
+            return redirect()->back()->with($dados);
     }
 
     public function enviaEmailPontoColetado($id, $produtoAdiquirido)

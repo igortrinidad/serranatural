@@ -248,12 +248,12 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="#"><i class="fa fa-user fa-fw"></i> {{ Auth::user()->name }}</a>
                         </li>
-                        <li><a href="/admin/usuarios/configuracoes"><i class="fa fa-gear fa-fw"></i> Configurações</a>
+                        <li><a href="{{ route('admin.users.edit')}}"><i class="fa fa-gear fa-fw"></i> Configurações</a>
                         </li>
-                        <li><a href="/admin/usuarios/add"><i class="fa fa-plus fa-fw"></i> Adiciona novo</a>
+                        <li><a href="{{ route('admin.users.add')}}"><i class="fa fa-plus fa-fw"></i> Adiciona novo</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="/auth/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="{{ route('auth.logout')}}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -285,13 +285,13 @@
                             <a href="#"><i class="fa fa-sitemap"></i> Clientes<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="/admin/clientes/lista">Lista</a>
+                                    <a href="{!! route('admin.client.lista') !!}">Lista</a>
                                 </li>
                                 <li>
-                                    <a href="#">Adiciona</a>
+                                    <a href="{{url().'/cadastro'}}">Adiciona</a>
                                 </li>
                                 <li>
-                                    <a href="/admin/clientes/fidelidade">Fidelidade</a>
+                                    <a href="{!! route('admin.client.fidelidade') !!}">Fidelidade</a>
                                 </li>
 
                             </ul>
@@ -311,6 +311,22 @@
                                 </li>
                                 <li>
                                     <a href="#">Relatórios</a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="#"><i class="fa fa-money"></i> Financeiro<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#">Fluxo de caixa</a>
+                                </li>
+                                <li>
+                                    <a href="#">Histórico de caixa</a>
+                                </li>
+                                <li>
+                                    <a href="#">Fidelidade</a>
                                 </li>
 
                             </ul>
