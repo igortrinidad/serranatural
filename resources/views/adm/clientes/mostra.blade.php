@@ -86,7 +86,7 @@
 </div>
 
 <div class="row">
-	<div class="col-md-6">
+	<div class="col-md-12">
 
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -111,11 +111,12 @@
 
 				<div class="panel-body">
 
-					<table class="table table-bordered">
+					<table class="table table-bordered text-center">
 						<thead>
-							<tr>
+							<tr style="font-weight:700">
 								<td>Codigo</td>
 								<td>Produto</td>
+								<td>Data coletado</td>
 								<td>Vencimento</td>
 							</tr>
 						</thead>
@@ -124,6 +125,7 @@
 						<tr>
 							<td style="width:20%;">{{$ponto->id}}</td>
 							<td style="width:30%;">{{$ponto->produto}}</td>
+							<td style="width:30%;">{{$ponto->data_coleta}}</td>
 							<td style="width:18%;">{{$ponto->vencimento}}</td>
 						</tr>	
 					@endforeach
@@ -132,8 +134,10 @@
 				</div>
 			</div>
 	</div>
+</div>
 
-	<div class="col-md-6">
+<div class="row">
+	<div class="col-md-12">
 
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -159,22 +163,26 @@
 				</div>
 				<div class="panel-body">
 
-					<table class="table table-bordered">
+					<table class="table table-bordered text-center">
 						<thead>
-							<tr>
+							<tr style="font-weight:700">
 								<td>Codigo</td>
 								<td>Produto</td>
 								<td>Vencimento</td>
+								<td>Data utilização</td>
+								<td>Valido</td>
 								<td>Usar</td>
 							</tr>
 						</thead>
 
 					@foreach($vouchers as $voucher)
 						<tr>
-							<td style="width:20%;">{{$voucher->id}}</td>
-							<td style="width:30%;">{{$voucher->produto}}</td>
-							<td style="width:18%;">{{$voucher->vencimento}}</td>
-							<td style="width:15%;"><button type="button" class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target="#modalVoucher" onclick="idVoucher({{$voucher->id}}, '{{$voucher->produto}}')">Usar Voucher</button></td>
+							<td style="width:8%;">{{$voucher->id}}</td>
+							<td style="width:20%;">{{$voucher->produto}}</td>
+							<td style="width:13%;">{{$voucher->vencimento}}</td>
+							<td style="width:13%;">{{$voucher->data_utilizado}}</td>
+							<td style="width:10%;">@if($voucher->is_valido == 1)Sim @else Não @endif</td>
+							<td style="width:10%;"><button type="button" class="btn btn-default btn-xs btn_voucher" data-toggle="modal" data-target="#modalVoucher" onclick="idVoucher({{$voucher->id}}, '{{$voucher->produto}}')">Usar Voucher</button></td>
 						</tr>	
 					@endforeach
 					</table>
@@ -188,8 +196,6 @@
 	<div class="panel panel-default">
 		<div class="panel-heading"><h5>Summernote Teste</h5></div>
 		<div class="panel-body">
-
-			<p>
 				<form id="postForm" action="/teste/summernote" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
 			        <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 			        <input type="hidden" name="clienteId" value="{{$cliente->id}}" />
@@ -201,12 +207,9 @@
 					    	<button type="submit" class="btn btn-primary btn-block">Ir</button>
 					  	</div>
 				</form>
-
-
-
-			
 		</div>
 	</div>
+
 
 	                            <!-- Modal editar atividade -->              
                             <div class="modal inmodal fade" id="modalVoucher" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
@@ -242,7 +245,7 @@
                                         	{!! csrf_field() !!}
 											
 											<div class="form-group">
-                                        		<input type="password" name="senha_resgate" class="form-control"/>
+                                        		<input type="password" id="senha" name="senha_resgate" class="form-control"/>
 											</div>
 
 	                                            <button type="button" class="btn btn-white btn-sm" data-dismiss="modal">Cancela</button>
@@ -268,6 +271,13 @@
 	    $('#voucher_codigo' ).text( id );
 	    $('#voucher_produto' ).text( produto );
 	}
+
+	$( ".btn_voucher" ).click(function() {
+	  setTimeout(function(){
+	  	$( "#senha" ).focus();
+	  	window.console.log('Foco on haha');
+	  }, 500);
+	});
 
 </script>
 

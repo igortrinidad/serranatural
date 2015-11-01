@@ -97,7 +97,7 @@
                                         <td width="450" valign="middle" align="center"><table width="380" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile">
                                             <tbody>
                                                 <tr>
-                                                    <td width="380" c-style="yellowBG" class="pad15" align="center" style="background-color: rgb(38, 166, 80);"><table width="240" border="0" cellpadding="0" cellspacing="0" align="center" class="full">
+                                                    <td width="380" class="pad15" align="center" style="background-color: rgb(38, 166, 80);"><table width="240" border="0" cellpadding="0" cellspacing="0" align="center" class="full">
                                                         <tbody>
                                                             <tr>
                                                                 <td valign="middle" align="center" width="100%" t-style="not3Text" class="fullCenter" mc:edit="18" object="text-editable" style="text-align: center; font-family: Helvetica, Arial, sans-serif; color: rgb(63, 67, 69); line-height: 24px;"><span style="font-family: proxima_nova_rgregular, Helvetica;"><singleline>Você coletou <span style="font-weight: bold; font-size: 24px;">1&nbsp;</span> ponto de <span style="font-weight: bold;">{{ isset($produto) ? $produto : 'erro'}}</span> no programa de fidelidade&nbsp;<span style="font-weight: bold;">Serra Natural.</span></singleline></span></td>

@@ -60,16 +60,17 @@ class ClienteController extends Controller
         $pratos = Pratos::all();
 
         $pontos = PontoColetado::where('cliente_id', '=', $id)
-                                ->where('is_valido', '=', 1)
                                 ->orderBY('vencimento', 'ASC')
                                 ->paginate(8);
 
         $vouchers = Voucher::where('cliente_id', '=', $id)
-                            ->where('is_valido', '=', 1)
                             ->orderBY('vencimento', 'ASC')
                             ->paginate(8);
 
-        $pontosTotal = count(PontoColetado::all());
+                            //dd($vouchers);
+
+        $pontosTotal = count(PontoColetado::where('cliente_id', '=', $id)
+                                            ->get());
 
         $dados = [
             'cliente' => $cliente,
@@ -507,9 +508,15 @@ class ClienteController extends Controller
 
     public function usesVoucher(Request $request)
     {
+        //dd($request->all());
 
         $cliente = Cliente::where('id', '=', $request->cliente_id)
                             ->where('senha_resgate', '=', $request->senha_resgate)
+                            ->first();
+
+        $voucher = Voucher::where('id', '=', $request->voucher_id)
+                            ->where('is_valido', '=', '1')
+                            ->where('vencimento', '>', date('Y-m-d'))
                             ->first();
 
         if (is_null($cliente) OR empty($cliente))
@@ -518,9 +525,22 @@ class ClienteController extends Controller
                 'msg_retorno' => 'Senha errada!',
                 'tipo_retorno' => 'danger'
             ];
-
             return redirect()->back()->with($dados);
-        } 
+
+        } else if (is_null($voucher) OR empty($voucher))
+        {
+            $dados = [
+                'msg_retorno' => 'Voucher utilizado ou vencido!',
+                'tipo_retorno' => 'danger'
+            ];
+            return redirect()->back()->with($dados);
+
+        }
+            Voucher::where('id', '=', $request->voucher_id)
+                    ->update([
+                        'is_valido' => '0',
+                        'data_utilizado' => date('Y-m-d'),
+                        ]);
 
             $dados = [
                 'msg_retorno' => 'Voucher utilizado com sucesso.',
