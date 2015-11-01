@@ -52,9 +52,8 @@ class ClienteController extends Controller
      *
      * @return Response
      */
-    public function mostraCliente(Request $request)
+    public function mostraCliente($id)
     {
-        $id = $request->id;
         $cliente = Cliente::where('id', '=', $id)->first();
         $preferencias = Preferencias::join('pratosDoDia', 'preferenciaClientes.preferencias', '=', 'pratosDoDia.id')
                                         ->where('clienteId', '=', $id)->get();
@@ -117,7 +116,7 @@ class ClienteController extends Controller
             'tipo_retorno' => 'success',
         ];
 
-        return redirect('/admin/clientes/mostra/'.$id)->with($dados);
+        return redirect(route('admin.client.show', $id))->with($dados);
 
     }
 

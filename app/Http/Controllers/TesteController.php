@@ -17,18 +17,8 @@ class TesteController extends Controller
      */
     public function index()
     {
-        $clientes = Cliente::all();
 
-        foreach($clientes as $cliente)
-        {
-            $senhaNova = rand(1000, 9999);
-
-            Cliente::where('id', '=', $cliente->id)->update([
-                'senha_resgate' => $senhaNova
-                ]);
-        }
-
-        return view('emails.marketing.pontoColetado');
+        return view('teste.emailVendasSquare');
     }
 
     /**

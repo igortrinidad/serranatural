@@ -14,7 +14,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 
 	{
 		Route::get('clientes/lista', ['as' => 'lista', 'uses' => 'ClienteController@lista']);
-		Route::get('clientes/mostra/{id}', ['as' => 'show', 'uses' => 'ClienteController@mostraCliente']);
+		Route::get('clientes/{id}/mostra', ['as' => 'show', 'uses' => 'ClienteController@mostraCliente']);
 		Route::get('clientes/sairEmail/{id}', ['as' => 'sairEmail', 'uses' => 'ClienteController@sairEmail']);
 		Route::get('clientes/entrarEmail/{id}', ['as' => 'entrarEmail', 'uses' => 'ClienteController@entrarEmail']);
 		Route::get('clientes/retiraPreferencias/{clienteId}/{preferencia}', ['as' => 'retiraPreferencias', 'uses' => 'ClienteController@excluiPreferencia']);

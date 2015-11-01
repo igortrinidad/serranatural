@@ -8,7 +8,7 @@
 		<div class="panel-heading"><h5>Dados</h5></div>
 		<div class="panel-body">
 	
-	<form action="/admin/clientes/edita/{{$c->id}}" method="POST">
+	<form action="{{route('admin.client.update', $c->id)}}" method="POST">
 
 		<input type="hidden" name="_token" value="{{{ csrf_token() }}}"/>
 

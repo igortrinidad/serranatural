@@ -20,7 +20,7 @@
 						<div class="form-group">
 							{!! Form::open(array('action' => 'ClienteController@salvaPonto')) !!}
 							{!! Form::select('cliente_id', $clientesForSelect, null, ['class' => 'form-control', 
-							'single' => 'single', 'id' => 'clientes'])   !!}
+							'single' => 'single', 'id' => 'clientes', 'placeholder' => 'Selecione um cliente'])   !!}
 						</div>
 
 					</div>

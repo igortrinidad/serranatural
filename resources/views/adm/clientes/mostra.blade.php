@@ -174,7 +174,7 @@
 							<td style="width:20%;">{{$voucher->id}}</td>
 							<td style="width:30%;">{{$voucher->produto}}</td>
 							<td style="width:18%;">{{$voucher->vencimento}}</td>
-							<td style="width:15%;"><button type="button" class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target="#modalVoucher" onclick="idVoucher({{$voucher->id}})">Usar Voucher</button></td>
+							<td style="width:15%;"><button type="button" class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target="#modalVoucher" onclick="idVoucher({{$voucher->id}}, '{{$voucher->produto}}')">Usar Voucher</button></td>
 						</tr>	
 					@endforeach
 					</table>
@@ -217,6 +217,21 @@
                                             <h4 class="modal-title">Vouchers</h4>
                                         </div>
                                         <div class="modal-body text-center">
+										<div class="row">
+
+											<div class="col-md-6">
+		                                        <label>Código voucher</label>
+		                                        <p id="voucher_codigo"></p>
+                                        	</div>
+
+											<div class="col-md-6">
+		                                        <label>Produto</label>
+		                                        <p id="voucher_produto"></p>
+		                                    </div>
+		                                    
+                                        </div>
+	
+
                                             <p>Insira a senha de resgate do cliente:</p>
                                            	
                                         </div>
@@ -245,11 +260,15 @@
 	        <script src="{!! elixir('js/clientes.js') !!}"></script>
 
 <script type="text/javascript">
-	function idVoucher (idDado){
+	function idVoucher (idDado, prod){
 	    var id = idDado;
+	    var produto = prod;
 	    //adiciona o valor do id recebido como parametro na funcao
 	    $('#voucher_id' ).val( id );
+	    $('#voucher_codigo' ).text( id );
+	    $('#voucher_produto' ).text( produto );
 	}
+
 </script>
 
 	    @stop

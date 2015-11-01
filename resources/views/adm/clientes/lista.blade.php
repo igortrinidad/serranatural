@@ -47,16 +47,14 @@
 					<div class="col-md-7">
 						
 						<div class="form-group">
-							{!! Form::open(array('action' => 'ClienteController@editaSelected')) !!}
-							{!! Form::select('cliente', $clientesForSelect, null, ['class' => 'form-control', 
-							'single' => 'single', 'id' => 'clientes'])   !!}
+							{!! Form::select('id', $clientesForSelect, null, ['class' => 'form-control', 
+							'single' => 'single', 'id' => 'clientes', 'placeholder' => 'Selecione um cliente'])   !!}
 						</div>
 
 					</div>
 					<div class="col-md-2">
 						<div class="form-group">
-							{!! Form::submit('Editar!', ['class' => 'btn btn-default btn-sm']) !!}
-							{!! Form::close() !!}
+							<a class="btn btn-default btn-sm" id="linkCliente"> Detalhes</a>
 						</div>
 					</div>
 
@@ -85,7 +83,7 @@
 					<td>{{$li->nome}}</td>
 					<td>{{$li->email}}</td>
 					<td>{{$li->telefone}}</td>
-					<td class="text-center"><a href="/admin/clientes/mostra/{{$li->id}}"><i class="fa fa-search"></i></a></td>
+					<td class="text-center"><a href="/admin/clientes/{{$li->id}}/mostra"><i class="fa fa-search"></i></a></td>
 					<td class="text-center"><a href="/admin/clientes/excluir/{{$li->id}}"><i class="fa fa-trash"></i></a></td>
 					<td>
 					@if($li->opt_email == 1)
@@ -107,6 +105,20 @@
     @section('scripts')
 	    @parent
 	        <script src="{!! elixir('js/clientes.js') !!}"></script>
+
+			<script type="text/javascript">
+
+			$("#clientes").change(function() 
+			{
+				var id = $(this).val();
+			 	var href = '/admin/clientes/' + id + '/mostra';
+			    //adiciona o valor do id recebido como parametro na funcao
+				$('#linkCliente').prop("href", href);
+			});
+
+			</script>
+
+
 
 	    @stop
 
