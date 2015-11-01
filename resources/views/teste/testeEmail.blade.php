@@ -1,11 +1,17 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="full" object="drag-module" bgcolor="#303030" c-style="not3BG" style="background-color: rgb(255, 255, 255);">
   <tbody>
         <tr mc:repeatable="">
-            <td align="center" style="background-image: url('http://www.admin.serranatural.com/img/bg_food_Red.jpg'); -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; background-position: center center; background-repeat: repeat-y; background-color: rgb(255, 255, 255);" c-style="not3BG" id="not3">
-              <div mc:hideable="">            
+            <td align="center" style="background-image: url('http://www.admin.serranatural.com/img/not3_bg_image.jpg'); -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; background-position: center center; background-repeat: repeat-y; background-color: rgb(255, 255, 255);" c-style="not3BG" id="not3">
+              <div mc:hideable="">     
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile">
+              <tr>
+              <td><img width="100%" border="0" alt="" height="20" src="https://ci5.googleusercontent.com/proxy/Y1I4BVi4031ZyneAB_PcaF8FKgs8BChpHp6Hu_CYO6INCeOpnzSDmQtisqSibLFja132iP5JBO14UgPjHk5pcrGBt1FZiHbMCP-p6ycGtmKlaPqq30wqCGQFFFfIG45to9c7vdLLIljVfxEzEvgytl40igIY9g4=s0-d-e1-ft#https://d3g64w74of3jgu.cloudfront.net/receipts/assets/spacer-2e53e9938d669e89d7d51e3ca0d605bd.png" style="font-size:0;line-height:10px" class="CToWUd"></td>
+              </tr>
+              </table>       
                 <!-- Mobile Wrapper -->     
                 <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile">
                     <tbody>
+
                         <tr>
                             <td width="100%" align="center">                    
                                 <table width="450" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile" bgcolor="#ffffff" c-style="not3Body" style="border-radius: 5px; box-shadow: rgba(68, 68, 68, 0.2) 0px 0px 7px; background-color: rgb(255, 255, 255);">
@@ -66,7 +72,7 @@
                                                 <td width="450" valign="middle" align="center">                                                     <table width="380" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile">
                                                     <tbody>
                                                         <tr>
-                                                            <td width="380" c-style="yellowBG" class="pad15" style="background-color: rgb(38, 166, 80);">                                                                     <table width="240" border="0" cellpadding="0" cellspacing="0" align="center" class="full">
+                                                            <td width="380" c-style="yellowBG" class="pad15" style="background-color: rgb(38, 166, 80);border-top-left-radius:6px;border-top-right-radius:6px;">                                                                     <table width="240" border="0" cellpadding="0" cellspacing="0" align="center" class="full">
                                                                 <tbody>
                                                                     <tr>
                                                                         <td width="100%" height="30"><p><br></p>
