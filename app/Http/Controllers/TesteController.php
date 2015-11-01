@@ -8,6 +8,8 @@ use serranatural\Http\Controllers\Controller;
 
 use serranatural\Models\Cliente;
 
+use Mail;
+
 class TesteController extends Controller
 {
     /**
@@ -17,8 +19,19 @@ class TesteController extends Controller
      */
     public function index()
     {
+        $data = ['nada' => 'nada'];
 
-        return view('teste.emailVendasSquare');
+           Mail::queue('teste.testeEmail', $data, function ($message) use ($data)
+               {
+
+                   $message->to('contato@maisbartenders.com.br', 'Igor Trindade');
+                   $message->from('mkt@serranatural.com', 'Serra Natural');
+                   $message->subject('Teste templates');
+                   $message->getSwiftMessage();
+
+               });
+
+        return view('teste.testeEmail');
     }
 
     /**
