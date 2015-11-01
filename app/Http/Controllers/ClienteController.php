@@ -523,17 +523,17 @@ class ClienteController extends Controller
         {
             $dados = [
                 'msg_retorno' => 'Senha errada!',
-                'tipo_retorno' => 'danger'
+                'tipo_retorno' => 'error'
             ];
-            return redirect()->back()->with($dados);
+            return $dados;
 
         } else if (is_null($voucher) OR empty($voucher))
         {
             $dados = [
                 'msg_retorno' => 'Voucher utilizado ou vencido!',
-                'tipo_retorno' => 'danger'
+                'tipo_retorno' => 'error'
             ];
-            return redirect()->back()->with($dados);
+            return $dados;
 
         }
             Voucher::where('id', '=', $request->voucher_id)
@@ -547,7 +547,7 @@ class ClienteController extends Controller
                 'tipo_retorno' => 'success'
             ];
 
-            return redirect()->back()->with($dados);
+            return $dados;
     }
 
     public function enviaEmailPontoColetado($id, $produtoAdiquirido)

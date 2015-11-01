@@ -24,6 +24,7 @@ elixir(function(mix) {
 		'/../bower_components/summernote/dist/summernote.js',
 		'sb-admin-2.js',
 		'appGeral.js',
+		'notify.js',
 
 		], 'public/js/vendor.js');
 

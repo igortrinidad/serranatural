@@ -182,7 +182,7 @@
 							<td style="width:13%;">{{$voucher->vencimento}}</td>
 							<td style="width:13%;">{{$voucher->data_utilizado}}</td>
 							<td style="width:10%;">@if($voucher->is_valido == 1)Sim @else Não @endif</td>
-							<td style="width:10%;"><button type="button" class="btn btn-default btn-xs btn_voucher" data-toggle="modal" data-target="#modalVoucher" onclick="idVoucher({{$voucher->id}}, '{{$voucher->produto}}')">Usar Voucher</button></td>
+							<td style="width:10%;">@if($voucher->is_valido == 1)<button type="button" class="btn btn-default btn-xs btn_voucher" data-toggle="modal" data-target="#modalVoucher" onclick="idVoucher({{$voucher->id}}, '{{$voucher->produto}}')">Usar Voucher</button> @else -- @endif </td>
 						</tr>	
 					@endforeach
 					</table>
@@ -196,13 +196,33 @@
 	<div class="panel panel-default">
 		<div class="panel-heading"><h5>Summernote Teste</h5></div>
 		<div class="panel-body">
-				<form id="postForm" action="/teste/summernote" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
+				<form id="formAjax" action="/teste/summernote" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
 			        <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-			        <input type="hidden" name="clienteId" value="{{$cliente->id}}" />
+			        <input type="hidden" name="cliente_id" value="{{$cliente->id}}" />
 					    <div class="form-group">
-					    	<textarea class="input-block-level" id="summernote" name="content" rows="12">
-							</textarea>
+					    	<input type="text" name="testeAjax" class="form-control" />
 					    </div>
+
+					    <div class="form-group">
+	                    	<label class="label_form primeiro_label_form">Nome</label>
+	                     	<input type="text" name="nome" value="{{ old('nome') }}" class="form-control"/>
+                        </div>
+
+                    	<input name="senha_resgate" value="{{ rand(1000, 9999)}}" />
+
+                        <div class="form-group">
+                            <label class="label_form">Email</label>
+                            <input type="email" name="email" value="{{ old('email') }}"class="form-control"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="label_form">Telefone</label>
+                            <input type="text" name="telefone" value="{{ old('telefone') }}"class="form-control phone_with_ddd"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="checkbox" name="opt_email" value="1" class="checkbox" checked/>
+                            <p class="texto_votacao">Aceito receber informações sobre promoções e novidades da Serra Natural.</p>
+                        </div>
 					    <div class="form-group">
 					    	<button type="submit" class="btn btn-primary btn-block">Ir</button>
 					  	</div>
@@ -239,7 +259,7 @@
                                            	
                                         </div>
                                         <div class="modal-footer inline">
-                                        	<form method="post" action="{{ route('admin.client.usesVoucher')}}"> 
+                                        	<form id="formUsaVoucher" method="post" action="{{ route('admin.client.usesVoucher')}}"> 
                                         	<input type="hidden" name="cliente_id" value="{{$cliente->id}}" />
                                         	<input type="hidden" id="voucher_id" name="voucher_id" />
                                         	{!! csrf_field() !!}
@@ -256,6 +276,39 @@
                                     </div>
                                 </div>
                             </div>
+
+
+     <div class="row">
+     	<div class="col-md-8">
+	<label>total</label>
+	<input id="total" class="form-control" />
+	<label>parcela</label>
+	<input id="parcela" class="form-control" />
+
+<table id="products-table" class="table table-bordered">
+	<tbody>
+		 <tr>
+		   <th>Valor total</th>
+		   <th>Parcela</th>
+		   <th>Forma de pagamento</th>
+		   <th>Preço</th>
+		   <th>Ações</th>
+		 </tr>
+	</tbody>
+<tfoot>
+ <tr>
+   <td colspan="5" style="text-align: left;">
+     <button onclick="AddTableRow()" type="button">Calcular parcelas</button>
+   </td>
+ </tr>
+</tfoot>
+</table>
+
+</div>
+</div>
+
+
+
 
 
     @section('scripts')
@@ -277,6 +330,80 @@
 	  	$( "#senha" ).focus();
 	  	window.console.log('Foco on haha');
 	  }, 500);
+	});
+
+AddTableRow = function() {
+
+	var total = parseFloat($('#total').val());
+	var parcelas = parseInt($('#parcela').val());
+	var valorAtual = total / parcelas;
+
+ 
+
+for (i=0 ; i < parcelas ; i++){
+
+	var newRow = $("<tr>");
+    var cols = "";
+
+    cols += '<td  data-mask="#.##0,00" data-mask-reverse="true">R$ '+ valorAtual.toFixed(2) + '</td>';
+    cols += '<td>&nbsp;</td>';
+    cols += '<td>&nbsp;</td>';
+    cols += '<td>&nbsp;</td>';
+    cols += '<td>';
+    cols += '<button onclick="RemoveTableRow(this)" type="button">Remover</button>';
+    cols += '</td>';
+    cols += '</tr>';
+
+    newRow.append(cols);
+    $("#products-table").append(newRow);
+}
+    return false;
+  };
+
+  RemoveTableRow = function(handler) {
+    var tr = $(handler).closest('tr');
+
+    tr.fadeOut(400, function(){ 
+      tr.remove(); 
+    }); 
+
+    return false;
+  };
+
+
+	$('#formUsaVoucher button[type=submit]').click(function(e){
+		    e.preventDefault();
+
+		var form = jQuery(this).parents("form:first");
+		var dataString = form.serialize();
+
+		var formAction = form.attr('action');
+
+		$.ajax({
+		    type: "POST",
+		    url : formAction,
+		    data : dataString,
+		    success : function(data){
+
+		    	var msg = data['msg_retorno'];
+		    	var tipo = data['tipo_retorno'];
+
+		        $.notify(msg, tipo);
+		        $('#formUsaVoucher')[0].reset();
+		        $('#modalVoucher').modal('hide');
+
+		    if(tipo == 'success')
+		    {
+
+			    setTimeout(function()
+			    {
+			    	location.reload();
+			    }, 1500);
+			}
+
+		    }
+		    },"json");
+
 	});
 
 </script>

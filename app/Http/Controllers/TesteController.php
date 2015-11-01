@@ -103,8 +103,23 @@ class TesteController extends Controller
     public function summernote(Request $request)
     {
 
-        $conteudo = $request->content;
+        $insert = Cliente::create($request->all());
 
-        return view('teste.summernote')->with(compact('conteudo'));
+        if($insert)
+        {
+            $dados = [
+            'msg_retorno' => 'Usuário ' . $insert->nome . ' cadastrado com sucesso.',
+            'tipo_retorno' => 'success'
+            ];
+
+            return $dados;
+        } 
+            
+            $dados = [
+            'msg_retorno' => 'Usuário não foi cadastrado com sucesso.',
+            'tipo_retorno' => 'error'
+            ];
+
+            return $dados;
     }
 }
