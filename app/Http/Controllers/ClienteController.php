@@ -463,7 +463,7 @@ class ClienteController extends Controller
                                 ->get();
 
 
-        $this->enviaEmailPontoColetado($cliente['cliente_id'], $cliente['produto']);
+
 
         if (count($pontos) >= 15)
         {
@@ -488,6 +488,8 @@ class ClienteController extends Controller
                         ->where('voucher_id', '=', $voucher->id)
                         ->delete();
 
+        $this->enviaEmailVoucherColetado($cliente['cliente_id'], $voucher->id);
+
         $dados = [
             'msg_retorno' => 'Pontos adicionados com sucesso. Cliente acaba de ganhar um voucher de'.$cliente['produto'].'.',
             'tipo_retorno' => 'info'
@@ -496,6 +498,8 @@ class ClienteController extends Controller
         return redirect()->back()->with($dados);
 
         }
+
+        $this->enviaEmailPontoColetado($cliente['cliente_id'], $cliente['produto']);
 
         $dados = [
             'msg_retorno' => 'Pontos adicionados com sucesso',
@@ -589,6 +593,39 @@ class ClienteController extends Controller
         ];
 
                 Mail::queue('emails.marketing.pontoColetado', $data, function ($message) use ($cliente, $data)
+                {
+
+                    $message->to($cliente->email, $cliente->nome);
+                    $message->from('mkt@serranatural.com', 'Serra Natural');
+                    $message->subject('Fidelidade Serra Natural');
+                    $message->getSwiftMessage();
+
+                });
+
+        return true;
+
+    }
+
+        public function enviaEmailVoucherColetado($id, $voucherAdiquirido)
+    {
+
+        $cliente = Cliente::find($id);
+
+
+        $voucher = Voucher::where('id', '=', $voucherAdiquirido)
+                                ->where('is_valido', '=', 1)
+                                ->first();
+
+        $data = [
+
+        'nomeCliente' => $cliente->nome,
+        'emailCliente' => $cliente->email,
+        'produto' => $voucher->produto,
+        'senha' => $cliente->senha_resgate,
+        'validade' => $voucher->vencimento,
+        ];
+
+                Mail::queue('emails.marketing.voucherColetado', $data, function ($message) use ($cliente, $data)
                 {
 
                     $message->to($cliente->email, $cliente->nome);

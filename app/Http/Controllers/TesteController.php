@@ -31,7 +31,7 @@ class TesteController extends Controller
 
                });
 
-        return view('teste.testeEmail');
+        return view('emails.marketing.voucherColetado');
     }
 
     /**
