@@ -313,7 +313,6 @@ class ClienteController extends Controller
                                 ->get();
 
         $vouchers = Voucher::where('cliente_id', '=', $cliente->id)
-                                ->where('is_valido', '=', 1)
                                 ->get();
 
         $qtdPontosAcai = count($pontosAcai);

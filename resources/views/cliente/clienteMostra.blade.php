@@ -80,7 +80,7 @@
 
 
                             
-                                      <div class="" data-toggle="collapse" data-target="#demo"> Seus pontos <i class="fa fa-chevron-down"></i></div>
+                                      <div class="" data-toggle="collapse" data-target="#demo"> Meus pontos <i class="fa fa-chevron-down"></i></div>
                                       <div id="demo" class="collapse">
                                             
                                             <table class="table">
@@ -119,6 +119,9 @@
                                     <h4 class="text-left">Vouchers</h4>
 
 
+                                <div class="" data-toggle="collapse" data-target="#vouchers"> Meus vouchers <i class="fa fa-chevron-down"></i></div>
+                                      <div id="vouchers" class="collapse">
+
                                     <table class="table">
                                           <col width="10%">
                                             <col width="45%">
@@ -137,7 +140,7 @@
                                                 <th class="text-center">{{$voucher->id}}</th>
                                                 <th class="text-center">{{$voucher->produto}}</th>
                                                 <th class="text-center">{{$voucher->vencimento}}</th>
-                                                <th class="text-center">@if($voucher->data_utilizado <= '2015-01-01'){{$voucher->data_utilizado}} @endif</th>
+                                                <th class="text-center">@if($voucher->is_valido == 0){{$voucher->data_utilizado}} @else -- @endif</th>
                                             </tr>
                                         @endforeach
                                         </tbody>
@@ -161,7 +164,7 @@
                             <h4 class="text-left">Regulamento</h4>
                             <div class="text-left">
 
-                            <div class="" data-toggle="collapse" data-target="#collapseRegulamento"> <p class="p1"><b>REGULAMENTO DO PROGRAMA DE RELACIONAMENTO DO RESTAURANTE SERRA NATURAL – PROGRAMA FIDELIDADE</b></p>Clique aqui <i class="fa fa-chevron-down"></i></div>
+                            <div class="" data-toggle="collapse" data-target="#collapseRegulamento"> <p class="p1"><b>REGULAMENTO DO PROGRAMA DE RELACIONAMENTO DO RESTAURANTE SERRA NATURAL</b></p>Clique aqui <i class="fa fa-chevron-down"></i></div>
                             <div id="collapseRegulamento" class="collapse">
                             
 
