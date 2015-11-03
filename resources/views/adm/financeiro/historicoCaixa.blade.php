@@ -38,13 +38,13 @@
 				<table class="table table-bordered table-hover table-striped">
 				    <thead>
 				        <tr>
-				            <th width="25%">Data abertura</th>
-				            <th width="25%">Data fechamento</th>
-				            <th width="25%">Usuario abertura</th>
-				            <th width="25%">Usuario fechamento</th>
-				            <th width="25%">Vr Abertura</th>
-				            <th width="25%">Fundo de caixa</th>
-				            <th width="25%">Diferença final</th>
+				            <th width="15%">Data abertura</th>
+				            <th width="15%">Data fechamento</th>
+				            <th width="13%">Usuario abertura</th>
+				            <th width="13%">Usuario fechamento</th>
+				            <th width="10%">Vr Abertura</th>
+				            <th width="10%">Fundo de caixa</th>
+				            <th width="10%">Diferença final</th>
 				        </tr>
 				    </thead>
 				    <tbody>
@@ -54,7 +54,7 @@
 				            <th>{{$c->dt_fechamento}}</th>
 				            <th>{{$c->usuarioAbertura->name}}</th>
 				            <th>@if($c->is_aberto == 1) -- @else{{$c->usuarioFechamento->name}}@endif</th>
-				            <th>{{$c->vr_abertura}}</th>
+				            <th>R$ {{ number_format($c->vr_abertura, 2, ',', '.') }}</th>
 				            <th>{{$c->vr_emCaixa}}</th>
 				            <th>{{$c->diferenca_final}}</th>
 				        </tr>

@@ -37,6 +37,16 @@ class Caixa extends Model
         return date('d/m/Y H:i:s', strtotime($value));
     }
 
+    public function getVrEmCaixaAttribute($value)
+    {
+        return 'R$ ' . number_format($value, 2, ',', '.');
+    }
+
+    public function getDiferencaFinalAttribute($value)
+    {
+        return 'R$ ' . number_format($value, 2, ',', '.');
+    }
+
     public function retiradas(){
         return $this->hasMany('serranatural\Models\Retirada');
     }
