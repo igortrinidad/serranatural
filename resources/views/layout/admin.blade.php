@@ -6,10 +6,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Sistema de administração Serra Natural">
+    <meta name="author" content="Igor Trindade">
 
-    <title>Serra Natural - Adiministrativo</title>
+    <title>Serra Natural - Adiministrativo (2)</title>
 
     <link href="{!! asset('css/vendor.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/app.css') !!}" rel="stylesheet">
