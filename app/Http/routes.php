@@ -30,6 +30,18 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 
 	});
 
+		// Clientes
+	Route::group(['as' => 'financeiro.'], function()
+
+	{
+		Route::get('financeiro/fluxo', ['as' => 'fluxo', 'uses' => 'FinanceiroController@indexFluxo']);
+		Route::get('financeiro/historico', ['as' => 'historico', 'uses' => 'FinanceiroController@indexHIstorico']);
+		Route::post('financeiro/abrirCaixa', ['as' => 'abreCaixa', 'uses' => 'FinanceiroController@abreCaixa']);
+		Route::post('financeiro/gravarCaixa', ['as' => 'gravarCaixa', 'uses' => 'FinanceiroController@gravarCaixa']);
+		Route::post('financeiro/fecharCaixa', ['as' => 'fecharCaixa', 'uses' => 'FinanceiroController@fecharCaixa']);
+
+	});
+
 	//Rota index dashboard
 	Route::get('', ['as' => 'index', 'uses' => 'SystemController@indexDashboard']);
 	//Rotas de login e usuario

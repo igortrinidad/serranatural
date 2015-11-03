@@ -320,10 +320,10 @@
                             <a href="#"><i class="fa fa-money"></i> Financeiro<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">Fluxo de caixa</a>
+                                    <a href="{{ route('admin.financeiro.fluxo')}}">Fluxo de caixa</a>
                                 </li>
                                 <li>
-                                    <a href="#">Histórico de caixa</a>
+                                    <a href="{{ route('admin.financeiro.historico')}}">Histórico de caixa</a>
                                 </li>
                                 <li>
                                     <a href="#">Fidelidade</a>

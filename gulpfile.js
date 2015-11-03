@@ -37,6 +37,10 @@ elixir(function(mix) {
 		], 'public/js/clientes.js');
 
 	mix.scripts([
+		'financeiro.js'
+		], 'public/js/financeiro.js');
+
+	mix.scripts([
 		'votacao.js',
 		'/../bower_components/jquery-easing/jquery.easing.js',
 		'/../bower_components/bootstrap-toggle/js/bootstrap-toggle.js',
@@ -69,5 +73,5 @@ elixir(function(mix) {
 
 	mix.styles('estilos/login.css', 'public/css/login.css');
 
-	mix.version(['js/app.js', 'js/votacao.js', 'js/clientes.js'])
+	mix.version(['js/app.js', 'js/votacao.js', 'js/clientes.js', 'js/financeiro.js'])
 });
