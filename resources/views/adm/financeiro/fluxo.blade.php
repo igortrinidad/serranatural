@@ -239,6 +239,9 @@
 
 </div>
 
+<div class="btn btn-block btn-primary" id="btnTesta"></div>
+<div id="testa"></div>
+
 
     @section('scripts')
 	    @parent
@@ -392,6 +395,37 @@ $('#btnFechaCaixa').on("click", function(e)
 		    	var tipo = data['tipo_retorno'];
 
 		        $.notify(msg, tipo);
+
+		    }
+		},"json");
+	};
+
+$('#btnTesta').on("click", function(e)
+{
+    e.preventDefault();
+
+	testa();
+});
+
+		function testa()
+    {
+
+        var formData = {
+        	'Authorization': 'Bearer 5bDwfv16l7I02iePbc2GcQ',
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+        };
+
+		var formAction = "https://connect.squareup.com/v1/L5LhCF4NPETn2IEevtahMQ/payments";
+
+		$.ajax({
+		    type: "POST",
+		    url : formAction,
+		    data : formData,
+		    success : function(data){
+
+		        $.notify(data);
+		        $('#testa').text(data);
 
 		    }
 		},"json");

@@ -13,11 +13,13 @@ use serranatural\User as User;
 
 class FinanceiroController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => []]);
+
+    }
+
     public function indexFluxo()
     {
         $caixa = Caixa::with('usuarioAbertura')->where('is_aberto', '=', 1)->first();
