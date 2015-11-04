@@ -198,31 +198,7 @@
 		<div class="panel-body">
 				<form id="formAjax" action="/teste/summernote" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
 			        <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-			        <input type="hidden" name="cliente_id" value="{{$cliente->id}}" />
-					    <div class="form-group">
-					    	<input type="text" name="testeAjax" class="form-control" />
-					    </div>
-
-					    <div class="form-group">
-	                    	<label class="label_form primeiro_label_form">Nome</label>
-	                     	<input type="text" name="nome" value="{{ old('nome') }}" class="form-control"/>
-                        </div>
-
-                    	<input name="senha_resgate" value="{{ rand(1000, 9999)}}" />
-
-                        <div class="form-group">
-                            <label class="label_form">Email</label>
-                            <input type="email" name="email" value="{{ old('email') }}"class="form-control"/>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="label_form">Telefone</label>
-                            <input type="text" name="telefone" value="{{ old('telefone') }}"class="form-control phone_with_ddd"/>
-                        </div>
-                        <div class="form-group">
-                            <input type="checkbox" name="opt_email" value="1" class="checkbox" checked/>
-                            <p class="texto_votacao">Aceito receber informações sobre promoções e novidades da Serra Natural.</p>
-                        </div>
+			        	<textarea name="summernote" id="summernote"></textarea>
 					    <div class="form-group">
 					    	<button type="submit" class="btn btn-primary btn-block">Ir</button>
 					  	</div>

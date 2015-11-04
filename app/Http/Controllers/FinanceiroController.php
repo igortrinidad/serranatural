@@ -11,6 +11,8 @@ use serranatural\Models\Retirada as Retirada;
 use serranatural\Models\Cliente as Cliente;
 use serranatural\User as User;
 
+use Mail;
+
 class FinanceiroController extends Controller
 {
 
@@ -138,18 +140,54 @@ class FinanceiroController extends Controller
     public function fecharCaixa(Request $request)
     {
         Caixa::where('id', '=', $request->id)
-                ->update([
-                        'is_aberto' => 0,
-                        'user_id_fechamento' => \Auth::user()->id,
-                        'dt_fechamento' => date('Y-m-d H:i:s')
-                    ]);
+               ->update([
+                       'is_aberto' => 0,
+                       'user_id_fechamento' => \Auth::user()->id,
+                       'dt_fechamento' => date('Y-m-d H:i:s')
+                   ]);
+
+        $caixa = Caixa::where('id', '=', $request->id)->first();
+
+        $userAbertura = User::where('id', '=', $caixa->user_id_abertura)->first();
+        $userFechamento = User::where('id', '=', $caixa->user_id_fechamento)->first();
 
         $dados = [
+
+        'dt_abertura' => $caixa->dt_abertura,
+        'dt_fechamento' => $caixa->dt_fechamento,
+        'vendas_cash' => $caixa->vendas_cash,
+        'vendas_card' => $caixa->vendas_card,
+        'vendas_rede' => $caixa->vendas_rede,
+        'vendas_cielo' => $caixa->vendas_cielo,
+        'total_retirada' => $caixa->total_retirada,
+        'esperado_caixa' => $caixa->esperado_caixa,
+        'vr_emCaixa' => $caixa->vr_emCaixa,
+        'vr_abertura' => $caixa->vr_abertura,
+        'diferenca_cartoes' => $caixa->diferenca_cartoes,
+        'diferenca_caixa' => $caixa->diferenca_caixa,
+        'diferenca_final' => $caixa->diferenca_final,
+        'user_abertura' => $userAbertura->name,
+        'user_fechamento' => $userFechamento->name,
+        ];
+
+        $mensagem = json_encode($dados);
+
+            Mail::queue('emails.admin.fechamentoCaixa', $dados, function ($message) use ($dados, $caixa)
+            {
+
+                $message->to('contato@maisbartenders.com.br', 'Igor Trindade');
+                $message->from('mkt@serranatural.com', 'Serra Natural');
+                $message->subject('Fechamento de caixa : ' . $caixa->dt_fechamento);
+                $message->getSwiftMessage();
+
+            });
+
+        $return = [
             'msg_retorno' => 'Caixa fechado com sucesso, consulte o caixa em estoque.',
             'tipo_retorno' => 'success'
             ];
 
-        return $dados;
+        return $return;
     }
 
     /**

@@ -19,7 +19,8 @@ class Caixa extends Model
     						'user_id_fechamento',
     						'vr_abertura',
     						'vendas_cash',
-    						'vendas_card',
+                            'vendas_card',
+    						'vendas_rede',
     						'vendas_cielo',
                             'total_retirada',
     						'esperado_caixa',
@@ -33,6 +34,16 @@ class Caixa extends Model
     					];
 
     public function getCreatedAtAttribute($value)
+    {
+        return date('d/m/Y H:i:s', strtotime($value));
+    }
+
+    public function getDtFechamentoAttribute($value)
+    {
+        return date('d/m/Y H:i:s', strtotime($value));
+    }
+
+    public function getDtAberturaAttribute($value)
     {
         return date('d/m/Y H:i:s', strtotime($value));
     }
