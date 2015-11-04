@@ -211,36 +211,67 @@
 				<div class="row">
 					<div class="col-md-6">
 						<h4>Abrir caixa</h4>
+						<p>Informe o valor em caixa para iniciar o sistema.</p>
 					</div>
 
 				</div>
 			</div>
 			<div class="panel-body">
 
-				<form id="formAbreCaixa" action="{{ route('admin.financeiro.abreCaixa')}}" method="POST">
-
-					<input type="hidden" name="_token" value="{{ csrf_token() }}">
+				<div class="col-md-3"></div>
+					<div class="col-md-6">
 
 					<div class="form-group">
-						<label>Valor em caixa</label>
-						<input type="text" name="vr_abertura" class="form-control">
+						<input id="valor_informado" value="" class="form-control" />
 					</div>
 
-					<button type="submit" class="btn btn-primary btn-xl" data-toggle="confirmation" >Abrir caixa</button>
+					<div class="form-group">
+						<button class="btn btn-primary btn-xl" id="btnAbrir" data-toggle="modal" data-target="#modalSenha" >Abrir caixa</button>
+					</div>
+
 
 				</form>
 			</div>
 		</div>
-	</div>		
+	</div>	
 	
-@endif	
+@endif
+
+<!-- Modal editar atividade -->              
+                            <div class="modal inmodal fade" id="modalSenha" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                            <h4 class="modal-title" id="tituloModal">Confirma</h4>
+                                        </div>
+                                        <div class="modal-body text-center">
+											<h4>Valor em caixa:</h4>
+
+                                            <p style="font-size: 25px;font-weight:700" id="valorAbertura">123</p>
+                                    
+                                        </div>
+                                        <div class="modal-footer inline">
+
+											<form id="formAbreCaixa" action="" method="POST">
+
+												<input type="hidden" name="_token" value="{{ csrf_token() }}">
+											
+											<div class="form-group">
+												<label>Insira sua senha</label>
+                                        		<input type="password" name="senha_abertura" class="form-control" value="" />
+											</div>
+
+	                                            <button type="button" class="btn btn-white btn-sm" data-dismiss="modal">Cancela</button>
+	                                            
+	                                            <button type="submit" id="btnAbrirDefinitivo" class="btn btn-danger btn-sm">Confirma</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
 <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
-
-</div>
-
-<div class="btn btn-block btn-primary" id="btnTesta"></div>
-<div id="testa"></div>
 
 
     @section('scripts')
@@ -249,45 +280,68 @@
 
 <script type="text/javascript">
 
-$('#formAbreCaixa button[type=submit]').click(function(e){
-    e.preventDefault();
+$('#btnAbrir').on("click", function(e){
 
-	var form = jQuery(this).parents("form:first");
-	var dataString = form.serialize();
+	e.preventDefault();
 
-	window.console.log(dataString);
+	var valor_informado = $('#valor_informado').val();
 
-	var formAction = form.attr('action');
+	window.console.log(valor_informado);
+
+	$('#valorAbertura').text('R$ ' + valor_informado);
+
+});
+
+$('#btnAbrirDefinitivo').on("click", function(e){
+
+	e.preventDefault();
+	abreCaixa();
+
+});
+
+
+
+function abreCaixa()
+{
+    
+	formData = {
+		'_token' : $("#token").val(),
+		'senha' : $("input[name='senha_abertura']").val(),
+		'vr_abertura' : parseFloat($('#valor_informado').val()),
+	};
+
+	window.console.log(formData);
+
+	var formAction = "{{ route('admin.financeiro.abreCaixa')}}";
 
 	$.ajax({
 	    type: "POST",
 	    url : formAction,
-	    data : dataString,
+	    data : formData,
 	    success : function(data){
 
 	    	var msg = data['msg_retorno'];
 	    	var tipo = data['tipo_retorno'];
 
 	        $.notify(msg, tipo);
-	        $('#formAbreCaixa')[0].reset();
-	        
-	        setTimeout(function(){
-	        	$('#divAbrir').fadeOut();
-	        }, 600);
 
 	    if(tipo == 'success')
 	    {
 
+	    	setTimeout(function(){
+	        	$('#modalSenha').fadeOut();
+	        }, 500);
+
 		    setTimeout(function()
 		    {
 		    	location.reload();
-		    }, 2500);
+		    }, 1200);
 		}
 
 	    }
 	    },"json");
 
-	});
+};
 
 $('#calculaCaixa').on("click", function(e)
 	{
@@ -395,6 +449,11 @@ $('#btnFechaCaixa').on("click", function(e)
 		    	var tipo = data['tipo_retorno'];
 
 		        $.notify(msg, tipo);
+
+			    setTimeout(function()
+			    {
+			    	location.reload();
+			    }, 1200);
 
 		    }
 		},"json");

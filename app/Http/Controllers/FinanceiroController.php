@@ -68,18 +68,33 @@ class FinanceiroController extends Controller
     public function abreCaixa(Request $request)
     {
 
-        Caixa::create([
+        $autoriza = User::where('id', '=', \Auth::user()->id)
+                            ->where('senha_operacao', '=', $request->senha)
+                            ->first();
+
+        if (is_null($autoriza) OR empty($autoriza))
+        {
+            $dados = [
+                'msg_retorno' => 'Senha inválida',
+                'tipo_retorno' => 'error'
+            ];
+            return $dados;
+        }
+
+            Caixa::create([
                 'dt_abertura' => date('Y-m-d H:i:s'),
                 'vr_abertura' => $request->vr_abertura,
                 'is_aberto' => '1',
                 'user_id_abertura' => \Auth::user()->id
             ]);
 
-        $dados = [
-                'msg_retorno' => 'Caixa aberto!',
+            $dados = [
+                'msg_retorno' => 'Caixa Aberto!',
                 'tipo_retorno' => 'success'
             ];
             return $dados;
+
+
     }
 
     /**
