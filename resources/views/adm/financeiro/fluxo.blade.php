@@ -35,40 +35,40 @@
 
 					<div class="form-group">
 						<label>Total de vendas em dinheiro (sistema)</label>
-						<input type="text" name="vendas_cash" value="{{$caixa->vendas_cash}}" class="form-control" />
+						<input type="text" name="vendas_cash" value="{{$caixa->vendas_cash}}" class="form-control maskValor" />
 					</div>
 
 					<div class="form-group">
 						<label>Total de vendas em cartão (sistema)</label>
-						<input type="text" name="vendas_card" value="{{$caixa->vendas_card}}" class="form-control" />
+						<input type="text" name="vendas_card" value="{{$caixa->vendas_card}}" class="form-control maskValor" />
 					</div>
 
 					<div class="form-group">
 						<label>Total de vendas maquina <b>REDE</b></label>
-						<input type="text" name="vendas_rede" value="{{$caixa->vendas_rede}}" class="form-control" />
+						<input type="text" name="vendas_rede" value="{{$caixa->vendas_rede}}" class="form-control maskValor" />
 					</div>
 
 					<div class="form-group">
 						<label>Total de vendas maquina <b>CIELO</b></label>
-						<input type="text" name="vendas_cielo" value="{{$caixa->vendas_cielo}}" class="form-control" />
+						<input type="text" name="vendas_cielo" value="{{$caixa->vendas_cielo}}" class="form-control maskValor" />
 					</div>
 
 					<div class="form-group">
 						<label>Total de retiradas</label>
-						<input type="text" name="total_retirada" value="{{$caixa->total_retirada}}" class="form-control" />
+						<input type="text" name="total_retirada" value="{{$caixa->total_retirada}}" class="form-control maskValor" />
 					</div>
 
 
 					<div class="form-group">
 						<label>Valor em caixa</label>
-						<input type="text" name="" id="fundo_caixa" value="{{$caixa->fundo_caixa}}" class="form-control" />
+						<input type="text" name="" id="fundo_caixa" value="{{$caixa->fundo_caixa}}" class="form-control maskValor" />
 					</div>
 
 					<div class="btn btn-primary btn-xl btn-block" id="calculaCaixa">Calcular caixa</div><br>
 
 					<div class="btn btn-warning btn-xl btn-block" id="gravarCaixa">Gravar caixa</div><br>
 
-					<button class="btn btn-danger btn-xl btn-block" id="btnFechaCaixa">Fechar caixa</button><br>
+					<a class="btn btn-danger btn-block btn-xl" id="btnFechar" data-toggle="modal" data-target="#modalSenha" >Fecha caixa</a>
 
 
 				</form>
@@ -111,7 +111,7 @@
 
 				<div class="form-group">
 					<label>Valor esperado em caixa</label>
-					<div class="btn btn-default btn-block" id="esperado_caixa">0</div>
+					<div class="btn btn-default btn-block" id="esperado_caixa" value=""></div>
 				</div>
 
 				<div class="form-group">
@@ -222,7 +222,7 @@
 					<div class="col-md-6">
 
 					<div class="form-group">
-						<input id="valor_informado" value="" class="form-control" />
+						<input id="valor_informado" value="" class="form-control maskValor" />
 					</div>
 
 					<div class="form-group">
@@ -248,23 +248,30 @@
                                         <div class="modal-body text-center">
 											<h4>Valor em caixa:</h4>
 
-                                            <p style="font-size: 25px;font-weight:700" id="valorAbertura">123</p>
+                                            <p style="font-size: 25px;font-weight:700" id="valor_confirmation">??</p>
+											<span>
+	                                            <h4>Diferença final:</h4>
+
+	                                            <p style="font-size: 25px;font-weight:700" id="diferenca_caixa"></p>
+                                            </span>
                                     
                                         </div>
                                         <div class="modal-footer inline">
 
-											<form id="formAbreCaixa" action="" method="POST">
+											<form id="formAbreCaixa" method="POST">
 
 												<input type="hidden" name="_token" value="{{ csrf_token() }}">
 											
 											<div class="form-group">
 												<label>Insira sua senha</label>
-                                        		<input type="password" name="senha_abertura" class="form-control" value="" />
+                                        		<input type="password" name="senha" class="form-control" value="" />
 											</div>
 
 	                                            <button type="button" class="btn btn-white btn-sm" data-dismiss="modal">Cancela</button>
 	                                            
-	                                            <button type="submit" id="btnAbrirDefinitivo" class="btn btn-danger btn-sm">Confirma</button>
+	                                            <button type="submit" id="btnAbreCaixaDefinitivo" class="btn btn-danger btn-sm">Confirma abertura</button>
+
+	                                            <button id="btnFechaDefinitivo" class="btn btn-danger btn-sm" style="display:none">Confirma fechamento</button>
                                             </form>
                                         </div>
                                     </div>
@@ -280,6 +287,26 @@
 
 <script type="text/javascript">
 
+$('.maskValor').mask("0000.00", {reverse: true});
+
+;(function($)
+{
+	'use strict';
+	$(document).ready(function()
+	{
+
+		if($("#id_caixa").text() >= 1)
+		{
+			window.console.log('É maior');
+			$('#btnAbreCaixaDefinitivo').hide();
+			$('#btnFechaDefinitivo').show();
+		}
+
+	});
+
+
+})(window.jQuery);
+
 $('#btnAbrir').on("click", function(e){
 
 	e.preventDefault();
@@ -288,11 +315,13 @@ $('#btnAbrir').on("click", function(e){
 
 	window.console.log(valor_informado);
 
-	$('#valorAbertura').text('R$ ' + valor_informado);
+	$('#valor_confirmation').text('R$ ' + valor_informado);
 
 });
 
-$('#btnAbrirDefinitivo').on("click", function(e){
+
+
+$('#btnAbreCaixaDefinitivo').on("click", function(e){
 
 	e.preventDefault();
 	abreCaixa();
@@ -306,17 +335,15 @@ function abreCaixa()
     
 	formData = {
 		'_token' : $("#token").val(),
-		'senha' : $("input[name='senha_abertura']").val(),
+		'senha' : $("input[name='senha']").val(),
 		'vr_abertura' : parseFloat($('#valor_informado').val()),
 	};
 
-	window.console.log(formData);
-
-	var formAction = "{{ route('admin.financeiro.abreCaixa')}}";
+	var url = "{{ route('admin.financeiro.abreCaixa')}}";
 
 	$.ajax({
 	    type: "POST",
-	    url : formAction,
+	    url : url,
 	    data : formData,
 	    success : function(data){
 
@@ -360,14 +387,14 @@ function calculaCaixa()
 	var emCaixa = parseFloat($("#fundo_caixa").val());
 	var vendasTotalCartao = vendasCielo + vendasRede;
 	var diferencaCartoes = vendasTotalCartao - vendasCard;
-	var esperadoCaixa = (vendasCash + vrAbertura) + ( - totalRetirada);
+	window.esperadoCaixa = (vendasCash + vrAbertura) + ( - totalRetirada);
 	var diferencaDinheiro = emCaixa - esperadoCaixa;
 	var diferencaFinal = diferencaCartoes + (diferencaDinheiro);
 	
-	$('#esperado_caixa').text(esperadoCaixa);
-	$('#vr_diferenca_cartoes').text(diferencaCartoes);
-	$('#vr_diferenca_caixa').text(diferencaDinheiro);
-	$('#vr_diferenca_final').text(diferencaFinal);
+	$('#esperado_caixa').text('R$ ' + esperadoCaixa.toFixed(2));
+	$('#vr_diferenca_cartoes').text('R$ ' + diferencaCartoes.toFixed(2));
+	$('#vr_diferenca_caixa').text('R$ ' + diferencaDinheiro.toFixed(2));
+	$('#vr_diferenca_final').text(diferencaFinal.toFixed(2));
 
 
 	$.notify('Diferença de caixa: ' + diferencaFinal + '.', 'warning')
@@ -383,14 +410,7 @@ $('#gravarCaixa').on("click", function(e)
     	gravaCaixa();
 });
 
-$('#btnFechaCaixa').on("click", function(e)
-{
-    e.preventDefault();
 
-    	calculaCaixa();
-    	gravaCaixa();
-    	fechaCaixa();
-});
 
     function gravaCaixa()
     {
@@ -408,7 +428,7 @@ $('#btnFechaCaixa').on("click", function(e)
             'diferenca_cartoes' : $($('#vr_diferenca_cartoes')).text(),
             'diferenca_caixa' : $('#vr_diferenca_caixa').text(),
             'diferenca_final' : $('#vr_diferenca_final').text(),
-            'esperado_caixa' : $('#esperado_caixa').text(),
+            'esperado_caixa' : esperadoCaixa,
             'vr_emCaixa' : $('#fundo_caixa').val(),
         };
 
@@ -429,19 +449,41 @@ $('#btnFechaCaixa').on("click", function(e)
 		},"json");
 	};
 
+	$('#btnFechar').on("click", function(e){
+
+		e.preventDefault();
+		$('#valor_confirmation').text('R$ ' + $('#fundo_caixa').val());
+		$('#valor_confirmation + span').show();
+		$('#diferenca_caixa').text($('#vr_diferenca_final').text());
+
+	});
+
+	$('#btnFechaDefinitivo').on("click", function(e)
+	{
+		window.console.log('btnFechaDefinitivo');
+
+	    e.preventDefault();
+		calculaCaixa();
+		gravaCaixa();
+		fechaCaixa();
+	});
+
 	function fechaCaixa()
     {
 
         var formData = {
         	'_token' : $("#token").val(),
         	'id' : $("#id_caixa").text(),
+        	'senha' : $("input[name='senha']").val(),
         };
 
-		var formAction = "{{ route('admin.financeiro.fecharCaixa') }}";
+        window.console.log(formData);
+
+		var url = "{{ route('admin.financeiro.fecharCaixa') }}";
 
 		$.ajax({
 		    type: "POST",
-		    url : formAction,
+		    url : url,
 		    data : formData,
 		    success : function(data){
 
@@ -450,14 +492,26 @@ $('#btnFechaCaixa').on("click", function(e)
 
 		        $.notify(msg, tipo);
 
-			    setTimeout(function()
-			    {
-			    	location.reload();
-			    }, 1200);
 
-		    }
+			    if(tipo == 'success')
+			    {
+			    	setTimeout(function(){
+			        	$('#modalSenha').fadeOut();
+			        }, 500);
+
+				    setTimeout(function()
+				    {
+				    	location.reload();
+				    }, 1200);
+
+				    }
+			}
+
 		},"json");
 	};
+
+
+//funcoes de teste	
 
 $('#btnTesta').on("click", function(e)
 {

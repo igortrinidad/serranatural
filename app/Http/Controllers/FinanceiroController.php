@@ -49,7 +49,7 @@ class FinanceiroController extends Controller
     public function indexHistorico()
     {
 
-        $caixas = Caixa::with('usuarioFechamento', 'usuarioAbertura')->get();
+        $caixas = Caixa::with('usuarioFechamento', 'usuarioAbertura')->paginate(10);
 
         //dd($caixas);
 
@@ -139,6 +139,19 @@ class FinanceiroController extends Controller
      */
     public function fecharCaixa(Request $request)
     {
+        $autoriza = User::where('id', '=', \Auth::user()->id)
+                            ->where('senha_operacao', '=', $request->senha)
+                            ->first();
+
+        if (is_null($autoriza) OR empty($autoriza))
+        {
+            $dados = [
+                'msg_retorno' => 'Senha inválida',
+                'tipo_retorno' => 'error'
+            ];
+            return $dados;
+        }
+
         Caixa::where('id', '=', $request->id)
                ->update([
                        'is_aberto' => 0,

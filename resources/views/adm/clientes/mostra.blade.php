@@ -198,7 +198,7 @@
 		<div class="panel-body">
 				<form id="formAjax" action="/teste/summernote" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
 			        <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-			        	<textarea name="summernote" id="summernote"></textarea>
+			        	<textarea name="summernote" id="summernote""><h1>Gostaria de fazer um teste bem especifico, ta? Pontos totais: ${pontos}</h1></textarea>
 					    <div class="form-group">
 					    	<button type="submit" class="btn btn-primary btn-block">Ir</button>
 					  	</div>

@@ -18,7 +18,7 @@ class CriaTabelaRetiradas extends Migration
             $table->integer('user_id');
             $table->string('descricao');
             $table->string('motivo');
-            $table->decimal('valor', 5, 2);
+            $table->decimal('valor', 7, 2);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -140,7 +140,7 @@
                                   <td colspan="2" height="12" style="font-size:0px;line-height:0px">&nbsp;</td>
                                 </tr>
                                 <tr>
-                                  <td style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757;font-weight:bold" width="200">                                            Diferença                                          </td>
+                                  <td style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757;font-weight:bold" width="200">                                            Diferença final                                          </td>
                                   <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757;font-weight:bold" valign="bottom" width="120">                                            {{$diferenca_final}}                                          </td>
                                 </tr>
                                 <tr>

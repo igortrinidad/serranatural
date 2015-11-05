@@ -23,13 +23,23 @@
 						<div class="inline text-right">
 							<ul class="pagination">
 								<li>
-									<a href="" rel="prev">«</a>
+									<a href="{!! $caixas->previousPageUrl() !!}" rel="prev">«</a>
 								</li>
 								<li>
-									<a href="" rel="prev">»</a>
+									<a href="{{ route('admin.financeiro.historico').'/?page=1' }}">1</a>
+								</li>
+								<li class="active">
+									<a href="#">{!! $caixas->currentPage() !!}</a>
+								</li>
+								<li>
+									<a href="{{ route('admin.financeiro.historico').'/?page='.$caixas->lastPage() }}" rel="prev">{!! $caixas->lastPage() !!}</a>
+								</li>
+								<li>
+									<a href="{!! $caixas->nextPageUrl() !!}" rel="prev">»</a>
 								</li>
 							</ul>	
 						</div>
+
 					</div>
 				</div>
 			</div>
