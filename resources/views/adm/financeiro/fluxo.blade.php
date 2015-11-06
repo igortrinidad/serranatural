@@ -249,7 +249,7 @@
 											<h4>Valor em caixa:</h4>
 
                                             <p style="font-size: 25px;font-weight:700" id="valor_confirmation">??</p>
-											<span>
+											<span >
 	                                            <h4>Diferença final:</h4>
 
 	                                            <p style="font-size: 25px;font-weight:700" id="diferenca_caixa"></p>
@@ -269,7 +269,7 @@
 
 	                                            <button type="button" class="btn btn-white btn-sm" data-dismiss="modal">Cancela</button>
 	                                            
-	                                            <button type="submit" id="btnAbreCaixaDefinitivo" class="btn btn-danger btn-sm">Confirma abertura</button>
+	                                            <button id="btnAbreCaixaDefinitivo" class="btn btn-danger btn-sm">Confirma abertura</button>
 
 	                                            <button id="btnFechaDefinitivo" class="btn btn-danger btn-sm" style="display:none">Confirma fechamento</button>
                                             </form>
@@ -298,8 +298,14 @@ $('.maskValor').mask("0000.00", {reverse: true});
 		if($("#id_caixa").text() >= 1)
 		{
 			window.console.log('É maior');
-			$('#btnAbreCaixaDefinitivo').hide();
+			$('#btnAbreCaixaDefinitivo').remove();
 			$('#btnFechaDefinitivo').show();
+
+		} else if($("#id_caixa").text() == '')
+		{
+			$('#btnAbreCaixaDefinitivo').show();
+			$('#btnFechaDefinitivo').remove();
+			$('#valor_confirmation + span').remove();
 		}
 
 	});
@@ -396,8 +402,14 @@ function calculaCaixa()
 	$('#vr_diferenca_caixa').text('R$ ' + diferencaDinheiro.toFixed(2));
 	$('#vr_diferenca_final').text(diferencaFinal.toFixed(2));
 
+	if(diferencaFinal <= 0)
+	{
+		$.notify('Diferença de caixa: R$ ' + diferencaFinal.toFixed(2), 'error')
+	} else {
+		$.notify('Diferença de caixa: R$ ' + diferencaFinal.toFixed(2), 'success')
+	}
 
-	$.notify('Diferença de caixa: ' + diferencaFinal + '.', 'warning')
+	
 
 };
 
