@@ -20,6 +20,8 @@ class FinanceiroController extends Controller
     {
         $this->middleware('auth', ['except' => []]);
 
+        //$this->middleware('nivelAcesso:super_adm', ['only' => ['retirada']]);
+
     }
 
     public function indexFluxo()
@@ -224,5 +226,11 @@ class FinanceiroController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function retirada(Request $request)
+    {
+
+        return view('adm.financeiro.retirada');
     }
 }

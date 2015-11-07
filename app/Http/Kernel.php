@@ -29,5 +29,7 @@ class Kernel extends HttpKernel
         'auth' => \serranatural\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \serranatural\Http\Middleware\RedirectIfAuthenticated::class,
+        //Meus middleware's
+        'nivelAcesso' => \serranatural\Http\Middleware\nivelAcesso::class,
     ];
 }

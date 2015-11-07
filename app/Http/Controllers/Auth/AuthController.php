@@ -41,6 +41,9 @@ class AuthController extends Controller
             ]);
 
         $this->middleware('auth', ['only' => ['novoUser', 'editaUsuario', 'updateUsuario', 'salvaUsuario']]);
+    
+        $this->middleware('nivelAcesso:super_adm', ['only' => ['salvaUsuario', 'novoUser']]);
+
     }
 
     /**
@@ -73,6 +76,7 @@ class AuthController extends Controller
             'name' => $usuario['name'],
             'email' => $usuario['email'],
             'password' => bcrypt($usuario['password']),
+            'user_type' => $usuario['user_type'],
         ]);
 
         $dados = [

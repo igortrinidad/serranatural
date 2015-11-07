@@ -25,7 +25,7 @@
             <br />
             <div class="form-group">
                 <label>Tipo usuario</label>
-                <input type="text" name="tipo_usuario" value="{{ old('tipo_usuario') }}" class="form-control">
+                <input type="text" name="user_type" value="{{ old('user_type') }}" class="form-control">
             </div>
             <div class="form-group">
                 <label>Password</label>

@@ -320,13 +320,21 @@
                             <a href="#"><i class="fa fa-money"></i> Financeiro<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="{{ route('admin.financeiro.fluxo')}}">Fluxo de caixa</a>
-                                </li>
-                                <li>
+                                    <a href="#"> Caixa <span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a href="{{ route('admin.financeiro.fluxo')}}">Fluxo de caixa</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('admin.financeiro.retirada')}}">Retirada</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Entrada</a>
+                                        </li>
+                                        <li>
                                     <a href="{{ route('admin.financeiro.historico')}}">Histórico de caixa</a>
                                 </li>
-                                <li>
-                                    <a href="#">Fidelidade</a>
+                                    </ul>
                                 </li>
 
                             </ul>
