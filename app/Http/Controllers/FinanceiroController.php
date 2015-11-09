@@ -26,6 +26,10 @@ class FinanceiroController extends Controller
 
     public function indexFluxo()
     {
+        $funcionario = FuncionariosController::funcionariosForSelect();
+
+        dd($funcionario);
+
         $caixa = Caixa::with('usuarioAbertura')->where('is_aberto', '=', 1)->first();
 
         //dd($caixa);

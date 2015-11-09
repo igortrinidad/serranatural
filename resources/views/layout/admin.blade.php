@@ -361,10 +361,10 @@
                             <a href="#"><i class="fa fa-sitemap fa-fw"></i> Equipe<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">Alimentação</a>
+                                    <a href="{{route('admin.funcionarios.adiciona')}}">Adiciona</a>
                                 </li>
                                 <li>
-                                    <a href="#">Horários</a>
+                                    <a href="#">Lista</a>
                                 </li>
                                 <li>
                                     <a href="#">Third Level <span class="fa arrow"></span></a>

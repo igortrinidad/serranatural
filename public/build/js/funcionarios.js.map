@@ -1,0 +1,1 @@
+{"version":3,"sources":["financeiro.js"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA","file":"funcionarios.js","sourcesContent":[";(function($)\n{\n\t'use strict';\n\t$(document).ready(function()\n\t{\n\t\twindow.console.log('JS financeiro rodando ok, ufa!');\n\n\t});\n\n\n})(window.jQuery);\n"],"sourceRoot":"/source/"}

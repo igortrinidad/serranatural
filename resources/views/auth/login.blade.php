@@ -80,6 +80,26 @@
 
     <script src="{!! asset('js/vendor.js') !!}"></script>
 
+
+        @if (count($errors) > 0)
+
+
+
+            <script type="text/javascript">
+
+                $('#painel').jrumble({
+                    x: 3,
+                    y: 3,
+                    rotation: 1
+                });
+                $('#painel').trigger('startRumble');
+                setTimeout(function(){
+                    $('#painel').trigger('stopRumble');
+                }, 700);
+            </script>
+
+        @endif
+
     @show
 
 

@@ -30,7 +30,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 
 	});
 
-		// Clientes
+		// Financeiro
 	Route::group(['as' => 'financeiro.'], function()
 
 	{
@@ -40,6 +40,15 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::post('financeiro/gravarCaixa', ['as' => 'gravarCaixa', 'uses' => 'FinanceiroController@gravarCaixa']);
 		Route::post('financeiro/fecharCaixa', ['as' => 'fecharCaixa', 'uses' => 'FinanceiroController@fecharCaixa']);
 		Route::get('financeiro/retirada', ['as' => 'retirada', 'uses' => 'FinanceiroController@retirada']);
+
+	});
+
+
+	// Funcionarios
+	Route::group(['as' => 'funcionarios.'], function()
+
+	{
+		Route::get('funcioarios/adiciona', ['as' => 'adiciona', 'uses' => 'FuncionariosController@create']);
 
 	});
 

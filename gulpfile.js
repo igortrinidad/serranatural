@@ -22,6 +22,7 @@ elixir(function(mix) {
 		'/../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.pt-BR.js',
 		'/../bower_components/select2/dist/js/select2.js',
 		'/../bower_components/summernote/dist/summernote.js',
+		'/../bower_components/jrumble/jquery.jrumble.js',
 		'sb-admin-2.js',
 		'appGeral.js',
 		'notify.js',
@@ -39,6 +40,10 @@ elixir(function(mix) {
 	mix.scripts([
 		'financeiro.js'
 		], 'public/js/financeiro.js');
+
+	mix.scripts([
+		'financeiro.js'
+		], 'public/js/funcionarios.js');
 
 	mix.scripts([
 		'votacao.js',
@@ -73,5 +78,5 @@ elixir(function(mix) {
 
 	mix.styles('estilos/login.css', 'public/css/login.css');
 
-	mix.version(['js/app.js', 'js/votacao.js', 'js/clientes.js', 'js/financeiro.js'])
+	mix.version(['js/app.js', 'js/votacao.js', 'js/clientes.js', 'js/financeiro.js', 'js/funcionarios.js'])
 });
