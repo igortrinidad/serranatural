@@ -37,7 +37,7 @@ class Kernel extends ConsoleKernel
                      ->dailyAt('10:01');
 
             $schedule->command('email_Microcity')
-                     ->dailyAt('21:40');
+                     ->dailyAt('21:44');
         }
 
     }
