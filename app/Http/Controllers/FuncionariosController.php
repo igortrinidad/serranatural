@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use serranatural\Http\Requests;
 use serranatural\Http\Controllers\Controller;
 
+use serranatural\Models\Funcionario;
+
 class FuncionariosController extends Controller
 {
     /**
@@ -25,6 +27,7 @@ class FuncionariosController extends Controller
      */
     public function create()
     {
+
         return view('adm.funcionarios.add');
     }
 
@@ -36,7 +39,14 @@ class FuncionariosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Funcionario::create($request->all());
+
+        $dados = [
+            'msg_retorno' => 'Funcionario adicionado com sucesso',
+            'tipo_retorno' => 'success'
+        ];
+
+        return back()->with($dados);
     }
 
     /**
@@ -95,5 +105,16 @@ class FuncionariosController extends Controller
         }
 
         return $result;
+    }
+
+    public function lista()
+    {
+        $funcionarios = Funcionario::all();
+
+        $dados = [
+            'funcionarios' => $funcionarios,
+        ];
+
+        return view('adm.funcionarios.lista')->with($dados);
     }
 }

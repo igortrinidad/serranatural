@@ -49,6 +49,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 
 	{
 		Route::get('funcioarios/adiciona', ['as' => 'adiciona', 'uses' => 'FuncionariosController@create']);
+		Route::post('funcioarios/adiciona', ['as' => 'store', 'uses' => 'FuncionariosController@store']);
+		Route::get('funcioarios/lista', ['as' => 'lista', 'uses' => 'FuncionariosController@lista']);
 
 	});
 

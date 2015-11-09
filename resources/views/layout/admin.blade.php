@@ -364,7 +364,7 @@
                                     <a href="{{route('admin.funcionarios.adiciona')}}">Adiciona</a>
                                 </li>
                                 <li>
-                                    <a href="#">Lista</a>
+                                    <a href="{{route('admin.funcionarios.lista')}}">Lista</a>
                                 </li>
                                 <li>
                                     <a href="#">Third Level <span class="fa arrow"></span></a>

@@ -10,6 +10,7 @@ use serranatural\Models\Caixa as Caixa;
 use serranatural\Models\Retirada as Retirada;
 use serranatural\Models\Cliente as Cliente;
 use serranatural\User as User;
+use serranatural\Models\Funcionario;
 
 use Mail;
 
@@ -26,9 +27,6 @@ class FinanceiroController extends Controller
 
     public function indexFluxo()
     {
-        $funcionario = FuncionariosController::funcionariosForSelect();
-
-        dd($funcionario);
 
         $caixa = Caixa::with('usuarioAbertura')->where('is_aberto', '=', 1)->first();
 
@@ -232,9 +230,28 @@ class FinanceiroController extends Controller
         //
     }
 
+    public function funcionariosForSelect()
+    {
+        $funcionarios = \serranatural\Models\Funcionario::all();
+        $result = array();
+
+        foreach($funcionarios as $key => $value) 
+        {
+            $result[$value->id] = $value->id.' - '.$value->nome . ' - ' . $value->email;
+        }
+
+        return $result;
+    }
+
     public function retirada(Request $request)
     {
 
-        return view('adm.financeiro.retirada');
+        $funcionarios = $this->funcionariosForSelect();
+
+        $dados = [
+            'funcionarios' => $funcionarios
+        ];
+
+        return view('adm.financeiro.retirada')->with($dados);
     }
 }
