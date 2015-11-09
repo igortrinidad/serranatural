@@ -15,6 +15,23 @@
 		<div class="panel panel-default">
 			<div class="panel-heading"></div>
 			<div class="panel-body">
+
+			<div class="col-md-6">
+
+				<div class="form-group">
+					<label>Descrição</label>
+					<input type="text" name="descricao" class="form-control" />
+				</div>
+
+				<div class="form-group">
+					<label>Valor</label>
+					<input type="text" name="valor" class="form-control" />
+				</div>
+
+				<div class="form-group">
+					<label>Transporte</label>
+					<input type="text" name="transporte" class="form-control" />
+				</div>
 			
 				<div class="form-group">
 

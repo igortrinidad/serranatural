@@ -13,6 +13,7 @@ use serranatural\Models\AgendaPratos;
 use serranatural\Models\Promocoes;
 use serranatural\Models\Voto;
 use serranatural\Models\Cliente;
+use serranatural\Models\Funcionario;
 
 
 
@@ -27,39 +28,9 @@ class email_Microcity extends Command implements SelfHandling
     public function handle()
     {
         
-        $pratoDoDia = AgendaPratos::where('dataStamp', '=', date('Y-m-d'))
-                                    ->first();
-
-        $clientes = Cliente::where('clientes.opt_email', '=', 1)
-                            ->where('email', 'like', '%microcity%')
-                            ->get();
-
-        $prato = Pratos::where('id', '=', $pratoDoDia->pratos_id)->first();
-
-        set_time_limit(900);
-
-        foreach($clientes as $cliente){
-
-        $dados = [
-
-        'prato' => $prato,
-        'nomeCliente' => $cliente->nome,
-        'emailCliente' => $cliente->email,
-
-        ];
-
-                Mail::queue('emails.marketing.pratoNovo', $dados, function ($message) use ($cliente, $dados)
-                {
-
-                    $message->to($cliente->email, $cliente->nome);
-                    $message->from('mkt@serranatural.com', 'Serra Natural');
-                    $message->subject('Cardápio do dia');
-                    $message->getSwiftMessage();
-
-                });
-
-            
-        }
+        Funcionario::create([
+                'nome' => 't1';
+            ]);
 
     }
 }
