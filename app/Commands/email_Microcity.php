@@ -29,7 +29,7 @@ class email_Microcity extends Command implements SelfHandling
     {
         
         Funcionario::create([
-                'nome' => 't1';
+                'nome' => 't1'
             ]);
 
     }
