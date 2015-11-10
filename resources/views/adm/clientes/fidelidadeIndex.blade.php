@@ -93,8 +93,8 @@
 
 		@foreach($pontosColetados as $ponto)
 				<tr>
-					<td style="width:20%;">{{$ponto->cliente->nome}}</td>
-					<td style="width:30%;">{{$ponto->cliente->email}}</td>
+					<td style="width:20%;">{{$ponto->cliente['nome']}}</td>
+					<td style="width:30%;">{{$ponto->cliente['email']}}</td>
 					<td style="width:18%;">{{$ponto->created_at}}</td>
 					<td style="width:15%;">{{$ponto->produto}}</td>
 					<td style="width:10%;">{{$ponto->is_valido}}</td>

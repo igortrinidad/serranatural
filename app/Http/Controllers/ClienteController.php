@@ -422,8 +422,6 @@ class ClienteController extends Controller
     public function fidelidadeIndex()
     {
 
-        $lista = Cliente::paginate(10);
-
         $clientesForSelect = $this->clientesForSelect();
 
         $pontosColetados = PontoColetado::with('cliente')
@@ -433,7 +431,6 @@ class ClienteController extends Controller
         $urlPagination = '/admin/clientes/fidelidade/?page=';
 
         $dados = [
-            'lista' => $lista,
             'clientesForSelect' => $clientesForSelect,
             'pontosColetados' => $pontosColetados,
             'urlPagination' => $urlPagination
@@ -446,10 +443,12 @@ class ClienteController extends Controller
     {
         $cliente = $request->all();
 
+        $id = $cliente['cliente_id'];
+
         $timestamp = strtotime("+2 month");
 
         $ponto = PontoColetado::create([
-                'cliente_id' => $cliente['cliente_id'],
+                'cliente_id' => $id,
                 'data_coleta' => date('Y-m-d'),
                 'vencimento' => date('Y-m-d', $timestamp),
                 'is_valido' => 1,
@@ -500,8 +499,20 @@ class ClienteController extends Controller
 
         $this->enviaEmailPontoColetado($cliente['cliente_id'], $cliente['produto']);
 
+        $c = Cliente::find($id);
+
+        $pontosAcai = PontoColetado::where('cliente_id', '=', $id)
+                                ->where('is_valido', '=', 1)
+                                ->where('produto', '=', 'Açaí')
+                                ->count();
+
+        $pontosAlmoco = PontoColetado::where('cliente_id', '=', $id)
+                                ->where('is_valido', '=', 1)
+                                ->where('produto', '=', 'Almoço')
+                                ->count();
+
         $dados = [
-            'msg_retorno' => 'Pontos adicionados com sucesso',
+            'msg_retorno' => 'Pontos adicionados com sucesso para: ' . $c->nome . ' | Pontos Açaí: ' . $pontosAcai . ' | Pontos Almoço: ' . $pontosAlmoco,
             'tipo_retorno' => 'success'
         ];
 
