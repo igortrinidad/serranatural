@@ -34,10 +34,8 @@ class Kernel extends ConsoleKernel
                      ->hourly();
 
             $schedule->command('email_pratoDoDia')
-                     ->dailyAt('10:01');
+                     ->dailyAt('09:09');
 
-            $schedule->command('email_Microcity')
-                     ->dailyAt('22:11');
         }
 
     }

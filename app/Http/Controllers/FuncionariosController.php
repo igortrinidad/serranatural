@@ -57,7 +57,7 @@ class FuncionariosController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('adm.funcionarios.detalhes');
     }
 
     /**
@@ -68,7 +68,13 @@ class FuncionariosController extends Controller
      */
     public function edit($id)
     {
-        //
+        $funcionario = Funcionario::find($id);
+
+        $dados = [
+            'funcionario' => $funcionario
+        ];
+
+        return view('adm.funcionarios.edita')->with($dados);
     }
 
     /**

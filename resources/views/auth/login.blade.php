@@ -43,7 +43,7 @@
                             @endif
 
                             <form method="POST" action="/auth/login">
-                                                    {!! csrf_field() !!}
+                                {!! csrf_field() !!}
 
                                 <div class="form-group">
                                     <label>Email</label>
