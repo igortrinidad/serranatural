@@ -466,7 +466,5 @@ class ProdutosController extends Controller
         ];
 
         return back()->with($data);
-
-
     }
 }

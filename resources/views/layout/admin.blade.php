@@ -332,8 +332,22 @@
                                             <a href="#">Entrada</a>
                                         </li>
                                         <li>
-                                    <a href="{{ route('admin.financeiro.historico')}}">Histórico de caixa</a>
+                                            <a href="{{ route('admin.financeiro.historico')}}">Histórico de caixa</a>
+                                        </li>
+                                    </ul>
                                 </li>
+                                <li>
+                                    <a href="#"> Pagamentos<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a href="#"> Cadastrar</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"> A pagar</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"> Historico</a>
+                                        </li>
                                     </ul>
                                 </li>
 

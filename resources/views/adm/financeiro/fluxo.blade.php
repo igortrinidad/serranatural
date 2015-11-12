@@ -61,7 +61,7 @@
 
 					<div class="form-group">
 						<label>Valor em caixa</label>
-						<input type="text" name="" id="fundo_caixa" value="{{$caixa->fundo_caixa}}" class="form-control maskValor" />
+						<input type="text" name="vr_emCaixa" id="fundo_caixa" value="{{$caixa->vr_emCaixa}}" class="form-control maskValor" />
 					</div>
 
 					<div class="btn btn-primary btn-xl btn-block" id="calculaCaixa">Calcular caixa</div><br>
