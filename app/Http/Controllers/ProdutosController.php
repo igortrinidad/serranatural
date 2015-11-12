@@ -44,13 +44,13 @@ class ProdutosController extends Controller
 
         $link = 'http://www.maisbartenders.com.br/'.$prato->prato.','.date('d/m/Y');
 
-        $arquivo = time() .'.png';
-
-        $caminho = '../public/qrcodes/'. $arquivo;
-
-        QrCode::format('png');
-        QrCode::size(300);
-        $teste = QrCode::generate($link, $caminho);
+        //$arquivo = time() .'.png';
+//
+        //$caminho = '../public/qrcodes/'. $arquivo;
+//
+        //QrCode::format('png');
+        //QrCode::size(300);
+        //$teste = QrCode::generate($link, $caminho);
 
 
         $ingredientes = ReceitaPrato::where('prato_id', '=', $id)->get();
@@ -62,7 +62,7 @@ class ProdutosController extends Controller
             'prato' => $prato,
             'produtos' => $produtos,
             'ingredientes' => $ingredientes,
-            'arquivo' => $arquivo
+            //'arquivo' => $arquivo
         ];
 
         return view('adm/produtos/prato/mostra')->with($dados);

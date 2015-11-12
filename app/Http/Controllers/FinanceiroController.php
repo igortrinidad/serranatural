@@ -189,7 +189,7 @@ class FinanceiroController extends Controller
 
         $mensagem = json_encode($dados);
 
-            Mail::queue('emails.admin.fechamentoCaixa', $dados, function ($message) use ($dados, $caixa)
+        $email = Mail::queue('emails.admin.fechamentoCaixa', $dados, function ($message) use ($dados, $caixa)
             {
 
                 $message->to('contato@maisbartenders.com.br', 'Igor Trindade');
@@ -199,12 +199,22 @@ class FinanceiroController extends Controller
 
             });
 
-        $return = [
-            'msg_retorno' => 'Caixa fechado com sucesso, consulte o caixa em estoque.',
-            'tipo_retorno' => 'success'
-            ];
+        if(!$email)
+        {
+            $return = [
+                'msg_retorno' => 'Ocorreu algum problema no envio do email.',
+                'tipo_retorno' => 'error'
+                ];
 
-        return $return;
+            return $return;
+        }
+
+        $return = [
+                'msg_retorno' => 'Caixa fechado com sucesso, consulte o caixa em histórico.',
+                'tipo_retorno' => 'success'
+                ];
+
+            return $return;
     }
 
     /**
@@ -237,7 +247,7 @@ class FinanceiroController extends Controller
 
         foreach($funcionarios as $key => $value) 
         {
-            $result[$value->id] = $value->id.' - '.$value->nome . ' - ' . $value->email;
+            $result[$value->id] = $value->nome;
         }
 
         return $result;

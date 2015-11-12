@@ -107,7 +107,7 @@ class FuncionariosController extends Controller
 
         foreach($funcionarios as $key => $value) 
         {
-            $result[$value->id] = $value->id.' - '.$value->nome . ' - ' . $value->email;
+            $result[$value->id] = $value->nome;
         }
 
         return $result;

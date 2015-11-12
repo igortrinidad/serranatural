@@ -122,10 +122,6 @@
 
 			</form>
 
-
-			<img alt="image" class="" src="{{ URL::to('/').'/qrcodes/'.$arquivo}}">
-			
-
 	</div>
 </div>
 
