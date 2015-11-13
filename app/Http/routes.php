@@ -40,6 +40,22 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::post('financeiro/gravarCaixa', ['as' => 'gravarCaixa', 'uses' => 'FinanceiroController@gravarCaixa']);
 		Route::post('financeiro/fecharCaixa', ['as' => 'fecharCaixa', 'uses' => 'FinanceiroController@fecharCaixa']);
 		Route::get('financeiro/retirada', ['as' => 'retirada', 'uses' => 'FinanceiroController@retirada']);
+		Route::get('financeiro/pagamentos', ['as' => 'pagamentos', 'uses' => 'FinanceiroController@cadastraPgto']);
+		Route::post('financeiro/pagamentosPost', ['as' => 'pagamentosPost', 'uses' => 'FinanceiroController@storePgto']);
+		Route::get('financeiro/Pagar', ['as' => 'aPagar', 'uses' => 'FinanceiroController@listaAPagar']);
+		Route::get('arquivosFinanceiro/{filename}', ['as' => 'arquivos', function ($filename)
+			{
+			    $path = storage_path() . '/app/financeiro/aPagar/' . $filename;
+
+			    $file = File::get($path);
+			    $type = File::mimeType($path);
+
+			    $response = Response::make($file, 200);
+			    $response->header("Content-Type", $type);
+
+			    return $response;
+			}]
+			);
 
 	});
 
@@ -142,5 +158,7 @@ Route::group(['as' => 'teste.', 'prefix' => 'teste'], function()
 	Route::get('index', ['as' => 'index', 'uses' => 'TesteController@index']);
 
 });
+
+
 
 

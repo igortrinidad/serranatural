@@ -15,6 +15,13 @@ class SystemController extends Controller
 
     }
 
+    public function getDiscImage($disc, $filename, $mime)
+    {
+            $file = Storage::disk($disc)->get($filename);
+     
+            return (new Response($file, 200))->header('Content-Type', $mime);
+    }
+
     public function indexDashboard()
     {
         return view('adm.dashboard.index');

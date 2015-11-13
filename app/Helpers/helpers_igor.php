@@ -71,6 +71,13 @@ function dataMysqlParaPtBr($dataMySql) {
     return "{$partes[2]}/{$partes[1]}/{$partes[0]}";
 }
 
+function dataPtBrParaArquivo($dataPtBr) {
+    $partes = explode("/", $dataPtBr);
+    $ano = substr($partes[2], -2);
+    return "{$partes[0]}-{$partes[1]}-{$ano}";
+}
+
+
 function geraTimestamp($data) {
 $partes = explode('/', $data);
 return mktime(0, 0, 0, $partes[1], $partes[0], $partes[2]);
@@ -94,3 +101,12 @@ function get_gravatar($email, $s = 80 ) {
     }
     return $url;
 }
+
+function primeiro_nome($nome)
+{
+    $primeiro = Explode(" ",$nome);
+    $primeiro_nome = $primeiro[0];
+
+    return $primeiro_nome;
+}
+

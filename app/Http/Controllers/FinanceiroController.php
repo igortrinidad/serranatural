@@ -6,20 +6,23 @@ use Illuminate\Http\Request;
 use serranatural\Http\Requests;
 use serranatural\Http\Controllers\Controller;
 
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use Mail;
+
 use serranatural\Models\Caixa as Caixa;
 use serranatural\Models\Retirada as Retirada;
 use serranatural\Models\Cliente as Cliente;
 use serranatural\User as User;
 use serranatural\Models\Funcionario;
-
-use Mail;
+use serranatural\Models\Pagamento;
 
 class FinanceiroController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => []]);
+        $this->middleware('auth', ['except' => ['getImage']]);
 
         //$this->middleware('nivelAcesso:super_adm', ['only' => ['retirada']]);
 
@@ -264,4 +267,62 @@ class FinanceiroController extends Controller
 
         return view('adm.financeiro.retirada')->with($dados);
     }
+
+    public function cadastraPgto()
+    {
+        return view('adm.financeiro.cadastraBoleto');
+    }
+
+    public function storePgto(Request $request)
+    {
+        $PGTO = Pagamento::create($request->all());
+
+        $data = $request->vencimento;
+
+        if(!is_null($request->pagamento) OR !empty($request->pagamento))
+        {
+        //Salva arquivo boleto e nome
+        $pagamento = $request->file('pagamento');
+        $extensaoPgto = $pagamento->getClientOriginalExtension();
+        $arqPgtoNome = 'VENC_' . dataPtBrParaArquivo($data) . '_PGTO_' . primeiro_nome($request->descricao) . '.' .$extensaoPgto;
+        $arquivoPagamento = Storage::disk('aPagar')->put($arqPgtoNome,  File::get($pagamento));
+        $PGTO->pagamento_mime = $pagamento->getClientMimeType();
+        $PGTO->pagamento = $arqPgtoNome;
+        }
+        if(!is_null($request->notaFiscal) OR !empty($request->notaFiscal))
+        {
+        //Salva arquivo nota e nome
+        $nota = $request->file('notaFiscal');
+        $extensaoNota = $nota->getClientOriginalExtension();
+        $arqNotaNome = 'VENC_' . dataPtBrParaArquivo($data) . '_NOTA_' . primeiro_nome($request->descricao).'.'.$extensaoNota;
+        $arquivoNota = Storage::disk('aPagar')->put($arqNotaNome,  File::get($nota));
+        $PGTO->notaFiscal_mime = $nota->getClientMimeType();
+        $PGTO->notaFiscal = $arqNotaNome;
+        }
+
+        $PGTO->user_id_cadastro = \Auth::user()->id;
+        $PGTO->save();
+
+
+        $return = [
+            'msg_retorno' => 'Pagamento cadastrado com sucesso.',
+            'tipo_retorno' => 'success'
+            ];
+
+        return redirect()->back()->with($return);
+
+    }
+
+    public function listaAPagar()
+    {
+        $pagamentos = Pagamento::all();
+
+
+        $return = [
+            'pagamentos' => $pagamentos,
+        ];
+
+        return view('adm.financeiro.aPagar')->with($return);
+    }
+
 }
