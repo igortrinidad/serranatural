@@ -24,8 +24,8 @@ class PagamentoRequest extends Request
     public function rules()
     {
         return [
-            'pagamento' => 'mimes:jpeg,bmp,png',
-            'notaFiscal' => 'mimes:jpeg,bmp,png'
+            'pagamento' => 'mimes:jpeg,bmp,png,pdf,',
+            'notaFiscal' => 'mimes:jpeg,bmp,png,pdf,'
         ];
     }
 
@@ -33,8 +33,8 @@ class PagamentoRequest extends Request
     {
 
         return [
-            'pagamento.mimes' => 'O arquivo deve ser imagem (.png, .jpg).',
-            'notaFiscal.mimes' => 'O arquivo deve ser imagem(.png, .jpg).',
+            'pagamento.mimes' => 'O arquivo deve ser imagem (.png, .jpg, .pdf).',
+            'notaFiscal.mimes' => 'O arquivo deve ser imagem(.png, .jpg), .pdf.',
 
         ];
     }

@@ -286,22 +286,23 @@ class FinanceiroController extends Controller
 
         if(!is_null($request->pagamento) OR !empty($request->pagamento))
         {
-
-        $arqPgtoNome = 'VENC_' . dataPtBrParaArquivo($data) . '_PGTO_' . primeiro_nome($request->descricao) . '.png';
-        $PGTO->pagamento = $arqPgtoNome;
-        Image::make(Input::file('pagamento'))->resize(800, null, function ($constraint) {
-            $constraint->aspectRatio();
-        })->save(storage_path() . '/app/financeiro/aPagar/' . $arqPgtoNome);
-    
+        //Salva arquivo nota e nome
+        $pagamento = $request->file('pagamento');
+        $extPagamento = $pagamento->getClientOriginalExtension();
+        $nomeArqPagamento = dataAnoMes(($data)) . '_V_' . dataPtBrParaArquivo($data) . '.' . $extPagamento;
+        $arquivoPagamento = Storage::disk('pagamentos')->put($nomeArqPagamento,  File::get($pagamento));
+        $PGTO->pagamento = $nomeArqPagamento;
         }
+
+
         if(!is_null($request->notaFiscal) OR !empty($request->notaFiscal))
         {
         //Salva arquivo nota e nome
-        $arqNotaNome = 'VENC_' . dataPtBrParaArquivo($data) . '_NOTA_' . primeiro_nome($request->descricao) . '.png';
+        $arqNotaNome = dataAnoMes($data) . '_V_' . dataPtBrParaArquivo($data) . '_NOTA_' . primeiro_nome($request->descricao) . '.png';
         $PGTO->notaFiscal = $arqNotaNome;
         Image::make(Input::file('notaFiscal'))->resize(800, null, function ($constraint) {
             $constraint->aspectRatio();
-        })->save(storage_path() . '/app/financeiro/aPagar/' . $arqNotaNome);
+        })->save(storage_path() . '/app/financeiro/pagamentos/' . $arqNotaNome);
         }
 
         $PGTO->user_id_cadastro = \Auth::user()->id;
@@ -339,5 +340,47 @@ class FinanceiroController extends Controller
 
         return view('adm.financeiro.detalhes')->with($dados);
     }
+
+    public function liquidar(PagamentoRequest $request)
+    {
+
+        $pagamento = Pagamento::where('id', '=', $request->pagamento_id)->first();
+
+        if(!is_null($request->comprovante) OR !empty($request->comprovante))
+        {
+        //Salva arquivo nota e nome
+        $comprovante = $request->file('comprovante');
+        $extComprovante = $comprovante->getClientOriginalExtension();
+        $nomeArqComprovante = dataAnoMes(($pagamento->vencimento)) . '_V_' . dataPtBrParaArquivo($pagamento->vencimento) . '_COMP_dtPgto_' . dataPtBrParaArquivo($request->data_pgto).'.'.$extComprovante;
+        $arquivoComprovante = Storage::disk('pagamentos')->put($nomeArqComprovante,  File::get($comprovante));
+        }
+        $pagamento->user_id_pagamento = \Auth::user()->id;
+        $pagamento->comprovante = $nomeArqComprovante;
+        $pagamento->data_pgto = $request->data_pgto;
+        $pagamento->fonte_pgto = $request->fonte_pgto;
+        $pagamento->is_liquidado = 1;
+        $pagamento->save();
+
+
+        $dados = [
+            'msg_retorno' => 'Pagamento liquidado com sucesso.',
+            'tipo_retorno' => 'success'
+        ];
+
+        return redirect()->back()->with($dados);
+    }
+
+
+       //    if(!is_null($request->notaFiscal) OR !empty($request->notaFiscal))
+       //{
+       ////Salva arquivo nota e nome
+       //$nota = $request->file('notaFiscal');
+       //$extensaoNota = $nota->getClientOriginalExtension();
+       //$arqNotaNome = 'VENC_' . dataPtBrParaArquivo($data) . '_NOTA_' . primeiro_nome($request->descricao).'.'.$extensaoNota;
+       //$arquivoNota = Storage::disk('aPagar')->put($arqNotaNome,  File::get($nota));
+       //$PGTO->notaFiscal_mime = $nota->getClientMimeType();
+       //$PGTO->notaFiscal = $arqNotaNome;
+       //}
+
 
 }

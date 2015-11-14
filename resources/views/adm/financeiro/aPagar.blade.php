@@ -33,13 +33,21 @@
 			    <tbody>
 			    @foreach($pagamentos as $pag)
 			        <tr>
-			            <th>{{$pag->vencimento}}</th>
+			            <th class="text-center">{{$pag->vencimento}}</th>
 			            <th><a href="{{route('admin.financeiro.detalhes', $pag->id)}}">{{$pag->descricao}}</a></th>
 			            <th>{{$pag->linha_digitavel}}</th>
 			            <th>{{$pag->user_id_cadastro}}</th>
-			            <th><a href="{{ route('imageApagar', $pag->pagamento)}}"><img src="{{ route('imageApagar', $pag->pagamento)}}" width="100" /></a>
+			            <th class="text-center" width="10%">
+			            @if($pag->pagamento != '')
+			            	<a href="{!! route('arquivos.pagamentos', $pag->pagamento) !!}"><i class="fa fa-search"></i>
+			            @endif
+			            	</a>
 			            </th>
-			            <th><a href="{{ route('imageApagar', $pag->notaFiscal)}}"><img src="{{ route('imageApagar', $pag->notaFiscal)}}" width="100" /></a></th>
+			            <th class="text-center" width="10%">
+			            @if($pag->notaFiscal != '')
+			            	<a href="{!! route('arquivos.pagamentos', $pag->notaFiscal) !!}"><i class="fa fa-search">
+			            @endif 
+			            </th>
 			        </tr>
 			    @endforeach
 			    </tbody>

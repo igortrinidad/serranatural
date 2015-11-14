@@ -16,13 +16,12 @@ class CriaTabPagamentos extends Migration
             $table->date('vencimento');
             $table->decimal('valor', 7, 2);
             $table->string('pagamento');
-            $table->string('pagamento_mime');
             $table->string('notaFiscal');
-            $table->string('notaFiscal_mime');
             $table->boolean('is_liquidado');
             $table->date('data_pgto');
             $table->integer('user_id_pagamento');
-            $table->integer('fonte_pgto');
+            $table->string('fonte_pgto');
+            $table->string('comprovante');
             $table->text('observacoes');
             $table->timestamps();
         });

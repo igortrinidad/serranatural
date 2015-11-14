@@ -53,6 +53,11 @@ return [
             'root'   => storage_path('app/financeiro/aPagar'),
         ],
 
+        'pagamentos' => [
+            'driver' => 'local',
+            'root'   => storage_path('app/financeiro/pagamentos'),
+        ],
+
         'ftp' => [
             'driver'   => 'ftp',
             'host'     => 'ftp.example.com',

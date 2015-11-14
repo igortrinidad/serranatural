@@ -77,6 +77,11 @@ function dataPtBrParaArquivo($dataPtBr) {
     return "{$partes[0]}-{$partes[1]}-{$ano}";
 }
 
+function dataAnoMes($dataPtBr) {
+    $partes = explode("/", $dataPtBr);
+    return "{$partes[2]}-{$partes[1]}";
+}
+
 
 function geraTimestamp($data) {
 $partes = explode('/', $data);

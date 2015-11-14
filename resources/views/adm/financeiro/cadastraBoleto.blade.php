@@ -64,7 +64,10 @@
 					<input type="text" name="descricao" class="form-control"/>
 				</div>
 
-				
+				<div class="form-group">
+					<label>Observações</label>
+					<textarea type="textarea" class="form-control" name="observacoes"></textarea>
+				</div>
 
 				<div class="form-group">
 					<label>Arquivo pagamento</label>
@@ -78,6 +81,8 @@
 				<div class="form-group">
 					<button type="submit" class="btn btn-primary btn-block">Cadastrar conta</button>
 				</div>
+
+				
 			</form>
 
 		</div>

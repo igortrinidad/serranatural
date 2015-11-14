@@ -42,4 +42,16 @@ class Pagamento extends Model
         return date('d/m/Y', strtotime($value));
     }
 
+    public function setDataPgtoAttribute($value)
+    {
+	    $date_parts = explode('/', $value);
+	    $this->attributes['data_pgto'] = $date_parts[2].'-'.$date_parts[1].'-'.$date_parts[0];
+	}
+
+    public function getDataPgtoAttribute($value)
+    {
+        return date('d/m/Y', strtotime($value));
+    }
+
+
 }
