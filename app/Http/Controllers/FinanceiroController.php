@@ -20,6 +20,8 @@ use serranatural\Models\Pagamento;
 use Image;
 use Input;
 
+use serranatural\Http\Requests\PagamentoRequest as PagamentoRequest;
+
 class FinanceiroController extends Controller
 {
 
@@ -276,7 +278,7 @@ class FinanceiroController extends Controller
         return view('adm.financeiro.cadastraBoleto');
     }
 
-    public function storePgto(Request $request)
+    public function storePgto(PagamentoRequest $request)
     {
         $PGTO = Pagamento::create($request->all());
 
