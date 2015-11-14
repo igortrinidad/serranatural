@@ -170,5 +170,3 @@ Route::get('arquivos/pagamentos/{filename}', ['as' => 'arquivos.pagamentos', fun
 	);
 
 
-
-
