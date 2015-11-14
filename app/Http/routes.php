@@ -1,5 +1,6 @@
 <?php
 
+
 //Home
 Route::get('/', function() {
 	return view('auth/login');
@@ -43,19 +44,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::get('financeiro/pagamentos', ['as' => 'pagamentos', 'uses' => 'FinanceiroController@cadastraPgto']);
 		Route::post('financeiro/pagamentosPost', ['as' => 'pagamentosPost', 'uses' => 'FinanceiroController@storePgto']);
 		Route::get('financeiro/Pagar', ['as' => 'aPagar', 'uses' => 'FinanceiroController@listaAPagar']);
-		Route::get('arquivosFinanceiro/{filename}', ['as' => 'arquivos', function ($filename)
-			{
-			    $path = storage_path() . '/app/financeiro/aPagar/' . $filename;
-
-			    $file = File::get($path);
-			    $type = File::mimeType($path);
-
-			    $response = Response::make($file, 200);
-			    $response->header("Content-Type", $type);
-
-			    return $response;
-			}]
-			);
+		Route::get('financeiro/pagamentos/{id}/detalhes', ['as' => 'detalhes', 'uses' => 'FinanceiroController@detalhes']);
 
 	});
 
@@ -158,6 +147,12 @@ Route::group(['as' => 'teste.', 'prefix' => 'teste'], function()
 	Route::get('index', ['as' => 'index', 'uses' => 'TesteController@index']);
 
 });
+
+Route::get('imageApagar/{filename}', ['as' => 'imageApagar', function ($filename)
+			{
+			    return Image::make(storage_path() . '/app/financeiro/aPagar/' . $filename)->response();
+			}]
+);
 
 
 

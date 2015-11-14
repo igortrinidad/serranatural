@@ -34,12 +34,12 @@
 			    @foreach($pagamentos as $pag)
 			        <tr>
 			            <th>{{$pag->vencimento}}</th>
-			            <th>{{$pag->descricao}}</th>
+			            <th><a href="{{route('admin.financeiro.detalhes', $pag->id)}}">{{$pag->descricao}}</a></th>
 			            <th>{{$pag->linha_digitavel}}</th>
 			            <th>{{$pag->user_id_cadastro}}</th>
-			            <th><a href="{{route('admin.financeiro.arquivos', $pag->pagamento)}}"> <img src="{{route('admin.financeiro.arquivos', $pag->pagamento)}}" width="100" /></a>
+			            <th><a href="{{ route('imageApagar', $pag->pagamento)}}"><img src="{{ route('imageApagar', $pag->pagamento)}}" width="100" /></a>
 			            </th>
-			            <th><a href="{{route('admin.financeiro.arquivos', $pag->notaFiscal)}}"><img src="{{route('admin.financeiro.arquivos', $pag->notaFiscal)}}" width="100" /></a></th>
+			            <th><a href="{{ route('imageApagar', $pag->notaFiscal)}}"><img src="{{ route('imageApagar', $pag->notaFiscal)}}" width="100" /></a></th>
 			        </tr>
 			    @endforeach
 			    </tbody>

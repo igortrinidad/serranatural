@@ -17,6 +17,9 @@ use serranatural\User as User;
 use serranatural\Models\Funcionario;
 use serranatural\Models\Pagamento;
 
+use Image;
+use Input;
+
 class FinanceiroController extends Controller
 {
 
@@ -281,23 +284,22 @@ class FinanceiroController extends Controller
 
         if(!is_null($request->pagamento) OR !empty($request->pagamento))
         {
-        //Salva arquivo boleto e nome
-        $pagamento = $request->file('pagamento');
-        $extensaoPgto = $pagamento->getClientOriginalExtension();
-        $arqPgtoNome = 'VENC_' . dataPtBrParaArquivo($data) . '_PGTO_' . primeiro_nome($request->descricao) . '.' .$extensaoPgto;
-        $arquivoPagamento = Storage::disk('aPagar')->put($arqPgtoNome,  File::get($pagamento));
-        $PGTO->pagamento_mime = $pagamento->getClientMimeType();
+
+        $arqPgtoNome = 'VENC_' . dataPtBrParaArquivo($data) . '_PGTO_' . primeiro_nome($request->descricao) . '.png';
         $PGTO->pagamento = $arqPgtoNome;
+        Image::make(Input::file('pagamento'))->resize(800, null, function ($constraint) {
+            $constraint->aspectRatio();
+        })->save(storage_path() . '/app/financeiro/aPagar/' . $arqPgtoNome);
+    
         }
         if(!is_null($request->notaFiscal) OR !empty($request->notaFiscal))
         {
         //Salva arquivo nota e nome
-        $nota = $request->file('notaFiscal');
-        $extensaoNota = $nota->getClientOriginalExtension();
-        $arqNotaNome = 'VENC_' . dataPtBrParaArquivo($data) . '_NOTA_' . primeiro_nome($request->descricao).'.'.$extensaoNota;
-        $arquivoNota = Storage::disk('aPagar')->put($arqNotaNome,  File::get($nota));
-        $PGTO->notaFiscal_mime = $nota->getClientMimeType();
+        $arqNotaNome = 'VENC_' . dataPtBrParaArquivo($data) . '_NOTA_' . primeiro_nome($request->descricao) . '.png';
         $PGTO->notaFiscal = $arqNotaNome;
+        Image::make(Input::file('notaFiscal'))->resize(800, null, function ($constraint) {
+            $constraint->aspectRatio();
+        })->save(storage_path() . '/app/financeiro/aPagar/' . $arqNotaNome);
         }
 
         $PGTO->user_id_cadastro = \Auth::user()->id;
@@ -323,6 +325,17 @@ class FinanceiroController extends Controller
         ];
 
         return view('adm.financeiro.aPagar')->with($return);
+    }
+
+    public function detalhes($id)
+    {
+        $pagamento = Pagamento::find($id);
+
+        $dados = [
+            'pagamento' => $pagamento
+        ];
+
+        return view('adm.financeiro.detalhes')->with($dados);
     }
 
 }

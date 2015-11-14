@@ -38,13 +38,13 @@
 					<div class="col-md-8">
 						<div class="form-group">
 							<label>Valor</label>
-							<input type="text" name="valor" class="form-control"/>
+							<input type="text" name="valor" class="form-control moneySql" required/>
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
 							<label>Vencimento</label>
-							<input type="text" name="vencimento" class="form-control datepicker dataCompleta"/>
+							<input type="text" name="vencimento" class="form-control datepicker dataCompleta" required/>
 						</div>
 					</div>
 				</div>
@@ -83,6 +83,7 @@
 	        <script type="text/javascript">
 
 	        $('.linha-digitavel').mask('00000.00000.00000.000000.00000.000000.0.00000000000000');
+	        $('.moneySql').mask('000000.00', {reverse: true});
 	        
 	        $('#tipo-boleto').on('change', function() {
 				  if($( "#tipo-boleto option:selected" ).val() == 2)
