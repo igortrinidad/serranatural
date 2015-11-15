@@ -150,6 +150,7 @@ class ApiController extends Controller
 
             return $data;
 
+            }
         }
     }
 
