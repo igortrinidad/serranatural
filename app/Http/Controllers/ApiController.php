@@ -32,13 +32,15 @@ class ApiController extends Controller
                                 ->where('produto', '=', 'Almoço')
                                 ->count();
 
-        $return = [
+        $dados = [
 
         'cliente' => $cliente,
         'pontosAcai' => $pontosAcai,
         'pontosAlmoco' => $pontosAlmoco,
         'tipo_retorno' => 'success'
         ];
+
+        $return = json_encode($dados);
 
         return $return;
     }
