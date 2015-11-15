@@ -63,7 +63,6 @@ class ApiController extends Controller
         } else {
         
             $dados = [
-
             'msg_retorno' => 'Cadastro não localizado',
             'tipo_retorno' => 'danger'
             ];
@@ -74,13 +73,13 @@ class ApiController extends Controller
 
             if(array_key_exists('callback', $_GET)){
 
-                header('Content-Type: application/json; charset=UTF8');
+                header('Content-Type: application/json; charset=UTF-8');
                 $callback = $_GET['callback'];
                 return $callback.'('.$data.');';
 
             }else{
                 // normal JSON string
-                header('Content-Type: application/json; charset=UTF8');
+                header('Content-Type: application/json; charset=UTF-8');
 
             return $data;
             }
