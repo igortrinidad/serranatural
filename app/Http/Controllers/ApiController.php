@@ -33,13 +33,16 @@ class ApiController extends Controller
                                 ->where('produto', '=', 'Almoço')
                                 ->count();
 
+        $getGravatar = get_gravatar($request->email, 100);
+
         $dados = [
 
         'nomeCliente' => $cliente->nome,
         'emailCliente' => $cliente->email,
         'pontosAcai' => $pontosAcai,
         'pontosAlmoco' => $pontosAlmoco,
-        'tipo_retorno' => 'success'
+        'tipo_retorno' => 'success',
+        'getGravatar' => $getGravatar
         ];
 
         $return = json_encode($dados);
