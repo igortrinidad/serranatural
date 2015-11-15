@@ -107,7 +107,7 @@ class ApiController extends Controller
 
             $dados = [
                 'prato' => $prato->prato,
-                'prato' => $prato->acompanhamentos,
+                'acompanhamentos' => $prato->acompanhamentos,
                 'data' => date('d/m/Y')
             ];
             $return = json_encode($dados);
