@@ -34,7 +34,8 @@ class ApiController extends Controller
 
         $dados = [
 
-        'cliente' => $cliente,
+        'nomeCliente' => $cliente->nome,
+        'emailCliente' => $cliente->email,
         'pontosAcai' => $pontosAcai,
         'pontosAlmoco' => $pontosAlmoco,
         'tipo_retorno' => 'success'
