@@ -9,6 +9,8 @@ use serranatural\Http\Controllers\Controller;
 
 use serranatural\Models\Cliente;
 use serranatural\Models\PontoColetado;
+use serranatural\Models\Pratos;
+use serranatural\Models\AgendaPratos;
 
 class ApiController extends Controller
 {
@@ -94,9 +96,33 @@ class ApiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function consultaPratoHoje()
     {
-        //
+        $pratoDoDia = AgendaPratos::where('dataStamp', '=', date('Y-m-d'))
+                                    ->first();
+
+        if(!is_null($pratoDoDia))
+        {
+            $prato = Pratos::where('id', '=', $pratoDoDia->pratos_id)->first();
+
+            $dados = [
+                'prato' => $prato,
+                'data' => date('d/m/Y')
+        ];
+            return $dados;
+
+        } else {
+
+            $prato = ['prato' => 'surpresa',
+            'acompanhamentos' => 'surpresa'];
+
+            $dados = [
+                'prato' => $prato,
+                'data' => date('d/m/Y')
+        ];
+            return $dados;
+
+        }
     }
 
     /**
