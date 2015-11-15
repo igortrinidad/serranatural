@@ -78,7 +78,6 @@ class ApiController extends Controller
 
             }else{
                 // normal JSON string
-                header('Content-Type: application/json; charset=utf8');
 
             return $data;
             }
