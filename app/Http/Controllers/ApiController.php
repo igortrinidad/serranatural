@@ -72,12 +72,14 @@ class ApiController extends Controller
             $data = $return; // json string
 
             if(array_key_exists('callback', $_GET)){
-
+                
+                header('Content-Type: application/json; charset=utf8');
                 $callback = $_GET['callback'];
                 return $callback.'('.$data.');';
 
             }else{
                 // normal JSON string
+                header('Content-Type: application/json; charset=utf8');
 
             return $data;
             }
