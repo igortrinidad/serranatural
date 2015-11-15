@@ -64,6 +64,11 @@
 
 						<input type="hidden" name="pagamento_id" value="{{$pagamento->id}}" />
 
+						<input type="hidden" class="checkbox" name="is_liquidado" value="0" checked="checked"/>
+								
+						<label>Liquidado?</label>
+						<input type="checkbox" class="checkbox" name="is_liquidado" value="1" checked="checked"/>
+
 						<div class="form-group">
 							<label>Data Pagamento</label>
 							<input type="text" name="data_pgto" class="form-control datepicker dataCompleta" />
@@ -83,9 +88,47 @@
 					</form>
 
 					@else
-					<a href=""><button class="btn btn-primary">Alterar pagamento</button></a>
+					<div id="alteraPagamento" class="btn btn-primary pull-right">Alterar pagamento</div>
+
+					<div id="formAltera2" hidden="true">
+					
+						<form action="{{route('admin.financeiro.liquidar')}}" method="POST" enctype="multipart/form-data">
+							{!! csrf_field() !!}
+
+							<input type="hidden" name="pagamento_id" value="{{$pagamento->id}}" />
+							
+							<div class="form-group">
+								
+								<input type="hidden" class="checkbox" name="is_liquidado" value="0" checked="checked"/>
+
+								<label>Liquidado?</label>
+								<input type="checkbox" class="checkbox" name="is_liquidado" value="1" checked="checked"/>
+							</div>
+							<div class="form-group">
+								<label>Data Pagamento</label>
+								<input type="text" name="data_pgto" class="form-control datepicker dataCompleta" />
+							</div>
+
+							<div class="form-group">
+								<label>Fonte pagamento</label>
+								<input type="text" name="fonte_pgto" class="form-control" />
+							</div>
+
+							<div class="form-group">
+								<label>Comprovante</label>
+								<input type="file" name="comprovante" class="form-control" />
+							</div>
+
+							<button type="submit" class="btn btn-primary">Liquidar</button>
+						</form>
+					</div>
 
 					@endif
+
+					
+
+
+
 				</div>
 
 			</div>
@@ -101,6 +144,15 @@
 
 	        <script type="text/javascript">
  	
+	        	$('#alteraPagamento').on("click", function(e)
+	        	{
+	        		e.preventDefault();
+
+	        		$('#formAltera2').show();
+	        		$('#alteraPagamento').hide();
+
+	        	});
+
 	        
 	        </script>
 

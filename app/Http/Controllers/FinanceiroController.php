@@ -330,6 +330,18 @@ class FinanceiroController extends Controller
         return view('adm.financeiro.aPagar')->with($return);
     }
 
+        public function historico()
+    {
+        $pagamentos = Pagamento::with(['usuarioCadastro', 'usuarioPagamento'])->all();
+
+
+        $return = [
+            'pagamentos' => $pagamentos,
+        ];
+
+        return view('adm.financeiro.aPagar')->with($return);
+    }
+
     public function detalhes($id)
     {
         $pagamento = Pagamento::find($id);
@@ -344,6 +356,7 @@ class FinanceiroController extends Controller
     public function liquidar(PagamentoRequest $request)
     {
 
+
         $pagamento = Pagamento::where('id', '=', $request->pagamento_id)->first();
 
         if(!is_null($request->comprovante) OR !empty($request->comprovante))
@@ -353,12 +366,22 @@ class FinanceiroController extends Controller
         $extComprovante = $comprovante->getClientOriginalExtension();
         $nomeArqComprovante = dataAnoMes(($pagamento->vencimento)) . '_V_' . dataPtBrParaArquivo($pagamento->vencimento) . '_COMP_dtPgto_' . dataPtBrParaArquivo($request->data_pgto).'.'.$extComprovante;
         $arquivoComprovante = Storage::disk('pagamentos')->put($nomeArqComprovante,  File::get($comprovante));
-        }
-        $pagamento->user_id_pagamento = \Auth::user()->id;
         $pagamento->comprovante = $nomeArqComprovante;
-        $pagamento->data_pgto = $request->data_pgto;
-        $pagamento->fonte_pgto = $request->fonte_pgto;
-        $pagamento->is_liquidado = 1;
+        }
+
+        if($request->is_liquidado == 1)
+        {
+            $pagamento->data_pgto = $request->data_pgto;
+            $pagamento->fonte_pgto = $request->fonte_pgto;
+            $pagamento->is_liquidado = 1;
+            $pagamento->user_id_pagamento = \Auth::user()->id;
+        } else 
+        {
+            $pagamento->is_liquidado = 0;
+            $pagamento->user_id_pagamento = '';
+            $pagamento->fonte_pgto = '';
+            $pagamento->comprovante = '';
+        }
         $pagamento->save();
 
 

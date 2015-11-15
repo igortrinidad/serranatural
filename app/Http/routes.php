@@ -169,4 +169,5 @@ Route::get('arquivos/pagamentos/{filename}', ['as' => 'arquivos.pagamentos', fun
 	}]
 	);
 
+Route::get('connect/consultaPontos/{email}', ['as' => 'consultaPontos', 'uses' => 'ApiController@consultaPontos']);
 

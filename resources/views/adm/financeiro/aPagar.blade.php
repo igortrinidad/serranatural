@@ -22,6 +22,7 @@
 			    <thead>
 
 			        <tr>
+			            <th>Situação</th>
 			            <th>Vencimento</th>
 			            <th>Descrição</th>
 			            <th>Valor</th>
@@ -33,10 +34,11 @@
 			    <tbody>
 			    @foreach($pagamentos as $pag)
 			        <tr>
+			            <th class="text-center">@if($pag->is_liquidado == 0)<strong style="color:red">Pendente</strong> @else Liquidado - ({{$pag->data_pgto}}) @endif </th>
 			            <th class="text-center">{{$pag->vencimento}}</th>
 			            <th><a href="{{route('admin.financeiro.detalhes', $pag->id)}}">{{$pag->descricao}}</a></th>
 			            <th>{{$pag->linha_digitavel}}</th>
-			            <th>{{$pag->user_id_cadastro}}</th>
+			            <th>{{$pag->usuarioCadastro->name}}</th>
 			            <th class="text-center" width="10%">
 			            @if($pag->pagamento != '')
 			            	<a href="{!! route('arquivos.pagamentos', $pag->pagamento) !!}"><i class="fa fa-search"></i>

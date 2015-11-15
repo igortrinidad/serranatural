@@ -53,5 +53,13 @@ class Pagamento extends Model
         return date('d/m/Y', strtotime($value));
     }
 
+    public function usuarioCadastro(){
+        return $this->belongsTo('serranatural\User', 'user_id_cadastro', 'id');
+    }
+
+    public function usuarioPagamento(){
+        return $this->belongsTo('serranatural\User', 'user_id_pagamento', 'id');
+    }
+
 
 }
