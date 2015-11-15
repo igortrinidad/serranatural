@@ -106,25 +106,26 @@ class ApiController extends Controller
             $prato = Pratos::where('id', '=', $pratoDoDia->pratos_id)->first();
 
             $dados = [
-                'prato' => $prato->prato,
-                'prato' => $prato->acompanhamentos,
+                'prato' => $prato['prato'],
+                'prato' => $prato['acompanhamentos'],
                 'data' => date('d/m/Y')
-        ];
+            ];
             $return = json_encode($dados);
 
             $data = $return; // json string
 
             if(array_key_exists('callback', $_GET)){
 
-                header('Content-Type: application/json; charset=UTF-8');
-                $callback = $_GET['callback'];
-                return $callback.'('.$data.');';
+                    header('Content-Type: application/json; charset=UTF-8');
+                    $callback = $_GET['callback'];
+                    return $callback.'('.$data.');';
 
-            }else{
-                // normal JSON string
-                header('Content-Type: application/json; charset=UTF-8');
+                }else{
+                    // normal JSON string
+                    header('Content-Type: application/json; charset=UTF-8');
 
-            return $data;
+                return $data;
+            }
 
         } else {
 
