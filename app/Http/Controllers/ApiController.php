@@ -106,8 +106,8 @@ class ApiController extends Controller
             $prato = Pratos::where('id', '=', $pratoDoDia->pratos_id)->first();
 
             $dados = [
-                'prato' => $prato['prato'],
-                'prato' => $prato['acompanhamentos'],
+                'prato' => $prato->prato,
+                'prato' => $prato->acompanhamentos,
                 'data' => date('d/m/Y')
             ];
             $return = json_encode($dados);
