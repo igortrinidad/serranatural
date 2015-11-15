@@ -57,6 +57,8 @@ class ApiController extends Controller
 
         return $data;
 
+        } 
+
         } else {
         
             $dados = [
