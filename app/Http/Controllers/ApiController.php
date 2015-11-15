@@ -21,7 +21,8 @@ class ApiController extends Controller
     {
         $cliente = Cliente::where('email', '=', $request->email)->first();
 
-
+        if($cliente)
+        {
         $pontosAcai = PontoColetado::where('cliente_id', '=', $cliente->id)
                                 ->where('is_valido', '=', 1)
                                 ->where('produto', '=', 'Açaí')
@@ -50,12 +51,36 @@ class ApiController extends Controller
             $callback = $_GET['callback'];
             return $callback.'('.$data.');';
 
-        }else{
+        } else {
             // normal JSON string
             header('Content-Type: application/json; charset=utf8');
 
         return $data;
-}
+
+        } else {
+        
+            $dados = [
+
+            'msg_retorno' => 'Cadastro não localizado',
+            'tipo_retorno' => 'danger'
+            ];
+
+            $return = json_encode($dados);
+
+            $data = $return; // json string
+
+            if(array_key_exists('callback', $_GET)){
+
+                $callback = $_GET['callback'];
+                return $callback.'('.$data.');';
+
+            }else{
+                // normal JSON string
+                header('Content-Type: application/json; charset=utf8');
+
+            return $data;
+            }
+        }
     }
 
     /**
