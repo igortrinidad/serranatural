@@ -39,7 +39,7 @@ class ApiController extends Controller
         'emailCliente' => $cliente->email,
         'pontosAcai' => $pontosAcai,
         'pontosAlmoco' => $pontosAlmoco,
-        'tipo_retorno' => 'sucção'
+        'tipo_retorno' => 'success'
         ];
 
         $return = json_encode($dados);
@@ -48,13 +48,13 @@ class ApiController extends Controller
 
         if(array_key_exists('callback', $_GET)){
 
-            header('Content-Type: application/json; charset=utf8');
+            header('Content-Type: application/json; charset=UTF8');
             $callback = $_GET['callback'];
             return $callback.'('.$data.');';
 
         } else {
             // normal JSON string
-            header('Content-Type: application/json; charset=utf8');
+            header('Content-Type: application/json; charset=UTF8');
 
         return $data;
 
@@ -74,13 +74,13 @@ class ApiController extends Controller
 
             if(array_key_exists('callback', $_GET)){
 
-                header('Content-Type: application/json; charset=utf8');
+                header('Content-Type: application/json; charset=UTF8');
                 $callback = $_GET['callback'];
                 return $callback.'('.$data.');';
 
             }else{
                 // normal JSON string
-                header('Content-Type: application/json; charset=utf8');
+                header('Content-Type: application/json; charset=UTF8');
 
             return $data;
             }
