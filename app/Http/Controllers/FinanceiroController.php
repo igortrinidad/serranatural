@@ -280,33 +280,15 @@ class FinanceiroController extends Controller
 
     public function storePgto(PagamentoRequest $request)
     {
-        $PGTO = Pagamento::create($request->all());
+        $pagamento = Pagamento::create($request->all());
 
-        $data = $request->vencimento;
+        //Salva arquivo pagamento e seta o nome no banco.
+        $nomeArquivos = $this->salvaArquivosPagamento($request->file('pagamento'), $request->file('notaFiscal'), $request->vencimento);
 
-        if(!is_null($request->pagamento) OR !empty($request->pagamento))
-        {
-        //Salva arquivo nota e nome
-        $pagamento = $request->file('pagamento');
-        $extPagamento = $pagamento->getClientOriginalExtension();
-        $nomeArqPagamento = dataAnoMes(($data)) . '_V_' . dataPtBrParaArquivo($data) . '.' . $extPagamento;
-        $arquivoPagamento = Storage::disk('pagamentos')->put($nomeArqPagamento,  File::get($pagamento));
-        $PGTO->pagamento = $nomeArqPagamento;
-        }
-
-
-        if(!is_null($request->notaFiscal) OR !empty($request->notaFiscal))
-        {
-        //Salva arquivo nota e nome
-        $arqNotaNome = dataAnoMes($data) . '_V_' . dataPtBrParaArquivo($data) . '_NOTA_' . primeiro_nome($request->descricao) . '.png';
-        $PGTO->notaFiscal = $arqNotaNome;
-        Image::make(Input::file('notaFiscal'))->resize(800, null, function ($constraint) {
-            $constraint->aspectRatio();
-        })->save(storage_path() . '/app/financeiro/pagamentos/' . $arqNotaNome);
-        }
-
-        $PGTO->user_id_cadastro = \Auth::user()->id;
-        $PGTO->save();
+        $pagamento->pagamento = $nomeArquivos['nomeArqPagamento'];
+        $pagamento->notafiscal = $nomeArquivos['nomeArqNota'];
+        $pagamento->user_id_cadastro = \Auth::user()->id;
+        $pagamento->save();
 
 
         $return = [
@@ -318,10 +300,37 @@ class FinanceiroController extends Controller
 
     }
 
+    public function salvaArquivosPagamento($pagamento, $nota, $data)
+    {
+
+        $dataAlt = dataAnoMes($data);
+        $dataArquivo = dataPtBrParaArquivo($data);
+
+        if(!is_null($pagamento) OR !empty($pagamento))
+        {
+            $extPagamento = $pagamento->getClientOriginalExtension();
+            $nomeArqPagamento = $dataAlt . '_PAG_V_' . $dataArquivo . '.' . $extPagamento;
+            $arquivoPagamento = Storage::disk('pagamentos')->put($nomeArqPagamento,  File::get($pagamento));
+        }
+        if(!is_null($nota) OR !empty($nota))
+        {
+            $extNota = $nota->getClientOriginalExtension();
+            $nomeArqNota = $dataAlt . '_NOTA_V_' . $dataArquivo . '.' . $extNota;
+            $arquivoNota = Storage::disk('pagamentos')->put($nomeArqNota,  File::get($nota));
+        }
+
+        $nomeArquivos = [
+             'nomeArqPagamento' => isset($nomeArqPagamento) ? $nomeArqPagamento : '',
+             'nomeArqNota' => isset($nomeArqNota) ? $nomeArqNota : '',
+        ];
+
+        return $nomeArquivos;
+
+    }
+
     public function listaAPagar()
     {
-        $pagamentos = Pagamento::all();
-
+        $pagamentos = Pagamento::with(['usuarioCadastro', 'usuarioPagamento'])->get();
 
         $return = [
             'pagamentos' => $pagamentos,
@@ -330,10 +339,9 @@ class FinanceiroController extends Controller
         return view('adm.financeiro.aPagar')->with($return);
     }
 
-        public function historico()
+    public function historico()
     {
-        $pagamentos = Pagamento::with(['usuarioCadastro', 'usuarioPagamento'])->all();
-
+        $pagamentos = Pagamento::with(['usuarioCadastro', 'usuarioPagamento'])->get();
 
         $return = [
             'pagamentos' => $pagamentos,
@@ -342,7 +350,7 @@ class FinanceiroController extends Controller
         return view('adm.financeiro.aPagar')->with($return);
     }
 
-    public function detalhes($id)
+    public function detalhesPagamento($id)
     {
         $pagamento = Pagamento::find($id);
 
@@ -351,6 +359,47 @@ class FinanceiroController extends Controller
         ];
 
         return view('adm.financeiro.detalhes')->with($dados);
+    }
+
+    public function editPagamento($id)
+    {
+        $pagamento = Pagamento::find($id);
+
+        $dados = [
+            'pagamento' => $pagamento
+        ];
+
+        return view('adm.financeiro.editPagamento')->with($dados);
+    }
+
+    public function updatePagamento(PagamentoRequest $request)
+    {
+
+        $pagamento = Pagamento::find($request->id);
+
+        $pagamento->where('id', '=', $request->id)->update([
+                'linha_digitavel' => $request->linha_digitavel,
+                'valor' => $request->valor,
+                'descricao' => $request->descricao,
+                'vencimento' => dataPtBrParaMysql($request->vencimento),
+                'observacoes' => $request->observacoes,
+                'pagamento' => $request->pagamento,
+                'notaFiscal' => $request->notaFiscal,
+            ]);
+
+
+        //Salva arquivo pagamento e seta o nome no banco.
+        $nomeArquivos = $this->salvaArquivosPagamento($request->file('pagamento'), $request->file('notaFiscal'), $request->vencimento);
+
+        $pagamento->pagamento = $nomeArquivos['nomeArqPagamento'];
+        $pagamento->notafiscal = $nomeArquivos['nomeArqNota'];
+        $pagamento->save();
+
+        $dados = [
+            'pagamento' => $pagamento
+        ];
+
+        return redirect(route('admin.financeiro.detalhes', $pagamento->id))->with($dados);
     }
 
     public function liquidar(PagamentoRequest $request)

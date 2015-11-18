@@ -37,7 +37,7 @@ class Pagamento extends Model
 	    $this->attributes['vencimento'] = $date_parts[2].'-'.$date_parts[1].'-'.$date_parts[0];
 	  }
 
-        public function getVencimentoAttribute($value)
+    public function getVencimentoAttribute($value)
     {
         return date('d/m/Y', strtotime($value));
     }

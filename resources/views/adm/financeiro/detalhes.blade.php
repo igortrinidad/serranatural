@@ -2,7 +2,7 @@
 
 @section('conteudo')
 
-<h2 class="text-right">Detalhes pagamento</h2><br>
+<h2 class="text-right">Detalhes pagamento</h2>@if($pagamento->is_liquidado == 1)<P class="pull-right">Pagamento realizado em : {{$pagamento->data_pgto}}</P>@endif<br>
 
 	@if(Session::has('msg_retorno'))
 	<div class="alert alert-{{Session::get('tipo_retorno')}}">
@@ -56,6 +56,8 @@
 					<p><a href="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}"><img src="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}" width="300" /></a></p>
 				</div>
 				<div class="col-md-5">
+
+					<a href="{{route('admin.financeiro.editPagamento', $pagamento->id)}}" class="btn btn-primary">Editar pagamento</a>
 					
 					@if($pagamento->is_liquidado == 0)
 					<form action="{{route('admin.financeiro.liquidar')}}" method="POST" enctype="multipart/form-data">
@@ -88,7 +90,7 @@
 					</form>
 
 					@else
-					<div id="alteraPagamento" class="btn btn-primary pull-right">Alterar pagamento</div>
+					<div id="alteraPagamento" class="btn btn-primary pull-right">Alterar comprovante</div>
 
 					<div id="formAltera2" hidden="true">
 					
