@@ -35,6 +35,17 @@ class ApiController extends Controller
                                 ->where('produto', '=', 'Almoço')
                                 ->count();
 
+
+        $voucherAcai = Voucher::where('cliente_id', '=', $cliente->id)
+                                ->where('is_valido', '=', 1)
+                                ->where('produto', '=', 'Açaí')
+                                ->get();
+
+        $voucherProduto = Voucher::where('cliente_id', '=', $cliente->id)
+                                ->where('is_valido', '=', 1)
+                                ->where('produto', '=', 'Almoço')
+                                ->get();
+
         $getGravatar = get_gravatar($request->email, 100);
 
         $dados = [
@@ -43,6 +54,8 @@ class ApiController extends Controller
         'emailCliente' => $cliente->email,
         'pontosAcai' => $pontosAcai,
         'pontosAlmoco' => $pontosAlmoco,
+        'voucherAcai' => $voucherAcai,
+        'voucherAlmoco' => $voucherAlmoco,
         'tipo_retorno' => 'success',
         'getGravatar' => $getGravatar
         ];
