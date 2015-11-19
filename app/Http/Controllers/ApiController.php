@@ -11,6 +11,7 @@ use serranatural\Models\Cliente;
 use serranatural\Models\PontoColetado;
 use serranatural\Models\Pratos;
 use serranatural\Models\AgendaPratos;
+use serranatural\Models\Voucher;
 
 class ApiController extends Controller
 {
