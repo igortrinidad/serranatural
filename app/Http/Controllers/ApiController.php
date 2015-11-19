@@ -42,7 +42,7 @@ class ApiController extends Controller
                                 ->where('produto', '=', 'Açaí')
                                 ->get();
 
-        $voucherProduto = Voucher::where('cliente_id', '=', $cliente->id)
+        $voucherAlmoco = Voucher::where('cliente_id', '=', $cliente->id)
                                 ->where('is_valido', '=', 1)
                                 ->where('produto', '=', 'Almoço')
                                 ->get();
