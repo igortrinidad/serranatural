@@ -40,12 +40,12 @@ class ApiController extends Controller
         $voucherAcai = Voucher::where('cliente_id', '=', $cliente->id)
                                 ->where('is_valido', '=', 1)
                                 ->where('produto', '=', 'Açaí')
-                                ->get();
+                                ->count();
 
         $voucherAlmoco = Voucher::where('cliente_id', '=', $cliente->id)
                                 ->where('is_valido', '=', 1)
                                 ->where('produto', '=', 'Almoço')
-                                ->get();
+                                ->count();
 
         $getGravatar = get_gravatar($request->email, 100);
 
