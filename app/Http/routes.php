@@ -185,7 +185,7 @@ Route::group(['as' => 'api.', 'middleware' => 'oauth', 'prefix' => 'api'], funct
 		];
 	});
 
-	Route::post('square/teste', ['as' => 'square.teste', 'uses' => 'ApiController@squareTeste']);
+	Route::get('square/teste', ['as' => 'square.teste', 'uses' => 'ApiController@squareTeste']);
 });
 
 Route::get('connect/consultaPontos/{email}', ['as' => 'consultaPontos', 'uses' => 'ApiController@consultaPontos']);
