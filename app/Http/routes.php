@@ -171,6 +171,23 @@ Route::get('arquivos/pagamentos/{filename}', ['as' => 'arquivos.pagamentos', fun
 	}]
 	);
 
+Route::post('oauth/access_token', function() {
+    return Response::json(Authorizer::issueAccessToken());
+});
+
+Route::group(['as' => 'api.', 'middleware' => 'oauth', 'prefix' => 'api'], function()
+{
+	Route::get('oauth1', function () 
+	{
+		return [
+			'id' => 1,
+			'nome' => 'Sei la quantos',
+		];
+	});
+
+	Route::post('square/teste', ['as' => 'square.teste', 'uses' => 'ApiController@squareTeste']);
+});
+
 Route::get('connect/consultaPontos/{email}', ['as' => 'consultaPontos', 'uses' => 'ApiController@consultaPontos']);
 Route::get('connect/consultaPratoHoje', ['as' => 'consultaPratoHoje', 'uses' => 'ApiController@consultaPratoHoje']);
 

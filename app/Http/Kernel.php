@@ -18,6 +18,7 @@ class Kernel extends HttpKernel
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \serranatural\Http\Middleware\VerifyCsrfToken::class,
+        \LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware::class
     ];
 
     /**
@@ -31,5 +32,11 @@ class Kernel extends HttpKernel
         'guest' => \serranatural\Http\Middleware\RedirectIfAuthenticated::class,
         //Meus middleware's
         'nivelAcesso' => \serranatural\Http\Middleware\nivelAcesso::class,
+
+        //OAuth2
+        'oauth' => \LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware::class,
+        'oauth-user' => \LucaDegasperi\OAuth2Server\Middleware\OAuthUserOwnerMiddleware::class,
+        'oauth-client' => \LucaDegasperi\OAuth2Server\Middleware\OAuthClientOwnerMiddleware::class,
+        'check-authorization-params' => \LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware::class
     ];
 }

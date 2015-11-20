@@ -174,9 +174,9 @@ class ApiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function squareTeste(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**
