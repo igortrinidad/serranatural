@@ -2,7 +2,7 @@
 
 @section('conteudo')
 
-<h2 class="text-right">Detalhes pagamento</h2>@if($pagamento->is_liquidado == 1)<P class="pull-right">Pagamento realizado em : {{$pagamento->data_pgto}}</P>@endif<br>
+<h2 class="text-right">Detalhes pagamento</h2>
 
 	@if(Session::has('msg_retorno'))
 	<div class="alert alert-{{Session::get('tipo_retorno')}}">
@@ -11,53 +11,70 @@
 	@endif
 
 <div class="row">
+
+	<div class="col-md-7">
 	
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h4>Detalhes pagamento</h4>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4>Detalhes pagamento</h4>
+			</div>
+			<div class="panel-body">
+
+						<label>Data de vencimento</label>
+						<p>{{$pagamento->vencimento}}</p>
+
+						<label>Descrição</label>
+						<p>{{$pagamento->descricao}}</p>
+
+						<label>Valor</label>
+						<p>{{$pagamento->valor}}</p>
+
+						<label>Linha digitavel</label>
+						<p>{{$pagamento->linha_digitavel}}</p>
+
+						<label>Observações</label>
+						<p>{{$pagamento->observacoes}}</p>
+
+						<label>Documento</label>
+						<p><a href="{{ route('arquivos.pagamentos', $pagamento->pagamento)}}"><img src="{{ route('arquivos.pagamentos', $pagamento->pagamento)}}" width="300" /></a></p>
+
+						<label>Nota Fiscal</label>
+						<p><a href="{{ route('arquivos.pagamentos', $pagamento->notaFiscal)}}"><img src="{{ route('arquivos.pagamentos', $pagamento->notaFiscal)}}" width="300" /></a></p>
+
+						<label>Data de pagamento</label>
+						<p>{{$pagamento->data_pgto}}</p>
+
+						<label>Usuário pagamento</label>
+						<p>{{$pagamento->usuarioPagamento->name}}</p>
+
+						<label>Origem do pagamento</label>
+						<p>{{$pagamento->fonte_pgto}}</p>
+
+						<label>Comprovante</label>
+						<p><a href="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}"><img src="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}" width="300" /></a></p>
+			</div>
 		</div>
-		<div class="panel-body">
-			
-			<div class="row">
+	</div>
 
-				<div class="col-md-7">
 
-					<label>Data de vencimento</label>
-					<p>{{$pagamento->vencimento}}</p>
+	<div class="col-md-5">
+	
+		<div class="panel panel-default">
+			<div class="panel-body">
 
-					<label>Descrição</label>
-					<p>{{$pagamento->descricao}}</p>
+					<h5>@if($pagamento->is_liquidado == 1)<P class="pull-right">Pagamento realizado em : {{$pagamento->data_pgto}}</P>@endif
+					</h5><br>
 
-					<label>Valor</label>
-					<p>{{$pagamento->valor}}</p>
+					<a href="{{route('admin.financeiro.editPagamento', $pagamento->id)}}" class="btn btn-warning btn-block">Editar pagamento</a>
 
-					<label>Linha digitavel</label>
-					<p>{{$pagamento->linha_digitavel}}</p>
+			</div>
+		</div>
 
-					<label>Observações</label>
-					<p>{{$pagamento->observacoes}}</p>
-
-					<label>Documento</label>
-					<p><a href="{{ route('arquivos.pagamentos', $pagamento->pagamento)}}"><img src="{{ route('arquivos.pagamentos', $pagamento->pagamento)}}" width="300" /></a></p>
-
-					<label>Nota Fiscal</label>
-					<p><a href="{{ route('arquivos.pagamentos', $pagamento->notaFiscal)}}"><img src="{{ route('arquivos.pagamentos', $pagamento->notaFiscal)}}" width="300" /></a></p>
-
-					<label>Data de pagamento</label>
-					<p>{{$pagamento->data_pgto}}</p>
-
-					<label>Data de pagamento</label>
-					<p>{{$pagamento->user_id_pagamento}}</p>
-
-					<label>Origem do pagamento</label>
-					<p>{{$pagamento->fonte_pgto}}</p>
-
-					<label>Comprovante</label>
-					<p><a href="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}"><img src="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}" width="300" /></a></p>
-				</div>
-				<div class="col-md-5">
-
-					<a href="{{route('admin.financeiro.editPagamento', $pagamento->id)}}" class="btn btn-primary">Editar pagamento</a>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4>Liquidar</h4>
+			</div>
+			<div class="panel-body">
 					
 					@if($pagamento->is_liquidado == 0)
 					<form action="{{route('admin.financeiro.liquidar')}}" method="POST" enctype="multipart/form-data">
@@ -86,7 +103,7 @@
 							<input type="file" name="comprovante" class="form-control" />
 						</div>
 
-						<button type="submit" class="btn btn-primary">Liquidar</button>
+						<button type="submit" class="btn btn-primary btn-block">Liquidar</button>
 					</form>
 
 					@else
@@ -131,13 +148,13 @@
 
 
 
-				</div>
-
 			</div>
+
 		</div>
 	</div>
-
 </div>
+
+
 
 
     @section('scripts')

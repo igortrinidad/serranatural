@@ -358,7 +358,7 @@ class FinanceiroController extends Controller
 
     public function detalhesPagamento($id)
     {
-        $pagamento = Pagamento::find($id);
+        $pagamento = Pagamento::with(['usuarioPagamento'])->where('id', '=', $id)->first();
 
         $dados = [
             'pagamento' => $pagamento
@@ -389,16 +389,23 @@ class FinanceiroController extends Controller
                 'descricao' => $request->descricao,
                 'vencimento' => dataPtBrParaMysql($request->vencimento),
                 'observacoes' => $request->observacoes,
-                'pagamento' => $request->pagamento,
-                'notaFiscal' => $request->notaFiscal,
             ]);
 
 
+        if(!is_null($request->file('pagamento')) OR !empty($request->file('pagamento')))
+        {
         //Salva arquivo pagamento e seta o nome no banco.
-        $nomeArquivos = $this->salvaArquivosPagamento($request->file('pagamento'), $request->file('notaFiscal'), $request->vencimento);
+            $nomeArquivos = $this->salvaArquivosPagamento($request->file('pagamento'), $request->file('notaFiscal'), $request->vencimento);
+            $pagamento->pagamento = $nomeArquivos['nomeArqPagamento'];
+        }
 
-        $pagamento->pagamento = $nomeArquivos['nomeArqPagamento'];
-        $pagamento->notafiscal = $nomeArquivos['nomeArqNota'];
+        if(!is_null($request->file('notaFiscal')) OR !empty($request->file('notaFiscal')))
+        {
+        //Salva arquivo pagamento e seta o nome no banco.
+            $nomeArquivos = $this->salvaArquivosPagamento($request->file('pagamento'), $request->file('notaFiscal'), $request->vencimento);
+            $pagamento->notafiscal = $nomeArquivos['nomeArqNota'];
+        }
+
         $pagamento->save();
 
         $dados = [
