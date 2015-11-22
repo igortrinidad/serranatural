@@ -57,6 +57,15 @@
                                   <tr>
                                     <td colspan="2" height="26"></td>
                                   </tr>
+
+                                  <tr>
+                                    <td style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="200">                                          Total de vendas</td>
+                                    <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="120">                                          R$ {{$total_vendas}}                                        </td>
+                                  </tr>
+                                  <tr>
+                                    <td colspan="2" height="15" style="font-size:0px;line-height:0px">&nbsp;</td>
+                                  </tr>
+
                                   <tr>
                                     <td style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="200">                                          Resp. abertura</td>
                                     <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="120">                                          {{$user_abertura}}                                        </td>
@@ -77,7 +86,7 @@
 
                                   <tr>
                                     <td style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="200">                                          Valor abertura</td>
-                                    <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="120">                                          {{$vr_abertura}}                                        </td>
+                                    <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="120">                                          R$ {{$vr_abertura}}                                        </td>
                                   </tr>
                                   <tr>
                                     <td colspan="2" height="15" style="font-size:0px;line-height:0px">&nbsp;</td>
@@ -86,35 +95,35 @@
 
                                   <tr>
                                     <td style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="200">                                            Vendas dinheiro (sistema)</td>
-                                    <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="120">                                            {{$vendas_cash}}                                          </td>
+                                    <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="120">                                            R$ {{$vendas_cash}}                                          </td>
                                   </tr>
                                   <tr>
                                     <td colspan="2" height="15" style="font-size:0px;line-height:0px">&nbsp;</td>
                                   </tr>
                                   <tr>
                                     <td style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="200">Vendas cartão (sistema)<br></td>
-                                    <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="120">                                            {{$vendas_card}}                                          </td>
+                                    <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="120">                                            R$ {{$vendas_card}}                                          </td>
                                   </tr>
                                   <tr>
                                     <td colspan="2" height="15" style="font-size:0px;line-height:0px">&nbsp;</td>
                                   </tr>
                                   <tr>
                                     <td style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="200">                                            Vendas REDE</td>
-                                    <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="120">                                            {{$vendas_rede}}                                          </td>
+                                    <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="120">                                           R$ {{$vendas_rede}}                                          </td>
                                   </tr>
                                   <tr>
                                     <td colspan="2" height="15" style="font-size:0px;line-height:0px">&nbsp;</td>
                                   </tr>
                                   <tr>
                                     <td style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="200">                                            Vendas CIELO</td>
-                                    <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" valign="bottom" width="120">                                            {{$vendas_cielo}}                                          </td>
+                                    <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" valign="bottom" width="120">                                            R$ {{$vendas_cielo}}                                          </td>
                                   </tr>
                                   <tr>
                                     <td colspan="2" height="15" style="font-size:0px;line-height:0px">&nbsp;</td>
                                   </tr>
                                   <tr>
                                     <td style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="200">                                            Total retirada</td>
-                                    <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" valign="bottom" width="120">                                            {{$total_retirada}}                                          </td>
+                                    <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" valign="bottom" width="120">                                            R$ {{$total_retirada}}                                          </td>
                                   </tr>
                                   <tr>
                                     <td colspan="2" height="15" style="font-size:0px;line-height:0px">&nbsp;</td>
