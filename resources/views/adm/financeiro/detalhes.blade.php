@@ -16,7 +16,7 @@
 	
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h4>Detalhes pagamento</h4>
+				<h4>Detalhes</h4>
 			</div>
 			<div class="panel-body">
 
@@ -41,17 +41,7 @@
 						<label>Nota Fiscal</label>
 						<p><a href="{{ route('arquivos.pagamentos', $pagamento->notaFiscal)}}"><img src="{{ route('arquivos.pagamentos', $pagamento->notaFiscal)}}" width="300" /></a></p>
 
-						<label>Data de pagamento</label>
-						<p>{{$pagamento->data_pgto}}</p>
 
-						<label>Usuário pagamento</label>
-						<p>{{$pagamento->usuarioPagamento->name}}</p>
-
-						<label>Origem do pagamento</label>
-						<p>{{$pagamento->fonte_pgto}}</p>
-
-						<label>Comprovante</label>
-						<p><a href="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}"><img src="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}" width="300" /></a></p>
 			</div>
 		</div>
 	</div>
@@ -72,7 +62,7 @@
 
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h4>Liquidar</h4>
+				<h4>Liquidar pagamento</h4>
 			</div>
 			<div class="panel-body">
 					
@@ -105,9 +95,11 @@
 
 						<button type="submit" class="btn btn-primary btn-block">Liquidar</button>
 					</form>
+				
+				<div class="row">
 
 					@else
-					<div id="alteraPagamento" class="btn btn-primary pull-right">Alterar comprovante</div>
+					<div id="alteraPagamento" class="btn btn-primary btn-block">Alterar comprovante</div>
 
 					<div id="formAltera2" hidden="true">
 					
@@ -138,17 +130,41 @@
 								<input type="file" name="comprovante" class="form-control" />
 							</div>
 
-							<button type="submit" class="btn btn-primary">Liquidar</button>
+							<button type="submit" class="btn btn-primary btn-block">@if($pagamento->is_liquidado == 1)Alterar @else Liquidar @endif</button>
 						</form>
 					</div>
 
-					@endif
-
-					
-
-
+				</div>
 
 			</div>
+
+							<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4>Arquivo comprovante</h4>
+					</div>
+					<div class="panel-body">
+
+						@if($pagamento->is_liquidado == 1)					
+
+							<label>Data de pagamento</label>
+							<p>{{$pagamento->data_pgto}}</p>
+
+							<label>Usuário pagamento</label>
+							<p>{{$pagamento->usuarioPagamento->name}}</p>
+
+							<label>Origem do pagamento</label>
+							<p>{{$pagamento->fonte_pgto}}</p>
+
+							<label>Comprovante</label>
+							<p><a href="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}"><img src="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}" width="300" /></a></p>
+
+						@endif
+					</div>
+				</div>
+
+
+					@endif
+
 
 		</div>
 	</div>
