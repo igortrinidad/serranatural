@@ -14,7 +14,12 @@
 
 	<div class="col-md-7">
 	
-		<div class="panel panel-default">
+		@if($pagamento->is_liquidado == 0)
+			<div class="panel panel-default">
+		@else
+			<div class="panel panel-success">
+		@endif
+
 			<div class="panel-heading">
 				<h4>Detalhes</h4>
 			</div>
@@ -80,7 +85,7 @@
 
 						<div class="form-group">
 							<label>Data Pagamento</label>
-							<input type="text" name="data_pgto" class="form-control datepicker dataCompleta" />
+							<input type="text" name="data_pgto" class="form-control datepicker dataCompleta" required/>
 						</div>
 
 						<div class="form-group">
@@ -117,7 +122,7 @@
 							</div>
 							<div class="form-group">
 								<label>Data Pagamento</label>
-								<input type="text" name="data_pgto" class="form-control datepicker dataCompleta" />
+								<input type="text" name="data_pgto" value="" class="form-control datepicker dataCompleta" required/>
 							</div>
 
 							<div class="form-group">
