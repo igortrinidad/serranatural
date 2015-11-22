@@ -346,7 +346,7 @@
                                             <a href="{{route('admin.financeiro.aPagar')}}"> A pagar</a>
                                         </li>
                                         <li>
-                                            <a href="#"> Historico</a>
+                                            <a href="{{route('admin.financeiro.historicoPagamentos')}}"> Historico</a>
                                         </li>
                                     </ul>
                                 </li>

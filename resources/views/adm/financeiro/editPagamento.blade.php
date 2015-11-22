@@ -79,7 +79,7 @@
 					<input type="file" name="notaFiscal" value="{{$pagamento->notaFiscal}}"class="form-control"/>
 				</div>
 				<div class="form-group">
-					<button type="submit" class="btn btn-primary btn-block">Cadastrar conta</button>
+					<button type="submit" class="btn btn-primary btn-block">Salvar conta</button>
 				</div>
 
 				

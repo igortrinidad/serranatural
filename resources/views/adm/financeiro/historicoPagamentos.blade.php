@@ -26,9 +26,9 @@
 			            <th>Vencimento</th>
 			            <th>Descrição</th>
 			            <th>Valor</th>
-			            <th>Responsável Cadastro</th>
-			            <th>Arq pagamento</th>
-			            <th>Arq nota</th>
+			            <th>Responsável Pagamento</th>
+			            <th>Data pagamento</th>
+			            <th>Arq comprovante</th>
 			        </tr>
 			    </thead>
 			    <tbody>
@@ -37,16 +37,16 @@
 			            <th class="text-center">@if($pag->is_liquidado == 0)<strong style="color:red">Pendente</strong> @else Liquidado - ({{$pag->data_pgto}}) @endif </th>
 			            <th class="text-center">{{$pag->vencimento}}</th>
 			            <th><a href="{{route('admin.financeiro.detalhes', $pag->id)}}">{{$pag->descricao}}</a></th>
-			            <th>R$ {{$pag->valor}}</th>
-			            <th>{{$pag->usuarioCadastro->name}}</th>
+			            <th>{{$pag->valor}}</th>
+			            <th>{{$pag->usuarioPagamento->name}}</th>
 			            <th class="text-center" width="10%">
-			            @if($pag->pagamento != '')
+			            @if($pag->data_pgto != '')
 			            	<a href="{!! route('arquivos.pagamentos', $pag->pagamento) !!}"><i class="fa fa-search"></i>
 			            @endif
 			            	</a>
 			            </th>
 			            <th class="text-center" width="10%">
-			            @if($pag->notaFiscal != '')
+			            @if($pag->comprovante != '')
 			            	<a href="{!! route('arquivos.pagamentos', $pag->notaFiscal) !!}"><i class="fa fa-search">
 			            @endif 
 			            </th>

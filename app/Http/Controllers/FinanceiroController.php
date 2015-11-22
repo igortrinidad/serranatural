@@ -330,7 +330,10 @@ class FinanceiroController extends Controller
 
     public function listaAPagar()
     {
-        $pagamentos = Pagamento::with(['usuarioCadastro', 'usuarioPagamento'])->get();
+        $pagamentos = Pagamento::with(['usuarioCadastro', 'usuarioPagamento'])
+                                ->where('is_liquidado', '=', 0)
+                                ->orderBY('vencimento', 'ASC')
+                                ->get();
 
         $return = [
             'pagamentos' => $pagamentos,
@@ -339,15 +342,18 @@ class FinanceiroController extends Controller
         return view('adm.financeiro.aPagar')->with($return);
     }
 
-    public function historico()
+    public function historicoPagamentos()
     {
-        $pagamentos = Pagamento::with(['usuarioCadastro', 'usuarioPagamento'])->get();
+        $pagamentos = Pagamento::with(['usuarioCadastro', 'usuarioPagamento'])
+                                ->where('is_liquidado', '=', 1)
+                                ->orderBY('data_pgto', 'DESC')
+                                ->get();
 
         $return = [
             'pagamentos' => $pagamentos,
         ];
 
-        return view('adm.financeiro.aPagar')->with($return);
+        return view('adm.financeiro.historicoPagamentos')->with($return);
     }
 
     public function detalhesPagamento($id)
