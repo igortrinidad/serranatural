@@ -41,12 +41,14 @@
 						<p>{{$pagamento->observacoes}}</p>
 
 						<label>Documento</label>
-						<p><a href="{{ route('arquivos.pagamentos', $pagamento->pagamento)}}"><img src="{{ route('arquivos.pagamentos', $pagamento->pagamento)}}" width="300" /></a></p>
+						<p><a href="{{ route('arquivos.pagamentos', $pagamento->pagamento)}}" data-lightbox="property">
+							<img class="img-polaroid" src="{{ route('arquivos.pagamentos', $pagamento->pagamento)}}" width="300" />
+						</a></p>
 
 						<label>Nota Fiscal</label>
-						<p><a href="{{ route('arquivos.pagamentos', $pagamento->notaFiscal)}}"><img src="{{ route('arquivos.pagamentos', $pagamento->notaFiscal)}}" width="300" /></a></p>
-
-
+						<p><a href="{{ route('arquivos.pagamentos', $pagamento->notaFiscal)}}" data-lightbox="property">
+							<img class="img-polaroid" src="{{ route('arquivos.pagamentos', $pagamento->notaFiscal)}}" width="300" />
+						</a></p>
 			</div>
 		</div>
 	</div>
@@ -161,7 +163,9 @@
 							<p>{{$pagamento->fonte_pgto}}</p>
 
 							<label>Comprovante</label>
-							<p><a href="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}"><img src="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}" width="300" /></a></p>
+							<p><a href="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}" data-lightbox="property">
+								<img src="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}" width="300" />
+							</a></p>
 
 						@endif
 					</div>
