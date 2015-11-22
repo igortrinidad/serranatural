@@ -182,7 +182,7 @@ class FinanceiroController extends Controller
         'dt_fechamento' => $caixa->dt_fechamento,
         'vendas_cash' => $caixa->vendas_cash,
         'vendas_card' => $caixa->vendas_card,
-        'total_vendas' => $caixa->vendas_cash + $caixa->vendas_card,
+        'total_vendas' => number_format($caixa->vendas_cash + $caixa->vendas_card, 2, ',', '.'),
         'vendas_rede' => $caixa->vendas_rede,
         'vendas_cielo' => $caixa->vendas_cielo,
         'total_retirada' => $caixa->total_retirada,
