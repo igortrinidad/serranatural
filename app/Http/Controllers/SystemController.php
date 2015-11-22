@@ -6,12 +6,18 @@ use Illuminate\Http\Request;
 use serranatural\Http\Requests;
 use serranatural\Http\Controllers\Controller;
 
+use View;
+
 class SystemController extends Controller
 {
 
     public function __construct()
     {
         $this->middleware('auth', []);
+
+        View::composers([
+            'serranatural\ViewComposers\DashboardComposer'  => array('adm.dashboard.index') //attaches HomeComposer to home.blade.php
+        ]);
 
     }
 
