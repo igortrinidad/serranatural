@@ -468,7 +468,9 @@ class FinanceiroController extends Controller
 
         $return = [
             'pagamentos' => $pagamentos,
-            'totalPeriodo' => $totalPeriodo
+            'totalPeriodo' => $totalPeriodo,
+            'dataInicio' => dataMysqlParaPtBr($request->dataInicio),
+            'dataFim' => dataMysqlParaPtBr($request->dataFim),
         ];
 
         return view('adm.financeiro.historicoPagamentos')->with($return);
@@ -487,7 +489,7 @@ class FinanceiroController extends Controller
 
     public function storePgtoSimples(PagamentoRequest $request)
     {
-        
+
     }
 
 

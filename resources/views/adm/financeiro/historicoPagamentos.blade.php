@@ -86,7 +86,11 @@
 		</div>
 		<div class="panel-body">
 	
-			<label>Total periodo: R$ {{isset($totalPeriodo) ? $totalPeriodo : '--'}}</label>
+			<p><b>Periodo<b></p>
+			<p>{{isset($dataInicio) ? $dataInicio : '--'}} - {{isset($dataFim) ? $dataFim : '--'}} 
+			<p><b>Total</b></p>
+			<p>R$ {{isset($totalPeriodo) ? $totalPeriodo : '--'}}</p>
+
 
 		</div>
 
