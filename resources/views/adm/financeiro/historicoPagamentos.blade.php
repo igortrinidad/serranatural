@@ -101,6 +101,12 @@
 
 			<script type="text/javascript">
 
+			'use strict';
+
+				var dataInicio = moment().format('YYYY-MM-DD');
+				var dataFim = moment().format('YYYY-MM-DD');
+				console.log(dataInicio + ' - ' + dataFim);
+
 				$('input[name="dateRange"]').daterangepicker({
 
 					    locale: {
@@ -135,8 +141,8 @@
 
 				}, function(start, end, label) {
 
-				var dataInicio = start.format('YYYY-MM-DD');
-				var dataFim = end.format('YYYY-MM-DD');
+				dataInicio = start.format('YYYY-MM-DD');
+				dataFim = end.format('YYYY-MM-DD');
 
 				console.log(dataInicio + ' - ' + dataFim);
 
