@@ -25,6 +25,8 @@ elixir(function(mix) {
 		'/../bower_components/jrumble/jquery.jrumble.js',
 		'/../bower_components/lightbox-rotate/lightbox-plus-jquery.js',
 		'/../bower_components/lightbox-rotate/lightbox-rotate.js',
+		'/../bower_components/moment/moment.js',
+		'/../bower_components/bootstrap-daterangepicker/daterangepicker.js',
 		'sb-admin-2.js',
 		'appGeral.js',
 		'notify.js',
@@ -64,6 +66,7 @@ elixir(function(mix) {
 		'/../bower_components/select2-bootstrap-css/select2-bootstrap.css',
 		'/../bower_components/summernote/dist/summernote.css',
 		'/../bower_components/lightbox-rotate/lightbox-rotate.css',
+		'/../bower_components/bootstrap-daterangepicker/daterangepicker.css',
 		'sb-admin-2.css',
 		], 'public/css/vendor.css');
 

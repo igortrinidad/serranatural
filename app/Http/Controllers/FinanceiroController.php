@@ -456,17 +456,30 @@ class FinanceiroController extends Controller
         return redirect()->back()->with($dados);
     }
 
+    public function dateRange(PagamentoRequest $request)
+    {
+        $pagamentos = Pagamento::with(['usuarioCadastro', 'usuarioPagamento'])
+                                ->whereBetween('vencimento', array($request->dataInicio, $request->dataFim))
+                                ->where('is_liquidado', '=', 1)
+                                ->orderBY('data_pgto', 'DESC')
+                                ->get();
 
-       //    if(!is_null($request->notaFiscal) OR !empty($request->notaFiscal))
-       //{
-       ////Salva arquivo nota e nome
-       //$nota = $request->file('notaFiscal');
-       //$extensaoNota = $nota->getClientOriginalExtension();
-       //$arqNotaNome = 'VENC_' . dataPtBrParaArquivo($data) . '_NOTA_' . primeiro_nome($request->descricao).'.'.$extensaoNota;
-       //$arquivoNota = Storage::disk('aPagar')->put($arqNotaNome,  File::get($nota));
-       //$PGTO->notaFiscal_mime = $nota->getClientMimeType();
-       //$PGTO->notaFiscal = $arqNotaNome;
-       //}
+        $totalPeriodo = number_format($pagamentos->sum('valor'), 2, ',', '.');
+
+        $return = [
+            'pagamentos' => $pagamentos,
+            'totalPeriodo' => $totalPeriodo
+        ];
+
+        return view('adm.financeiro.historicoPagamentos')->with($return);
+
+    }
+
+    public function escolha()
+    {
+        return view('adm.financeiro.historicoGeral');
+    }
+
 
 
 }
