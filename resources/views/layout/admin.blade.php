@@ -340,7 +340,11 @@
                                     <a href="#"> Pagamentos<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
                                         <li>
-                                            <a href="{{route('admin.financeiro.pagamentos')}}"> Cadastrar</a>
+                                            <a href="{{route('admin.financeiro.pagamentos')}}"> Cadastrar pagamento</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="{{route('admin.financeiro.pagamentoSimples')}}"> Pagamento simples</a>
                                         </li>
                                         <li>
                                             <a href="{{route('admin.financeiro.aPagar')}}"> A pagar</a>

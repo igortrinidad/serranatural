@@ -480,6 +480,16 @@ class FinanceiroController extends Controller
         return view('adm.financeiro.historicoGeral');
     }
 
+    public function pagamentoSimples()
+    {
+        return view('adm.financeiro.pagamentoSimples');
+    }
+
+    public function storePgtoSimples(PagamentoRequest $request)
+    {
+        
+    }
+
 
 
 }
