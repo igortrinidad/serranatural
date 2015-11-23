@@ -105,6 +105,9 @@
 
 				var dataInicio = moment().format('YYYY-MM-DD');
 				var dataFim = moment().format('YYYY-MM-DD');
+
+				$('input[name="dataInicio"').val(dataInicio);
+				$('input[name="dataFim"').val(dataFim);
 				console.log(dataInicio + ' - ' + dataFim);
 
 				$('input[name="dateRange"]').daterangepicker({
