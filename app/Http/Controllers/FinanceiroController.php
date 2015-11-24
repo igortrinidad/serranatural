@@ -282,13 +282,22 @@ class FinanceiroController extends Controller
     public function storePgto(PagamentoRequest $request)
     {
         $pagamento = Pagamento::create($request->all());
-
-        //Salva arquivo pagamento e seta o nome no banco.
-        $nomeArquivos = $this->salvaArquivosPagamento($request->file('pagamento'), $request->file('notaFiscal'), $request->vencimento);
-
-        $pagamento->pagamento = $nomeArquivos['nomeArqPagamento'];
-        $pagamento->notafiscal = $nomeArquivos['nomeArqNota'];
         $pagamento->user_id_cadastro = \Auth::user()->id;
+
+        if(!is_null($request->file('pagamento')) OR !empty($request->file('pagamento')))
+        {
+        //Salva arquivo pagamento e seta o nome no banco.
+            $nomeArquivos = $this->salvaArquivosPagamento($request->file('pagamento'), '_ID_' . $pagamento->id . '_PGTO_', $request->vencimento);
+            $pagamento->pagamento = $nomeArquivos;
+        }
+
+        if(!is_null($request->file('notaFiscal')) OR !empty($request->file('notaFiscal')))
+        {
+        //Salva arquivo pagamento e seta o nome no banco.
+            $nomeArquivos = $this->salvaArquivosPagamento($request->file('notaFiscal'), '_ID_' . $pagamento->id . '_NOTAF_', $request->vencimento);
+            $pagamento->notafiscal = $nomeArquivos;
+        }
+
         $pagamento->save();
 
 
@@ -301,31 +310,17 @@ class FinanceiroController extends Controller
 
     }
 
-    public function salvaArquivosPagamento($pagamento, $nota, $data)
+    public function salvaArquivosPagamento($arquivo, $prefix, $data)
     {
 
         $dataAlt = dataAnoMes($data);
         $dataArquivo = dataPtBrParaArquivo($data);
 
-        if(!is_null($pagamento) OR !empty($pagamento))
-        {
-            $extPagamento = $pagamento->getClientOriginalExtension();
-            $nomeArqPagamento = $dataAlt . '_PAG_V_' . $dataArquivo . '.' . $extPagamento;
-            $arquivoPagamento = Storage::disk('pagamentos')->put($nomeArqPagamento,  File::get($pagamento));
-        }
-        if(!is_null($nota) OR !empty($nota))
-        {
-            $extNota = $nota->getClientOriginalExtension();
-            $nomeArqNota = $dataAlt . '_NOTA_V_' . $dataArquivo . '.' . $extNota;
-            $arquivoNota = Storage::disk('pagamentos')->put($nomeArqNota,  File::get($nota));
-        }
+        $extArquivo = $arquivo->getClientOriginalExtension();
+        $nomeArquivo = $dataAlt . $prefix . $dataArquivo . '.' . $extArquivo;
+        $salvaArquivo = Storage::disk('pagamentos')->put($nomeArquivo,  File::get($arquivo));
 
-        $nomeArquivos = [
-             'nomeArqPagamento' => isset($nomeArqPagamento) ? $nomeArqPagamento : '',
-             'nomeArqNota' => isset($nomeArqNota) ? $nomeArqNota : '',
-        ];
-
-        return $nomeArquivos;
+        return $nomeArquivo;
 
     }
 
@@ -396,15 +391,15 @@ class FinanceiroController extends Controller
         if(!is_null($request->file('pagamento')) OR !empty($request->file('pagamento')))
         {
         //Salva arquivo pagamento e seta o nome no banco.
-            $nomeArquivos = $this->salvaArquivosPagamento($request->file('pagamento'), $request->file('notaFiscal'), $request->vencimento);
-            $pagamento->pagamento = $nomeArquivos['nomeArqPagamento'];
+            $nomeArquivos = $this->salvaArquivosPagamento($request->file('pagamento'), '_ID_' . $pagamento->id . '_PGTO_', $request->vencimento);
+            $pagamento->pagamento = $nomeArquivos;
         }
 
         if(!is_null($request->file('notaFiscal')) OR !empty($request->file('notaFiscal')))
         {
         //Salva arquivo pagamento e seta o nome no banco.
-            $nomeArquivos = $this->salvaArquivosPagamento($request->file('pagamento'), $request->file('notaFiscal'), $request->vencimento);
-            $pagamento->notafiscal = $nomeArquivos['nomeArqNota'];
+            $nomeArquivos = $this->salvaArquivosPagamento($request->file('notaFiscal'), '_ID_' . $pagamento->id . '_NOTAF_', $request->vencimento);
+            $pagamento->notafiscal = $nomeArquivos;
         }
 
         $pagamento->save();
@@ -422,14 +417,11 @@ class FinanceiroController extends Controller
 
         $pagamento = Pagamento::where('id', '=', $request->pagamento_id)->first();
 
-        if(!is_null($request->comprovante) OR !empty($request->comprovante))
+        if(!is_null($request->file('comprovante')) OR !empty($request->file('comprovante')))
         {
-        //Salva arquivo nota e nome
-        $comprovante = $request->file('comprovante');
-        $extComprovante = $comprovante->getClientOriginalExtension();
-        $nomeArqComprovante = dataAnoMes(($pagamento->vencimento)) . '_V_' . dataPtBrParaArquivo($pagamento->vencimento) . '_COMP_dtPgto_' . dataPtBrParaArquivo($request->data_pgto).'.'.$extComprovante;
-        $arquivoComprovante = Storage::disk('pagamentos')->put($nomeArqComprovante,  File::get($comprovante));
-        $pagamento->comprovante = $nomeArqComprovante;
+        //Salva arquivo pagamento e seta o nome no banco.
+            $nomeArquivos = $this->salvaArquivosPagamento($request->file('comprovante'), '_ID_' . $pagamento->id . '_COMPVT_', $request->data_pgto);
+            $pagamento->notafiscal = $nomeArquivos;
         }
 
         if($request->is_liquidado == 1)
@@ -482,16 +474,36 @@ class FinanceiroController extends Controller
         return view('adm.financeiro.historicoGeral');
     }
 
-    public function pagamentoSimples()
+    public function despesaCreate()
     {
         return view('adm.financeiro.pagamentoSimples');
     }
 
-    public function storePgtoSimples(PagamentoRequest $request)
+    public function despesaStore(PagamentoRequest $request)
     {
 
-    }
+        $pagamento = Pagamento::create($request->all());
+        $pagamento->user_id_cadastro = \Auth::user()->id;
+        $pagamento->user_id_pagamento = \Auth::user()->id;
+        $pagamento->is_liquidado = 1;
+        $pagamento->vencimento = $pagamento->data_pgto;
 
+        if(!is_null($request->file('comprovante')) OR !empty($request->file('comprovante')))
+        {
+        //Salva arquivo pagamento e seta o nome no banco.
+            $nomeArquivos = $this->salvaArquivosPagamento($request->file('comprovante'), '_ID_' . $pagamento->id . '_COMPRVT_', $request->data_pgto);
+            $pagamento->comprovante = $nomeArquivos;
+        }
+
+        $pagamento->save();
+
+        $dados = [
+            'msg_retorno' => 'Pagamento cadastrado com sucesso.',
+            'tipo_retorno' => 'success'
+        ];
+
+        return view('adm.financeiro.pagamentoSimples')->with($dados);
+    }
 
 
 }

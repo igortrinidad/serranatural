@@ -5,20 +5,20 @@
 <h2 class="text-right">Cadastro de boleto</h2><br>
 
 	@if(Session::has('msg_retorno'))
-	<div class="alert alert-{{Session::get('tipo_retorno')}}">
-	     {{Session::get('msg_retorno')}}
-	 </div>
+		<div class="alert alert-{{Session::get('tipo_retorno')}}">
+		     {{Session::get('msg_retorno')}}
+		 </div>
 	@endif
 
 	@if($errors->any())
-<div class="alert alert-danger">
-	<ul>
-	@foreach($errors->all() as $message)
-		<li> {{$message}}</li>
-	@endforeach
-	</ul>
-</div>
-@endif
+		<div class="alert alert-danger">
+			<ul>
+			@foreach($errors->all() as $message)
+				<li> {{$message}}</li>
+			@endforeach
+			</ul>
+		</div>
+	@endif
 
 <div class="row">
 	

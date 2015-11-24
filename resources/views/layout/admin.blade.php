@@ -344,7 +344,7 @@
                                         </li>
 
                                         <li>
-                                            <a href="{{route('admin.financeiro.pagamentoSimples')}}"> Pagamento simples</a>
+                                            <a href="{{route('admin.financeiro.despesa')}}"> Despesa simples</a>
                                         </li>
                                         <li>
                                             <a href="{{route('admin.financeiro.aPagar')}}"> A pagar</a>

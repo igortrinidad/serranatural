@@ -42,7 +42,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::post('financeiro/fecharCaixa', ['as' => 'fecharCaixa', 'uses' => 'FinanceiroController@fecharCaixa']);
 		Route::get('financeiro/retirada', ['as' => 'retirada', 'uses' => 'FinanceiroController@retirada']);
 		Route::get('financeiro/pagamentos', ['as' => 'pagamentos', 'uses' => 'FinanceiroController@cadastraPgto']);
-		Route::get('financeiro/pagamentoSimples', ['as' => 'pagamentoSimples', 'uses' => 'FinanceiroController@pagamentoSimples']);
 		Route::post('financeiro/pagamentosPost', ['as' => 'pagamentosPost', 'uses' => 'FinanceiroController@storePgto']);
 		Route::get('financeiro/Pagar', ['as' => 'aPagar', 'uses' => 'FinanceiroController@listaAPagar']);
 		Route::get('financeiro/pagamentos/historico', ['as' => 'historicoPagamentos', 'uses' => 'FinanceiroController@historicoPagamentos']);
@@ -52,6 +51,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::post('financeiro/pagamentos/{id}/update', ['as' => 'updatePagamento', 'uses' => 'FinanceiroController@updatePagamento']);
 		Route::get('financeiro/pagamentos/escolha', ['as' => 'escolha', 'uses' => 'FinanceiroController@escolha']);
 		Route::post('financeiro/pagamentos/dateRange', ['as' => 'dateRange', 'uses' => 'FinanceiroController@dateRange']);
+		Route::get('financeiro/despesa', ['as' => 'despesa', 'uses' => 'FinanceiroController@despesaCreate']);
+		Route::post('financeiro/despesaStore', ['as' => 'despesaStore', 'uses' => 'FinanceiroController@despesaStore']);
 
 	});
 

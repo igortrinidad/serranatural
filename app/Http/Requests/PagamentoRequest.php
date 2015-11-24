@@ -25,7 +25,8 @@ class PagamentoRequest extends Request
     {
         return [
             'pagamento' => 'mimes:jpeg,bmp,png,pdf,',
-            'notaFiscal' => 'mimes:jpeg,bmp,png,pdf,'
+            'notaFiscal' => 'mimes:jpeg,bmp,png,pdf,',
+            'comprovante' => 'mimes:jpeg,bmp,png,pdf,'
         ];
     }
 
@@ -35,6 +36,7 @@ class PagamentoRequest extends Request
         return [
             'pagamento.mimes' => 'O arquivo deve ser imagem (.png, .jpg, .pdf).',
             'notaFiscal.mimes' => 'O arquivo deve ser imagem(.png, .jpg), .pdf.',
+            'comprovante.mimes' => 'O arquivo deve ser imagem(.png, .jpg), .pdf.',
 
         ];
     }
