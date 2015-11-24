@@ -49,7 +49,7 @@
 			            <th>Descrição</th>
 			            <th>Valor</th>
 			            <th>Responsável Pagamento</th>
-			            <th>Data pagamento</th>
+			            <th>Arquivo pagamento</th>
 			            <th>Arq comprovante</th>
 			        </tr>
 			    </thead>
@@ -62,14 +62,14 @@
 			            <th>{{$pag->valor}}</th>
 			            <th>{{$pag->usuarioPagamento->name}}</th>
 			            <th class="text-center" width="10%">
-			            @if($pag->data_pgto != '')
-			            	<a href="{!! route('arquivos.pagamentos', $pag->pagamento) !!}" data-lightbox="property"><i class="fa fa-search"></i></a>
+			            @if($pag->pagamento != '')
+			            	<a href="{!! route('arquivos.pagamentos', $pag->pagamento) !!}" data-lightbox="property"><i class="fa fa-search" ></i>
 			            @endif
 			            	</a>
 			            </th>
 			            <th class="text-center" width="10%">
 			            @if($pag->comprovante != '')
-			            	<a href="{!! route('arquivos.pagamentos', $pag->notaFiscal) !!}" data-lightbox="property"><i class="fa fa-search"></i></a>
+			            	<a href="{!! route('arquivos.pagamentos', $pag->comprovante) !!}" data-lightbox="property"><i class="fa fa-search">
 			            @endif 
 			            </th>
 			        </tr>

@@ -41,13 +41,13 @@
 			            <th>{{$pag->usuarioCadastro->name}}</th>
 			            <th class="text-center" width="10%">
 			            @if($pag->pagamento != '')
-			            	<a href="{!! route('arquivos.pagamentos', $pag->pagamento) !!}"><i class="fa fa-search"></i>
+			            	<a href="{!! route('arquivos.pagamentos', $pag->pagamento) !!}" data-lightbox="property"><i class="fa fa-search" ></i>
 			            @endif
 			            	</a>
 			            </th>
 			            <th class="text-center" width="10%">
 			            @if($pag->notaFiscal != '')
-			            	<a href="{!! route('arquivos.pagamentos', $pag->notaFiscal) !!}"><i class="fa fa-search">
+			            	<a href="{!! route('arquivos.pagamentos', $pag->notaFiscal) !!}" data-lightbox="property"><i class="fa fa-search">
 			            @endif 
 			            </th>
 			        </tr>
