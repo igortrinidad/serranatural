@@ -40,15 +40,32 @@
 						<label>Observações</label>
 						<p>{{$pagamento->observacoes}}</p>
 
-						<label>Documento</label>
-						<p><a href="{{ route('arquivos.pagamentos', $pagamento->pagamento)}}" data-lightbox="property">
-							<img class="img-polaroid" src="{{ route('arquivos.pagamentos', $pagamento->pagamento)}}" width="300" />
-						</a></p>
+						<label>Documento de pagamento</label>
+						<p>
+							@if(is_null($pagamento->pagamento) OR empty($pagamento->pagamento))
+							--
+							@elseif(substr($pagamento->pagamento, -3) == 'pdf' OR substr($pagamento->pagamento, -3) == 'PDF')
+								<a target="_blank" href="{{ route('arquivos.pagamentos', $pagamento->pagamento)}}" >PDF
+								</a>
+							@else
+								<a href="{{ route('arquivos.pagamentos', $pagamento->pagamento)}}" data-lightbox="property">
+									<img class="img-polaroid" src="{{ route('arquivos.pagamentos', $pagamento->pagamento)}}" width="300" />
+								</a>
+							@endif
+						</p>
 
 						<label>Nota Fiscal</label>
-						<p><a href="{{ route('arquivos.pagamentos', $pagamento->notaFiscal)}}" data-lightbox="property">
-							<img class="img-polaroid" src="{{ route('arquivos.pagamentos', $pagamento->notaFiscal)}}" width="300" />
-						</a></p>
+						<p>
+							@if(is_null($pagamento->notaFiscal) OR empty($pagamento->notaFiscal))
+							--
+							@elseif(substr($pagamento->notaFiscal, -3) == 'pdf' OR substr($pagamento->notaFiscal, -3) == 'PDF')
+								<a target="_blank" href="{{ route('arquivos.pagamentos', $pagamento->notaFiscal)}}">PDF</a>
+							@else
+								<a href="{{ route('arquivos.pagamentos', $pagamento->notaFiscal)}}" data-lightbox="property">
+									<img class="img-polaroid" src="{{ route('arquivos.pagamentos', $pagamento->notaFiscal)}}" width="300" />
+								</a>
+							@endif
+						</p>
 			</div>
 		</div>
 	</div>
