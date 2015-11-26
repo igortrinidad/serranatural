@@ -414,6 +414,7 @@ class FinanceiroController extends Controller
     public function liquidar(PagamentoRequest $request)
     {
 
+        //dd($request->all());
 
         $pagamento = Pagamento::where('id', '=', $request->pagamento_id)->first();
 
@@ -430,9 +431,10 @@ class FinanceiroController extends Controller
             $pagamento->fonte_pgto = $request->fonte_pgto;
             $pagamento->is_liquidado = 1;
             $pagamento->user_id_pagamento = \Auth::user()->id;
+            $pagamento->comprovante = $nomeArquivos;
         } else 
         {
-            $pagamento->is_liquidado = 0;
+            $pagamento->is_liquidado == 0;
             $pagamento->user_id_pagamento = '';
             $pagamento->fonte_pgto = '';
             $pagamento->comprovante = '';
