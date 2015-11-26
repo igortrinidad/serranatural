@@ -163,9 +163,15 @@
 							<p>{{$pagamento->fonte_pgto}}</p>
 
 							<label>Comprovante</label>
-							<p><a href="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}" data-lightbox="property">
+							<p>
+							@if(substr($pagamento->comprovante, -3) == 'pdf' OR substr($pagamento->comprovante, -3) == 'PDF')
+							<a target="_blank" href="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}"><STRONG>PDF</STRONG></a>
+							@else
+							<a href="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}" data-lightbox="property">
 								<img src="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}" width="300" />
-							</a></p>
+							</a>
+							@endif
+							</p>
 
 						@endif
 					</div>
