@@ -451,7 +451,7 @@ class FinanceiroController extends Controller
     public function dateRange(PagamentoRequest $request)
     {
         $pagamentos = Pagamento::with(['usuarioCadastro', 'usuarioPagamento'])
-                                ->whereBetween('vencimento', array($request->dataInicio, $request->dataFim))
+                                ->whereBetween('data_pgto', array($request->dataInicio, $request->dataFim))
                                 ->where('is_liquidado', '=', 1)
                                 ->orderBY('data_pgto', 'DESC')
                                 ->get();

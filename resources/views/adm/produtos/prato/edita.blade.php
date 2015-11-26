@@ -24,7 +24,7 @@
 
 		<div class="form-group">
 			<label>Valor pequeno</label>
-			<input type="text" name="valor_pequeno" value="{{$p->valor_pequeno}}" class="form-control"/>
+			<input type="text" name="valor_pequeno" value="{{$p->valor_pequeno}}" class="form-control moneySql"/>
 		</div>
 	</div>
 
@@ -32,7 +32,7 @@
 
 	<div class="form-group">
 		<label>Valor grande</label>
-		<input type="text" name="valor_grande" value="{{$p->valor_grande}}" class="form-control"/>
+		<input type="text" name="valor_grande" value="{{$p->valor_grande}}" class="form-control moneySql"/>
 	</div>
 	</div>
 </div>
@@ -49,12 +49,21 @@
 
 
 
-
-
 	<button type="submit" class="btn btn-primary">Salvar</button>
 
 	</form>
 </div>
+
+	@section('scripts')
+	    @parent
+		
+		<script type="text/javascript">
+
+			$('.moneySql').mask('00.00', {reverse: true});
+
+		</script>
+
+	@stop
 
 
 @stop
