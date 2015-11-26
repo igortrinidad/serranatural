@@ -166,6 +166,8 @@
 							<p>
 							@if(substr($pagamento->comprovante, -3) == 'pdf' OR substr($pagamento->comprovante, -3) == 'PDF')
 							<a target="_blank" href="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}"><STRONG>PDF</STRONG></a>
+							@elseif(is_null($pagamento->comprovante) OR empty($pagamento->comprovante))
+							--
 							@else
 							<a href="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}" data-lightbox="property">
 								<img src="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}" width="300" />
