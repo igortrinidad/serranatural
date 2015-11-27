@@ -242,7 +242,6 @@ class ClienteController extends Controller
             'prato' => $prato,
             'nomeCliente' => $cliente->nome,
             'emailCliente' => $cliente->email,
-            'pathToImage' => 'https//admin.serranatural.com/arquivos/produtos/' . $prato->foto,
             ];
 
                     Mail::queue('emails.marketing.pratoNovo', $dados, function ($message) use ($cliente, $dados)
