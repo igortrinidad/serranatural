@@ -83,9 +83,9 @@
 					<td>{{$li->nome}}</td>
 					<td>{{$li->email}}</td>
 					<td>{{$li->telefone}}</td>
-					<td class="text-center"><a href="/admin/clientes/{{$li->id}}/mostra"><i class="fa fa-search"></i></a></td>
-					<td class="text-center"><a href="/admin/clientes/excluir/{{$li->id}}"><i class="fa fa-trash"></i></a></td>
-					<td>
+					<td class="text-center" width="10%"><a href="/admin/clientes/{{$li->id}}/mostra"><i class="fa fa-search"></i></a></td>
+					<td class="text-center" width="10%"><a href="/admin/clientes/excluir/{{$li->id}}"><i class="fa fa-trash"></i></a></td>
+					<td class="text-center" width="10%">
 					@if($li->opt_email == 1)
 						<a href="/admin/clientes/sairEmail/{{$li->id}}"><i class="fa fa-check-square-o"></i></a>
 					@else
@@ -93,7 +93,7 @@
 					@endif
 
 					</td>
-					<td class="text-center"><a href="/admin/clientes/enviaPrato/{{$li->id}}"><i class="fa fa-envelope-o"></i></a></td>
+					<td class="text-center" width="10%"><a href="/admin/clientes/enviaPrato/{{$li->id}}"><i class="fa fa-envelope-o"></i></a></td>
 				</tr>	
 		@endforeach
 			</table>
