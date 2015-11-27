@@ -53,6 +53,11 @@ return [
             'root'   => storage_path('app/financeiro/aPagar'),
         ],
 
+        'produtos' => [
+            'driver' => 'local',
+            'root'   => storage_path('app/produtos'),
+        ],
+
         'pagamentos' => [
             'driver' => 'local',
             'root'   => storage_path('app/financeiro/pagamentos'),

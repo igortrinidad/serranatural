@@ -228,38 +228,50 @@ class ClienteController extends Controller
         $pratoDoDia = AgendaPratos::where('dataStamp', '=', date('Y-m-d'))
                                     ->first();
 
-        $cliente = Cliente::find($id)->first();
+        if(!is_null($pratoDoDia) OR !empty($pratoDoDia))
+        {
 
-        $prato = Pratos::where('id', '=', $pratoDoDia->pratos_id)->first();
+            $cliente = Cliente::find($id)->first();
 
-        set_time_limit(900);
+            $prato = Pratos::where('id', '=', $pratoDoDia->pratos_id)->first();
 
-        $dados = [
+            set_time_limit(900);
 
-        'prato' => $prato,
-        'nomeCliente' => $cliente->nome,
-        'emailCliente' => $cliente->email,
+            $dados = [
 
-        ];
+            'prato' => $prato,
+            'nomeCliente' => $cliente->nome,
+            'emailCliente' => $cliente->email,
 
-                Mail::queue('emails.marketing.pratoNovo', $dados, function ($message) use ($cliente, $dados)
-                {
+            ];
 
-                    $message->to($cliente->email, $cliente->nome);
-                    $message->from('mkt@serranatural.com', 'Serra Natural');
-                    $message->subject('Cardápio do dia');
-                    $message->getSwiftMessage();
+                    Mail::queue('emails.marketing.pratoNovo', $dados, function ($message) use ($cliente, $dados)
+                    {
 
-                });
+                        $message->to($cliente->email, $cliente->nome);
+                        $message->from('mkt@serranatural.com', 'Serra Natural');
+                        $message->subject('Cardápio do dia');
+                        $message->getSwiftMessage();
 
-            
+                    });
+
+                
+
+            $data = [
+                'msg_retorno' => 'Email enviado com sucesso',
+                'tipo_retorno' => 'success',
+            ];
+
+            return back()->with($data);
+
+        }
 
         $data = [
-            'msg_retorno' => 'Email enviado com sucesso',
-            'tipo_retorno' => 'success',
-        ];
+                'msg_retorno' => 'Prato do dia não localizado',
+                'tipo_retorno' => 'danger',
+            ];
 
-        return back()->with($data);
+            return back()->with($data);
 
     }
 

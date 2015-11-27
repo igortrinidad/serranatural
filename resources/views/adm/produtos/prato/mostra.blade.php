@@ -12,51 +12,51 @@
 	@endif
 
 	<div class="panel panel-default">
-		<div class="panel-heading"><h5>Display</h5></div>
+		<div class="panel-heading">
+		<h5>Prato</h5>
+		</div>
 		<div class="panel-body">
-
-
-		<div class="form-group">
+			
+			<div class="col-md-6">
+		
 			<label>Nome</label>
 			<p>{{$prato->prato}}</p>
-		</div>
-		<div class="form-group">
+
 			<label>Acompanhamentos</label>
 			<p>{!!nl2br($prato->acompanhamentos)!!}</p>
-		</div>
+
+
+			<label>Preço pequeno</label>
+			<p>R$ {{number_format($prato->valor_pequeno, 2, ',', '.')}}</p>
+
+			<label>Preço grande</label>
+			<p>R$ {{number_format($prato->valor_grande, 2, ',', '.')}}</p>
+
+			</div>
+
+			<div class="col-md-6">
+
+			<img class="img-polaroid" src="{{ route('arquivos.produtos', $prato->foto)}}" width="300" />
+			<br><br>
+
+			<label>Titulo foto</label>
+			<p>{{$prato->titulo_foto}}</p>
+			</div>
+
 			
-		<div class="form-group">
-			<label>Modo de preparo</label>
-			<p>{!!nl2br($prato->modo_preparo)!!}</p>
+			<a href="/admin/produtos/pratos/edita/{{$prato->id}}" class="btn btn-primary">Editar<i class="fa fa-pencil"></i></a>
+			<a href="/admin/produtos/pratos/excluir/{{$prato->id}}" class="btn btn-danger">Excluir<i class="fa fa-trash"></i></a>
+
 		</div>
-
-		<table class="table table-bordered table-hover table-striped">
-		    <thead>
-		        <tr>
-		            <th>Preço pequeno</th>
-		            <th>Preço grande</th>
-		        </tr>
-		    </thead>
-		    <tbody>
-		        <tr>
-		            <th>R$ {{number_format($prato->valor_pequeno, 2, ',', '.')}}</th>
-		            <th>R$ {{number_format($prato->valor_grande, 2, ',', '.')}}</th>
-		        </tr>
-		    </tbody>
-		</table>
-
-		<a href="/admin/produtos/pratos/edita/{{$prato->id}}" class="btn btn-primary">Editar<i class="fa fa-pencil"></i></a>
-		<a href="/admin/produtos/pratos/excluir/{{$prato->id}}" class="btn btn-danger">Excluir<i class="fa fa-trash"></i></a>
-
 	</div>
-</div>
-
-</div>
 
 
 	<div class="panel panel-default">
-		<div class="panel-heading"><h5>Ingredientes</h5></div>
+		<div class="panel-heading"><h5>Preparo</h5></div>
 		<div class="panel-body">
+
+			<label>Modo de preparo</label>
+			<p>{!!nl2br($prato->modo_preparo)!!}</p>
 
 			<table class="table table-bordered">
 				<thead>

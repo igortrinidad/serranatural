@@ -189,6 +189,23 @@ Equipe Serra Natural.
                 
                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse:collapse">
                     <tbody>
+                        
+                        @if($prato['foto'] != '')
+                            <tr>
+                                <td valign="top" style="padding-top:9px;padding-right:18px;padding-bottom:1px;padding-left:18px;word-break:break-word;color:#212223;">
+                            
+                                <h1 style="text-align:center;display:block;">
+                                    
+                                <img class="img-polaroid" src="{{ route('arquivos.produtos', $prato->foto)}}" width="70%" />
+                                <br>
+                                <p style="font-family:Georgia;font-size:12px;font-style:normal;font-weight:normal;line-height:125%;color:#212223!important;margin-top:5px;">Prato da foto: <b>{{$prato['titulo_foto']}}</b></p>
+                                <p style="font-family:Georgia;font-size:12px;font-style:normal;font-weight:normal;line-height:125%;color:#212223!important;margin-top:5px;">Imagens meramente ilustrativas</p>
+
+                                </td>
+                            </tr>
+                        @endif
+
+
                         <tr>
                             <td valign="top" style="padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#212223;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
                         
@@ -207,7 +224,7 @@ Equipe Serra Natural.
     </tbody>
 </table></td>
 
-                                                                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;border-collapse:collapse;table-layout:fixed!important">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;border-collapse:collapse;table-layout:fixed!important">
     <tbody>
         <tr>
             <td style="min-width:100%;padding:18px">
@@ -217,57 +234,62 @@ Equipe Serra Natural.
                             <span></span>
                         </td>
                     </tr>
-   </tbody>
-</table>
+                </tbody>
+            </table>
 
-            </td>
-        </tr>
-    </tbody>
+        </td>
+    </tr>
+</tbody>
 </table>
 
 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
     <tbody>
         <tr>
             <td valign="top">
-                
+
                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="282" style="border-collapse:collapse">
                     <tbody>
 
                         <tr>
-                            
+
                             <td valign="top" style="padding:9px 0px 9px 18px;line-height:normal;word-break:break-word;color:#212223;font-family:Helvetica;font-size:16px;text-align:left">
-                            
+
                                 <div style="text-align:center">Pequeno<br>
-    <br>
-    <strong><span style="font-size:24px">R$ {!! isset($prato) ? number_format($prato['valor_pequeno'], 2, ',', '.') : 'valor_pequeno' !!}</span></strong></div>
+                                    <br>
+                                    <strong><span style="font-size:24px">R$ {!! isset($prato) ? number_format($prato['valor_pequeno'], 2, ',', '.') : 'valor_pequeno' !!}</span></strong></div>
 
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table align="right" border="0" cellpadding="0" cellspacing="0" width="282" style="border-collapse:collapse">
+                        <tbody>
+                            <tr>
+
+                                <td valign="top" style="padding:9px 18px 9px 0px;line-height:normal;word-break:break-word;color:#212223;font-family:Helvetica;font-size:16px;text-align:left">
+
+                                    <div style="text-align:center"><span style="line-height:20.8px;text-align:center">Grande</span><br>
+                                        &nbsp;</div>
+
+                                        <div style="text-align:center"><strong style="line-height:20.8px;text-align:center"><span style="font-size:24px">R$ {!! isset($prato) ? number_format($prato['valor_grande'], 2, ',', '.') : 'valor_grande' !!}</span></strong></div>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </tr>
                 </tbody>
-              </table>
-
-                <table align="right" border="0" cellpadding="0" cellspacing="0" width="282" style="border-collapse:collapse">
-                    <tbody>
-                        <tr>
-                        
-                            <td valign="top" style="padding:9px 18px 9px 0px;line-height:normal;word-break:break-word;color:#212223;font-family:Helvetica;font-size:16px;text-align:left">
-                            
-                                <div style="text-align:center"><span style="line-height:20.8px;text-align:center">Grande</span><br>
-    &nbsp;</div>
-
-    <div style="text-align:center"><strong style="line-height:20.8px;text-align:center"><span style="font-size:24px">R$ {!! isset($prato) ? number_format($prato['valor_grande'], 2, ',', '.') : 'valor_grande' !!}</span></strong></div>
-
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-
-        </tr>
-    </tbody>
-</table>
+            </table>
 
 <br>
+
+
+
+
+
+
                                                                         
                                                                     </td>
                                                                 </tr>
@@ -313,7 +335,7 @@ Alameda do Ingá, 754 - Vila da Serra - Nova Lima<br>
 <a href="mailto:mkt@serranatural.com" target="_blank">mkt@serranatural.com</a><br>
 <br>
 Não quer mais receber nossos e-mails?<br>
-<strong><a href="{{ url().'/me/'.$emailCliente }}" target="_blank">Clique aqui</a> e altere suas preferências de recebimento.
+<strong><a href="{{ url().'/me/' }}" target="_blank">Clique aqui</a> e altere suas preferências de recebimento.
                         </td>
                     </tr>
                 </tbody></table>

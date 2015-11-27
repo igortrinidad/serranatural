@@ -10,7 +10,7 @@
 	<div class="panel-body">
 
 
-	<form action="/admin/produtos/pratos/edita/{{$p->id}}" method="POST" class="form-group">
+	<form action="/admin/produtos/pratos/edita/{{$p->id}}" method="POST" class="form-group" enctype="multipart/form-data">
 	
 		<input type="hidden" name="_token" value="{{{ csrf_token() }}}"/>
 
@@ -39,7 +39,17 @@
 
 	<div class="form-group">
 		<label>Acompanhamentos</label>
-		<textarea type="textarea" rows="5" name="acompanhamento" class="form-control">{!!$p->acompanhamentos!!}</textarea>
+		<textarea type="textarea" rows="5" name="acompanhamentos" class="form-control">{!!$p->acompanhamentos!!}</textarea>
+	</div>
+
+	<div class="form-group">
+		<label>Foto</label>
+		<input type="file" name="foto" class="form-control">
+	</div>
+
+	<div class="form-group">
+		<label>Titulo foto</label>
+		<input type="text" name="titulo_foto" class="form-control">
 	</div>
 
 	<div class="form-group">

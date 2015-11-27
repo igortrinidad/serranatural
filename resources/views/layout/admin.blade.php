@@ -304,7 +304,11 @@
                             <a href="#"><i class="fa fa-th-list"></i> Pratos<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="/admin/produtos/pratos/lista">Pratos do Dia</a>
+                                    <a href="{{route('produtos.pratos.add')}}">Adiciona</a>
+                                </li>
+
+                                <li>
+                                    <a href="/admin/produtos/pratos/lista">Lista pratos</a>
                                 </li>
                                 <li>
                                     <a href="/admin/produtos/pratosSemana">Agenda Pratos</a>

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use serranatural\Http\Requests;
 
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use serranatural\Http\Controllers\Controller;
 use Mail;
 
@@ -86,15 +88,23 @@ class ProdutosController extends Controller
     {
         $id = $request->id;
 
-        $prato = Pratos::where('id', '=', $id)
-        ->update([
-            'prato' => $request->prato,
-            'acompanhamentos' => $request->acompanhamento,
-            'modo_preparo' => $request->modo_preparo,
-            'valor_pequeno' => $request->valor_pequeno,
-            'valor_grande' => $request->valor_grande,
+        $prato = Pratos::find($id);
 
-            ]);
+        $prato->prato = $request->prato;
+        $prato->acompanhamentos = $request->acompanhamentos;
+        $prato->modo_preparo = $request->modo_preparo;
+        $prato->valor_pequeno = $request->valor_pequeno;
+        $prato->valor_grande = $request->valor_grande;
+
+        if(!is_null($request->file('foto')) OR !empty($request->file('foto')))
+        {
+        //Salva arquivo pagamento e seta o nome no banco.
+            $nomeArquivos = $this->salvaArquivosProdutos($request->file('foto'), '_PratoID_' . $id);
+            $prato->foto = $nomeArquivos;
+            $prato->titulo_foto = $request->titulo_foto;
+        }
+
+        $prato->save();
 
         $dados = [
 
@@ -135,6 +145,14 @@ class ProdutosController extends Controller
     public function salvaPrato(Request $request)
     {
         $prato = Pratos::create($request->all());
+
+        if(!is_null($request->file('foto')) OR !empty($request->file('foto')))
+        {
+        //Salva arquivo pagamento e seta o nome no banco.
+            $nomeArquivos = $this->salvaArquivosProdutos($request->file('foto'), '_PratoID_' . $prato->id);
+            $prato->foto = $nomeArquivos;
+            $prato->save();
+        }
 
         $cliente = Cliente::get();
 
@@ -405,6 +423,17 @@ class ProdutosController extends Controller
 
         }
         
+    }
+
+    public function salvaArquivosProdutos($arquivo, $prefix)
+    {
+
+        $extArquivo = $arquivo->getClientOriginalExtension();
+        $nomeArquivo =  $prefix . '.' . $extArquivo;
+        $salvaArquivo = Storage::disk('produtos')->put($nomeArquivo,  File::get($arquivo));
+
+        return $nomeArquivo;
+
     }
 
     public function enviaPratoDoDia(Request $request)

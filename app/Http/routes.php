@@ -106,28 +106,33 @@ Route::group(['as' => 'promocoes.'], function()
 	Route::post('admin/promocoes/salvaSorteado', ['as' => 'salvaSorteado', 'uses' => 'PromocoesController@salvaSorteado']);
 });
 
-Route::get('/admin/produtos/pratos/lista', 'ProdutosController@indexPrato');
-Route::get('/admin/produtos/pratos/mostra/{id}', 'ProdutosController@mostraPrato');
-Route::get('/admin/produtos/pratos/edita/{id}', 'ProdutosController@editaPrato');
-Route::post('/admin/produtos/pratos/edita/{id}', 'ProdutosController@updatePrato');
-Route::get('/admin/produtos/pratos/ativar/{id}', 'ProdutosController@ativarPrato');
-Route::get('/admin/produtos/pratos/desativar/{id}', 'ProdutosController@desativarPrato');
-Route::get('/admin/produtos/pratos/excluir/{id}', 'ProdutosController@destroyPrato');
+Route::group(['as' => 'produtos.'], function()
+{
+	Route::group(['as' => 'pratos.'], function()
+	{
+		Route::get('/admin/produtos/pratos/lista', ['as' => 'lista', 'uses' => 'ProdutosController@indexPrato']);
+		Route::get('/admin/produtos/pratos/add', ['as' => 'add', 'uses' =>'ProdutosController@createPrato']);
+		Route::get('/admin/produtos/pratos/mostra/{id}', 'ProdutosController@mostraPrato');
+		Route::get('/admin/produtos/pratos/edita/{id}', 'ProdutosController@editaPrato');
+		Route::post('/admin/produtos/pratos/edita/{id}', 'ProdutosController@updatePrato');
+		Route::get('/admin/produtos/pratos/ativar/{id}', 'ProdutosController@ativarPrato');
+		Route::get('/admin/produtos/pratos/desativar/{id}', 'ProdutosController@desativarPrato');
+		Route::get('/admin/produtos/pratos/excluir/{id}', 'ProdutosController@destroyPrato');
 
-//Pratos
-Route::post('/admin/produtos/salvaPratos', 'ProdutosController@salvaPrato');
-Route::post('/admin/produtos/pratos/ingredientes/add', 'ReceitasController@addIngrediente');
-Route::post('/admin/produtos/ingrediente/editar/{id}', 'ReceitasController@editaIngrediente');
-Route::get('/admin/produtos/ingrediente/excluir/{id}', 'ReceitasController@excluiIngrediente');
+		//Pratos
+		Route::post('/admin/produtos/salvaPratos', 'ProdutosController@salvaPrato');
+		Route::post('/admin/produtos/pratos/ingredientes/add', 'ReceitasController@addIngrediente');
+		Route::post('/admin/produtos/ingrediente/editar/{id}', 'ReceitasController@editaIngrediente');
+		Route::get('/admin/produtos/ingrediente/excluir/{id}', 'ReceitasController@excluiIngrediente');
 
-Route::get('/admin/produtos/pratosSemana', 'ProdutosController@semanaIndex');
-Route::post('/admin/produtos/salvaPratoSemana', 'ProdutosController@salvaPratoSemana');
-Route::get('/admin/produtos/excluiPratoSemana/{id}', 'ProdutosController@excluiPratoSemana');
-Route::post('/admin/produtos/addPratoSemana/{id}', 'ProdutosController@addPratoSemana');
-Route::post('/admin/produtos/enviaPratoDoDia', 'ProdutosController@enviaPratoDoDia');
+		Route::get('/admin/produtos/pratosSemana', 'ProdutosController@semanaIndex');
+		Route::post('/admin/produtos/salvaPratoSemana', 'ProdutosController@salvaPratoSemana');
+		Route::get('/admin/produtos/excluiPratoSemana/{id}', 'ProdutosController@excluiPratoSemana');
+		Route::post('/admin/produtos/addPratoSemana/{id}', 'ProdutosController@addPratoSemana');
+		Route::post('/admin/produtos/enviaPratoDoDia', 'ProdutosController@enviaPratoDoDia');
+	});
 
-
-
+});
 
 
 
@@ -165,6 +170,20 @@ Route::get('image/pagamentos/{filename}', ['as' => 'image.pagamentos', function 
 Route::get('arquivos/pagamentos/{filename}', ['as' => 'arquivos.pagamentos', function ($filename)
 	{
 	    $path = storage_path() . '/app/financeiro/pagamentos/' . $filename;
+
+	    $file = File::get($path);
+	    $type = File::mimeType($path);
+
+	    $response = Response::make($file, 200);
+	    $response->header("Content-Type", $type);
+
+	    return $response;
+	}]
+	);
+
+Route::get('arquivos/produtos/{filename}', ['as' => 'arquivos.produtos', function ($filename)
+	{
+	    $path = storage_path() . '/app/produtos/' . $filename;
 
 	    $file = File::get($path);
 	    $type = File::mimeType($path);
