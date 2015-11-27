@@ -7,6 +7,8 @@ use serranatural\Http\Requests;
 use serranatural\Http\Controllers\Controller;
 
 use serranatural\Models\Cliente;
+use serranatural\Models\Pratos;
+use serranatural\Models\AgendaPratos;
 
 use Mail;
 
@@ -121,5 +123,23 @@ class TesteController extends Controller
             ];
 
             return $dados;
+    }
+
+    public function testeEmail()
+    {
+
+        $pratoDoDia = AgendaPratos::where('dataStamp', '=', date('Y-m-d'))
+                                    ->first();
+
+        $prato = Pratos::where('id', '=', $pratoDoDia->pratos_id)->first();
+
+        $dados = [
+
+        'prato' => $prato,
+
+            ];
+
+        return view('emails.marketing.pratoNovo')->with($dados);
+
     }
 }

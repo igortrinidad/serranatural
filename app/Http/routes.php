@@ -151,10 +151,7 @@ Route::get('/me/{email}', [
 // Rotas para teste
 Route::group(['as' => 'teste.', 'prefix' => 'teste'], function()
 {
-	Route::get('', function () 
-	{
-		return view('emails/marketing/pratoNovo');
-	});
+	Route::get('', ['as' => 'teste', 'uses' => 'TesteController@testeEmail']);
     Route::post('testeApi', ['as' => 'testeApi', 'uses' => 'ClienteController@testeApi']);
 	Route::post('summernote', ['as' => 'summernote', 'uses' => 'TesteController@summernote']);
 	Route::get('index', ['as' => 'index', 'uses' => 'TesteController@index']);
