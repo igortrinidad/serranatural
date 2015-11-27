@@ -196,7 +196,7 @@ Equipe Serra Natural.
                             
                                 <h1 style="text-align:center;display:block;">
                                 <a href="https://admin.serranatural.com/arquivos/produtos/{{ $prato['foto'] }}" target="_blank">
-                                    <img alt="Não abriu? Clique aqui para ver a foto." title="Não abriu? Clique aqui para ver a foto" src="https://admin.serranatural.com/arquivos/produtos/{{ $prato['foto'] }}" width="300px" style="display:block;max-width:300px;border:0;min-height:auto;outline:none;text-decoration:none;vertical-align:bottom" class="CToWUd">
+                                    <img alt="Não abriu? Clique aqui para ver a foto." title="Não abriu? Clique aqui para ver a foto" src="https://admin.serranatural.com/arquivos/produtos/{{ $prato['foto'] }}" width="300px">
                                 </a>
                                 <br>
                                 <p style="font-family:Georgia;font-size:12px;font-style:normal;font-weight:normal;line-height:125%;color:#212223!important;margin-top:5px;">Prato da foto: <b>{{$prato['titulo_foto']}}</b></p>
