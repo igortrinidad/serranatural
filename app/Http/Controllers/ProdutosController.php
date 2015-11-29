@@ -205,53 +205,45 @@ class ProdutosController extends Controller
 
         $agenda = AgendaPratos::orderBy('dataStamp', 'ASC')->get();
 
-        $votos = Voto::select(DB::raw('pratos_id, COUNT(*) as qtdVoto'))
-                     ->from('votacaoPratosDoDia')
-                     ->join('promocoes', 'votacaoPratosDoDia.promocaoID', '=', 'promocoes.id')
-                     ->where('promocoes.ativo', '=', 1)
-                     ->groupBY('pratos_id')
-                     ->orderBY('qtdVoto', 'DESC')
-                     ->take(5)
-                     ->get();
+       // $votos = Voto::select(DB::raw('pratos_id, COUNT(*) as qtdVoto'))
+       //              ->from('votacaoPratosDoDia')
+       //              ->join('promocoes', 'votacaoPratosDoDia.promocaoID', '=', 'promocoes.id')
+       //              ->where('promocoes.ativo', '=', 1)
+       //              ->groupBY('pratos_id')
+       //              ->orderBY('qtdVoto', 'DESC')
+       //              ->take(5)
+       //              ->get();
 
 
-        $totalVotos = DB::table('votacaoPratosDoDia')
-                     ->select(DB::raw('pratos_id, COUNT(*) as total'))
-                     ->from('votacaoPratosDoDia')
-                     ->join('promocoes', 'votacaoPratosDoDia.promocaoID', '=', 'promocoes.id')
-                     ->where('promocoes.ativo', '=', 1)
-                     ->first();
+       // $totalVotos = DB::table('votacaoPratosDoDia')
+       //              ->select(DB::raw('pratos_id, COUNT(*) as total'))
+       //              ->from('votacaoPratosDoDia')
+       //              ->join('promocoes', 'votacaoPratosDoDia.promocaoID', '=', 'promocoes.id')
+       //              ->where('promocoes.ativo', '=', 1)
+       //              ->first();
 
-        $votosGeral = Voto::select(DB::raw('pratos_id, COUNT(*) as qtdVoto'))
-             ->from('votacaoPratosDoDia')
-             ->groupBY('pratos_id')
-             ->orderBY('qtdVoto', 'DESC')
-             ->take(5)
-             ->get();
+       // $votosGeral = Voto::select(DB::raw('pratos_id, COUNT(*) as qtdVoto'))
+       //      ->from('votacaoPratosDoDia')
+       //      ->groupBY('pratos_id')
+       //      ->orderBY('qtdVoto', 'DESC')
+       //      ->take(5)
+       //      ->get();
 
-        $totalVotosGeral = DB::table('votacaoPratosDoDia')
-                     ->select(DB::raw('pratos_id, COUNT(*) as total'))
-                     ->from('votacaoPratosDoDia')
-                     ->first();
+       // $totalVotosGeral = DB::table('votacaoPratosDoDia')
+       //              ->select(DB::raw('pratos_id, COUNT(*) as total'))
+       //              ->from('votacaoPratosDoDia')
+       //              ->first();
         
-
+        $pratosForSelect = $this->pratosForSelect();
 
         return view('adm/produtos/prato/pratosSemana')->with(
             ['pratos' => $pratos, 
             'agenda' => $agenda,
-            'votos' => $votos,
-            'totalVotos' => $totalVotos,
-            'votosGeral' => $votosGeral,
-            'totalVotosGeral' => $totalVotosGeral,
+            'pratosForSelect' => $pratosForSelect,
             ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
+
     public function salvaPratoSemana(Request $request)
     {
         $dataMysql = dataPtBrParaMysql($request->get('dataStr'));
@@ -517,5 +509,33 @@ class ProdutosController extends Controller
         ];
 
         return back()->with($data);
+    }
+
+        public function pratosForSelect()
+    {
+        $clientes = Pratos::all();
+        $result = array();
+
+        foreach($clientes as $key => $value) {
+            $result[$value->id] = $value->id.' - '.$value->prato . ' - ' . $value->valor_pequeno . ' - ' . $value->valor_grande;
+        }
+
+        return $result;
+    }
+
+    public function consultaPrato(Request $request)
+    {
+        $prato = Pratos::where('id', '=', $request->id)->first();
+
+        $return = [
+            'prato' => $prato->prato,
+            'acompanhamentos' => $prato->acompanhamentos,
+            'valor_pequeno' => $prato->valor_pequeno,
+            'valor_grande' => $prato->valor_grande,
+            'foto' => $prato->foto,
+            'titulo_foto' => $prato->titulo_foto,
+        ];
+
+        return $return;
     }
 }

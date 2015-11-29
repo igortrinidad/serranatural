@@ -118,6 +118,7 @@ Route::group(['as' => 'produtos.'], function()
 		Route::get('/admin/produtos/pratos/ativar/{id}', 'ProdutosController@ativarPrato');
 		Route::get('/admin/produtos/pratos/desativar/{id}', 'ProdutosController@desativarPrato');
 		Route::get('/admin/produtos/pratos/excluir/{id}', 'ProdutosController@destroyPrato');
+		Route::post('/admin/produtos/pratos/consultaPrato', 'ProdutosController@consultaPrato');
 
 		//Pratos
 		Route::post('/admin/produtos/salvaPratos', 'ProdutosController@salvaPrato');
