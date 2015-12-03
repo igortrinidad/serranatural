@@ -34,6 +34,9 @@
                         </a>
                     </div>
                 </div>
+</div>
+
+<div class="row">
 
                 @if(isset($pratoHoje))
                 <div class="col-lg-6 col-md-6">
@@ -41,7 +44,7 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-exclamation-triangle fa-5x"></i>
+                                    <i class="fa fa-cutlery fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">{{isset($pratoHoje) ? $pratoHoje->prato : ''}}</div>
@@ -66,7 +69,7 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-exclamation-triangle fa-5x"></i>
+                                    <i class="fa fa-cutlery fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">{{isset($pratoAmanha) ? $pratoAmanha->prato : ''}}</div>
