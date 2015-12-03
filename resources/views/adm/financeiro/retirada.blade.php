@@ -16,30 +16,37 @@
 			<div class="panel-heading"></div>
 			<div class="panel-body">
 
-			<div class="col-md-6">
+			<form action="{{ route('admin.financeiro.retiradaPost')}}" method="POST">
 
-				<div class="form-group">
-					<label>Descrição</label>
-					<input type="text" name="descricao" class="form-control" />
+				{{ csrf_field() }}
+
+				<div class="col-md-6">
+
+					<div class="form-group">
+						<label>Descrição</label>
+						<input type="text" name="descricao" class="form-control" />
+					</div>
+
+					<div class="form-group">
+						<label>Valor</label>
+						<input type="text" name="valor" class="form-control maskValor" />
+					</div>
+
+	                <div class="form-group">
+	                	<input type="hidden" name="retirado_caixa" value="0" />
+	                    <input type="checkbox" name="retirado_caixa" value="1" class="checkbox" checked/>
+	                    <p>Valor retirado do caixa?</p>
+	                </div>
+				
+					<div class="form-group">
+						{!! Form::select('funcionario_id', $funcionarios, null, ['class' => 'form-control', 
+						'single' => 'single', 'id' => 'funcionarios', 'placeholder' => 'Selecione um funcionario'])   !!}
+					</div>
+
+					<button type="submit" class="btn btn-block btn-primary">Dar retirada</button>
 				</div>
 
-				<div class="form-group">
-					<label>Valor</label>
-					<input type="text" name="valor" class="form-control" />
-				</div>
-
-				<div class="form-group">
-					<label>Transporte</label>
-					<input type="text" name="transporte" class="form-control" />
-				</div>
-			
-				<div class="form-group">
-
-					{!! Form::select('id', $funcionarios, null, ['class' => 'form-control', 
-					'single' => 'single', 'id' => 'funcionarios', 'placeholder' => 'Selecione um funcionario'])   !!}
-				</div>
-
-			</div>
+			</form>
 			
 </div>
 
@@ -53,6 +60,8 @@
 var $funcionarios = $('#funcionarios')
 
 	$funcionarios.select2();
+
+	$('.maskValor').mask("0000.00", {reverse: true});
 
 </script>
 

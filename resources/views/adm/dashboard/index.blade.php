@@ -34,7 +34,58 @@
                         </a>
                     </div>
                 </div>
-            </div>
+
+                @if(isset($pratoHoje))
+                <div class="col-lg-6 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-exclamation-triangle fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{isset($pratoHoje) ? $pratoHoje->prato : ''}}</div>
+                                    <div>Prato de HOJE</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="/admin/produtos/pratosSemana">
+                            <div class="panel-footer">
+                                <span class="pull-left">Confira</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                @endif
+
+                @if(isset($pratoAmanha))
+                <div class="col-lg-6 col-md-6">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-exclamation-triangle fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{isset($pratoAmanha) ? $pratoAmanha->prato : ''}}</div>
+                                    <div>Prato de Amanhã</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="/admin/produtos/pratosSemana">
+                            <div class="panel-footer">
+                                <span class="pull-left">Confira</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                @endif
+
+</div>
 
 
 

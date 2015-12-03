@@ -2,7 +2,7 @@
 
 @section('conteudo')
 
-<h1 class="text-right">Adiciona novo prato</h1>
+<h1 class="text-right">Pratos do dia</h1>
 
 	@if(Session::has('msg_retorno'))
 	<div class="alert alert-{{Session::get('tipo_retorno')}}">
@@ -11,7 +11,7 @@
 	@endif
 
 <div class="panel panel-default">
-	<div class="panel-heading"><h5>Agendar Pratos</h5></div>
+	<div class="panel-heading"><h5>Lista de pratos</h5></div>
 		<div class="panel-body">
         <div class="row">
           <div class="col-md-10">

@@ -15,11 +15,12 @@ class Retirada extends Model
 
     protected $fillable = [
     						'id',
-    						'user_id',
+                            'user_id',
     						'caixa_id',
+    						'funcionario_id',
     						'descricao',
+                            'valor',
     						'motivo',
-    						'valor',
     					];
 
     public function getCreatedAtAttribute($value)
@@ -27,7 +28,19 @@ class Retirada extends Model
         return date('d/m/Y H:i:s', strtotime($value));
     }
 
-    public function retiradas(){
-        return $this->hasMany('serranatural\Models\Retirada');
+    public function funcionario()
+    {
+        return $this->belongsTo('serranatural\Models\Funcionario', 'funcionario_id', 'id');
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo('serranatural\User', 'user_id', 'id');
+    }
+
+    public function caixa()
+    {
+        return $this->belongsTo('serranatural\Models\Caixa', 'caixa_id', 'id');
     }
 }
+

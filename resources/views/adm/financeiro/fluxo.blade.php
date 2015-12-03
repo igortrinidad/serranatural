@@ -55,7 +55,7 @@
 
 					<div class="form-group">
 						<label>Total de retiradas</label>
-						<input type="text" name="total_retirada" value="{{$caixa->total_retirada}}" class="form-control maskValor" />
+						<div class="btn btn-default btn-block" id="total_retirada">{{$caixa->total_retirada}}</div>
 					</div>
 
 
@@ -188,11 +188,17 @@
 							        </tr>
 							    </thead>
 							    <tbody>
+							    	@foreach($caixa->retiradas as $retirada)
 							        <tr>
-							            <th></th>
-							            <th></th>
-							            <th></th>
+							            <th>{{$retirada->descricao}} 
+							            	@if(isset($retirada->funcionario->nome))
+							            		({{$retirada->funcionario->nome}})
+							            	@endif
+							            </th>
+							            <th>{{$retirada->valor}}</th>
+							            <th>{{$retirada->usuario->name}}</th>
 							        </tr>
+							        @endforeach
 							    </tbody>
 							</table>
 
@@ -389,7 +395,7 @@ function calculaCaixa()
 	var vendasRede = parseFloat($("input[name='vendas_rede']").val());
 	var vendasCielo = parseFloat($("input[name='vendas_cielo']").val());
 	var vrAbertura = parseFloat($("#vr_abertura").text());
-	var totalRetirada = parseFloat($("input[name='total_retirada']").val());
+	var totalRetirada = parseFloat($("#total_retirada").text());
 	var emCaixa = parseFloat($("#fundo_caixa").val());
 	var vendasTotalCartao = vendasCielo + vendasRede;
 	var diferencaCartoes = vendasTotalCartao - vendasCard;

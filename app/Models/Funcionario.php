@@ -27,4 +27,11 @@ class Funcionario extends Model
     							'dt_inicio',
     							'foto'
     							);
+
+
+    public function retirada()
+    {
+        return $this->hasMany('serranatural\Models\Retirada');
+    }
 }
+

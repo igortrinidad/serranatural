@@ -41,6 +41,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::post('financeiro/gravarCaixa', ['as' => 'gravarCaixa', 'uses' => 'FinanceiroController@gravarCaixa']);
 		Route::post('financeiro/fecharCaixa', ['as' => 'fecharCaixa', 'uses' => 'FinanceiroController@fecharCaixa']);
 		Route::get('financeiro/retirada', ['as' => 'retirada', 'uses' => 'FinanceiroController@retirada']);
+		Route::post('financeiro/retiradaPost', ['as' => 'retiradaPost', 'uses' => 'FinanceiroController@retiradaPost']);
 		Route::get('financeiro/pagamentos', ['as' => 'pagamentos', 'uses' => 'FinanceiroController@cadastraPgto']);
 		Route::post('financeiro/pagamentosPost', ['as' => 'pagamentosPost', 'uses' => 'FinanceiroController@storePgto']);
 		Route::get('financeiro/Pagar', ['as' => 'aPagar', 'uses' => 'FinanceiroController@listaAPagar']);
@@ -65,7 +66,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::post('funcioarios/adiciona', ['as' => 'store', 'uses' => 'FuncionariosController@store']);
 		Route::get('funcioarios/lista', ['as' => 'lista', 'uses' => 'FuncionariosController@lista']);
 		Route::get('funcioarios/{id}/detalhes', ['as' => 'detalhes', 'uses' => 'FuncionariosController@show']);
-		Route::get('funcioarios/{id}/edita', ['as' => 'edita', 'uses' => 'FuncionariosController@edit']);
+		Route::get('funcioarios/{id}/edita', ['as' => 'edit', 'uses' => 'FuncionariosController@edit']);
 		Route::post('funcioarios/{id}/update', ['as' => 'update', 'uses' => 'FuncionariosController@update']);
 
 	});

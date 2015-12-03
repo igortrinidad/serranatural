@@ -36,7 +36,7 @@ class FinanceiroController extends Controller
     public function indexFluxo()
     {
 
-        $caixa = Caixa::with('usuarioAbertura')->where('is_aberto', '=', 1)->first();
+        $caixa = Caixa::with('usuarioAbertura', 'retiradas')->where('is_aberto', '=', 1)->first();
 
         //dd($caixa);
 
@@ -262,7 +262,7 @@ class FinanceiroController extends Controller
         return $result;
     }
 
-    public function retirada(Request $request)
+    public function retirada()
     {
 
         $funcionarios = $this->funcionariosForSelect();
@@ -272,6 +272,41 @@ class FinanceiroController extends Controller
         ];
 
         return view('adm.financeiro.retirada')->with($dados);
+    }
+
+    public function retiradaPost(Request $request)
+    {
+
+        $retirada = new Retirada();
+
+        $retirada->user_id = \Auth::user()->id;
+        $retirada->valor = $request->valor;
+        $retirada->descricao = $request->descricao;
+        
+
+        if(!is_null($request->funcionario_id) OR !empty($request->funcionario_id))
+        {
+            $retirada->funcionario_id = $request->funcionario_id;
+        }
+
+        if($request->retirado_caixa == 1)
+        {
+            $caixa = Caixa::where('is_aberto', '=', 1)->first();
+            $caixa->total_retirada = $request->valor + $caixa->total_retirada;
+            $caixa->save();
+
+            $retirada->caixa_id = $caixa->id;
+            $retirada->retirado_caixa = $request->retirado_caixa;
+        }
+
+        $retirada->save();
+
+        $dados = [
+            'msg_retorno' => 'Retirada cadastrada com sucesso.',
+            'tipo_retorno' => 'success',
+        ];
+
+        return back()->with($dados);
     }
 
     public function cadastraPgto()

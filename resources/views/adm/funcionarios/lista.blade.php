@@ -19,7 +19,9 @@
 	            <th>Cargo</th>
 	            <th>Horario</th>
 	            <th>Telefone</th>
-	            <th>Detalhes</th>
+	            <th>Vr transporte</th>
+	            <th>Mostrar</th>
+	            <th>Edita</th>
 	        </tr>
 	    </thead>
 	    <tbody>
@@ -29,7 +31,9 @@
 	            <th>{{$funcionario->cargo}}</th>
 	            <th>{{$funcionario->horario_trabalho}}</th>
 	            <th>{{$funcionario->telefone}}</th>
-	            <th><a href="{{route('admin.funcionarios.detalhes', $funcionario->id)}}"><i class="fa fa-search"></i></a></th>
+	            <th class="text-center" width="12%">{{$funcionario->vr_transporte}}</th>
+	            <th class="text-center" width="8%"><a href="{{route('admin.funcionarios.detalhes', $funcionario->id)}}"><i class="fa fa-search"></i></a></th>
+	            <th class="text-center" width="8%"><a href="{{route('admin.funcionarios.edit', $funcionario->id)}}"><i class="fa fa-pencil"></i></a></th>
 		@endforeach
 	        </tr>
 	    </tbody>

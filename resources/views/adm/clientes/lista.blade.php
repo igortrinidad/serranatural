@@ -1,4 +1,4 @@
-field@extends('layout/admin')
+@extends('layout/admin')
 
 @section('conteudo')
 

@@ -22,8 +22,8 @@
 						<div class="col-md-6">
 
 
-
 							{!! csrf_field() !!}
+							<input type="hidden" name="id" value="{{isset($funcionario) ? $funcionario->id : ''}}" />
 
 							<div class="form-group">
 								<label>Nome completo</label>
@@ -47,17 +47,17 @@
 
 							<div class="form-group">
 								<label>Horario</label>
-								<input type="text" name="horario_trabalho" class="form-control" />
+								<input type="text" name="horario_trabalho" value="{{isset($funcionario) ? $funcionario->horario_trabalho : ''}}" class="form-control" />
 							</div>
 
 							<div class="form-group">
 								<label>Cargo</label>
-								<input type="text" name="cargo" class="form-control" />
+								<input type="text" name="cargo" value="{{isset($funcionario) ? $funcionario->cargo : ''}}" class="form-control" />
 							</div>
 
 							<div class="form-group">
 								<label>Observações</label>
-								<textarea name="observacoes" type="textarea" class="form-control"></textarea>
+								<textarea name="observacoes" type="textarea" value="{{isset($funcionario) ? $funcionario->observacoes : ''}}" class="form-control"></textarea>
 							</div>
 
 						</div>
@@ -66,44 +66,44 @@
 
 							<div class="form-group">
 								<label>Transporte</label>
-								<input type="text" name="transporte" class="form-control" />
+								<input type="text" name="transporte" value="{{isset($funcionario) ? $funcionario->transporte : ''}}" class="form-control" />
 							</div>
 
 							<div class="form-group">
 								<label>Valor Onibus</label>
-								<input type="text" name="vr_transporte" class="form-control" />
+								<input type="text" name="vr_transporte" value="{{isset($funcionario) ? $funcionario->vr_transporte : ''}}" class="form-control" />
 							</div>
 
 							<div class="form-group">
 								<label>Identidade</label>
-								<input type="text" name="identidade" class="form-control" />
+								<input type="text" name="identidade" value="{{isset($funcionario) ? $funcionario->identidade : ''}}" class="form-control" />
 							</div>
 
 							<div class="form-group">
 								<label>CPF</label>
-								<input type="text" name="cpf" class="form-control" />
+								<input type="text" name="cpf" value="{{isset($funcionario) ? $funcionario->cpf : ''}}" class="form-control" />
 							</div>
 
 							<div class="form-group">
 								<label>Salario</label>
-								<input type="text" name="vr_salario" class="form-control" />
+								<input type="text" name="vr_salario" value="{{isset($funcionario) ? $funcionario->vr_salario : ''}}" class="form-control" />
 							</div>
 
 							<div class="form-group">
-								<label>Data Inicio</label>
-								<input type="text" name="dt_inincio" class="form-control" />
+								<label>Data Inicios</label>
+								<input type="text" name="dt_inicio" value="{{isset($funcionario) ? $funcionario->dt_inicio : ''}}" class="form-control" />
 							</div>
 
 							<div class="form-group">
 								<label>Foto</label>
-								<input type="text" name="foto" class="form-control" />
+								<input type="text" name="foto" value="{{isset($funcionario) ? $funcionario->foto : ''}}" class="form-control" />
 							</div>
 
 						</div>
 
 					</div>
 
-				<button type="submit" class="btn btn-primary btn-block">Adiciona</button>
+				<button type="submit" class="btn btn-primary btn-block">Salvar</button>
 				
 				</div>
 

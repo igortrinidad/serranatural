@@ -15,7 +15,11 @@
 		@yield('action')
 
 			<div class="panel panel-default">
-				<div class="panel-heading">Contato</div>
+				<div class="panel-heading">Contato
+					<div class="pull-right">
+						<a href="{{route('admin.funcionarios.edit', $funcionario->id)}}"><i class="fa fa-pencil fa-2x"></i></a>
+					</div>
+				</div>
 				<div class="panel-body">
 
 					<div class="row">
@@ -23,84 +27,114 @@
 
 							<div class="form-group">
 								<label>Nome completo</label>
-								<label>{{$funcionario->nome}}
+								<p>{{$funcionario->nome}}</p>
 							</div>
 
 							<div class="form-group">
 								<label>Telefone</label>
-								<label>{{$funcionario->telefone}}</label>
+								<p>{{$funcionario->telefone}}</p>
 							</div>
 
 							<div class="form-group">
 								<label>Email</label>
-								<label>{{$funcionario->email}}</label>
+								<p>{{$funcionario->email}}</p>
 							</div>
 
 							<div class="form-group">
 								<label>Endereço</label>
-								<label>{{$funcionario->endereco}}</label>
+								<p>{{$funcionario->endereco}}</p>
 							</div>
 
 							<div class="form-group">
 								<label>Horario</label>
-								<input type="text" name="horario_trabalho" class="form-control" />
+								<p>{{$funcionario->horario_trabalho}}</p>
 							</div>
+								
 
 							<div class="form-group">
 								<label>Cargo</label>
-								<input type="text" name="cargo" class="form-control" />
+								<p>{{$funcionario->cargo}}</p>
 							</div>
+
 
 							<div class="form-group">
 								<label>Observações</label>
-								<textarea name="observacoes" type="textarea" class="form-control"></textarea>
+								<p>{{$funcionario->observacoes}}</p>
 							</div>
 
 						</div>
 						<div class="col-md-6">
-
-
 							<div class="form-group">
 								<label>Transporte</label>
-								<input type="text" name="transporte" class="form-control" />
+								<p>{{$funcionario->transporte}}</p>
 							</div>
 
 							<div class="form-group">
 								<label>Valor Onibus</label>
-								<input type="text" name="vr_transporte" class="form-control" />
+								<p>{{$funcionario->vr_transporte}}</p>
 							</div>
 
 							<div class="form-group">
 								<label>Identidade</label>
-								<input type="text" name="identidade" class="form-control" />
+								<p>{{$funcionario->identidade}}</p>
 							</div>
 
 							<div class="form-group">
 								<label>CPF</label>
-								<input type="text" name="cpf" class="form-control" />
+								<p>{{$funcionario->cpf}}</p>
 							</div>
 
 							<div class="form-group">
 								<label>Salario</label>
-								<input type="text" name="vr_salario" class="form-control" />
+								<p>{{$funcionario->vr_salario}}</p>
 							</div>
 
 							<div class="form-group">
 								<label>Data Inicio</label>
-								<input type="text" name="dt_inincio" class="form-control" />
+								<p>{{$funcionario->dt_inicio}}</p>
 							</div>
 
 							<div class="form-group">
 								<label>Foto</label>
-								<input type="text" name="foto" class="form-control" />
+								<p>{{$funcionario->foto}}</p>
 							</div>
 
 						</div>
 
 					</div>
 
-				<button type="submit" class="btn btn-primary btn-block">Adiciona</button>
 				
+				
+				</div>
+
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">Pagamentos</div>
+				<div class="panel-body">
+
+					<table class="table table-bordered table-hover table-striped">
+					    <thead>
+					        <tr>
+					            <th>Data</th>
+					            <th>Valor</th>
+					            <th>Descrição</th>
+					            <th>Responsável</th>
+					        </tr>
+					    </thead>
+					    <tbody>
+					    	@foreach($funcionario->retirada as $pagamento)
+					        <tr>
+								<th class="text-center" width="20%">{{$pagamento->created_at}}</th>
+								<th class="text-center" width="15%">{{$pagamento->valor}}</th>
+								<th width="35%">{{$pagamento->descricao}}</th>
+								<th>{{$pagamento->usuario->name}}</th>
+					        </tr>
+					        @endforeach
+					    </tbody>
+					</table>
+
+
 				</div>
 
 			</div>

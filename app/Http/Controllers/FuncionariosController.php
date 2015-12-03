@@ -10,6 +10,14 @@ use serranatural\Models\Funcionario;
 
 class FuncionariosController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+        $this->middleware('nivelAcesso:super_adm', ['only' => ['show', 'edit']]);
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -57,7 +65,12 @@ class FuncionariosController extends Controller
      */
     public function show($id)
     {
-        return view('adm.funcionarios.detalhes');
+        $funcionario = Funcionario::with(['retirada'])->find($id);
+
+        $dados = [
+            'funcionario' => $funcionario,
+        ];
+        return view('adm.funcionarios.detalhes')->with($dados);
     }
 
     /**
@@ -84,9 +97,34 @@ class FuncionariosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+
+        $funcionario = Funcionario::find($request->id);
+        $funcionario->nome = $request->nome;
+        $funcionario->telefone = $request->telefone;
+        $funcionario->email = $request->email;
+        $funcionario->endereco = $request->endereco;
+        $funcionario->horario_trabalho = $request->horario_trabalho;
+        $funcionario->cargo = $request->cargo;
+        $funcionario->observacoes = $request->cargo;
+        $funcionario->transporte = $request->transporte;
+        $funcionario->vr_transporte = $request->vr_transporte;
+        $funcionario->identidade = $request->identidade;
+        $funcionario->cpf = $request->cpf;
+        $funcionario->vr_salario = $request->vr_salario;
+        $funcionario->dt_inicio = $request->dt_inicio;
+        $funcionario->foto = $request->foto;
+
+        $funcionario->save();
+
+        $dados = [
+            'msg_retorno' => 'Funcionario editado com sucesso.',
+            'tipo_retorno' => 'success',
+            'funcionario' => $funcionario
+        ];
+
+        return back()->with($dados);
     }
 
     /**
@@ -102,7 +140,7 @@ class FuncionariosController extends Controller
 
     public function funcionariosForSelect()
     {
-        $funcionarios = \serranatural\Models\Funcionario::all();
+        $funcionarios = \serranatural\Models\Funcionario::with('retiradas')->all();
         $result = array();
 
         foreach($funcionarios as $key => $value) 
