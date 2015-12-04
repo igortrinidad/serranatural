@@ -54,7 +54,7 @@
                                     <i class="fa fa-cutlery fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">{{isset($pratoHoje) ? $pratoHoje->prato : ''}}</div>
+                                    <div class="huge">{{isset($pratoHoje) ? substr($pratoHoje->prato, 0, 10) : ''}}</div>
                                     <div>Prato de HOJE</div>
                                 </div>
                             </div>
