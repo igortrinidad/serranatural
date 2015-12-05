@@ -289,17 +289,22 @@ class FinanceiroController extends Controller
             $retirada->funcionario_id = $request->funcionario_id;
         }
 
+        $retirada->save();
+
         if($request->retirado_caixa == 1)
         {
             $caixa = Caixa::where('is_aberto', '=', 1)->first();
-            $caixa->total_retirada = $request->valor + $caixa->total_retirada;
+
+            $retirada->retirado_caixa = $request->retirado_caixa;
+            $retirada->caixa_id = $caixa->id;
+            $retirada->save();
+            $totalRetirada = Retirada::where('caixa_id', '=', $caixa->id)->sum('valor');
+            $caixa->total_retirada = $totalRetirada;
             $caixa->save();
 
-            $retirada->caixa_id = $caixa->id;
-            $retirada->retirado_caixa = $request->retirado_caixa;
         }
 
-        $retirada->save();
+        
 
         $dados = [
             'msg_retorno' => 'Retirada cadastrada com sucesso.',
