@@ -209,6 +209,38 @@
 			</div>
 	</div>
 
+</div>
+
+<div class="row">
+
+	<div class="jumbotron">
+			<h3>Instruções</h3>
+			<h5>Total de vendas em dinheiro (sistema)</h5>
+			<p style="font-size: 14px;">Inserir o valor de acordo com o registrado no aplicativo de vendas. Caminho: Acessar o menu no ícone: <i class="fa fa-bars"></i> <b> / REPORTS / SALES / CASH SALES: ( VALOR )</p>
+
+			<h5>Total de vendas em cartão (sistema)</h5>
+			<p style="font-size: 14px;">Inserir o valor de acordo com o registrado no aplicativo de vendas. Caminho: Acessar o menu no ícone: <i class="fa fa-bars"></i> <b> / REPORTS / SALES / THIRD PARTY SALES: ( VALOR )</p>
+
+			<h5>Total de vendas maquina REDE</h5>
+			<p style="font-size: 14px;">Inserir o valor de acordo com valor informado na máquina de cartão REDE através do caminho: <b>ADMINISTRA / RESUMO DE VENDAS / escolha da data do dia (HOJE) / RESUMIDO / DESCARTAR IMPRESSÃO: NÃO</b>. Obs. o valor a ser preenchido é o total no final da impressão.</p>
+
+			<h5>Total de vendas maquina CIELO</h5>
+			<p style="font-size: 14px;">Somar o valor total das vendas realizadas através da máquina CIELO. Obs. a máquina CIELO não permite a consulta diretamente pela máquina, portanto todos os comprovantes de vendas da máquina deverão ser guardados para o fechamento do caixa.</p>
+
+			<h5>Total de retiradas</h5>
+			<p style="font-size: 14px;">Este valor é preenchido automaticamente conforme for cadastrado as retiradas.</p>
+
+			<h5>Valor em caixa</h5>
+			<p style="font-size: 14px;">Contar todo dinheiro no caixa, incluindo dinheiro guardado em baixo da gaveta e vouchers.</p>
+
+			<h5>Fechar caixa</h5>
+			<p style="font-size: 14px;">Clicar em <b>Calcular caixa</b> e conferir se o valor bate com o esperado (positivo ou negativo), clicar em <b>Gravar caixa</b> e <b>Fechar caixa</b> inserindo a senha de operação (pessoal).</p>
+
+		</div>
+
+
+</div>
+
 @else
 	<div class="col-md-12" id="divAbrir">
 
@@ -227,19 +259,24 @@
 				<div class="col-md-3"></div>
 					<div class="col-md-6">
 
-					<div class="form-group">
-						<input id="valor_informado" value="" class="form-control maskValor" />
+						<div class="form-group">
+							<input id="valor_informado" value="" class="form-control maskValor" />
+						</div>
+
+						<div class="form-group">
+							<button class="btn btn-primary btn-xl" id="btnAbrir" data-toggle="modal" data-target="#modalSenha" >Abrir caixa</button>
+						</div>
+
 					</div>
 
-					<div class="form-group">
-						<button class="btn btn-primary btn-xl" id="btnAbrir" data-toggle="modal" data-target="#modalSenha" >Abrir caixa</button>
-					</div>
-
-
-				</form>
 			</div>
 		</div>
-	</div>	
+
+		<div class="jumbotron">
+			<h3>Instruções</h3>
+			<p style="font-size: 14px;">Contar todo dinheiro no caixa, incluindo dinheiro guardado em baixo da gaveta e vouchers. Inserir o valor e clicar em <b>"abrir caixa"</b>.</p>
+		</div>
+	</div>
 	
 @endif
 
