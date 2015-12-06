@@ -51,90 +51,9 @@
 
 	<div class="col-md-6">
 
-		<div class="panel panel-default">
-			<div class="panel-heading"><h5>Preferências</h5></div>
-			<div class="panel-body">
-
-				<p>
-					<form action="/admin/clientes/addPreferencia" class="form-inline" method="POST">
-				        <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-				        <input type="hidden" name="clienteId" value="{{$cliente->id}}" />
-						    <div class="form-group">
-						      <label>Prato:</label>
-									<select name="pratos_id" class="form-control">
-										@foreach($pratos as $prato)
-											<option value="{{$prato->id}}">{{$prato->prato}}</option>
-										@endforeach
-									</select>
-						    </div>
-						    <div class="form-group">
-						    	<button type="submit" class="btn btn-default">Salvar preferência</button>
-						  	</div>
-						  </form>
-				</p>
-
-				<span class="divisor"></span>
-				@foreach($preferencias as $preferencia)
-
-					<div class="btn btn-default inline">{{$preferencia->prato}}<a href="/admin/clientes/retiraPreferencias/{{$cliente->id}}/{{$preferencia->preferencias}}"> <i class="fa fa-times"></i></a>
-					</div>
-				@endforeach
-
-			</div>
-		</div>
 	</div>
 </div>
 
-<div class="row">
-	<div class="col-md-12">
-
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<div class="row">
-						<div class="col-md-6">
-							<h4>Pontos coletados</h4> <br>Pontos totais: {{$pontosTotal}}
-						</div>
-						<div class="col-md-6">
-							<div class="inline text-right">
-								<ul class="pagination">
-									<li>
-										<a href="{!! $pontos->previousPageUrl() !!}" rel="prev">«</a>
-									</li>
-									<li>
-										<a href="{!! $pontos->nextPageUrl() !!}" rel="prev">»</a>
-									</li>
-								</ul>	
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="panel-body">
-
-					<table class="table table-bordered text-center">
-						<thead>
-							<tr style="font-weight:700">
-								<td>Codigo</td>
-								<td>Produto</td>
-								<td>Data coletado</td>
-								<td>Vencimento</td>
-							</tr>
-						</thead>
-
-					@foreach($pontos as $ponto)
-						<tr>
-							<td style="width:20%;">{{$ponto->id}}</td>
-							<td style="width:30%;">{{$ponto->produto}}</td>
-							<td style="width:30%;">{{$ponto->data_coleta}}</td>
-							<td style="width:18%;">{{$ponto->vencimento}}</td>
-						</tr>	
-					@endforeach
-					</table>
-
-				</div>
-			</div>
-	</div>
-</div>
 
 <div class="row">
 	<div class="col-md-12">
@@ -193,18 +112,57 @@
 </div>
 
 
-	<div class="panel panel-default">
-		<div class="panel-heading"><h5>Summernote Teste</h5></div>
-		<div class="panel-body">
-				<form id="formAjax" action="/teste/summernote" method="POST" enctype="multipart/form-data" onsubmit="return postForm()">
-			        <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-			        	<textarea name="summernote" id="summernote""><h1>Gostaria de fazer um teste bem especifico, ta? Pontos totais: ${pontos}</h1></textarea>
-					    <div class="form-group">
-					    	<button type="submit" class="btn btn-primary btn-block">Ir</button>
-					  	</div>
-				</form>
-		</div>
+<div class="row">
+	<div class="col-md-12">
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-md-6">
+							<h4>Pontos coletados</h4> <br>Pontos totais: {{$pontosTotal}}
+						</div>
+						<div class="col-md-6">
+							<div class="inline text-right">
+								<ul class="pagination">
+									<li>
+										<a href="{!! $pontos->previousPageUrl() !!}" rel="prev">«</a>
+									</li>
+									<li>
+										<a href="{!! $pontos->nextPageUrl() !!}" rel="prev">»</a>
+									</li>
+								</ul>	
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel-body">
+
+					<table class="table table-bordered text-center">
+						<thead>
+							<tr style="font-weight:700">
+								<td>Codigo</td>
+								<td>Produto</td>
+								<td>Data coletado</td>
+								<td>Vencimento</td>
+							</tr>
+						</thead>
+
+					@foreach($pontos as $ponto)
+						<tr>
+							<td style="width:20%;">{{$ponto->id}}</td>
+							<td style="width:30%;">{{$ponto->produto}}</td>
+							<td style="width:30%;">{{$ponto->data_coleta}}</td>
+							<td style="width:18%;">{{$ponto->vencimento}}</td>
+						</tr>	
+					@endforeach
+					</table>
+
+				</div>
+			</div>
 	</div>
+</div>
+
 
 
 	                            <!-- Modal editar atividade -->              
@@ -252,38 +210,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
-     <div class="row">
-     	<div class="col-md-8">
-	<label>total</label>
-	<input id="total" class="form-control" />
-	<label>parcela</label>
-	<input id="parcela" class="form-control" />
-
-<table id="products-table" class="table table-bordered">
-	<tbody>
-		 <tr>
-		   <th>Valor total</th>
-		   <th>Parcela</th>
-		   <th>Forma de pagamento</th>
-		   <th>Preço</th>
-		   <th>Ações</th>
-		 </tr>
-	</tbody>
-<tfoot>
- <tr>
-   <td colspan="5" style="text-align: left;">
-     <button onclick="AddTableRow()" type="button">Calcular parcelas</button>
-   </td>
- </tr>
-</tfoot>
-</table>
-
-</div>
-</div>
-
-
 
 
 
