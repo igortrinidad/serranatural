@@ -214,3 +214,14 @@ Route::group(['as' => 'api.', 'middleware' => 'oauth', 'prefix' => 'api'], funct
 Route::get('connect/consultaPontos/{email}', ['as' => 'consultaPontos', 'uses' => 'ApiController@consultaPontos']);
 Route::get('connect/consultaPratoHoje', ['as' => 'consultaPratoHoje', 'uses' => 'ApiController@consultaPratoHoje']);
 
+
+Route::group(['as' => 'cors.',  'prefix' => 'cors', 'middleware' => 'cors'], function()
+{
+	Route::post('teste', function () 
+	{
+		return [
+			'id' => 2,
+			'nome' => 'Sei la quantos',
+		];
+	});
+});

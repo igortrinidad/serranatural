@@ -15,5 +15,6 @@ class VerifyCsrfToken extends BaseVerifier
         'teste/testeApi',
         'oauth/access_token',
         'api/*',
+        'cors/*'
     ];
 }
