@@ -44,12 +44,12 @@
 
 	<div class="form-group">
 		<label>Foto</label>
-		<input type="file" name="foto" class="form-control">
+		<input type="file" name="foto" value="{{$p->foto}}" class="form-control">
 	</div>
 
 	<div class="form-group">
 		<label>Titulo foto</label>
-		<input type="text" name="titulo_foto" class="form-control">
+		<input type="text" name="titulo_foto" value="{{$p->titulo_foto}}" class="form-control">
 	</div>
 
 	<div class="form-group">

@@ -43,7 +43,8 @@
             <td>Pequeno</td>
             <td>Grande</td>
   					<td>Edita</td>
-  					<td>Exclui</td>
+            <td>Exclui</td>
+  					<td>Foto</td>
           </strong>
   				</tr>
   			</thead>
@@ -63,6 +64,9 @@
           <td><a href="/admin/produtos/excluiPratoSemana/{{$a->id}}">
                 <i class="fa fa-trash"></i>
               </a>
+          </td>
+          <td>
+            <img src="/admin/produtos/pratos/edita/{{$a->pratos['foto']}}" width="80px" />
           </td>
   			</tr>
         @endforeach
