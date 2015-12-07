@@ -66,7 +66,7 @@
               </a>
           </td>
           <td>
-            <img src="/arquivos/produtos/{{$a->pratos['foto']}}" width="80px" />
+            <a href="/admin/produtos/pratos/mostra/{{$a->pratos->id}}"><img src="/arquivos/produtos/{{$a->pratos['foto']}}" width="80px" /></a>
           </td>
   			</tr>
         @endforeach

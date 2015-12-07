@@ -463,6 +463,7 @@ class FinanceiroController extends Controller
         //Salva arquivo pagamento e seta o nome no banco.
             $nomeArquivos = $this->salvaArquivosPagamento($request->file('comprovante'), '_ID_' . $pagamento->id . '_COMPVT_', $request->data_pgto);
             $pagamento->notafiscal = $nomeArquivos;
+            $pagamento->comprovante = $nomeArquivos;
         }
 
         if($request->is_liquidado == 1)
@@ -471,7 +472,7 @@ class FinanceiroController extends Controller
             $pagamento->fonte_pgto = $request->fonte_pgto;
             $pagamento->is_liquidado = 1;
             $pagamento->user_id_pagamento = \Auth::user()->id;
-            $pagamento->comprovante = $nomeArquivos;
+            
         } else 
         {
             $pagamento->is_liquidado == 0;
