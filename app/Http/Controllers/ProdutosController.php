@@ -207,7 +207,7 @@ class ProdutosController extends Controller
         
         $pratos = Pratos::all();
 
-        $agenda = AgendaPratos::where('dataStamp', '>=', Carbon::now())->orderBy('dataStamp', 'ASC')->get();
+        $agenda = AgendaPratos::where('dataStamp', '>=', Carbon::now()->format('Y-m-d'))->orderBy('dataStamp', 'ASC')->get();
 
        // $votos = Voto::select(DB::raw('pratos_id, COUNT(*) as qtdVoto'))
        //              ->from('votacaoPratosDoDia')
