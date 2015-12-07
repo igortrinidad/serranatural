@@ -66,7 +66,7 @@
               </a>
           </td>
           <td>
-            <img src="/admin/produtos/pratos/edita/{{$a->pratos['foto']}}" width="80px" />
+            <img src="/arquivos/produtos/{{$a->pratos['foto']}}" width="80px" />
           </td>
   			</tr>
         @endforeach
