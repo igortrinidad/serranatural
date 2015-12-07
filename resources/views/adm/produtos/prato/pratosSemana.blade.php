@@ -4,11 +4,7 @@
 
 <h1 class="text-right">Pratos da semana</h1>
 
-@if(Session::has('msg_retorno'))
-<div class="alert alert-{{Session::get('tipo_retorno')}}">
-     {{Session::get('msg_retorno')}}
- </div>
-@endif
+  @include('errors.messages')
 
 <div class="panel panel-default">
 	<div class="panel-heading"><h5>Agendar Pratos</h5></div>

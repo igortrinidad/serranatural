@@ -9,7 +9,7 @@ class Caixa extends Model
 {
     use SoftDeletes;
 
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at', 'dt_abertura', 'dt_fechamento'];
 
     protected $table = 'caixas';
 
@@ -38,10 +38,10 @@ class Caixa extends Model
         return date('d/m/Y H:i:s', strtotime($value));
     }
 
-    public function getDtFechamentoAttribute($value)
-    {
-        return date('d/m/Y H:i:s', strtotime($value));
-    }
+    //public function getDtFechamentoAttribute($value)
+    //{
+    //    return date('d/m/Y H:i:s', strtotime($value));
+    //}
 
     public function getDtAberturaAttribute($value)
     {

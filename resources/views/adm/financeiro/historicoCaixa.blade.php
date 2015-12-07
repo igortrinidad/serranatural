@@ -4,12 +4,7 @@
 
 <h2 class="text-right">Histórico de caixa</h2>
 
-	@if(Session::has('msg_retorno'))
-	<div class="alert alert-{{Session::get('tipo_retorno')}}">
-	     {{Session::get('msg_retorno')}}
-	 </div>
-	@endif
-
+	@include('errors.messages')
 
 <div class="row">
 	<div class="col-md-12">
@@ -61,7 +56,7 @@
 				    @foreach($caixas as $c)
 				        <tr>
 				            <th>{{$c->dt_abertura}}</th>
-				            <th>{{$c->dt_fechamento}}</th>
+				            <th>{{ $c->dt_fechamento->format('d/m/Y H:i:s') }}</th>
 				            <th>{{$c->usuarioAbertura->name}}</th>
 				            <th>@if($c->is_aberto == 1) -- @else{{$c->usuarioFechamento->name}}@endif</th>
 				            <th>R$ {{ number_format($c->vr_abertura, 2, ',', '.') }}</th>

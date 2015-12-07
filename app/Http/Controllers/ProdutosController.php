@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use serranatural\Http\Controllers\Controller;
 use Mail;
+use Carbon\Carbon;
 
 use serranatural\Models\Pratos;
 use serranatural\Models\AgendaPratos;
@@ -206,7 +207,7 @@ class ProdutosController extends Controller
         
         $pratos = Pratos::all();
 
-        $agenda = AgendaPratos::orderBy('dataStamp', 'ASC')->get();
+        $agenda = AgendaPratos::where('dataStamp', '>=', Carbon::now())->orderBy('dataStamp', 'ASC')->get();
 
        // $votos = Voto::select(DB::raw('pratos_id, COUNT(*) as qtdVoto'))
        //              ->from('votacaoPratosDoDia')
@@ -252,21 +253,16 @@ class ProdutosController extends Controller
         $dataMysql = dataPtBrParaMysql($request->get('dataStr'));
 
         $pratoAgendado = AgendaPratos::create([
-
             'pratos_id' => $request->get('pratos_id'),
-            'dataStr' => $request->get('dataStr'),
             'dataStamp' => $dataMysql,
-
-            ]);
+        ]);
 
         $prato = Pratos::where('id', '=', $request->get('pratos_id'))->first();
 
         $data = [
-
-        'prato' => $prato,
-        'nomeCliente' => 'Direção',
-        'emailCliente' => 'contato@serranatural.com',
-
+            'prato' => $prato,
+            'nomeCliente' => 'Direção',
+            'emailCliente' => 'contato@serranatural.com',
         ];
 
         //dd($dados);

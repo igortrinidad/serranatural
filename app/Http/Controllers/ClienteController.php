@@ -285,8 +285,8 @@ class ClienteController extends Controller
         $cliente = Cliente::create($request->all());
 
         $data = [
-            'msg_retornos' => 'Cadastro efetuado com sucesso!',
-            'tipo_retornos' => 'success',
+            'msg_retorno' => 'Cadastro efetuado com sucesso!',
+            'tipo_retorno' => 'success',
         ];
 
         return redirect()->back()->with($data);

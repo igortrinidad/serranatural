@@ -4,11 +4,7 @@
 
 <h1 class="text-right">Pratos do dia</h1>
 
-	@if(Session::has('msg_retorno'))
-	<div class="alert alert-{{Session::get('tipo_retorno')}}">
-	     {{Session::get('msg_retorno')}}
-	 </div>
-	@endif
+	@include('errors.messages')
 
 <div class="panel panel-default">
 	<div class="panel-heading"><h5>Lista de pratos</h5></div>

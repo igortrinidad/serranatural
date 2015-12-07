@@ -5,11 +5,7 @@
 
 <h2 class="text-right">Detalhes</h2>
 
-	@if(Session::has('msg_retorno'))
-	<div class="alert alert-{{Session::get('tipo_retorno')}}">
-	     {{Session::get('msg_retorno')}}
-	 </div>
-	@endif
+	@include('errors.messages')
 
 	<div class="panel panel-default">
 		<div class="panel-heading">

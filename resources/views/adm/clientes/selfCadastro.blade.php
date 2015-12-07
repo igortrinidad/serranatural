@@ -17,11 +17,7 @@
 
                                 <div id="cadastre" class="tab-pane fade in active">
 
-                                	@if(Session::has('msg_retornos'))
-									<div class="alert alert-{{Session::get('tipo_retornos')}}">
-									     {{Session::get('msg_retornos')}}
-									 </div>
-									@endif
+                                	@include('errors.messages')
 
                                     <form id="votoForm" action="/cadastro" class="form-group" method="POST">
                                         <input form="votoForm" type="hidden" name="_token" value="{{{ csrf_token() }}}" />
@@ -65,17 +61,6 @@
             </div>
         </div>
     </section>
-
-
-@if (count($errors) > 0)
-  <div class="alert alert-danger">
-    <ul>
-      @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-      @endforeach
-    </ul>
-  </div>
-@endif
 
 <div id="escurece" hidden="true"></div>
 <div id="loading" hidden="true"><i id="spinner" class="fa fa-spinner fa-4x"></i></div>

@@ -32,15 +32,7 @@
                         <div class="formulario">
                             <span class="divisor"></span>
 
-                            @if (count($errors) > 0)
-                              <div class="alert alert-danger">
-                                <ul>
-                                  @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                  @endforeach
-                                </ul>
-                              </div>
-                            @endif
+                            @include('errors.messages')
 
                             <form method="POST" action="/auth/login">
                                 
