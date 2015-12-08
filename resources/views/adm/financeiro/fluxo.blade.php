@@ -543,16 +543,18 @@ $('#gravarCaixa').on("click", function(e)
 
 		        $.notify(msg, tipo);
 
+		        console.log(data['dados']);
+
 			    if(tipo == 'success')
 			    {
 			    	setTimeout(function(){
 			        	$('#modalSenha').fadeOut();
 			        }, 500);
 
-				    setTimeout(function()
-				    {
-				    	location.reload();
-				    }, 1200);
+				    //setTimeout(function()
+				    //{
+				    //	location.reload();
+				    //}, 1200);
 
 				    }
 			}
