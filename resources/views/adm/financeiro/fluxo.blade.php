@@ -543,7 +543,6 @@ $('#gravarCaixa').on("click", function(e)
 
 		        $.notify(msg, tipo);
 
-
 			    if(tipo == 'success')
 			    {
 			    	setTimeout(function(){
