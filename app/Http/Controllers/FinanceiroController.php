@@ -221,7 +221,6 @@ class FinanceiroController extends Controller
         $return = [
                 'msg_retorno' => 'Caixa fechado com sucesso, consulte o caixa em histórico.',
                 'tipo_retorno' => 'success',
-                'dados' => $dados
                 ];
 
             return $return;
