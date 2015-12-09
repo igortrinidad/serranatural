@@ -15,6 +15,7 @@ elixir(function(mix) {
 	mix.scripts([
 
 		'/../bower_components/jquery/dist/jquery.js',
+		'/../bower_components/jquery-ui/jquery-ui.js',
 		'/../bower_components/bootstrap/dist/js/bootstrap.js',
 		'/../bower_components/metisMenu/dist/metisMenu.js',
 		'/../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js',
@@ -51,7 +52,6 @@ elixir(function(mix) {
 
 	mix.scripts([
 		'votacao.js',
-		'/../bower_components/jquery-easing/jquery.easing.js',
 		'/../bower_components/bootstrap-toggle/js/bootstrap-toggle.js',
 		], 'public/js/votacao.js');
 

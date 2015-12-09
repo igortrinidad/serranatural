@@ -36,6 +36,8 @@ class ClienteController extends Controller
 
         $urlPagination = '/admin/clientes/lista/?page=';
 
+        //flash()->success('Isto está um <b>sucesso</b>.');
+
         $dados = [
 
             'lista' => $lista,
@@ -214,12 +216,9 @@ class ClienteController extends Controller
     {
         Cliente::find($id)->delete();
 
-        $dados = [
-            'msg_retorno' => 'Cliente deletado com sucesso',
-            'tipo_retorno' => 'danger',
-        ];
+        flash()->error('Cliente excluído com sucesso.');
 
-        return back()->with($dados);
+        return back();
     }
 
     public function enviaEmailPratoDoDia($id)
@@ -231,7 +230,7 @@ class ClienteController extends Controller
         if(!is_null($pratoDoDia) OR !empty($pratoDoDia))
         {
 
-            $cliente = Cliente::find($id)->first();
+            $cliente = Cliente::find($id);
 
             $prato = Pratos::where('id', '=', $pratoDoDia->pratos_id)->first();
 

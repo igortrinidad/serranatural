@@ -14,3 +14,5 @@ $('.dataCompleta').mask('00/00/0000');
 $('.cep').mask('00000-000');
 $('.hora').mask('00:00');
 $('.maskValor').mask("#.##0,00", {reverse: true});
+
+ $('div.alert').not('.alert-important').delay(3500).fadeOut();

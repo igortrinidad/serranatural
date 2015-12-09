@@ -152,6 +152,7 @@ return [
         LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class,
         LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
+        Laracasts\Flash\FlashServiceProvider::class,
 
 
     ],
@@ -207,6 +208,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Authorizer' => LucaDegasperi\OAuth2Server\Facades\Authorizer::class,
+        'Flash' => Laracasts\Flash\FlashServiceProvider::class,
 
     ],
 

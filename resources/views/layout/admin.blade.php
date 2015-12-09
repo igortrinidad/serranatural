@@ -425,7 +425,9 @@
                 <div class="row">
                     <div class="col-lg-12">
 
-                      @yield('conteudo')
+                    @include('flash::message')
+                    
+                    @yield('conteudo')
 
 
                     </div>
