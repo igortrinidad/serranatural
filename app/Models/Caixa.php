@@ -38,15 +38,15 @@ class Caixa extends Model
         return date('d/m/Y H:i:s', strtotime($value));
     }
 
-    public function getDtFechamentoAttribute($value)
-    {
-        return date('d/m/Y H:i:s', strtotime($value));
-    }
-
-    public function getDtAberturaAttribute($value)
-    {
-        return date('d/m/Y H:i:s', strtotime($value));
-    }
+    //public function getDtFechamentoAttribute($value)
+    //{
+    //    return date('d/m/Y H:i:s', strtotime($value));
+    //}
+//
+    //public function getDtAberturaAttribute($value)
+    //{
+    //    return date('d/m/Y H:i:s', strtotime($value));
+    //}
 
     public function getVrEmCaixaAttribute($value)
     {

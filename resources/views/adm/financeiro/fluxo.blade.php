@@ -528,8 +528,6 @@ $('#gravarCaixa').on("click", function(e)
         	'senha' : $("input[name='senha']").val(),
         };
 
-        window.console.log(formData);
-
 		var url = "{{ route('admin.financeiro.fecharCaixa') }}";
 
 		$.ajax({

@@ -46,7 +46,9 @@
                                     <td colspan="2" height="5" style="font-size:0px;line-height:0px">&nbsp;</td>
                                   </tr>
                                   <tr>
-                                  <td colspan="2" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757">                                          {{$dt_abertura}} —<br>                                          {{$dt_fechamento}}</td>
+                                  <td colspan="2" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757">
+                                    {{$dt_abertura}} —<br>
+                                    {{$dt_fechamento}}</td>
                                   </tr>
                                   <tr>
                                     <td colspan="2" height="30"></td>

@@ -55,7 +55,7 @@
 				    <tbody>
 				    @foreach($caixas as $c)
 				        <tr>
-				            <th>{{$c->dt_abertura}}</th>
+				            <th>{{$c->dt_abertura->format('d/m/Y H:i:s')}}</th>
 				            <th>{{ $c->dt_fechamento->format('d/m/Y H:i:s') }}</th>
 				            <th>{{$c->usuarioAbertura->name}}</th>
 				            <th>@if($c->is_aberto == 1) -- @else{{$c->usuarioFechamento->name}}@endif</th>

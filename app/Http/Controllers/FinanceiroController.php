@@ -178,8 +178,8 @@ class FinanceiroController extends Controller
 
         $dados = [
 
-        'dt_abertura' => $caixa->dt_abertura,
-        'dt_fechamento' => $caixa->dt_fechamento,
+        'dt_abertura' => $caixa->dt_abertura->format('d/m/Y H:i:s'),
+        'dt_fechamento' => $caixa->dt_fechamento->format('d/m/Y H:i:s'),
         'vendas_cash' => $caixa->vendas_cash,
         'vendas_card' => $caixa->vendas_card,
         'total_vendas' => number_format($caixa->vendas_cash + $caixa->vendas_card, 2, ',', '.'),
@@ -196,17 +196,25 @@ class FinanceiroController extends Controller
         'user_fechamento' => $userFechamento->name,
         ];
 
-        $mensagem = json_encode($dados);
-
         $email = Mail::queue('emails.admin.fechamentoCaixa', $dados, function ($message) use ($dados, $caixa)
             {
 
                 $message->to('contato@maisbartenders.com.br', 'Igor Trindade');
                 $message->from('mkt@serranatural.com', 'Serra Natural');
-                $message->subject('Fechamento de caixa : ' . $caixa->dt_fechamento);
+                $message->subject('Fechamento de caixa : ' . $caixa->dt_fechamento->format('d/m/Y H:i:s'));
                 $message->getSwiftMessage();
 
             });
+
+        $body = json_encode($dados);
+
+        \serranatural\Models\LogEmail::create([
+
+        'email' => 'contato@maisbartenders.com.br',
+        'assunto' => 'Fechamento de caixa: ' . $caixa->dt_fechamento->format('d/m/Y H:i:s'),
+        'mensagem' => $body
+
+        ]);
 
         if(!$email)
         {
