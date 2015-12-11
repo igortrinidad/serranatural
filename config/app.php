@@ -153,6 +153,7 @@ return [
         LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
+        Huddle\Zendesk\Providers\ZendeskServiceProvider::class,
 
 
     ],
@@ -209,6 +210,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Authorizer' => LucaDegasperi\OAuth2Server\Facades\Authorizer::class,
         'Flash' => Laracasts\Flash\FlashServiceProvider::class,
+        'Zendesk' => Huddle\Zendesk\Facades\Zendesk::class,
 
     ],
 

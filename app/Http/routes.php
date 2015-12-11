@@ -54,6 +54,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::post('financeiro/pagamentos/dateRange', ['as' => 'dateRange', 'uses' => 'FinanceiroController@dateRange']);
 		Route::get('financeiro/despesa', ['as' => 'despesa', 'uses' => 'FinanceiroController@despesaCreate']);
 		Route::post('financeiro/despesaStore', ['as' => 'despesaStore', 'uses' => 'FinanceiroController@despesaStore']);
+		Route::post('financeiro/consultaCaixaAjax', ['as' => 'consultaCaixaAjax', 'uses' => 'FinanceiroController@consultaCaixaAjax']);
 
 	});
 

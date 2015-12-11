@@ -15,7 +15,8 @@
         "intervention/image": "dev-master",
         "lucadegasperi/oauth2-server-laravel": "5.0.*",
         "barryvdh/laravel-cors": "0.7.x",
-        "laracasts/flash": "^1.3"
+        "laracasts/flash": "^1.3",
+        "huddledigital/zendesk-laravel": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
