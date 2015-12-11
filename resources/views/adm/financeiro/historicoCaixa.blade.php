@@ -211,13 +211,6 @@ function idCaixa( idDado )
 	consultaCaixa( id );
 }
 
-$('#btn_caixa_detalhes').on("click", function(){
-
-
-});
-
-
-
 function consultaCaixa(id_parametro)
 {
   formData = {
