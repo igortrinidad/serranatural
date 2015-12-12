@@ -140,7 +140,7 @@
                                 <td id="vendas_cielo"></td>
                             </tr>
                             <tr>
-                            	<td>Todal retirada</td>
+                            	<td>Total retirada</td>
                                 <td id="total_retirada"></td>
 							</tr>
 							<tr>

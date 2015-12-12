@@ -473,7 +473,6 @@ $('#gravarCaixa').on("click", function(e)
             'vendas_card' : $("input[name='vendas_card']").val(),
             'vendas_rede' : $('input[name="vendas_rede"]').val(),
             'vendas_cielo' : $('input[name="vendas_cielo"]').val(),
-            'total_retirada' : $('input[name="total_retirada"]').val(),
             'vr_abertura' : $('#vr_abertura').text(),
             'fundo_caixa' : $("#fundo_caixa").val(),
             'diferenca_cartoes' : $($('#vr_diferenca_cartoes')).text(),
