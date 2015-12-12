@@ -43,13 +43,14 @@
 				<table class="table table-bordered table-hover table-striped">
 				    <thead>
 				        <tr>
-				            <th width="15%">Data abertura</th>
-				            <th width="15%">Data fechamento</th>
+				            <th width="10%">Data abertura</th>
+				            <th width="10%">Data fechamento</th>
 				            <th width="13%">Usuario abertura</th>
 				            <th width="13%">Usuario fechamento</th>
 				            <th width="10%">Vr Abertura</th>
-				            <th width="10%">Fundo de caixa</th>
+				            <th width="10%">Total retirada</th>
 				            <th width="10%">Diferença final</th>
+				            <th width="10%">Fundo de caixa</th>
 				            <th width="10%">Detalhes</th>
 				        </tr>
 				    </thead>
@@ -62,8 +63,9 @@
 					            <th>{{$c->usuarioAbertura->name}}</th>
 					            <th>@if($c->is_aberto == 1) -- @else{{$c->usuarioFechamento->name}}@endif</th>
 					            <th>R$ {{ number_format($c->vr_abertura, 2, ',', '.') }}</th>
-					            <th>{{$c->vr_emCaixa}}</th>
+					            <th>R$ {{ number_format($c->total_retirada, 2, ',', '.')}}</th>
 					            <th>{{$c->diferenca_final}}</th>
+					            <th>{{$c->vr_emCaixa}}</th>
 					            <th><button type="button" class="btn btn-default btn-xs btn_caixa_detalhes" data-toggle="modal" data-target="#modalCaixa" onclick="idCaixa({{$c->id}})">Detalhes</button></th>
 					        </tr>
 				        
