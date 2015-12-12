@@ -156,11 +156,11 @@
 
 <h5>Retiradas</h5>
 
-                    <table class="table table-bordered table-hover table-striped" id="retiradas-table">
+                    <table class="table table-hover" id="retiradas-table">
                         <thead>
                             <tr>
-                                <th>Descrição</th>
-                                <th>Valor</th>
+                                <th class="text-center">Descrição</th>
+                                <th class="text-center">Valor</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -247,6 +247,8 @@ function consultaCaixa(id_parametro)
         $('#id_caixa_titulo').text(data['id']);
 
         var retiradas = data['retiradas'];
+
+        console.log( retiradas );
 
         $.each(retiradas, function(index, value) {
 
