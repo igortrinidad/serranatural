@@ -58,15 +58,15 @@
 				    @foreach($caixas as $c)
 				        
 					        <tr>
-					            <th>{{$c->dt_abertura->format('d/m/Y H:i:s')}}</th>
-					            <th>{{ $c->dt_fechamento->format('d/m/Y H:i:s') }}</th>
-					            <th>{{$c->usuarioAbertura->name}}</th>
-					            <th>@if($c->is_aberto == 1) -- @else{{$c->usuarioFechamento->name}}@endif</th>
-					            <th>R$ {{ number_format($c->vr_abertura, 2, ',', '.') }}</th>
-					            <th>R$ {{ number_format($c->total_retirada, 2, ',', '.')}}</th>
-					            <th>{{$c->diferenca_final}}</th>
-					            <th>{{$c->vr_emCaixa}}</th>
-					            <th><button type="button" class="btn btn-default btn-xs btn_caixa_detalhes" data-toggle="modal" data-target="#modalCaixa" onclick="idCaixa({{$c->id}})">Detalhes</button></th>
+					            <td>{{$c->dt_abertura->format('d/m/Y H:i:s')}}</td>
+					            <td>{{ $c->dt_fechamento->format('d/m/Y H:i:s') }}</td>
+					            <td>{{$c->usuarioAbertura->name}}</td>
+					            <td>@if($c->is_aberto == 1) -- @else{{$c->usuarioFechamento->name}}@endif</td>
+					            <td>R$ {{ number_format($c->vr_abertura, 2, ',', '.') }}</td>
+					            <td>R$ {{ number_format($c->total_retirada, 2, ',', '.')}}</td>
+					            <td>{{$c->diferenca_final}}</td>
+					            <td>{{$c->vr_emCaixa}}</td>
+					            <td><button type="button" class="btn btn-default btn-xs btn_caixa_detalhes" data-toggle="modal" data-target="#modalCaixa" onclick="idCaixa({{$c->id}})">Detalhes</button></td>
 					        </tr>
 				        
 				      @endforeach
