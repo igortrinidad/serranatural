@@ -333,6 +333,9 @@
                                             <a href="{{ route('admin.financeiro.retirada')}}">Retirada</a>
                                         </li>
                                         <li>
+                                            <a href="{{ route('admin.financeiro.retiradasList')}}">Histórico retiradas</a>
+                                        </li>
+                                        <li>
                                             <a href="#">Entrada</a>
                                         </li>
                                         <li>

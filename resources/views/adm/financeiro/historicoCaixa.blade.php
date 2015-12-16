@@ -156,9 +156,20 @@
                         </tbody>
                     </table>
 
-<h5>Retiradas</h5>
-
+					<h5>Retiradas</h5>
                     <table class="table table-hover" id="retiradas-table">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Descrição</th>
+                                <th class="text-center">Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+					<h5>Retiradas fora do caixa</h5>
+                    <table class="table table-hover" id="retiradasFora-table">
                         <thead>
                             <tr>
                                 <th class="text-center">Descrição</th>
@@ -249,8 +260,7 @@ function consultaCaixa(id_parametro)
         $('#id_caixa_titulo').text(data['id']);
 
         var retiradas = data['retiradas'];
-
-        console.log( retiradas );
+        var retiradasFora = data['retiradasFora'];
 
         $.each(retiradas, function(index, value) {
 
@@ -262,6 +272,19 @@ function consultaCaixa(id_parametro)
 
 		    newRow.append(cols);
 		    $("#retiradas-table").append(newRow);
+
+		}); 
+
+		$.each(retiradasFora, function(index, value) {
+
+		    var newRow = $("<tr>");
+		    var cols = "";
+		    cols += '<td>' + index + '</td>';
+		    cols += '<td>' + value + '</td>';
+		    cols += '</tr>';
+
+		    newRow.append(cols);
+		    $("#retiradasFora-table").append(newRow);
 
 		}); 
 

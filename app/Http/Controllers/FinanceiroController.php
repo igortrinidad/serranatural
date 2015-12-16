@@ -27,7 +27,7 @@ class FinanceiroController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['getImage']]);
+        //$this->middleware('auth', ['except' => ['getImage']]);
 
         //$this->middleware('nivelAcesso:super_adm', ['only' => ['retirada']]);
 
@@ -182,6 +182,7 @@ class FinanceiroController extends Controller
         'vendas_cash' => $caixa->vendas_cash,
         'vendas_card' => $caixa->vendas_card,
         'total_vendas' => number_format($caixa->vendas_cash + $caixa->vendas_card, 2, ',', '.'),
+        'total_retirada' => $caixa->total_retirada,
         'vendas_rede' => $caixa->vendas_rede,
         'vendas_cielo' => $caixa->vendas_cielo,
         'esperado_caixa' => $caixa->esperado_caixa,
@@ -285,7 +286,7 @@ class FinanceiroController extends Controller
         $retirada = new Retirada();
         $retirada->user_id = \Auth::user()->id;
         $retirada->valor = $request->valor;
-        $retirada->descricao = $request->descricao;
+        $retirada->descricao = $request->descricao . ' - ' . date('H:i:s');
         
 
         if(!is_null($request->funcionario_id) OR !empty($request->funcionario_id))
@@ -307,8 +308,6 @@ class FinanceiroController extends Controller
             $caixa->save();
 
         }
-
-        
 
         $dados = [
             'msg_retorno' => 'Retirada cadastrada com sucesso.',
@@ -559,6 +558,8 @@ class FinanceiroController extends Controller
 
         $retiradas = Retirada::where('caixa_id', '=', $request->id)->lists('valor', 'descricao');
 
+        $retiradasFora = Retirada::whereDate('created_at', '=', date('Y-m-d'))->where('retirado_caixa', '=', 0)->lists('valor', 'descricao');
+
         $return = [
         'id' => $caixa->id,
         'dt_abertura' => $caixa->dt_abertura->format('d/m/Y H:i:s'),
@@ -577,9 +578,22 @@ class FinanceiroController extends Controller
         'diferenca_final' => $caixa->diferenca_final,
         'user_abertura' => $caixa->usuarioAbertura->name,
         'user_fechamento' => $caixa->usuarioFechamento->name,
-        'retiradas' => $retiradas
+        'retiradas' => $retiradas,
+        'retiradasFora' => $retiradasFora
         ];
         return $return;
+    }
+
+    public function retiradasList()
+    {
+        $retiradas = Retirada::all();
+
+        $return = 
+        [
+            'retiradas' => $retiradas,
+        ];
+
+        return view('adm.financeiro.retiradasList')->with($return);
     }
 
 

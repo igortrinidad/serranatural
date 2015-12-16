@@ -4,11 +4,7 @@
 
 <h2 class="text-right">Fluxo de caixa</h2><br>
 
-	@if(Session::has('msg_retorno'))
-	<div class="alert alert-{{Session::get('tipo_retorno')}}">
-	     {{Session::get('msg_retorno')}}
-	 </div>
-	@endif
+	@include('errors.messages')
 
 <div class="row">
 

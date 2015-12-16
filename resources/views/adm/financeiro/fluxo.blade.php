@@ -107,7 +107,7 @@
 
 				<div class="form-group">
 					<label>Valor esperado em caixa</label>
-					<div class="btn btn-default btn-block" id="esperado_caixa" value=""></div>
+					<div class="btn btn-default btn-block maskValor" id="esperado_caixa" value=""></div>
 				</div>
 
 				<div class="form-group">
@@ -127,7 +127,7 @@
 
 				<div class="form-group">
 					<label>Diferença final</label>
-					<div class="btn btn-default btn-block" id="vr_diferenca_final">0</div>
+					<div class="btn btn-default btn-block maskValor" id="vr_diferenca_final">0</div>
 				</div>
 
 			</div>
@@ -326,7 +326,7 @@
 
 <script type="text/javascript">
 
-$('.maskValor').mask("0000.00", {reverse: true});
+$('.maskValor').mask("R$ 0000.00", {reverse: true});
 
 ;(function($)
 {
@@ -349,117 +349,107 @@ $('.maskValor').mask("0000.00", {reverse: true});
 
 	});
 
-
-})(window.jQuery);
-
-$('#btnAbrir').on("click", function(e){
-
-	e.preventDefault();
-
-	var valor_informado = $('#valor_informado').val();
-
-	window.console.log(valor_informado);
-
-	$('#valor_confirmation').text('R$ ' + valor_informado);
-
-});
+	$('#btnAbrir').on("click", function(e){
+		e.preventDefault();
+		var valor_informado = $('#valor_informado').val();
+		window.console.log(valor_informado);
+		$('#valor_confirmation').text('R$ ' + valor_informado);
+	});
 
 
 
-$('#btnAbreCaixaDefinitivo').on("click", function(e){
-
-	e.preventDefault();
-	abreCaixa();
-
-});
+	$('#btnAbreCaixaDefinitivo').on("click", function(e){
+		e.preventDefault();
+		abreCaixa();
+	});
 
 
 
-function abreCaixa()
-{
-    
-	formData = {
-		'_token' : $("#token").val(),
-		'senha' : $("input[name='senha']").val(),
-		'vr_abertura' : parseFloat($('#valor_informado').val()),
+	function abreCaixa()
+	{
+		var formData = 
+		{
+			'_token' : $("#token").val(),
+			'senha' : $("input[name='senha']").val(),
+			'vr_abertura' : parseFloat($('#valor_informado').val()),
+		};
+
+		var url = "{{ route('admin.financeiro.abreCaixa')}}";
+
+		$.ajax({
+		    type: "POST",
+		    url : url,
+		    data : formData,
+		    success : function(data){
+
+		    	var msg = data['msg_retorno'];
+		    	var tipo = data['tipo_retorno'];
+
+		        $.notify(msg, tipo);
+
+		    if(tipo == 'success')
+		    {
+
+		    	setTimeout(function(){
+		        	$('#modalSenha').fadeOut();
+		        }, 500);
+
+			    setTimeout(function()
+			    {
+			    	location.reload();
+			    }, 1200);
+			}
+
+		    }
+		    },"json");
+
 	};
 
-	var url = "{{ route('admin.financeiro.abreCaixa')}}";
+	$('#calculaCaixa').on("click", function(e)
+		{
+			e.preventDefault();
+			calculaCaixa();
+		});
 
-	$.ajax({
-	    type: "POST",
-	    url : url,
-	    data : formData,
-	    success : function(data){
+	function calculaCaixa()
+	{
+		var vendasCash = parseFloat($("input[name='vendas_cash']").val());
+		var vendasCard = parseFloat($("input[name='vendas_card']").val());
+		var vendasRede = parseFloat($("input[name='vendas_rede']").val());
+		var vendasCielo = parseFloat($("input[name='vendas_cielo']").val());
+		var vrAbertura = parseFloat($("#vr_abertura").text());
+		var totalRetirada = parseFloat($("#total_retirada").text());
+		var emCaixa = parseFloat($("#fundo_caixa").val());
+		var vendasTotalCartao = vendasCielo + vendasRede;
+		var diferencaCartoes = vendasTotalCartao - vendasCard;
+		window.esperadoCaixa = (vendasCash + vrAbertura) + ( - totalRetirada);
+		var diferencaDinheiro = emCaixa - esperadoCaixa;
+		window.diferencaFinal = diferencaCartoes + (diferencaDinheiro);
+		
+		$('#esperado_caixa').text('R$ ' + esperadoCaixa.toFixed(2));
+		$('#vr_diferenca_cartoes').text('R$ ' + diferencaCartoes.toFixed(2));
+		$('#vr_diferenca_caixa').text('R$ ' + diferencaDinheiro.toFixed(2));
+		$('#vr_diferenca_final').text('R$ ' + diferencaFinal.toFixed(2));
 
-	    	var msg = data['msg_retorno'];
-	    	var tipo = data['tipo_retorno'];
-
-	        $.notify(msg, tipo);
-
-	    if(tipo == 'success')
-	    {
-
-	    	setTimeout(function(){
-	        	$('#modalSenha').fadeOut();
-	        }, 500);
-
-		    setTimeout(function()
-		    {
-		    	location.reload();
-		    }, 1200);
+		if(diferencaFinal <= 0)
+		{
+			$.notify('Diferença de caixa: R$ ' + diferencaFinal.toFixed(2), 'error')
+		} else {
+			$.notify('Diferença de caixa: R$ ' + diferencaFinal.toFixed(2), 'success')
 		}
 
-	    }
-	    },"json");
+		
 
-};
+	};
 
-$('#calculaCaixa').on("click", function(e)
+
+	$('#gravarCaixa').on("click", function(e)
 	{
-		e.preventDefault();
+	    e.preventDefault();
+		console.log(esperadoCaixa + '  ' + diferencaFinal);
 		calculaCaixa();
-});
-
-function calculaCaixa()
-{
-	var vendasCash = parseFloat($("input[name='vendas_cash']").val());
-	var vendasCard = parseFloat($("input[name='vendas_card']").val());
-	var vendasRede = parseFloat($("input[name='vendas_rede']").val());
-	var vendasCielo = parseFloat($("input[name='vendas_cielo']").val());
-	var vrAbertura = parseFloat($("#vr_abertura").text());
-	var totalRetirada = parseFloat($("#total_retirada").text());
-	var emCaixa = parseFloat($("#fundo_caixa").val());
-	var vendasTotalCartao = vendasCielo + vendasRede;
-	var diferencaCartoes = vendasTotalCartao - vendasCard;
-	window.esperadoCaixa = (vendasCash + vrAbertura) + ( - totalRetirada);
-	var diferencaDinheiro = emCaixa - esperadoCaixa;
-	var diferencaFinal = diferencaCartoes + (diferencaDinheiro);
-	
-	$('#esperado_caixa').text('R$ ' + esperadoCaixa.toFixed(2));
-	$('#vr_diferenca_cartoes').text('R$ ' + diferencaCartoes.toFixed(2));
-	$('#vr_diferenca_caixa').text('R$ ' + diferencaDinheiro.toFixed(2));
-	$('#vr_diferenca_final').text(diferencaFinal.toFixed(2));
-
-	if(diferencaFinal <= 0)
-	{
-		$.notify('Diferença de caixa: R$ ' + diferencaFinal.toFixed(2), 'error')
-	} else {
-		$.notify('Diferença de caixa: R$ ' + diferencaFinal.toFixed(2), 'success')
-	}
-
-	
-
-};
-
-
-$('#gravarCaixa').on("click", function(e)
-{
-    e.preventDefault();
-
-    	calculaCaixa();
-    	gravaCaixa();
-});
+		gravaCaixa();
+	});
 
 
 
@@ -477,7 +467,7 @@ $('#gravarCaixa').on("click", function(e)
             'fundo_caixa' : $("#fundo_caixa").val(),
             'diferenca_cartoes' : $($('#vr_diferenca_cartoes')).text(),
             'diferenca_caixa' : $('#vr_diferenca_caixa').text(),
-            'diferenca_final' : $('#vr_diferenca_final').text(),
+            'diferenca_final' : diferencaFinal,
             'esperado_caixa' : esperadoCaixa,
             'vr_emCaixa' : $('#fundo_caixa').val(),
         };
@@ -557,39 +547,8 @@ $('#gravarCaixa').on("click", function(e)
 		},"json");
 	};
 
+})(window.jQuery);
 
-//funcoes de teste	
-
-$('#btnTesta').on("click", function(e)
-{
-    e.preventDefault();
-
-	testa();
-});
-
-		function testa()
-    {
-
-        var formData = {
-        	'Authorization': 'Bearer 5bDwfv16l7I02iePbc2GcQ',
-			'Accept': 'application/json',
-			'Content-Type': 'application/json'
-        };
-
-		var formAction = "https://connect.squareup.com/v1/L5LhCF4NPETn2IEevtahMQ/payments";
-
-		$.ajax({
-		    type: "POST",
-		    url : formAction,
-		    data : formData,
-		    success : function(data){
-
-		        $.notify(data);
-		        $('#testa').text(data);
-
-		    }
-		},"json");
-	};
 
 </script>
 

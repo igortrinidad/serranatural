@@ -2,7 +2,7 @@
 
 @section('conteudo')
 
-<h2 class="text-right">Histórico de pagamentos</h2><br>
+<h2 class="text-right">Histórico de Retiradas</h2><br>
 
 	@include('errors.messages')
 
@@ -32,7 +32,7 @@
 	
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h4>Pagamentos</h4>
+			<h4>Retiradas</h4>
 		</div>
 		<div class="panel-body">
 			
@@ -40,34 +40,23 @@
 			    <thead>
 
 			        <tr>
-			            <th>Situação</th>
-			            <th>Vencimento</th>
-			            <th>Descrição</th>
+			            <th>Data</th>
 			            <th>Valor</th>
-			            <th>Responsável Pagamento</th>
-			            <th>Arquivo pagamento</th>
-			            <th>Arq comprovante</th>
+			            <th>Descrição</th>
+			            <th>Usuario</th>
+			            <th>Retirado caixa</th>
+			            <th>Funcionario</th>
 			        </tr>
 			    </thead>
 			    <tbody>
-			    @foreach($pagamentos as $pag)
+			    @foreach($retiradas as $retirada)
 			        <tr>
-			            <th class="text-center">@if($pag->is_liquidado == 0)<strong style="color:red">Pendente</strong> @else Liquidado - ({{$pag->data_pgto}}) @endif </th>
-			            <th class="text-center">{{$pag->vencimento}}</th>
-			            <th><a href="{{route('admin.financeiro.detalhes', $pag->id)}}">{{$pag->descricao}}</a></th>
-			            <th>{{$pag->valor}}</th>
-			            <th>{{$pag->usuarioPagamento->name}}</th>
-			            <th class="text-center" width="10%">
-			            @if($pag->pagamento != '')
-			            	<a href="{!! route('arquivos.pagamentos', $pag->pagamento) !!}" data-lightbox="property"><i class="fa fa-search" ></i>
-			            @endif
-			            	</a>
-			            </th>
-			            <th class="text-center" width="10%">
-			            @if($pag->comprovante != '')
-			            	<a href="{!! route('arquivos.pagamentos', $pag->comprovante) !!}" data-lightbox="property"><i class="fa fa-search">
-			            @endif 
-			            </th>
+			            <td>{{$retirada->created_at}}</td>
+			            <td>{{$retirada->valor}}</td>
+			            <td>{{$retirada->descricao}}</td>
+			            <td>{{$retirada->usuario->name}}</td>
+			            <td>@if($retirada->retirado_caixa == 1) Sim @else Não @endif</td>
+			            <td>@if($retirada->funcionario_id != 0) {{$retirada->funcionario->nome}} @else -- @endif</td>
 			        </tr>
 			    @endforeach
 			    </tbody>
