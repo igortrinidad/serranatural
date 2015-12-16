@@ -8,55 +8,25 @@
 
 <div class="row">
 
-	<div class="panel panel-default">
-		<div class="panel-heading">
-				<div class="row">
-					<div class="col-md-6">
-						<h4>Histórico</h4>
-					</div>
-					<div class="col-md-6">
-						<div class="inline text-right">
-							<ul class="pagination">
-								<li>
-									<a href="{!! $retiradas->previousPageUrl() !!}" rel="prev">«</a>
-								</li>
-								<li>
-									<a href="{{ route('admin.financeiro.retiradasList').'/?page=1' }}">1</a>
-								</li>
-								<li class="active">
-									<a href="#">{!! $retiradas->currentPage() !!}</a>
-								</li>
-								<li>
-									<a href="{{ route('admin.financeiro.retiradasList').'/?page='.$retiradas->lastPage() }}" rel="prev">{!! $retiradas->lastPage() !!}</a>
-								</li>
-								<li>
-									<a href="{!! $retiradas->nextPageUrl() !!}" rel="prev">»</a>
-								</li>
-							</ul>	
-						</div>
-
-					</div>
-				</div>
+			<div class="form-inline text-right">
+				<ul class="pagination">
+					<li>
+						<a href="{!! $retiradas->previousPageUrl() !!}" rel="prev">«</a>
+					</li>
+					<li>
+						<a href="{{ route('admin.financeiro.retiradasList').'/?page=1' }}">1</a>
+					</li>
+					<li class="active">
+						<a href="#">{!! $retiradas->currentPage() !!}</a>
+					</li>
+					<li>
+						<a href="{{ route('admin.financeiro.retiradasList').'/?page='.$retiradas->lastPage() }}" rel="prev">{!! $retiradas->lastPage() !!}</a>
+					</li>
+					<li>
+						<a href="{!! $retiradas->nextPageUrl() !!}" rel="prev">»</a>
+					</li>
+				</ul>	
 			</div>
-		<div class="panel-body">
-			<form action="{{route('admin.financeiro.dateRange')}}" method="post" class="form-inline" role="form">
-				
-				{!! csrf_field() !!}
-				<input type="hidden" name="dataInicio" value="" class="form-control"/>
-				<input type="hidden" name="dataFim" value="" class="form-control"/>
-
-				<div class="form-group col-md-9">
-					<input type="text" name="dateRange" value="" class="form-control" placeholder="Selecione o periodo da pesquisa" style="width: 100%;"/>
-				</div>
-				
-				<div class="form-group col-md-3">
-					<button type="submit" class="btn btn-primary btn-block">Pesquisar</button>
-				</div>
-				
-
-			</form>
-		</div>
-	</div>
 	
 	<div class="panel panel-default">
 		<div class="panel-heading">
