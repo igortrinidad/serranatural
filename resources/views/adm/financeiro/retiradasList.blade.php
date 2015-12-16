@@ -9,7 +9,35 @@
 <div class="row">
 
 	<div class="panel panel-default">
+		<div class="panel-heading">
+				<div class="row">
+					<div class="col-md-6">
+						<h4>Histórico</h4>
+					</div>
+					<div class="col-md-6">
+						<div class="inline text-right">
+							<ul class="pagination">
+								<li>
+									<a href="{!! $retiradas->previousPageUrl() !!}" rel="prev">«</a>
+								</li>
+								<li>
+									<a href="{{ route('admin.financeiro.retiradasList').'/?page=1' }}">1</a>
+								</li>
+								<li class="active">
+									<a href="#">{!! $retiradas->currentPage() !!}</a>
+								</li>
+								<li>
+									<a href="{{ route('admin.financeiro.retiradasList').'/?page='.$retiradas->lastPage() }}" rel="prev">{!! $retiradas->lastPage() !!}</a>
+								</li>
+								<li>
+									<a href="{!! $retiradas->nextPageUrl() !!}" rel="prev">»</a>
+								</li>
+							</ul>	
+						</div>
 
+					</div>
+				</div>
+			</div>
 		<div class="panel-body">
 			<form action="{{route('admin.financeiro.dateRange')}}" method="post" class="form-inline" role="form">
 				
@@ -40,12 +68,12 @@
 			    <thead>
 
 			        <tr>
-			            <th>Data</th>
-			            <th>Valor</th>
-			            <th>Descrição</th>
-			            <th>Usuario</th>
-			            <th>Retirado caixa</th>
-			            <th>Funcionario</th>
+			            <th width="15%" class="text-center">Data</th>
+			            <th width="10%" class="text-center">Valor</th>
+			            <th width="20%" class="text-center">Descrição</th>
+			            <th width="15%" class="text-center">Usuario</th>
+			            <th width="10%" class="text-center">Retirado caixa</th>
+			            <th width="15%" class="text-center">Funcionario</th>
 			        </tr>
 			    </thead>
 			    <tbody>
@@ -65,21 +93,6 @@
 		</div>
 	</div>
 
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h4>Total</h4>
-		</div>
-		<div class="panel-body">
-	
-			<p><b>Periodo<b></p>
-			<p>{{isset($dataInicio) ? $dataInicio : '--'}} - {{isset($dataFim) ? $dataFim : '--'}} 
-			<p><b>Total</b></p>
-			<p>R$ {{isset($totalPeriodo) ? $totalPeriodo : '--'}}</p>
-
-
-		</div>
-
-	</div>
 
 </div>
 

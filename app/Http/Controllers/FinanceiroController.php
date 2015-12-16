@@ -586,7 +586,7 @@ class FinanceiroController extends Controller
 
     public function retiradasList()
     {
-        $retiradas = Retirada::all();
+        $retiradas = Retirada::orderBy('created_at', 'DESC')->paginate(12);
 
         $return = 
         [
