@@ -16,6 +16,5 @@ class VerifyCsrfToken extends BaseVerifier
         'oauth/access_token',
         'api/*',
         'cors/*',
-        'admin/financeiro/consultaCaixaAjax'
     ];
 }

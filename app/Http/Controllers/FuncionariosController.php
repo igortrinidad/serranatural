@@ -143,8 +143,7 @@ class FuncionariosController extends Controller
         $funcionarios = \serranatural\Models\Funcionario::with('retiradas')->all();
         $result = array();
 
-        foreach($funcionarios as $key => $value) 
-        {
+        foreach ($funcionarios as $key => $value) {
             $result[$value->id] = $value->nome;
         }
 

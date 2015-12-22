@@ -145,6 +145,7 @@ return [
         serranatural\Providers\AppServiceProvider::class,
         serranatural\Providers\EventServiceProvider::class,
         serranatural\Providers\RouteServiceProvider::class,
+        serranatural\Providers\DashboardProvider::class,
         Vinicius73\Lavatar\LavatarServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,

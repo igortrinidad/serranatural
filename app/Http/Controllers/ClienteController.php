@@ -112,7 +112,8 @@ class ClienteController extends Controller
                                 'nome' => $request['nome'],
                                 'telefone' => $request['telefone'],
                                 'email' => $request['email']
-                                ]);
+                                ]
+                            );
 
         $dados = [
             'msg_retorno' => 'Cliente alterado com sucesso',
@@ -171,13 +172,13 @@ class ClienteController extends Controller
                         ->where('clienteId', '=', $clienteID)
                         ->delete();
 
-         $dados = [
-            'msg_retorno' => 'Preferência excluida com sucesso.',
-            'tipo_retorno' => 'danger',
-        ];
+         $dados =
+            [
+                'msg_retorno' => 'Preferência excluida com sucesso.',
+                'tipo_retorno' => 'danger',
+            ];
 
-        return back()->with($dados);
-
+         return back()->with($dados);
     }
 
     /**
@@ -227,7 +228,7 @@ class ClienteController extends Controller
         $pratoDoDia = AgendaPratos::where('dataStamp', '=', date('Y-m-d'))
                                     ->first();
 
-        if(!is_null($pratoDoDia) OR !empty($pratoDoDia))
+        if (!is_null($pratoDoDia) or !empty($pratoDoDia))
         {
 
             $cliente = Cliente::find($id);

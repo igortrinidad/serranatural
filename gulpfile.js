@@ -28,6 +28,7 @@ elixir(function(mix) {
 		'/../bower_components/lightbox-rotate/lightbox-rotate.js',
 		'/../bower_components/moment/moment.js',
 		'/../bower_components/bootstrap-daterangepicker/daterangepicker.js',
+		'/../bower_components/jquery-infinite-scroll/jquery.infinitescroll.js',
 		'sb-admin-2.js',
 		'appGeral.js',
 		'notify.js',

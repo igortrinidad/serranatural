@@ -10,6 +10,7 @@
 
     <div class="panel panel-default">
         <div class="panel-body">
+
                 <div class="col-lg-6 col-md-6">
                     <div class="panel panel-red">
                         <div class="panel-heading">

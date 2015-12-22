@@ -9,7 +9,6 @@ use serranatural\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Mail;
-
 use serranatural\Models\Caixa as Caixa;
 use serranatural\Models\Retirada as Retirada;
 use serranatural\Models\Cliente as Cliente;
@@ -27,7 +26,7 @@ class FinanceiroController extends Controller
 
     public function __construct()
     {
-        //$this->middleware('auth', ['except' => ['getImage']]);
+        $this->middleware('auth', ['except' => ['getImage']]);
 
         //$this->middleware('nivelAcesso:super_adm', ['only' => ['retirada']]);
 
@@ -37,8 +36,6 @@ class FinanceiroController extends Controller
     {
 
         $caixa = Caixa::with('usuarioAbertura', 'retiradas')->where('is_aberto', '=', 1)->first();
-
-        //dd($caixa);
 
         $dados = [
             'caixa' => $caixa
@@ -86,8 +83,7 @@ class FinanceiroController extends Controller
                             ->where('senha_operacao', '=', $request->senha)
                             ->first();
 
-        if (is_null($autoriza) OR empty($autoriza))
-        {
+        if (is_null($autoriza) or empty($autoriza)) {
             $dados = [
                 'msg_retorno' => 'Senha inválida',
                 'tipo_retorno' => 'error'
@@ -154,9 +150,9 @@ class FinanceiroController extends Controller
                             ->where('senha_operacao', '=', $request->senha)
                             ->first();
 
-        if (is_null($autoriza) OR empty($autoriza))
-        {
-            $dados = [
+        if (is_null($autoriza) or empty($autoriza)) {
+            $dados =
+            [
                 'msg_retorno' => 'Senha inválida',
                 'tipo_retorno' => 'error'
             ];
@@ -176,34 +172,32 @@ class FinanceiroController extends Controller
         $userFechamento = User::where('id', '=', $caixa->user_id_fechamento)->first();
 
         $dados = [
-
-        'dt_abertura' => $caixa->dt_abertura->format('d/m/Y H:i:s'),
-        'dt_fechamento' => $caixa->dt_fechamento->format('d/m/Y H:i:s'),
-        'vendas_cash' => $caixa->vendas_cash,
-        'vendas_card' => $caixa->vendas_card,
-        'total_vendas' => number_format($caixa->vendas_cash + $caixa->vendas_card, 2, ',', '.'),
-        'total_retirada' => $caixa->total_retirada,
-        'vendas_rede' => $caixa->vendas_rede,
-        'vendas_cielo' => $caixa->vendas_cielo,
-        'esperado_caixa' => $caixa->esperado_caixa,
-        'vr_emCaixa' => $caixa->vr_emCaixa,
-        'vr_abertura' => $caixa->vr_abertura,
-        'diferenca_cartoes' => $caixa->diferenca_cartoes,
-        'diferenca_caixa' => $caixa->diferenca_caixa,
-        'diferenca_final' => $caixa->diferenca_final,
-        'user_abertura' => $userAbertura->name,
-        'user_fechamento' => $userFechamento->name,
+            'dt_abertura' => $caixa->dt_abertura->format('d/m/Y H:i:s'),
+            'dt_fechamento' => $caixa->dt_fechamento->format('d/m/Y H:i:s'),
+            'vendas_cash' => $caixa->vendas_cash,
+            'vendas_card' => $caixa->vendas_card,
+            'total_vendas' => number_format($caixa->vendas_cash + $caixa->vendas_card, 2, ',', '.'),
+            'total_retirada' => $caixa->total_retirada,
+            'vendas_rede' => $caixa->vendas_rede,
+            'vendas_cielo' => $caixa->vendas_cielo,
+            'esperado_caixa' => $caixa->esperado_caixa,
+            'vr_emCaixa' => $caixa->vr_emCaixa,
+            'vr_abertura' => $caixa->vr_abertura,
+            'diferenca_cartoes' => $caixa->diferenca_cartoes,
+            'diferenca_caixa' => $caixa->diferenca_caixa,
+            'diferenca_final' => $caixa->diferenca_final,
+            'user_abertura' => $userAbertura->name,
+            'user_fechamento' => $userFechamento->name,
         ];
 
-        $email = Mail::queue('emails.admin.fechamentoCaixa', $dados, function ($message) use ($dados, $caixa)
-            {
+        $email = Mail::queue('emails.admin.fechamentoCaixa', $dados, function ($message) use ($dados, $caixa) {
 
-                $message->to('contato@maisbartenders.com.br', 'Igor Trindade');
-                $message->from('mkt@serranatural.com', 'Serra Natural');
-                $message->subject('Fechamento de caixa : ' . $caixa->dt_fechamento->format('d/m/Y H:i:s'));
-                $message->getSwiftMessage();
+            $message->to('contato@maisbartenders.com.br', 'Igor Trindade');
+            $message->from('mkt@serranatural.com', 'Serra Natural');
+            $message->subject('Fechamento de caixa : ' . $caixa->dt_fechamento->format('d/m/Y H:i:s'));
+            $message->getSwiftMessage();
 
-            });
+        });
 
         $body = json_encode($dados);
 
@@ -215,8 +209,7 @@ class FinanceiroController extends Controller
 
         ]);
 
-        if(!$email)
-        {
+        if (!$email) {
             $return = [
                 'msg_retorno' => 'Ocorreu algum problema no envio do email.',
                 'tipo_retorno' => 'error'
@@ -261,8 +254,7 @@ class FinanceiroController extends Controller
         $funcionarios = \serranatural\Models\Funcionario::all();
         $result = array();
 
-        foreach($funcionarios as $key => $value) 
-        {
+        foreach ($funcionarios as $key => $value) {
             $result[$value->id] = $value->nome;
         }
 
@@ -289,15 +281,13 @@ class FinanceiroController extends Controller
         $retirada->descricao = $request->descricao . ' - ' . date('H:i:s');
         
 
-        if(!is_null($request->funcionario_id) OR !empty($request->funcionario_id))
-        {
+        if (!is_null($request->funcionario_id) or !empty($request->funcionario_id)) {
             $retirada->funcionario_id = $request->funcionario_id;
         }
 
         $retirada->save();
 
-        if($request->retirado_caixa == 1)
-        {
+        if ($request->retirado_caixa == 1) {
             $caixa = Caixa::where('is_aberto', '=', 1)->first();
 
             $retirada->retirado_caixa = $request->retirado_caixa;
@@ -327,15 +317,13 @@ class FinanceiroController extends Controller
         $pagamento = Pagamento::create($request->all());
         $pagamento->user_id_cadastro = \Auth::user()->id;
 
-        if(!is_null($request->file('pagamento')) OR !empty($request->file('pagamento')))
-        {
+        if (!is_null($request->file('pagamento')) or !empty($request->file('pagamento'))) {
         //Salva arquivo pagamento e seta o nome no banco.
             $nomeArquivos = $this->salvaArquivosPagamento($request->file('pagamento'), '_ID_' . $pagamento->id . '_PGTO_', $request->vencimento);
             $pagamento->pagamento = $nomeArquivos;
         }
 
-        if(!is_null($request->file('notaFiscal')) OR !empty($request->file('notaFiscal')))
-        {
+        if (!is_null($request->file('notaFiscal')) or !empty($request->file('notaFiscal'))) {
         //Salva arquivo pagamento e seta o nome no banco.
             $nomeArquivos = $this->salvaArquivosPagamento($request->file('notaFiscal'), '_ID_' . $pagamento->id . '_NOTAF_', $request->vencimento);
             $pagamento->notafiscal = $nomeArquivos;
@@ -361,7 +349,7 @@ class FinanceiroController extends Controller
 
         $extArquivo = $arquivo->getClientOriginalExtension();
         $nomeArquivo = $dataAlt . $prefix . $dataArquivo . '.' . $extArquivo;
-        $salvaArquivo = Storage::disk('pagamentos')->put($nomeArquivo,  File::get($arquivo));
+        $salvaArquivo = Storage::disk('pagamentos')->put($nomeArquivo, File::get($arquivo));
 
         return $nomeArquivo;
 
@@ -431,15 +419,13 @@ class FinanceiroController extends Controller
             ]);
 
 
-        if(!is_null($request->file('pagamento')) OR !empty($request->file('pagamento')))
-        {
+        if (!is_null($request->file('pagamento')) or !empty($request->file('pagamento'))) {
         //Salva arquivo pagamento e seta o nome no banco.
             $nomeArquivos = $this->salvaArquivosPagamento($request->file('pagamento'), '_ID_' . $pagamento->id . '_PGTO_', $request->vencimento);
             $pagamento->pagamento = $nomeArquivos;
         }
 
-        if(!is_null($request->file('notaFiscal')) OR !empty($request->file('notaFiscal')))
-        {
+        if (!is_null($request->file('notaFiscal')) or !empty($request->file('notaFiscal'))) {
         //Salva arquivo pagamento e seta o nome no banco.
             $nomeArquivos = $this->salvaArquivosPagamento($request->file('notaFiscal'), '_ID_' . $pagamento->id . '_NOTAF_', $request->vencimento);
             $pagamento->notafiscal = $nomeArquivos;
@@ -461,30 +447,28 @@ class FinanceiroController extends Controller
 
         $pagamento = Pagamento::where('id', '=', $request->pagamento_id)->first();
 
-        if(!is_null($request->file('comprovante')) OR !empty($request->file('comprovante')))
-        {
+        if (!is_null($request->file('comprovante')) or !empty($request->file('comprovante'))) {
         //Salva arquivo pagamento e seta o nome no banco.
             $nomeArquivos = $this->salvaArquivosPagamento($request->file('comprovante'), '_ID_' . $pagamento->id . '_COMPVT_', $request->data_pgto);
             $pagamento->notafiscal = $nomeArquivos;
             $pagamento->comprovante = $nomeArquivos;
         }
 
-        if($request->is_liquidado == 1)
-        {
+        if ($request->is_liquidado == 1) {
+
             $pagamento->data_pgto = $request->data_pgto;
             $pagamento->fonte_pgto = $request->fonte_pgto;
             $pagamento->is_liquidado = 1;
             $pagamento->user_id_pagamento = \Auth::user()->id;
             
-        } else 
-        {
+        } else {
+
             $pagamento->is_liquidado == 0;
             $pagamento->user_id_pagamento = '';
             $pagamento->fonte_pgto = '';
             $pagamento->comprovante = '';
         }
         $pagamento->save();
-
 
         $dados = [
             'msg_retorno' => 'Pagamento liquidado com sucesso.',
@@ -534,8 +518,7 @@ class FinanceiroController extends Controller
         $pagamento->is_liquidado = 1;
         $pagamento->vencimento = $pagamento->data_pgto;
 
-        if(!is_null($request->file('comprovante')) OR !empty($request->file('comprovante')))
-        {
+        if (!is_null($request->file('comprovante')) or !empty($request->file('comprovante'))) {
         //Salva arquivo pagamento e seta o nome no banco.
             $nomeArquivos = $this->salvaArquivosPagamento($request->file('comprovante'), '_ID_' . $pagamento->id . '_COMPRVT_', $request->data_pgto);
             $pagamento->comprovante = $nomeArquivos;
@@ -588,13 +571,12 @@ class FinanceiroController extends Controller
     {
         $retiradas = Retirada::orderBy('created_at', 'DESC')->paginate(12);
 
-        $return = 
+        $return =
         [
             'retiradas' => $retiradas,
         ];
 
         return view('adm.financeiro.retiradasList')->with($return);
     }
-
 
 }

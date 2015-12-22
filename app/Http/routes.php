@@ -11,9 +11,7 @@ Route::get('/login', function(){return view('auth/login');});
 Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 {
 		// Clientes
-	Route::group(['as' => 'client.'], function()
-
-	{
+	Route::group(['as' => 'client.'], function() {
 		Route::get('clientes/lista', ['as' => 'lista', 'uses' => 'ClienteController@lista']);
 		Route::get('clientes/{id}/mostra', ['as' => 'show', 'uses' => 'ClienteController@mostraCliente']);
 		Route::get('clientes/sairEmail/{id}', ['as' => 'sairEmail', 'uses' => 'ClienteController@sairEmail']);
@@ -28,7 +26,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::get('clientes/fidelidade', ['as' => 'fidelidade', 'uses' => 'ClienteController@fidelidadeIndex']);
 		Route::post('clientes/salvaPonto', ['as' => 'salvaPonto', 'uses' => 'ClienteController@salvaPonto']);
 		Route::post('clientes/fidelidade/usaVoucher/{voucher}', ['as' => 'usesVoucher', 'uses' => 'ClienteController@usesVoucher']);
-
 	});
 
 		// Financeiro

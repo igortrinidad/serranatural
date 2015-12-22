@@ -15,15 +15,12 @@ use Carbon\Carbon;
 
 use serranatural\Models\Pratos;
 use serranatural\Models\AgendaPratos;
-use serranatural\Models\Promocoes;
-use serranatural\Models\Voto;
 use serranatural\Models\Cliente;
 use serranatural\Models\Produto;
 use serranatural\Models\ReceitaPrato;
 use serranatural\Models\Preferencias;
 
 use QrCode;
-
 
 class ProdutosController extends Controller
 {
@@ -44,28 +41,13 @@ class ProdutosController extends Controller
     {
 
         $prato = Pratos::where('id', '=', $id)->first();
-
-        $link = 'http://www.maisbartenders.com.br/'.$prato->prato.','.date('d/m/Y');
-
-        //$arquivo = time() .'.png';
-//
-        //$caminho = '../public/qrcodes/'. $arquivo;
-//
-        //QrCode::format('png');
-        //QrCode::size(300);
-        //$teste = QrCode::generate($link, $caminho);
-
-
         $ingredientes = ReceitaPrato::where('prato_id', '=', $id)->get();
-
-
         $produtos = Produto::where('is_materiaPrima', '=', 1)->get();
 
         $dados = [
             'prato' => $prato,
             'produtos' => $produtos,
             'ingredientes' => $ingredientes,
-            //'arquivo' => $arquivo
         ];
 
         return view('adm/produtos/prato/mostra')->with($dados);
@@ -85,7 +67,7 @@ class ProdutosController extends Controller
 
     }
 
-        public function updatePrato(Request $request)
+    public function updatePrato(Request $request)
     {
         $id = $request->id;
 
@@ -97,8 +79,7 @@ class ProdutosController extends Controller
         $prato->valor_pequeno = $request->valor_pequeno;
         $prato->valor_grande = $request->valor_grande;
 
-        if(!is_null($request->file('foto')) OR !empty($request->file('foto')))
-        {
+        if (!is_null($request->file('foto')) or !empty($request->file('foto'))) {
         //Salva arquivo pagamento e seta o nome no banco.
             $nomeArquivos = $this->salvaArquivosProdutos($request->file('foto'), '_PratoID_' . $id);
             $prato->foto = $nomeArquivos;
@@ -126,7 +107,7 @@ class ProdutosController extends Controller
     public function indexPrato()
     {
 
-        $listaPratos = Pratos::orderBy('ativo', 'DESC')->paginate(8);
+        $listaPratos = Pratos::orderBy('ativo', 'DESC')->paginate(10);
 
         $pratosForSelect = $this->pratosForSelect();
 
@@ -150,8 +131,7 @@ class ProdutosController extends Controller
     {
         $prato = Pratos::create($request->all());
 
-        if(!is_null($request->file('foto')) OR !empty($request->file('foto')))
-        {
+        if (!is_null($request->file('foto')) or !empty($request->file('foto'))) {
         //Salva arquivo pagamento e seta o nome no banco.
             $nomeArquivos = $this->salvaArquivosProdutos($request->file('foto'), '_PratoID_' . $prato->id);
             $prato->foto = $nomeArquivos;
@@ -160,7 +140,7 @@ class ProdutosController extends Controller
 
         $cliente = Cliente::get();
 
-        foreach($cliente as $cliente) {
+        foreach ($cliente as $cliente) {
 
             Preferencias::create([
 
@@ -179,9 +159,8 @@ class ProdutosController extends Controller
         return redirect()->action('ProdutosController@indexPrato')->with($dados);
     }
 
-        public function destroyPrato($id)
+    public function destroyPrato($id)
     {
-
         $prato = Pratos::find($id)->delete();
 
         $preferencias = Preferencias::where('preferencias', '=', $id)->delete();
@@ -241,10 +220,12 @@ class ProdutosController extends Controller
         $pratosForSelect = $this->pratosForSelect();
 
         return view('adm/produtos/prato/pratosSemana')->with(
-            ['pratos' => $pratos, 
+            [
+            'pratos' => $pratos,
             'agenda' => $agenda,
             'pratosForSelect' => $pratosForSelect,
-            ]);
+            ]
+        );
     }
 
 
@@ -267,8 +248,7 @@ class ProdutosController extends Controller
 
         //dd($dados);
 
-        Mail::queue('emails.marketing.pratoNovo', $data, function ($message) use ($data)
-        {
+        Mail::queue('emails.marketing.pratoNovo', $data, function ($message) use ($data) {
 
             $message->to('contato@serranatural.com', 'Serra Natural');
             $message->from('mkt@serranatural.com', 'Serra Natural');
@@ -355,16 +335,12 @@ class ProdutosController extends Controller
     }
 
     public function excluiPratoSemana($id)
-
-        {
-
+    {
         $produto = AgendaPratos::find($id)->delete();
-
+        
         $dados = [
-
-        'msg_retorno' => 'Prato excluido com sucesso',
-        'tipo_retorno' => 'danger',
-
+            'msg_retorno' => 'Prato excluido com sucesso',
+            'tipo_retorno' => 'danger',
         ];
 
         return redirect()->action('ProdutosController@semanaIndex')->with($dados);
@@ -382,14 +358,14 @@ class ProdutosController extends Controller
         $pratoDoDia = AgendaPratos::where('dataStamp', '=', date('Y-m-d'))
                                     ->first();
 
-        if(!is_null($pratoDoDia))
-        {
+        if (!is_null($pratoDoDia)) {
             $prato = Pratos::where('id', '=', $pratoDoDia->pratos_id)->first();
 
-            $dados = [
+            $dados =
+            [
                 'prato' => $prato,
                 'data' => date('d/m/Y')
-        ];
+            ];
             return view('adm/produtos/prato/landPratoDoDia')->with($dados);
 
         } else {
@@ -397,10 +373,11 @@ class ProdutosController extends Controller
             $prato = ['prato' => 'surpresa',
             'acompanhamentos' => 'surpresa'];
 
-            $dados = [
+            $dados =
+            [
                 'prato' => $prato,
                 'data' => date('d/m/Y')
-        ];
+            ];
             return view('adm/produtos/prato/landPratoDoDia')->with($dados);
 
         }
@@ -413,14 +390,14 @@ class ProdutosController extends Controller
         $pratoDoDia = AgendaPratos::where('dataStamp', '=', date('Y-m-d', $timestamp))
                                     ->first();
 
-        if(!is_null($pratoDoDia))
-        {
+        if (!is_null($pratoDoDia)) {
             $prato = Pratos::where('id', '=', $pratoDoDia->pratos_id)->first();
 
-            $dados = [
+            $dados =
+            [
                 'prato' => $prato,
                 'data' => date('d/m/Y', $timestamp)
-        ];
+            ];
             return view('adm/produtos/prato/landAmanha')->with($dados);
 
         } else {
@@ -428,10 +405,11 @@ class ProdutosController extends Controller
             $prato = ['prato' => 'surpresa',
             'acompanhamentos' => 'surpresa'];
 
-            $dados = [
+            $dados =
+            [
                 'prato' => $prato,
                 'data' => date('d/m/Y', $timestamp)
-        ];
+            ];
             return view('adm/produtos/prato/landAmanha')->with($dados);
 
         }
@@ -443,7 +421,7 @@ class ProdutosController extends Controller
 
         $extArquivo = $arquivo->getClientOriginalExtension();
         $nomeArquivo =  $prefix . '.' . $extArquivo;
-        $salvaArquivo = Storage::disk('produtos')->put($nomeArquivo,  File::get($arquivo));
+        $salvaArquivo = Storage::disk('produtos')->put($nomeArquivo, File::get($arquivo));
 
         return $nomeArquivo;
 
@@ -466,38 +444,35 @@ class ProdutosController extends Controller
 
         set_time_limit(900);
 
-        foreach($clientes as $cliente){
+        foreach ($clientes as $cliente) {
 
-        $dados = [
-
-        'prato' => $prato,
-        'nomeCliente' => $cliente->nome,
-        'emailCliente' => $cliente->email,
-        'mensagem' => $mensagem
-
-        ];
+            $dados =
+            [
+                'prato' => $prato,
+                'nomeCliente' => $cliente->nome,
+                'emailCliente' => $cliente->email,
+                'mensagem' => $mensagem
+            ];
 
         //dd($dados);
 
-        Mail::queue('emails.marketing.pratoNovo', $dados, function ($message) use ($cliente, $dados)
-        {
+            Mail::queue('emails.marketing.pratoNovo', $dados, function ($message) use ($cliente, $dados)
+            {
+                $message->to($cliente->email, $cliente->nome);
+                $message->from('mkt@serranatural.com', 'Serra Natural');
+                $message->subject('Cardápio do dia');
+                $message->getSwiftMessage();
+            });
 
-            $message->to($cliente->email, $cliente->nome);
-            $message->from('mkt@serranatural.com', 'Serra Natural');
-            $message->subject('Cardápio do dia');
-            $message->getSwiftMessage();
+            $body = json_encode($dados);
 
-        });
-
-        $body = json_encode($dados);
-
-        \serranatural\Models\LogEmail::create([
-
-        'email' => $cliente->email,
-        'assunto' => 'Cardapio do dia',
-        'mensagem' => $body
-
-        ]);
+            \serranatural\Models\LogEmail::create(
+                [
+                    'email' => $cliente->email,
+                    'assunto' => 'Cardapio do dia',
+                    'mensagem' => $body
+                ]
+            );
 
             
         }
@@ -510,12 +485,12 @@ class ProdutosController extends Controller
         return back()->with($data);
     }
 
-        public function pratosForSelect()
+    public function pratosForSelect()
     {
         $clientes = Pratos::all();
         $result = array();
 
-        foreach($clientes as $key => $value) {
+        foreach ($clientes as $key => $value) {
             $result[$value->id] = $value->id.' - '.$value->prato . ' - ' . $value->valor_pequeno . ' - ' . $value->valor_grande;
         }
 

@@ -303,7 +303,7 @@
 											
 											<div class="form-group">
 												<label>Insira sua senha</label>
-                                        		<input type="password" name="senha" class="form-control" value="" />
+                                        		<input type="password" id="inputSenha" name="senha" class="form-control" value="" />
 											</div>
 
 	                                            <button type="button" class="btn btn-white btn-sm" data-dismiss="modal">Cancela</button>
@@ -352,17 +352,22 @@ $('.maskValor').mask("R$ 0000.00", {reverse: true});
 	$('#btnAbrir').on("click", function(e){
 		e.preventDefault();
 		var valor_informado = $('#valor_informado').val();
-		window.console.log(valor_informado);
 		$('#valor_confirmation').text('R$ ' + valor_informado);
+
+		setTimeout(function(){
+			        	$('#inputSenha').focus();
+			        }, 800);
+		
 	});
 
 
 
 	$('#btnAbreCaixaDefinitivo').on("click", function(e){
 		e.preventDefault();
+		$(this).attr("disabled", "disabled");
 		abreCaixa();
+		
 	});
-
 
 
 	function abreCaixa()
@@ -382,24 +387,26 @@ $('.maskValor').mask("R$ 0000.00", {reverse: true});
 		    data : formData,
 		    success : function(data){
 
+		    	
+
 		    	var msg = data['msg_retorno'];
 		    	var tipo = data['tipo_retorno'];
 
 		        $.notify(msg, tipo);
 
-		    if(tipo == 'success')
-		    {
-
-		    	setTimeout(function(){
-		        	$('#modalSenha').fadeOut();
-		        }, 500);
-
-			    setTimeout(function()
+			    if(tipo == 'success')
 			    {
-			    	location.reload();
-			    }, 1200);
-			}
+			    	setTimeout(function(){
+			        	$('#modalSenha').fadeOut();
+			        }, 500);
 
+				    setTimeout(function()
+				    {
+				    	location.reload();
+				    }, 1200);
+				}
+
+				$('#btnAbreCaixaDefinitivo').removeAttr("disabled");
 		    }
 		    },"json");
 

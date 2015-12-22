@@ -15,10 +15,6 @@ class SystemController extends Controller
     {
         $this->middleware('auth', []);
 
-        View::composers([
-            'serranatural\ViewComposers\DashboardComposer'  => array('adm.dashboard.index') //attaches HomeComposer to home.blade.php
-        ]);
-
     }
 
     public function getDiscImage($disc, $filename, $mime)

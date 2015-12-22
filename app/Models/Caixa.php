@@ -1,5 +1,4 @@
 <?php
-
 namespace serranatural\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -14,24 +13,24 @@ class Caixa extends Model
     protected $table = 'caixas';
 
     protected $fillable = [
-    						'id',
+                            'id',
                             'user_id_abertura',
-    						'user_id_fechamento',
-    						'vr_abertura',
-    						'vendas_cash',
+                            'user_id_fechamento',
+                            'vr_abertura',
+                            'vendas_cash',
                             'vendas_card',
-    						'vendas_rede',
-    						'vendas_cielo',
+                            'vendas_rede',
+                            'vendas_cielo',
                             'total_retirada',
-    						'esperado_caixa',
+                            'esperado_caixa',
                             'diferenca_caixa',
                             'diferenca_cartoes',
-    						'diferenca_final',
+                            'diferenca_final',
                             'fundo_caixa',
                             'dt_abertura',
                             'dt_fechamento',
-    						'is_aberto',
-    					];
+                            'is_aberto',
+                            ];
 
     public function getCreatedAtAttribute($value)
     {
@@ -58,15 +57,23 @@ class Caixa extends Model
         return 'R$ ' . number_format($value, 2, ',', '.');
     }
 
-    public function retiradas(){
+    public function retiradas()
+    {
         return $this->hasMany('serranatural\Models\Retirada');
     }
 
-    public function usuarioAbertura(){
+    public function usuarioAbertura()
+    {
         return $this->belongsTo('serranatural\User', 'user_id_abertura', 'id');
     }
 
-    public function usuarioFechamento(){
+    public function usuarioFechamento()
+    {
         return $this->belongsTo('serranatural\User', 'user_id_fechamento', 'id');
+    }
+
+    public function teste()
+    {
+        return 'Testado 1000';
     }
 }

@@ -301,23 +301,44 @@
 
 
                         <li>
-                            <a href="#"><i class="fa fa-th-list"></i> Pratos<span class="fa arrow"></span></a>
+                             <a href="#"><i class="fa fa-th-list"></i> Produtos<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="{{route('produtos.pratos.add')}}">Adiciona</a>
+                                    <a href="#"><i class="fa fa-cutlery"></i> Pratos<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a href="{{route('produtos.pratos.add')}}">Adiciona</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="/admin/produtos/pratos/lista">Lista pratos</a>
+                                        </li>
+                                        <li>
+                                            <a href="/admin/produtos/pratosSemana">Agenda Pratos</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Relatórios</a>
+                                        </li>
+
+                                    </ul>
                                 </li>
 
                                 <li>
-                                    <a href="/admin/produtos/pratos/lista">Lista pratos</a>
-                                </li>
-                                <li>
-                                    <a href="/admin/produtos/pratosSemana">Agenda Pratos</a>
-                                </li>
-                                <li>
-                                    <a href="#">Relatórios</a>
-                                </li>
+                                    <a href="#"><i class="fa fa-th-list"></i> Produtos<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a href="{{route('produtos.pratos.add')}}">Adiciona</a>
+                                        </li>
 
+                                        <li>
+                                            <a href="/admin/produtos/pratos/lista">Lista</a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                            
                             </ul>
+                            
                         </li>
 
                         <li>
