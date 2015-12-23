@@ -21,6 +21,6 @@ class Pratos extends Model
 	//4 argumento deve ser o id da tabela a ser relacionada
 	public function produtos()
 	{
-		return $this->belongsToMany('serranatural\Models\Produto', 'pratos_produto', 'prato_id', 'produto_id')->withPivot('quantidade', 'unidade');
+		return $this->belongsToMany('serranatural\Models\Produto', 'pratos_produtos', 'prato_id', 'produto_id')->withPivot('quantidade', 'unidade');
 	}
 }
