@@ -132,22 +132,14 @@ class ReceitasController extends Controller
 
         $quantidade = $request->quantidade;
 
-        $agendados = AgendaPratos::whereBetween('dataStamp', array($request->dataInicio, $request->dataFim))
-                                ->lists('pratos_id');
-
-        $pratos = Pratos::with('produtos', 'agendaPratos')
-                    ->whereIn('id', $agendados)
-                    ->get();
-
-        foreach ($pratos as $prato) {
-            foreach ($prato->produtos as $produtos) {
-                $produtos->pivot->quantidade = $quantidade * $produtos->pivot->quantidade;
-            }
-        }
+        $agendados = AgendaPratos::with('pratos')
+                                ->whereBetween('dataStamp', array($request->dataInicio, $request->dataFim))
+                                ->orderBy('dataStamp', 'ASC')
+                                ->get();
 
         $return =
         [
-            'pratos' => $pratos,
+            'agendados' => $agendados,
             'quantidadePratos' => $quantidade,
         ];
 

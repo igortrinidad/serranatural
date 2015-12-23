@@ -14,6 +14,7 @@ class AgendaPratos extends Model
 
     public function pratos()
     {
-    	return $this->belongsTo('serranatural\Models\Pratos');
+		return $this->belongsTo('serranatural\Models\Pratos');
     }
+
 }
