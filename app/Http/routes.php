@@ -135,7 +135,7 @@ Route::group(['as' => 'produtos.'], function()
 		Route::get('/admin/produtos/lista', 'ProdutosController@listaProdutos');
 		Route::get('/admin/produtos/create', 'ProdutosController@createProdutos');
 		Route::post('/admin/produtos/storeProduto', 'ProdutosController@storeProduto');
-		Route::get('/admin/produtos/calcular/index', function(){return view('adm.produtos.prato.rangeData');});
+		Route::get('/admin/produtos/calcular/index', 'ReceitasController@rangeIndex');
 		Route::post('/admin/produtos/calcular/dateRange', 'ReceitasController@dateRange');
 		Route::get('/admin/produtos/ingredientes/excluir/{produto}/{prato}', 'ReceitasController@excluiIngrediente');
 	});

@@ -13,9 +13,26 @@ use serranatural\Models\AgendaPratos;
 use serranatural\Models\Produto;
 use serranatural\Models\Fornecedor;
 
+use Carbon\Carbon;
 
 class ReceitasController extends Controller
 {
+
+    public function rangeIndex()
+    {
+
+        $pratos = Pratos::all();
+
+        $agenda = AgendaPratos::where('dataStamp', '>=', Carbon::now()->format('Y-m-d'))->orderBy('dataStamp', 'ASC')->get();
+
+        $return =
+        [
+            'pratos' => $pratos,
+            'agenda' => $agenda
+        ];
+
+        return view('adm.produtos.prato.rangeData')->with($return);
+    }
     /**
      * Display a listing of the resource.
      *
