@@ -110,8 +110,8 @@ Route::group(['as' => 'produtos.'], function()
 {
 	Route::group(['as' => 'pratos.'], function()
 	{
-		Route::get('/admin/produtos/pratos/lista', ['as' => 'lista', 'uses' => 'ProdutosController@indexPrato']);
-		Route::get('/admin/produtos/pratos/add', ['as' => 'add', 'uses' =>'ProdutosController@createPrato']);
+		Route::get('/admin/produtos/pratos/lista', ['as' => 'lista', 'uses' => 'ProdutosController@listaPrato']);
+		Route::get('/admin/produtos/pratos/create', ['as' => 'add', 'uses' =>'ProdutosController@createPrato']);
 		Route::get('/admin/produtos/pratos/mostra/{id}', 'ProdutosController@mostraPrato');
 		Route::get('/admin/produtos/pratos/edita/{id}', 'ProdutosController@editaPrato');
 		Route::post('/admin/produtos/pratos/edita/{id}', 'ProdutosController@updatePrato');
@@ -131,6 +131,13 @@ Route::group(['as' => 'produtos.'], function()
 		Route::get('/admin/produtos/excluiPratoSemana/{id}', 'ProdutosController@excluiPratoSemana');
 		Route::post('/admin/produtos/addPratoSemana/{id}', 'ProdutosController@addPratoSemana');
 		Route::post('/admin/produtos/enviaPratoDoDia', 'ProdutosController@enviaPratoDoDia');
+
+		Route::get('/admin/produtos/lista', 'ProdutosController@listaProdutos');
+		Route::get('/admin/produtos/create', 'ProdutosController@createProdutos');
+		Route::post('/admin/produtos/storeProduto', 'ProdutosController@storeProduto');
+		Route::get('/admin/produtos/calcular/index', function(){return view('adm.produtos.prato.rangeData');});
+		Route::post('/admin/produtos/calcular/dateRange', 'ReceitasController@dateRange');
+		Route::get('/admin/produtos/ingredientes/excluir/{produto}/{prato}', 'ReceitasController@excluiIngrediente');
 	});
 
 });

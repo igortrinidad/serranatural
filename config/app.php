@@ -155,6 +155,8 @@ return [
         Barryvdh\Cors\ServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         Huddle\Zendesk\Providers\ZendeskServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
+
 
 
     ],
@@ -212,6 +214,7 @@ return [
         'Authorizer' => LucaDegasperi\OAuth2Server\Facades\Authorizer::class,
         'Flash' => Laracasts\Flash\FlashServiceProvider::class,
         'Zendesk' => Huddle\Zendesk\Facades\Zendesk::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],
 

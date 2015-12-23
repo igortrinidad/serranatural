@@ -31,23 +31,23 @@ class ProdutosController extends Controller
 
     }
 
-    public function criaProduto()
+    public function createPrato()
     {
-
+        return view('adm.produtos.prato.create');
     }
 
 
     public function mostraPrato($id)
     {
 
-        $prato = Pratos::where('id', '=', $id)->first();
-        $ingredientes = ReceitaPrato::where('prato_id', '=', $id)->get();
-        $produtos = Produto::where('is_materiaPrima', '=', 1)->get();
+        $prato = Pratos::with('produtos')->where('id', '=', $id)->first();
 
-        $dados = [
+        $produtosForSelect = $this->produtosForSelect();
+
+        $dados = 
+        [
             'prato' => $prato,
-            'produtos' => $produtos,
-            'ingredientes' => $ingredientes,
+            'produtosForSelect' => $produtosForSelect,
         ];
 
         return view('adm/produtos/prato/mostra')->with($dados);
@@ -104,7 +104,7 @@ class ProdutosController extends Controller
      *
      * @return Response
      */
-    public function indexPrato()
+    public function listaPrato()
     {
 
         $listaPratos = Pratos::orderBy('ativo', 'DESC')->paginate(10);
@@ -115,10 +115,9 @@ class ProdutosController extends Controller
 
             'listaPratos' => $listaPratos,
             'pratosForSelect' => $pratosForSelect,
-
         ];
 
-        return view('adm/produtos/prato/novoPrato')->with($dados);
+        return view('adm.produtos.prato.lista')->with($dados);
     }
 
     /**
@@ -511,5 +510,67 @@ class ProdutosController extends Controller
         ];
 
         return $return;
+    }
+
+    public function cadastrarIngrediente(Request $request){
+        dd($request->all());
+    }
+
+    public function produtosForSelect()
+    {
+        $produtos = Produto::all();
+        $result = array();
+
+        foreach ($produtos as $key => $value) {
+            $result[$value->id] = $value->id.' - '.$value->nome_produto;
+        }
+
+        return $result;
+    }
+
+    public function fornecedoresForSelect()
+    {
+        $fornecedores = \serranatural\Models\Fornecedor::all();
+        $result = array();
+
+        foreach ($fornecedores as $key => $value) {
+            $result[$value->id] = $value->id.' - '.$value->nome;
+        }
+
+        return $result;
+    }
+
+    public function listaProdutos()
+    {
+        $produtos = Produto::all();
+
+        return view('adm.produtos.produtos.lista', compact('produtos'));
+    }
+
+    public function createProdutos()
+    {
+        $fornecedoresForSelect = $this->fornecedoresForSelect();
+
+        return view('adm.produtos.produtos.create', compact('fornecedoresForSelect'));
+    }
+
+    public function storeProduto(Request $request)
+    {
+        $produto = Produto::create($request->all());
+
+        $produto->fornecedores()->sync($request->fornecedor_id);
+
+        $dados = 
+        [
+            'msg_retorno' => 'Produto adicionado com sucesso',
+            'tipo_retorno' => 'success'
+        ];
+
+        return redirect()->back()->with($dados);
+    }
+
+    public function rangeData()
+    {
+        
     }
 }

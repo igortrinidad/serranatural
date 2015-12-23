@@ -2,13 +2,17 @@
 
 namespace serranatural\Http\Controllers;
 
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Http\Request;
 use serranatural\Http\Requests;
 use serranatural\Http\Controllers\Controller;
 
-use serranatural\Models\ReceitaPrato;
+use serranatural\Models\Pratos;
+use serranatural\Models\AgendaPratos;
+use serranatural\Models\Produto;
+use serranatural\Models\Fornecedor;
+
 
 class ReceitasController extends Controller
 {
@@ -17,12 +21,14 @@ class ReceitasController extends Controller
      *
      * @return Response
      */
-    public function addIngrediente()
+    public function addIngrediente(Request $request)
     {
 
-        ReceitaPrato::create(Request::all());
+        $prato = Pratos::find($request->prato_id);
 
-        return back();
+        $prato->produtos()->attach($request->produtos_id, ['quantidade' => $request->quantidade, 'unidade' => $request->unidade]);
+
+        return redirect()->back();
 
     }
 
@@ -31,13 +37,20 @@ class ReceitasController extends Controller
      *
      * @return Response
      */
-    public function excluiIngrediente()
+    public function excluiIngrediente($produto, $prato)
     {
-        $id = Request::route('id');
 
-        ReceitaPrato::find($id)->delete();
+        $prato = Pratos::find($prato);
 
-        return back();
+        $prato->produtos()->detach($produto);
+
+        $return =
+        [
+            'msg_retorno' => 'Produto excluido do prato com sucesso.',
+            'tipo_retorno' => 'info',
+        ];
+
+        return redirect()->back()->with($return);
 
     }
 
@@ -47,9 +60,9 @@ class ReceitasController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request)
+    public function storeIngrediente(Request $request)
     {
-        //
+
     }
 
     /**
@@ -95,5 +108,32 @@ class ReceitasController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function dateRange(Request $request)
+    {
+
+        $quantidade = $request->quantidade;
+
+        $agendados = AgendaPratos::whereBetween('dataStamp', array($request->dataInicio, $request->dataFim))
+                                ->lists('pratos_id');
+
+        $pratos = Pratos::with('produtos', 'agendaPratos')
+                    ->whereIn('id', $agendados)
+                    ->get();
+
+        foreach ($pratos as $prato) {
+            foreach ($prato->produtos as $produtos) {
+                $produtos->pivot->quantidade = $quantidade * $produtos->pivot->quantidade;
+            }
+        }
+
+        $return =
+        [
+            'pratos' => $pratos,
+            'quantidadePratos' => $quantidade,
+        ];
+
+        return view('adm.produtos.prato.listaCompras')->with($return);
     }
 }

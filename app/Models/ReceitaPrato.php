@@ -13,9 +13,9 @@ class ReceitaPrato extends Model
 
     protected $fillable = array('id', 'prato_id', 'produto_id', 'quantidade', 'medida');
 
-	public function produto()
+	public function produtos()
 	{
-	return $this->belongsTo('serranatural\Models\Produto');
+	return $this->belongsToMany('serranatural\Models\Produto');
 	}
 
 }

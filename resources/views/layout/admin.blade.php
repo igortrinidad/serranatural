@@ -327,11 +327,15 @@
                                     <a href="#"><i class="fa fa-th-list"></i> Produtos<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
                                         <li>
-                                            <a href="{{route('produtos.pratos.add')}}">Adiciona</a>
+                                            <a href="/admin/produtos/create">Adiciona</a>
                                         </li>
 
                                         <li>
-                                            <a href="/admin/produtos/pratos/lista">Lista</a>
+                                            <a href="/admin/produtos/lista">Lista</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="/admin/produtos/calcular/index">Calcular</a>
                                         </li>
 
                                     </ul>

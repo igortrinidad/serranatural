@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CriaTabelaProdutos extends Migration
+class CriaTabFornecedores extends Migration
 {
     /**
      * Run the migrations.
@@ -12,14 +12,13 @@ class CriaTabelaProdutos extends Migration
      */
     public function up()
     {
-        Schema::create('produtos', function ($table) {
+        Schema::create('fornecedores', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nome_produto');
-            $table->string('descricao');
-            $table->integer('quantidadeEstoque');
-            $table->boolean('is_ativo');
+            $table->string('nome');
+            $table->string('telefone');
+            $table->string('email');
+            $table->text('observacoes');
             $table->timestamps();
-
         });
     }
 
@@ -30,6 +29,6 @@ class CriaTabelaProdutos extends Migration
      */
     public function down()
     {
-        Schema::drop('produtos');
+        Schema::drop('fornecedores');
     }
 }

@@ -355,8 +355,8 @@ $('.maskValor').mask("R$ 0000.00", {reverse: true});
 		$('#valor_confirmation').text('R$ ' + valor_informado);
 
 		setTimeout(function(){
-			        	$('#inputSenha').focus();
-			        }, 800);
+			$('#inputSenha').focus();
+		}, 800);
 		
 	});
 
@@ -394,14 +394,12 @@ $('.maskValor').mask("R$ 0000.00", {reverse: true});
 
 		        $.notify(msg, tipo);
 
-			    if(tipo == 'success')
-			    {
-			    	setTimeout(function(){
+			    if (tipo == 'success') {
+			    	setTimeout(function() {
 			        	$('#modalSenha').fadeOut();
 			        }, 500);
 
-				    setTimeout(function()
-				    {
+				    setTimeout(function() {
 				    	location.reload();
 				    }, 1200);
 				}
@@ -438,8 +436,7 @@ $('.maskValor').mask("R$ 0000.00", {reverse: true});
 		$('#vr_diferenca_caixa').text('R$ ' + diferencaDinheiro.toFixed(2));
 		$('#vr_diferenca_final').text('R$ ' + diferencaFinal.toFixed(2));
 
-		if(diferencaFinal <= 0)
-		{
+		if (diferencaFinal <= 0) {
 			$.notify('Diferença de caixa: R$ ' + diferencaFinal.toFixed(2), 'error')
 		} else {
 			$.notify('Diferença de caixa: R$ ' + diferencaFinal.toFixed(2), 'success')
@@ -450,8 +447,7 @@ $('.maskValor').mask("R$ 0000.00", {reverse: true});
 	};
 
 
-	$('#gravarCaixa').on("click", function(e)
-	{
+	$('#gravarCaixa').on("click", function(e) {
 	    e.preventDefault();
 		console.log(esperadoCaixa + '  ' + diferencaFinal);
 		calculaCaixa();
@@ -460,8 +456,7 @@ $('.maskValor').mask("R$ 0000.00", {reverse: true});
 
 
 
-    function gravaCaixa()
-    {
+    function gravaCaixa() {
 
         var formData = {
         	'_token' : $("#token").val(),
@@ -502,6 +497,11 @@ $('.maskValor').mask("R$ 0000.00", {reverse: true});
 		$('#valor_confirmation').text('R$ ' + $('#fundo_caixa').val());
 		$('#valor_confirmation + span').show();
 		$('#diferenca_caixa').text($('#vr_diferenca_final').text());
+
+		setTimeout(function(){
+			$('#inputSenha').focus();
+		}, 800);
+
 
 	});
 
