@@ -132,7 +132,7 @@ class ReceitasController extends Controller
 
         $quantidade = $request->quantidade;
 
-        $agendados = AgendaPratos::with('pratos')
+        $agendados = AgendaPratos::with('pratos.produtos')
                                 ->whereBetween('dataStamp', array($request->dataInicio, $request->dataFim))
                                 ->orderBy('dataStamp', 'ASC')
                                 ->get();
@@ -162,7 +162,9 @@ class ReceitasController extends Controller
         [
             'agendados' => $agendados,
             'quantidadePratos' => $quantidade,
-            'produtosTotais' => $produtosTotais
+            'produtosTotais' => $produtosTotais,
+            'dataInicio' => $request->dataInicio,
+            'dataFim' => $request->dataFim
         ];
 
         return view('adm.produtos.prato.listaCompras')->with($return);

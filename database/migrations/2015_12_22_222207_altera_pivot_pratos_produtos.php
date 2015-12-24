@@ -16,7 +16,7 @@ class AlteraPivotPratosProdutos extends Migration
         Schema::create('pratos_produtos', function ($table) {
             $table->integer('prato_id');
             $table->integer('produto_id');
-            $table->decimal('quantidade', 6, 2);
+            $table->decimal('quantidade', 6, 3);
             $table->string('unidade');
             $table->timestamps();
         });

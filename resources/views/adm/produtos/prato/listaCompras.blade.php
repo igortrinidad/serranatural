@@ -6,7 +6,7 @@
 
 	@include('errors.messages')
 
-<h3>Quantidade de pratos: {{$quantidadePratos}} </h3><br>
+<h3>Data: {{dataMysqlParaPtBr($dataInicio)}} - {{dataMysqlParaPtBr($dataFim)}} Quantidade de pratos: {{$quantidadePratos}} </h3><br>
 
 
 @foreach($agendados as $agenda)
@@ -21,7 +21,7 @@
 
 					@foreach($rows as $produto)
 						<div class="col-md-4">
-							<label>Produtos</label>
+							<label>Produto</label>
 							<p>	{{$produto->nome_produto}}</p>
 						</div>
 						<div class="col-md-4">

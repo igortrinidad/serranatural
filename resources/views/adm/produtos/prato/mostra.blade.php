@@ -112,7 +112,7 @@
 
 						<div class="form-group">
 							<label>Quantidade</label>
-							<input type="text" name="quantidade" class="form-control"/>
+							<input type="text" name="quantidade" class="form-control gramas"/>
 						</div>
 
 						<div class="form-group">
@@ -148,6 +148,7 @@
 
 			<script type="text/javascript">
 			$('#produtos').select2();
+			$('.gramas').mask('000.000', {reverse: true})
 			</script>
 
 		@stop

@@ -112,9 +112,9 @@
 				            moment(),
 				            moment().add(7, 'days')
 				        ],
-				        "Ontem": [
-				            moment().subtract(1, 'days'),
-				            moment().subtract(1, 'days')
+				        "Proximos 15 dias": [
+				            moment(),
+				            moment().add(15, 'days')
 				        ],
 				        "Ultima semana": [
 				            moment().subtract(7, 'days'),
