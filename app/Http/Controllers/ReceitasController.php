@@ -17,13 +17,17 @@ use Carbon\Carbon;
 
 class ReceitasController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function rangeIndex()
     {
 
         $pratos = Pratos::all();
 
-        $agenda = AgendaPratos::where('dataStamp', '>=', Carbon::now()->format('Y-m-d'))->orderBy('dataStamp', 'ASC')->get();
+        $agenda = AgendaPratos::with('pratos')->where('dataStamp', '>=', Carbon::now()->format('Y-m-d'))->orderBy('dataStamp', 'ASC')->get();
 
         $return =
         [

@@ -108,29 +108,25 @@
 					      format: 'DD/MM/YYYY',
 					    },
 				    "ranges": {
-				        "Proximos 7 dias": [
+				        "Próximos 7 dias": [
 				            moment(),
 				            moment().add(7, 'days')
 				        ],
-				        "Proximos 15 dias": [
+				        "Próximos 15 dias": [
 				            moment(),
 				            moment().add(15, 'days')
 				        ],
-				        "Ultima semana": [
-				            moment().subtract(7, 'days'),
-				            moment()
+				        "Próximos 30 dias": [
+				            moment(),
+				            moment().add(30, 'days')
+				        ],
+				       	"Próximos 60 dias": [
+				            moment(),
+				            moment().add(60, 'days')
 				        ],
 				        "Este mês": [
-				            moment().startOf('month').format('DD/MM/YYYY'),
+				            moment(),
 				            moment().endOf('month').format('DD/MM/YYYY')
-				        ],
-				        "Mês passado": [
-				            moment().subtract(1, 'months').startOf('month').format('DD/MM/YYYY'),
-				            moment().subtract(1, 'months').endOf('month').format('DD/MM/YYYY')
-				        ],
-				        "Este ano": [
-				            moment().startOf('year').format('DD/MM/YYYY'),
-				            moment().format('DD/MM/YYYY')
 				        ]
 				    },
 

@@ -15,6 +15,8 @@
 			<div class="panel-body">
 			<label>Acompanhamentos</label>
 			<p>{{$agenda->pratos->acompanhamentos}}</p>
+			<label>Modo de preparo</label>
+			<p>{{$agenda->pratos->modo_preparo}}</p>
 		
 			@foreach ($agenda->pratos->produtos->chunk(1) as $rows)
 				<div class="row">
