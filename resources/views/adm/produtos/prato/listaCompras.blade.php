@@ -41,8 +41,19 @@
 		</div>
 @endforeach
 
+		<div class="panel panel-default">
+			<div class="panel-heading"><h5>Total de produtos</h5></div>
+			<div class="panel-body">
+				
+				@foreach ($produtosTotais as $key => $value)
 
+					<label>Produto: {{ $key }}</label>
+					<p>Total: {{$value}}</p>
 
+				@endforeach
+
+			</div>
+		</div>
 
     @section('scripts')
 	    @parent

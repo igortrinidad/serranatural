@@ -137,10 +137,38 @@ class ReceitasController extends Controller
                                 ->orderBy('dataStamp', 'ASC')
                                 ->get();
 
+        $teste = AgendaPratos::with(['pratos' => function($query) {
+                                $query->with(['produtos' => function($query) {
+                                $query->groupBy('nome_produto');
+                                }]);
+                                }])->whereBetween('dataStamp', array($request->dataInicio, $request->dataFim))
+                                ->get();
+
+        foreach ($agendados as $agenda) {
+            foreach ($agenda->pratos->produtos as $produtos) {
+                $produtos->pivot->quantidade = $quantidade * $produtos->pivot->quantidade;
+            }
+        }
+
+        $produtosTotais = [];
+
+        foreach ($agendados as $agenda) {
+            foreach ($agenda->pratos->produtos as $produto) {
+                if ( array_key_exists($produto->nome_produto, $produtosTotais) ) {
+                    $produtosTotais[$produto->nome_produto] = $produtosTotais[$produto->nome_produto] + $produto->pivot->quantidade;
+                } else {
+                    $produtosTotais[$produto->nome_produto] = $produto->pivot->quantidade;
+                }
+                
+            }
+            
+        }
+
         $return =
         [
             'agendados' => $agendados,
             'quantidadePratos' => $quantidade,
+            'produtosTotais' => $produtosTotais
         ];
 
         return view('adm.produtos.prato.listaCompras')->with($return);

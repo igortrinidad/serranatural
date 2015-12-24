@@ -108,9 +108,9 @@
 					      format: 'DD/MM/YYYY',
 					    },
 				    "ranges": {
-				        "Hoje": [
+				        "Proximos 7 dias": [
 				            moment(),
-				            moment()
+				            moment().add(7, 'days')
 				        ],
 				        "Ontem": [
 				            moment().subtract(1, 'days'),
