@@ -44,12 +44,27 @@
 		<div class="panel panel-default">
 			<div class="panel-heading"><h5>Total de produtos</h5></div>
 			<div class="panel-body">
-				
-				@foreach ($produtosTotais as $key => $value)
 
-					<label>Produto: {{ $key }}</label>
-					<p>Total: {{$value}}</p>
+				@foreach (array_chunk($produtosTotais, 1, true) as $rows)
+					<div class="row">
 
+						@foreach ($rows as $key => $value)
+							
+							<div class="col-md-4">
+								<label>Produto</label>
+								<p>{{ $key }}</p>
+							</div>
+							<div class="col-md-4">
+								<label>Total</label>
+								<p>{{$value['quantidade']}}</p>
+							</div>
+							<div class="col-md-4">
+								<label>Unidade</label>
+								<p>{{$value['unidade']}}</p>
+							</div>
+
+						@endforeach
+					</div>
 				@endforeach
 
 			</div>
