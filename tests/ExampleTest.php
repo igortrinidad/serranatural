@@ -4,8 +4,15 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
+use serranatural\Models\Produto;
+
+
+
 class ExampleTest extends TestCase
 {
+
+    use DatabaseTransactions;
+    use WithoutMiddleware;
     /**
      * A basic functional test example.
      *
@@ -13,7 +20,10 @@ class ExampleTest extends TestCase
      */
     public function testBasicExample()
     {
-        $this->visit('/')
-             ->see('Laravel 5');
+
+        $produto = factory(Produto::class)->create();
+
+        $this->visit('/admin/produtos/lista')
+             ->see($produto->nome_produto);
     }
 }

@@ -19,3 +19,12 @@ $factory->define(serranatural\User::class, function ($faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(serranatural\Models\Produto::class, function ($faker) {
+    return [
+        'nome_produto' => $faker->name,
+        'descricao' => $faker->sentence,
+        'preco' => $faker->randomNumber(4),
+    ];
+});
+

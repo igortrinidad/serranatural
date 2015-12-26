@@ -12,6 +12,9 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
+
+	mix.phpUnit();
+
 	mix.scripts([
 
 		'/../bower_components/jquery/dist/jquery.js',
