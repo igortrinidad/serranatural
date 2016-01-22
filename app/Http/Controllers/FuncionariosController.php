@@ -15,7 +15,7 @@ class FuncionariosController extends Controller
     {
         $this->middleware('auth');
 
-        $this->middleware('nivelAcesso:super_adm', ['only' => ['show', 'edit']]);
+        $this->middleware('nivelAcesso:super_adm,two', ['only' => ['show', 'edit']]);
 
     }
     /**

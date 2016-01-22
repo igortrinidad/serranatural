@@ -36,7 +36,7 @@ class ClienteController extends Controller
 
         $urlPagination = '/admin/clientes/lista/?page=';
 
-        //flash()->success('Isto está um <b>sucesso</b>.');
+        flash()->success('Isto está um <b>sucesso</b>.');
 
         $dados = [
 

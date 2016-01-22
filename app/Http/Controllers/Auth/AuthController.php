@@ -42,7 +42,7 @@ class AuthController extends Controller
 
         $this->middleware('auth', ['only' => ['novoUser', 'editaUsuario', 'updateUsuario', 'salvaUsuario']]);
     
-        $this->middleware('nivelAcesso:super_adm', ['only' => ['salvaUsuario', 'novoUser']]);
+        $this->middleware('nivelAcesso:super_adm,two', ['only' => ['salvaUsuario', 'novoUser']]);
 
     }
 
@@ -96,7 +96,7 @@ class AuthController extends Controller
 
     }
 
-        protected function updateUsuario()
+    protected function updateUsuario()
     {
 
         $usuario = Request::all();

@@ -8,7 +8,7 @@ use Illuminate\Contracts\Auth\Guard;
 class nivelAcesso
 {
 
-    public function handle($request, Closure $next, $tipoUsuario)
+    public function handle($request, Closure $next, $one, $two)
         {
 
             $return = [
@@ -16,11 +16,12 @@ class nivelAcesso
             'tipo_retorno' => 'danger'
             ];
 
-            if (\Auth::user()->user_type <> $tipoUsuario) {
-                
-            return redirect('/admin')->with($return);
+            if (\Auth::user()->user_type == $one or \Auth::user()->user_type == $two) {
+            
+                return $next($request);
+            
         }
-        return $next($request);
+            return redirect('/admin')->with($return);
         }
 
 }

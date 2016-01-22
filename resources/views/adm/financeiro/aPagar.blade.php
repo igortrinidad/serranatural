@@ -29,27 +29,31 @@
 			            <th>Responsável Cadastro</th>
 			            <th>Arq pagamento</th>
 			            <th>Arq nota</th>
+			            <th>Excluir</th>
 			        </tr>
 			    </thead>
 			    <tbody>
 			    @foreach($pagamentos as $pag)
 			        <tr>
-			            <th class="text-center">@if($pag->is_liquidado == 0)<strong style="color:red">Pendente</strong> @else Liquidado - ({{$pag->data_pgto}}) @endif </th>
-			            <th class="text-center">{{$pag->vencimento}}</th>
-			            <th><a href="{{route('admin.financeiro.detalhes', $pag->id)}}">{{$pag->descricao}}</a></th>
-			            <th>R$ {{$pag->valor}}</th>
-			            <th>{{$pag->usuarioCadastro->name}}</th>
-			            <th class="text-center" width="10%">
+			            <td class="text-center">@if($pag->is_liquidado == 0)<strong style="color:red">Pendente</strong> @else Liquidado - ({{$pag->data_pgto}}) @endif </td>
+			            <td class="text-center">{{$pag->vencimento}}</td>
+			            <td><a href="{{route('admin.financeiro.detalhes', $pag->id)}}">{{$pag->descricao}}</a></td>
+			            <td>R$ {{$pag->valor}}</td>
+			            <td>{{$pag->usuarioCadastro->name}}</td>
+			            <td class="text-center" width="10%">
 			            @if($pag->pagamento != '')
 			            	<a href="{!! route('arquivos.pagamentos', $pag->pagamento) !!}" data-lightbox="property"><i class="fa fa-search" ></i>
 			            @endif
 			            	</a>
-			            </th>
-			            <th class="text-center" width="10%">
+			            </td>
+			            <td class="text-center" width="10%">
 			            @if($pag->notaFiscal != '')
 			            	<a href="{!! route('arquivos.pagamentos', $pag->notaFiscal) !!}" data-lightbox="property"><i class="fa fa-search">
 			            @endif 
-			            </th>
+			            </td>
+			            <td class="text-center">
+							<a href="{!! route('admin.financeiro.apagarPagamento', $pag->id) !!}" ><i class="fa fa-trash" ></i>
+			            </td>
 			        </tr>
 			    @endforeach
 			    </tbody>

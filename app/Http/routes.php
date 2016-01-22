@@ -48,6 +48,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::post('financeiro/liquidar', ['as' => 'liquidar', 'uses' => 'FinanceiroController@liquidar']);
 		Route::get('financeiro/pagamentos/{id}/edit', ['as' => 'editPagamento', 'uses' => 'FinanceiroController@editPagamento']);
 		Route::post('financeiro/pagamentos/{id}/update', ['as' => 'updatePagamento', 'uses' => 'FinanceiroController@updatePagamento']);
+		Route::get('financeiro/pagamentos/{id}/apagar', ['as' => 'apagarPagamento', 'uses' => 'FinanceiroController@destroyPagamento']);
 		Route::get('financeiro/pagamentos/escolha', ['as' => 'escolha', 'uses' => 'FinanceiroController@escolha']);
 		Route::post('financeiro/pagamentos/dateRange', ['as' => 'dateRange', 'uses' => 'FinanceiroController@dateRange']);
 		Route::get('financeiro/despesa', ['as' => 'despesa', 'uses' => 'FinanceiroController@despesaCreate']);

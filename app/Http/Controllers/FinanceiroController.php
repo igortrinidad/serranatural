@@ -244,9 +244,20 @@ class FinanceiroController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroyPagamento($id)
     {
-        //
+        $pagamento = Pagamento::find($id);
+
+        if(!is_null($pagamento) and $pagamento->is_liquidado == 0) {
+            $pagamento->delete();
+
+            flash()->success('Pagamento excluido com sucesso.');
+
+            return redirect(route('admin.financeiro.aPagar'));
+        }
+            flash()->error('O pagamento não pode ser excluido.');
+
+            return redirect(route('admin.financeiro.aPagar'));
     }
 
     public function funcionariosForSelect()
