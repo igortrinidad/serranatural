@@ -35,7 +35,7 @@
 
 			<div class="col-md-6">
 
-			<img class="img-polaroid" src="{{ route('arquivos.produtos', $prato->foto)}}" width="300" />
+			<img class="img-polaroid" src="{{ route('arquivos.produtos', $prato->foto)}}" width="250" />
 			<br><br>
 
 			<label>Titulo foto</label>
