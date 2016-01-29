@@ -159,7 +159,7 @@ Hoje temos um prato especial: <span style="color:#008000">{{isset($prato) ? $pra
 <br>
 
 <p><strong>Modo de preparo</strong></p>
-{{$prato['modo_preparo']}}
+{{nl2br($prato['modo_preparo'])}}
 <p><strong>Ingredientes</strong></p>
 
 <table width="100%">
