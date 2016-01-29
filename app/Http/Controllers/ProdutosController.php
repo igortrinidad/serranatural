@@ -27,7 +27,7 @@ class ProdutosController extends Controller
     
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['landPratoDoDia', 'landAmanha']]);
+        $this->middleware('auth', ['except' => ['landPratoDoDia', 'landPratoDoDiaCompleto', 'landAmanha']]);
 
     }
 
@@ -366,6 +366,69 @@ class ProdutosController extends Controller
                 'data' => date('d/m/Y')
             ];
             return view('adm/produtos/prato/landPratoDoDia')->with($dados);
+
+        } else {
+
+            $prato = ['prato' => 'surpresa',
+            'acompanhamentos' => 'surpresa'];
+
+            $dados =
+            [
+                'prato' => $prato,
+                'data' => date('d/m/Y')
+            ];
+            return view('adm/produtos/prato/landPratoDoDia')->with($dados);
+
+        }
+        
+    }
+
+    public function landPratoDoDiaCompleto()
+    {
+        $pratoDoDia = AgendaPratos::where('dataStamp', '=', date('Y-m-d'))
+                                    ->first();
+
+        if (!is_null($pratoDoDia)) {
+            $prato = Pratos::with('produtos')->where('id', '=', $pratoDoDia->pratos_id)->first();
+
+            $dados =
+            [
+                'prato' => $prato,
+                'data' => date('d/m/Y')
+            ];
+            return view('adm/produtos/prato/landPratoDoDiaCompleto')->with($dados);
+
+        } else {
+
+            $prato = ['prato' => 'surpresa',
+            'acompanhamentos' => 'surpresa'];
+
+            $dados =
+            [
+                'prato' => $prato,
+                'data' => date('d/m/Y')
+            ];
+            return view('adm/produtos/prato/landPratoDoDia')->with($dados);
+
+        }
+        
+    }
+
+    public function landAmanhaCompleto()
+    {
+        $timestamp = strtotime("+1 days");
+        $pratoDoDia = AgendaPratos::where('dataStamp', '=', date('Y-m-d', $timestamp))
+                                    ->first();
+
+        if (!is_null($pratoDoDia)) {
+            $prato = Pratos::with('produtos')->where('id', '=', $pratoDoDia->pratos_id)->first();
+
+            $dados =
+            [
+                'prato' => $prato,
+                'data' => date('d/m/Y')
+            ];
+            return view('adm/produtos/prato/landPratoDoDiaCompleto')->with($dados);
 
         } else {
 

@@ -145,6 +145,8 @@ Route::group(['as' => 'produtos.'], function()
 
 
 Route::get('/hoje', 'ProdutosController@landPratoDoDia');
+Route::get('/hojeCompleto1010', 'ProdutosController@landPratoDoDiaCompleto');
+Route::get('/amanhaCompleto1010', 'ProdutosController@landAmanhaCompleto');
 Route::get('/amanha', 'ProdutosController@landAmanha');
 Route::get('/cadastro', 'ClienteController@cadastro');
 Route::post('/cadastro', 'ClienteController@storeSelfCliente');
