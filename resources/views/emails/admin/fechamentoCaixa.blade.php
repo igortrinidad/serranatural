@@ -160,6 +160,37 @@
                                 <tr>
                                   <td bgcolor="#575757" colspan="2" height="2" style="font-size:0px;line-height:0px">&nbsp;</td>
                                 </tr>
+                                
+
+                                @if(!is_null($retiradas) or !empty($retiradas))
+                                  <tr>
+                                    <td colspan="2" height="27"></td>
+                                  </tr>
+                                  <tr>
+                                    <td style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757;font-weight:bold" width="200">
+                                      Retiradas
+                                    </td>
+                                  </tr>
+
+                                  @foreach($retiradas  as $retirada)
+                                    <tr>
+                                        <td style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="140">                                            {{substr($retirada['descricao'], 0, 14)}}</td>
+                                        <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" valign="bottom" width="100">                                            R$ {{$retirada['valor']}}                                          </td>
+                                    </tr>
+                                    <tr>
+                                      <td colspan="2" height="8"></td>
+                                    </tr>
+                                    <tr>
+                                      <td style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="140">
+                                        ID Usuário: {{$retirada['user_id']}}
+                                      </td>
+                                    <tr>
+                                      <td colspan="2" height="15"></td>
+                                    </tr>
+                                  @endforeach
+
+                                @endif
+                                
                               </tbody>
                             </table>
                           </td>

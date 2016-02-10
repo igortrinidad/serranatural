@@ -166,10 +166,7 @@ class FinanceiroController extends Controller
                        'dt_fechamento' => date('Y-m-d H:i:s')
                    ]);
 
-        $caixa = Caixa::where('id', '=', $request->id)->first();
-
-        $userAbertura = User::where('id', '=', $caixa->user_id_abertura)->first();
-        $userFechamento = User::where('id', '=', $caixa->user_id_fechamento)->first();
+        $caixa = Caixa::with('usuarioAbertura', 'retiradas')->where('id', '=', $request->id)->first();
 
         $dados = [
             'dt_abertura' => $caixa->dt_abertura->format('d/m/Y H:i:s'),
@@ -186,8 +183,9 @@ class FinanceiroController extends Controller
             'diferenca_cartoes' => $caixa->diferenca_cartoes,
             'diferenca_caixa' => $caixa->diferenca_caixa,
             'diferenca_final' => $caixa->diferenca_final,
-            'user_abertura' => $userAbertura->name,
-            'user_fechamento' => $userFechamento->name,
+            'user_abertura' => $caixa->usuarioAbertura->name,
+            'user_fechamento' => $caixa->usuarioFechamento->name,
+            'retiradas' => $caixa->retiradas,
         ];
 
         $email = Mail::queue('emails.admin.fechamentoCaixa', $dados, function ($message) use ($dados, $caixa) {
@@ -248,7 +246,7 @@ class FinanceiroController extends Controller
     {
         $pagamento = Pagamento::find($id);
 
-        if(!is_null($pagamento) and $pagamento->is_liquidado == 0) {
+        if (!is_null($pagamento) and $pagamento->is_liquidado == 0) {
             $pagamento->delete();
 
             flash()->success('Pagamento excluido com sucesso.');
@@ -589,5 +587,4 @@ class FinanceiroController extends Controller
 
         return view('adm.financeiro.retiradasList')->with($return);
     }
-
 }
