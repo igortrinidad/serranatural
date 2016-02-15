@@ -44,7 +44,7 @@ class ProdutosController extends Controller
 
         $produtosForSelect = $this->produtosForSelect();
 
-        $dados = 
+        $dados =
         [
             'prato' => $prato,
             'produtosForSelect' => $produtosForSelect,
@@ -243,6 +243,7 @@ class ProdutosController extends Controller
             'prato' => $prato,
             'nomeCliente' => 'Direção',
             'emailCliente' => 'contato@serranatural.com',
+            'dataAgendado' => $dataMysql
         ];
 
         //dd($dados);
@@ -251,7 +252,9 @@ class ProdutosController extends Controller
 
             $message->to('contato@serranatural.com', 'Serra Natural');
             $message->from('mkt@serranatural.com', 'Serra Natural');
-            $message->subject('Cardápio de amanhã');
+            $message->subject(
+                'Cardápio alterado: ' . $data['prato']['prato'] . ' - ' . dataMysqlParaDateTime($data['dataAgendado']) . ' - ' . dataMysqlParaPtBr($data['dataAgendado']) 
+                );
             $message->getSwiftMessage();
 
         });
@@ -518,8 +521,7 @@ class ProdutosController extends Controller
 
         //dd($dados);
 
-            Mail::queue('emails.marketing.pratoNovo', $dados, function ($message) use ($cliente, $dados)
-            {
+            Mail::queue('emails.marketing.pratoNovo', $dados, function ($message) use ($cliente, $dados) {
                 $message->to($cliente->email, $cliente->nome);
                 $message->from('mkt@serranatural.com', 'Serra Natural');
                 $message->subject('Cardápio do dia');
@@ -575,7 +577,8 @@ class ProdutosController extends Controller
         return $return;
     }
 
-    public function cadastrarIngrediente(Request $request){
+    public function cadastrarIngrediente(Request $request)
+    {
         dd($request->all());
     }
 
@@ -623,7 +626,7 @@ class ProdutosController extends Controller
 
         $produto->fornecedores()->sync($request->fornecedor_id);
 
-        $dados = 
+        $dados =
         [
             'msg_retorno' => 'Produto adicionado com sucesso',
             'tipo_retorno' => 'success'
