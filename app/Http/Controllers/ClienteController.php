@@ -297,14 +297,13 @@ class ClienteController extends Controller
 
         $cliente = Cliente::where('email', '=', $email)->first();
 
-        if(is_null($cliente) OR empty($cliente)) 
-        {
+        if (is_null($cliente) or empty($cliente)) {
             $dados = [
 
             'email' => $email
-        ];
+                ];
 
-        return view('cliente.clienteNotFound')->with($dados);
+            return view('cliente.clienteNotFound')->with($dados);
 
         }
 
@@ -346,15 +345,12 @@ class ClienteController extends Controller
 
         $cliente = Cliente::where('email', '=', $email)->first();
 
-        if(is_null($cliente) OR empty($cliente)) 
-        {
+        if (is_null($cliente) or empty($cliente)) {
             $dados = [
-
             'email' => $email
-        ];
+                ];
 
-        return view('cliente.clienteNotFound')->with($dados);
-
+            return view('cliente.clienteNotFound')->with($dados);
         }
 
         $dados = [
@@ -377,11 +373,12 @@ class ClienteController extends Controller
         $cliente = Cliente::where('email', '=', $cliente['email'])
                             ->update(
                                 [
-                                'nome' => $cliente['nome'],
-                                'telefone' => $cliente['telefone'],
-                                'email' => $cliente['email'],
-                                'opt_email' => $cliente['opt_email']
-                                ]);
+                                    'nome' => $cliente['nome'],
+                                    'telefone' => $cliente['telefone'],
+                                    'email' => $cliente['email'],
+                                    'opt_email' => $cliente['opt_email']
+                                ]
+                            );
 
         $dados = [
             'msg_retorno' => 'Dados alterados com sucesso',
@@ -623,11 +620,11 @@ class ClienteController extends Controller
 
                 });
 
-        return true;
+    return true;
 
     }
 
-        public function enviaEmailVoucherColetado($id, $voucherAdiquirido)
+    public function enviaEmailVoucherColetado($id, $voucherAdiquirido)
     {
 
         $cliente = Cliente::find($id);
@@ -646,8 +643,7 @@ class ClienteController extends Controller
         'validade' => $voucher->vencimento,
         ];
 
-                Mail::queue('emails.marketing.voucherColetado', $data, function ($message) use ($cliente, $data)
-                {
+                Mail::queue('emails.marketing.voucherColetado', $data, function ($message) use ($cliente, $data) {
 
                     $message->to($cliente->email, $cliente->nome);
                     $message->from('mkt@serranatural.com', 'Serra Natural');
@@ -656,8 +652,36 @@ class ClienteController extends Controller
 
                 });
 
-        return true;
+                return true;
 
+    }
+
+    public function addVoucherCortesia($id, Request $request)
+    {
+
+        if ($request->senha == '154986') {
+            
+            $timestamp = strtotime("+2 month");
+            
+            $voucher = Voucher::create([
+                    'cliente_id' => $id,
+                    'data_voucher' => date('Y-m-d'),
+                    'vencimento' => date('Y-m-d', $timestamp),
+                    'is_valido' => 1,
+                    'produto' => $request->produto
+                ]);
+
+            $this->enviaEmailVoucherColetado($id, $voucher->id);
+
+            flash()->success('Voucher adicionado com sucesso.');
+
+            return redirect()->back();
+
+        }
+
+        flash()->error('Senha errada.');
+
+        return redirect()->back();
     }
 
 

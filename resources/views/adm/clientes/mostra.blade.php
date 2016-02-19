@@ -82,6 +82,35 @@
 				</div>
 				<div class="panel-body">
 
+					
+					<label>Adicionar voucher cortesia</label>
+					<div class="row">
+						<form method="post" action="{{route('admin.client.addVoucherCortesia', $cliente->id)}}">
+
+						{!! csrf_field() !!}
+						<div class="col-md-5">
+							<div class="form-group">
+								<select name="produto" class="form-control">
+									<option value="Açaí">Açaí</option>
+									<option value="Almoço">Almoço</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<input type="password" name="senha" placeholder="Senha de administrador" class="form-control">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<button type="submit" class="btn btn-default btn-block">Adicionar</button>
+							</div>
+						</div>
+
+						</form>
+
+					</div>
+
 					<table class="table table-bordered text-center">
 						<thead>
 							<tr style="font-weight:700">
