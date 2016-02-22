@@ -391,6 +391,18 @@
                         </li>
 
                         <li>
+                            <a href="admin/marketing"><i class="fa fa-reply-all"></i> Marketing<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="{{ route('admin.marketing.criarModelo') }}">Criar modelo</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.marketing.lista')}}">Lista modelos</a>
+                                </li>
+                            </ul>
+                        </li>
+<!--
+                        <li>
                             <a href="admin/promocoes"><i class="fa fa-diamond"></i> Promoções<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
@@ -399,12 +411,11 @@
                                 <li>
                                     <a href="#">Vouchers</a>
                                 </li>
-                                <li>
-                                    <a href="#">Relatórios</a>
-                                </li>
+
 
                             </ul>
                         </li>
+-->
 
 
                         <li>

@@ -180,24 +180,6 @@
                         </tbody>
                     </table>
 
-                    <div class="row">
-                      <div class="col-md-6">
-                        <a id="btnEditar" href="" class="btn btn-default btn-block">
-                        Editar</a>
-                      </div>
-
-                      <form action="/admin/produtos/salvaPratoSemana" class="form-inline" method="POST">
-                        <div class="col-md-6">
-                          <input type="hidden" name="pratos_id" />
-                          <input type="hidden" name="dataStr"/> 
-                          <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-                          <button type="submit" class="btn btn-default btn-block">Confirma</button>
-                        </div>
-                      </form>
-
-
-                    </div>
-
 
                   </div>
 

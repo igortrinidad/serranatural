@@ -84,6 +84,17 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 
 	});
 
+	//Rotas MARKETING
+	Route::group(['as' => 'marketing.', 'prefix' => 'marketing'], function()
+	{
+		Route::get('modelos/criar', ['as' => 'criarModelo', 'uses' => 'MarketingController@criarModelo']);
+		Route::post('salvarModelo', ['as' => 'salvarModelo', 'uses' => 'MarketingController@salvarModelo']);
+		Route::get('modelos/lista', ['as' => 'lista', 'uses' => 'MarketingController@lista']);
+		Route::post('modelos/enviaEmail/{id}', ['as' => 'enviaEmail', 'uses' => 'MarketingController@enviaEmail']);
+		Route::get('modelos/editar/{id}', ['as' => 'editaModelo', 'uses' => 'MarketingController@editaModelo']);
+		Route::post('modelos/update/{id}', ['as' => 'updateModelo', 'uses' => 'MarketingController@updateModelo']);
+	});
+
 
 });
 
