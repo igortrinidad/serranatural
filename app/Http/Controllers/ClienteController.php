@@ -684,5 +684,25 @@ class ClienteController extends Controller
         return redirect()->back();
     }
 
+    public function reenviaSenha($id)
+    {
+        $voucher = Voucher::where('cliente_id', '=', $id)->where('is_valido', '=', '1')->first();
+
+        if(!$voucher) {
+
+            flash()->error('Cliente não possui voucher');
+
+            return redirect()->back();
+
+        }
+            $this->enviaEmailVoucherColetado($id, $voucher->id);
+
+            flash()->success('Senha reenviada com sucesso.');
+
+            return redirect()->back();
+
+
+    }
+
 
 }

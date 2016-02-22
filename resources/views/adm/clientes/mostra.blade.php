@@ -51,7 +51,9 @@
 					@endif
 				</div>
 
-				<a href="/admin/clientes/edita/{{$cliente->id}}" class="btn btn-primary btn-block">Editar<i class="fa fa-pencil"></i></a>
+				<a href="/admin/clientes/edita/{{$cliente->id}}" class="btn btn-primary btn-block">Editar <i class="fa fa-pencil"></i></a>
+
+				<a href="/admin/clientes/reenviaSenha/{{$cliente->id}}" class="btn btn-primary btn-block">Reenviar Senha <i class="fa fa-share"></i></a>
 
 			</div>
 		</div>

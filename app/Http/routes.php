@@ -24,6 +24,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::post('clientes/editaSelected', ['as' => 'editaSelected', 'uses' => 'ClienteController@editaSelected']);
 		Route::get('clientes/fidelidade', ['as' => 'fidelidade', 'uses' => 'ClienteController@fidelidadeIndex']);
 		Route::post('clientes/addVoucherCortesia/{id}', ['as' => 'addVoucherCortesia', 'uses' => 'ClienteController@addVoucherCortesia']);
+		Route::get('clientes/reenviaSenha/{id}', ['as' => 'reenviaSenha', 'uses' => 'ClienteController@reenviaSenha']);
 		Route::post('clientes/salvaPonto', ['as' => 'salvaPonto', 'uses' => 'ClienteController@salvaPonto']);
 		Route::post('clientes/fidelidade/usaVoucher/{voucher}', ['as' => 'usesVoucher', 'uses' => 'ClienteController@usesVoucher']);
 	});
