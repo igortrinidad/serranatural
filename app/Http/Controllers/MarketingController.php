@@ -141,7 +141,9 @@ class MarketingController extends Controller
         $template->nome = $request->nome;
         $template->save();
 
-        return redirect(route('admin.marketing.lista'));
+        flash()->success('Modelo alterado com sucesso.');
+
+        return redirect()->back();
     }
 
     /**
