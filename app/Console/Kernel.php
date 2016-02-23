@@ -16,10 +16,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \serranatural\Console\Commands\Inspire::class,
-        \serranatural\Commands\log_votos::class,
-        \serranatural\Commands\email_preferencias::class,
         \serranatural\Commands\email_pratoDoDia::class,
-        \serranatural\Commands\email_Microcity::class,
+        \serranatural\Commands\conta_a_pagar::class,
     ];
 
     /**
@@ -35,6 +33,10 @@ class Kernel extends ConsoleKernel
 
             $schedule->command('email_pratoDoDia')
                      ->dailyAt('09:09');
+
+            $schedule->command('conta_a_pagar')
+                     ->dailyAt('11:09');
+
 
         }
 
