@@ -50,10 +50,18 @@ class DashboardProvider extends ServiceProvider
         view()->composer('layout.admin', function($view) {
 
             $timestamp = strtotime("+1 day");
-            $pgto_vencido = Pagamento::where('is_liquidado', '=', 0)->where('vencimento', '<=', date('Y-m-d', $timestamp))->count();
+            $pgto_vencido = Pagamento::where('is_liquidado', '=', 0)
+                ->where('vencimento', '<=', date('Y-m-d', $timestamp))
+                ->count();
+
+            $pgto_incompleto = Pagamento::where('is_liquidado', '=', 0)
+                ->where('pagamento', '=', '')
+                ->count();
 
             $dados['pgto_vencido'] = $pgto_vencido;
-                $view->with($dados);
+            $dados['pgto_incompleto'] = $pgto_incompleto;
+            
+            $view->with($dados);
         });
 
         

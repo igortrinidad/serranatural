@@ -182,7 +182,11 @@
                 </li>
                 <!-- /.dropdown -->
                 <li class="dropdown" >
-                    <a class="dropdown-toggle" @if($pgto_vencido >= 1) style="color: #ED3D34" @endif data-toggle="dropdown" href="#">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"
+                        @if($pgto_vencido >= 1) style="color: #ED3D34" 
+                        @elseif($pgto_incompleto >= 1) style="color: #FCB93D"
+                        @endif
+                    >
                         <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-alerts">
@@ -190,8 +194,20 @@
                         <li>
                             <a href="{{route('admin.financeiro.aPagar')}}">
                                 <div>
-                                    <i class="fa fa-comment fa-fw"></i> Contas vencendo 
+                                    <i class="fa fa-exclamation fa-fw"></i> Contas vencendo 
                                         <strong>(<span style="color: #ED3D34">{{$pgto_vencido}}</span>)</strong>
+                                    <span class="pull-right text-muted small">Hoje</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                    @endif
+                    @if($pgto_incompleto >= 1)
+                        <li>
+                            <a href="{{route('admin.financeiro.aPagar')}}">
+                                <div>
+                                    <i class="fa fa-exclamation fa-fw"></i> Pagamento incompleto 
+                                        <strong>(<span style="color: #ED3D34">{{$pgto_incompleto}}</span>)</strong>
                                     <span class="pull-right text-muted small">Hoje</span>
                                 </div>
                             </a>
