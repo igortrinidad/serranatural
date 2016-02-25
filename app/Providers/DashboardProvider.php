@@ -21,6 +21,8 @@ class DashboardProvider extends ServiceProvider
         {
             $pgto_dashboard = Pagamento::where('is_liquidado', '=', 0)->count();
 
+
+
             $pratoDoDia = AgendaPratos::where('dataStamp', '=', date('Y-m-d'))
                                         ->first();     
 
@@ -41,6 +43,16 @@ class DashboardProvider extends ServiceProvider
             }
 
             $dados['pgto_dashboard'] = $pgto_dashboard;
+                $view->with($dados);
+        });
+
+
+        view()->composer('layout.admin', function($view) {
+
+            $timestamp = strtotime("+1 day");
+            $pgto_vencido = Pagamento::where('is_liquidado', '=', 0)->where('vencimento', '<=', date('Y-m-d', $timestamp))->count();
+
+            $dados['pgto_vencido'] = $pgto_vencido;
                 $view->with($dados);
         });
 

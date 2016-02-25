@@ -14,18 +14,20 @@
 		<table class="table table-bordered table-hover table-striped">
 		    <thead>
 		        <tr>
-		            <th>Nome</th>
-		            <th>Preço Medio</th>
-		            <th>Descrição</th>
-		            <th>Fornecedores</th>
+		            <th width="30%">Nome</th>
+		            <th width="20%">Descrição</th>
+		            <th width="20%">Categoria</th>
+		            <th width="10%">Quantidade em estoque</th>
+		            <th width="10%">Fornecedores</th>
 		        </tr>
 		    </thead>
 		    <tbody>
 		    @foreach($produtos as $produto)
 		        <tr>
 		            <td>{{$produto->nome_produto}}</td>
-		            <td>{{$produto->preco}}</td>
 		            <td>{{$produto->descricao}}</td>
+		            <td>{{$produto->categoria['nome']}}</td>
+		            <td class="text-center">{{$produto->quantidadeEstoque}}</td>
 		            <td>@foreach($produto->fornecedores as $fornecedor) {{$fornecedor->nome}} , @endforeach</td>
 		        </tr>
 		    @endforeach

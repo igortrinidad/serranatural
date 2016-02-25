@@ -22,4 +22,9 @@ class Produto extends Model
 		return $this->belongsToMany('serranatural\Models\Fornecedor');
 	}
 
+	public function categoria()
+	{
+		return $this->belongsTo('serranatural\Models\Categoria');
+	}
+
 }
