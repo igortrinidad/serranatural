@@ -20,9 +20,9 @@ class conta_a_pagar extends Command implements SelfHandling
 
     public function handle()
     {
-        
+        $timestamp = strtotime("-1 day");
         $pagamentos = Pagamento::where('is_liquidado', '=', '0')
-                                ->where('vencimento', '<=', date('Y-m-d'))
+                                ->where('vencimento', '<=', date('Y-m-d', $timestamp))
                                 ->get();
 
         if(!$pagamentos) {
