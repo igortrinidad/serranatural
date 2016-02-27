@@ -23,7 +23,7 @@
 				</div>
 
 				<div class="form-group col-md-3">
-					<input type="text" name="quantidade" value="" class="form-control"/>
+					<input type="text" name="quantidade" placeholder="Número de pratos" value="" class="form-control"/>
 				</div>
 				
 				

@@ -21,9 +21,5 @@ class ExampleTest extends TestCase
     public function testBasicExample()
     {
 
-        $produto = factory(Produto::class)->create();
-
-        $this->visit('/admin/produtos/lista')
-             ->see($produto->nome_produto);
     }
 }

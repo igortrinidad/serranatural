@@ -32,6 +32,8 @@ elixir(function(mix) {
 		'/../bower_components/moment/moment.js',
 		'/../bower_components/bootstrap-daterangepicker/daterangepicker.js',
 		'/../bower_components/jquery-infinite-scroll/jquery.infinitescroll.js',
+		'../../../node_modules/vue/dist/vue.js',
+		'../../../node_modules/vue-resource/dist/vue-resource.js',
 		'sb-admin-2.js',
 		'appGeral.js',
 		'notify.js',

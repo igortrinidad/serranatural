@@ -324,6 +324,20 @@
 
                                     </ul>
                                 </li>
+
+                                <li>
+                                    <a href="#"><i class="fa fa-list-ol"></i> Estoque<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a href="/admin/produtos/create">Adiciona produto</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="/admin/produtos/lista">Balanço</a>
+                                        </li>
+
+                                    </ul>
+                                </li>
                             
                             </ul>
                             

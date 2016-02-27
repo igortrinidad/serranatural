@@ -145,12 +145,24 @@ Route::group(['as' => 'produtos.'], function()
 		Route::post('/admin/produtos/addPratoSemana/{id}', 'ProdutosController@addPratoSemana');
 		Route::post('/admin/produtos/enviaPratoDoDia', 'ProdutosController@enviaPratoDoDia');
 
+		
+		
+
+	});
+
+	Route::group(['as' => 'produtos.'], function() {
+		
+		//Produtos
 		Route::get('/admin/produtos/lista', 'ProdutosController@listaProdutos');
 		Route::get('/admin/produtos/create', 'ProdutosController@createProdutos');
 		Route::post('/admin/produtos/storeProduto', 'ProdutosController@storeProduto');
 		Route::get('/admin/produtos/calcular/index', 'ReceitasController@rangeIndex');
 		Route::post('/admin/produtos/calcular/dateRange', 'ReceitasController@dateRange');
 		Route::get('/admin/produtos/ingredientes/excluir/{produto}/{prato}', 'ReceitasController@excluiIngrediente');
+		Route::get('/admin/produtos/show/{id}', ['as' => 'show', 'uses' => 'ProdutosController@showProduto']);
+		Route::get('/admin/produtos/edit/{id}', ['as' => 'edit', 'uses' => 'ProdutosController@editProduto']);
+		Route::post('/admin/produtos/update/{id}', ['as' => 'update', 'uses' => 'ProdutosController@updateProduto']);
+		Route::get('/admin/produtos/produtosForSelectJson', ['as' => 'select', 'uses' => 'ProdutosController@produtosForSelectJson']);
 	});
 
 });

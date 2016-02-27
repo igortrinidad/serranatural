@@ -27,4 +27,8 @@ class Produto extends Model
 		return $this->belongsTo('serranatural\Models\Categoria');
 	}
 
+	public function movimentacoes(){
+    	return $this->hasMany('serranatural\Models\Movimentacao');
+    }
+
 }

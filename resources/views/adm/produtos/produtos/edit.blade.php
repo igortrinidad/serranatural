@@ -10,37 +10,37 @@
 	<div class="panel-heading"><h5>Cadastrar Produto</h5></div>
 	<div class="panel-body">
 
-			<form action="/admin/produtos/storeProduto" method="POST" class="form-group">
+			<form action="{{route('produtos.produtos.update', $produto->id)}}" method="POST" class="form-group">
 
 				<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 
 				<div class="form-group">
 					<label>Nome</label>
-					<input type="text" name="nome_produto" class="form-control">
+					<input type="text" name="nome_produto" value="{{$produto->nome_produto}}" class="form-control">
 				</div>
 				<div class="row">
 					<div class="col-md-6">
 
 						<div class="form-group">
 							<label>Preço médio</label>
-							<input type="text" name="preco" class="form-control"/>
+							<input type="text" name="preco" value="{{$produto->preco}}" class="form-control"/>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Descrição</label>
-							<input type="text" name="descricao" class="form-control">
+							<input type="text" name="descricao" value="{{$produto->descricao}}" class="form-control">
 						</div>
 					</div>
 				</div>
 
 				<div class="form-group">
 						<label>Fornecedores</label>
-		              {!! Form::select('fornecedor_id[]', $fornecedoresForSelect, null, ['class' => 'form-control', 
+		              {!! Form::select('fornecedor_id[]', $fornecedoresForSelect, $fornecedores, ['class' => 'form-control', 
 		              'multiple' => 'multiple', 'id' => 'fornecedores'])   !!}
 		        </div>
 
-				<button type="submit" class="btn btn-primary">Cadastrar Ingrediente</button>
+				<button type="submit" class="btn btn-primary">Salvar produto</button>
                                
 			</form>
 

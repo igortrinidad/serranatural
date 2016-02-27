@@ -36171,194 +36171,29 @@ S2.define('jquery.mousewheel',[
 }));
 
 /**
- * Super simple wysiwyg editor on Bootstrap v0.6.16
+ * Super simple wysiwyg editor v0.8.1
  * http://summernote.org/
  *
  * summernote.js
  * Copyright 2013-2015 Alan Hong. and other contributors
  * summernote may be freely distributed under the MIT license./
  *
- * Date: 2015-08-03T16:41Z
+ * Date: 2016-02-15T18:35Z
  */
 (function (factory) {
   /* global define */
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
     define(['jquery'], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    // Node/CommonJS
+    module.exports = factory(require('jquery'));
   } else {
-    // Browser globals: jQuery
+    // Browser globals
     factory(window.jQuery);
   }
 }(function ($) {
-  
-
-
-  if (!Array.prototype.reduce) {
-    /**
-     * Array.prototype.reduce polyfill
-     *
-     * @param {Function} callback
-     * @param {Value} [initialValue]
-     * @return {Value}
-     *
-     * @see http://goo.gl/WNriQD
-     */
-    Array.prototype.reduce = function (callback) {
-      var t = Object(this), len = t.length >>> 0, k = 0, value;
-      if (arguments.length === 2) {
-        value = arguments[1];
-      } else {
-        while (k < len && !(k in t)) {
-          k++;
-        }
-        if (k >= len) {
-          throw new TypeError('Reduce of empty array with no initial value');
-        }
-        value = t[k++];
-      }
-      for (; k < len; k++) {
-        if (k in t) {
-          value = callback(value, t[k], k, t);
-        }
-      }
-      return value;
-    };
-  }
-
-  if ('function' !== typeof Array.prototype.filter) {
-    /**
-     * Array.prototype.filter polyfill
-     *
-     * @param {Function} func
-     * @return {Array}
-     *
-     * @see http://goo.gl/T1KFnq
-     */
-    Array.prototype.filter = function (func) {
-      var t = Object(this), len = t.length >>> 0;
-
-      var res = [];
-      var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
-      for (var i = 0; i < len; i++) {
-        if (i in t) {
-          var val = t[i];
-          if (func.call(thisArg, val, i, t)) {
-            res.push(val);
-          }
-        }
-      }
-  
-      return res;
-    };
-  }
-
-  if (!Array.prototype.map) {
-    /**
-     * Array.prototype.map polyfill
-     *
-     * @param {Function} callback
-     * @return {Array}
-     *
-     * @see https://goo.gl/SMWaMK
-     */
-    Array.prototype.map = function (callback, thisArg) {
-      var T, A, k;
-      if (this === null) {
-        throw new TypeError(' this is null or not defined');
-      }
-
-      var O = Object(this);
-      var len = O.length >>> 0;
-      if (typeof callback !== 'function') {
-        throw new TypeError(callback + ' is not a function');
-      }
-  
-      if (arguments.length > 1) {
-        T = thisArg;
-      }
-  
-      A = new Array(len);
-      k = 0;
-  
-      while (k < len) {
-        var kValue, mappedValue;
-        if (k in O) {
-          kValue = O[k];
-          mappedValue = callback.call(T, kValue, k, O);
-          A[k] = mappedValue;
-        }
-        k++;
-      }
-      return A;
-    };
-  }
-
-  var isSupportAmd = typeof define === 'function' && define.amd;
-
-  /**
-   * returns whether font is installed or not.
-   *
-   * @param {String} fontName
-   * @return {Boolean}
-   */
-  var isFontInstalled = function (fontName) {
-    var testFontName = fontName === 'Comic Sans MS' ? 'Courier New' : 'Comic Sans MS';
-    var $tester = $('<div>').css({
-      position: 'absolute',
-      left: '-9999px',
-      top: '-9999px',
-      fontSize: '200px'
-    }).text('mmmmmmmmmwwwwwww').appendTo(document.body);
-
-    var originalWidth = $tester.css('fontFamily', testFontName).width();
-    var width = $tester.css('fontFamily', fontName + ',' + testFontName).width();
-
-    $tester.remove();
-
-    return originalWidth !== width;
-  };
-
-  var userAgent = navigator.userAgent;
-  var isMSIE = /MSIE|Trident/i.test(userAgent);
-  var browserVersion;
-  if (isMSIE) {
-    var matches = /MSIE (\d+[.]\d+)/.exec(userAgent);
-    if (matches) {
-      browserVersion = parseFloat(matches[1]);
-    }
-    matches = /Trident\/.*rv:([0-9]{1,}[\.0-9]{0,})/.exec(userAgent);
-    if (matches) {
-      browserVersion = parseFloat(matches[1]);
-    }
-  }
-
-  /**
-   * @class core.agent
-   *
-   * Object which check platform and agent
-   *
-   * @singleton
-   * @alternateClassName agent
-   */
-  var agent = {
-    /** @property {Boolean} [isMac=false] true if this agent is Mac  */
-    isMac: navigator.appVersion.indexOf('Mac') > -1,
-    /** @property {Boolean} [isMSIE=false] true if this agent is a Internet Explorer  */
-    isMSIE: isMSIE,
-    /** @property {Boolean} [isFF=false] true if this agent is a Firefox  */
-    isFF: /firefox/i.test(userAgent),
-    isWebkit: /webkit/i.test(userAgent),
-    /** @property {Boolean} [isSafari=false] true if this agent is a Safari  */
-    isSafari: /safari/i.test(userAgent),
-    /** @property {Float} browserVersion current browser version  */
-    browserVersion: browserVersion,
-    /** @property {String} jqueryVersion current jQuery version string  */
-    jqueryVersion: parseFloat($.fn.jquery),
-    isSupportAmd: isSupportAmd,
-    hasCodeMirror: isSupportAmd ? require.specified('CodeMirror') : !!window.CodeMirror,
-    isFontInstalled: isFontInstalled,
-    isW3CRangeSupport: !!document.createRange
-  };
+  'use strict';
 
   /**
    * @class core.func
@@ -36409,6 +36244,12 @@ S2.define('jquery.mousewheel',[
       return a;
     };
 
+    var invoke = function (obj, method) {
+      return function () {
+        return obj[method].apply(obj, arguments);
+      };
+    };
+
     var idCounter = 0;
 
     /**
@@ -36424,7 +36265,7 @@ S2.define('jquery.mousewheel',[
     /**
      * returns bnd (bounds) from rect
      *
-     * - IE Compatability Issue: http://goo.gl/sRLOAo
+     * - IE Compatibility Issue: http://goo.gl/sRLOAo
      * - Scroll Issue: http://goo.gl/sNjUc
      *
      * @param {Rect} rect
@@ -36480,6 +36321,7 @@ S2.define('jquery.mousewheel',[
       self: self,
       not: not,
       and: and,
+      invoke: invoke,
       uniqueId: uniqueId,
       rect2bnd: rect2bnd,
       invertObject: invertObject,
@@ -36594,6 +36436,13 @@ S2.define('jquery.mousewheel',[
       }
       return result;
     };
+
+    /**
+     * returns whether list is empty or not
+     */
+    var isEmpty = function (array) {
+      return !array || !array.length;
+    };
   
     /**
      * cluster elements by predicate function.
@@ -36668,12 +36517,94 @@ S2.define('jquery.mousewheel',[
 
       return array[idx - 1];
     };
-  
+
     return { head: head, last: last, initial: initial, tail: tail,
              prev: prev, next: next, find: find, contains: contains,
-             all: all, sum: sum, from: from,
+             all: all, sum: sum, from: from, isEmpty: isEmpty,
              clusterBy: clusterBy, compact: compact, unique: unique };
   })();
+
+  var isSupportAmd = typeof define === 'function' && define.amd;
+
+  /**
+   * returns whether font is installed or not.
+   *
+   * @param {String} fontName
+   * @return {Boolean}
+   */
+  var isFontInstalled = function (fontName) {
+    var testFontName = fontName === 'Comic Sans MS' ? 'Courier New' : 'Comic Sans MS';
+    var $tester = $('<div>').css({
+      position: 'absolute',
+      left: '-9999px',
+      top: '-9999px',
+      fontSize: '200px'
+    }).text('mmmmmmmmmwwwwwww').appendTo(document.body);
+
+    var originalWidth = $tester.css('fontFamily', testFontName).width();
+    var width = $tester.css('fontFamily', fontName + ',' + testFontName).width();
+
+    $tester.remove();
+
+    return originalWidth !== width;
+  };
+
+  var userAgent = navigator.userAgent;
+  var isMSIE = /MSIE|Trident/i.test(userAgent);
+  var browserVersion;
+  if (isMSIE) {
+    var matches = /MSIE (\d+[.]\d+)/.exec(userAgent);
+    if (matches) {
+      browserVersion = parseFloat(matches[1]);
+    }
+    matches = /Trident\/.*rv:([0-9]{1,}[\.0-9]{0,})/.exec(userAgent);
+    if (matches) {
+      browserVersion = parseFloat(matches[1]);
+    }
+  }
+
+  var isEdge = /Edge\/\d+/.test(userAgent);
+
+  var hasCodeMirror = !!window.CodeMirror;
+  if (!hasCodeMirror && isSupportAmd && require) {
+    if (require.hasOwnProperty('resolve')) {
+      try {
+        // If CodeMirror can't be resolved, `require.resolve` will throw an
+        // exception and `hasCodeMirror` won't be set to `true`.
+        require.resolve('codemirror');
+        hasCodeMirror = true;
+      } catch (e) {
+        hasCodeMirror = false;
+      }
+    } else if (require.hasOwnProperty('specified')) {
+      hasCodeMirror = require.specified('codemirror');
+    }
+  }
+
+  /**
+   * @class core.agent
+   *
+   * Object which check platform and agent
+   *
+   * @singleton
+   * @alternateClassName agent
+   */
+  var agent = {
+    isMac: navigator.appVersion.indexOf('Mac') > -1,
+    isMSIE: isMSIE,
+    isEdge: isEdge,
+    isFF: !isEdge && /firefox/i.test(userAgent),
+    isPhantom: /PhantomJS/i.test(userAgent),
+    isWebkit: !isEdge && /webkit/i.test(userAgent),
+    isChrome: !isEdge && /chrome/i.test(userAgent),
+    isSafari: !isEdge && /safari/i.test(userAgent),
+    browserVersion: browserVersion,
+    jqueryVersion: parseFloat($.fn.jquery),
+    isSupportAmd: isSupportAmd,
+    hasCodeMirror: hasCodeMirror,
+    isFontInstalled: isFontInstalled,
+    isW3CRangeSupport: !!document.createRange
+  };
 
 
   var NBSP_CHAR = String.fromCharCode(160);
@@ -36713,90 +36644,6 @@ S2.define('jquery.mousewheel',[
     };
 
     /**
-     * @method  buildLayoutInfo
-     *
-     * build layoutInfo from $editor(.note-editor)
-     *
-     * @param {jQuery} $editor
-     * @return {Object}
-     * @return {Function} return.editor
-     * @return {Node} return.dropzone
-     * @return {Node} return.toolbar
-     * @return {Node} return.editable
-     * @return {Node} return.codable
-     * @return {Node} return.popover
-     * @return {Node} return.handle
-     * @return {Node} return.dialog
-     */
-    var buildLayoutInfo = function ($editor) {
-      var makeFinder;
-
-      // air mode
-      if ($editor.hasClass('note-air-editor')) {
-        var id = list.last($editor.attr('id').split('-'));
-        makeFinder = function (sIdPrefix) {
-          return function () { return $(sIdPrefix + id); };
-        };
-
-        return {
-          editor: function () { return $editor; },
-          holder : function () { return $editor.data('holder'); },
-          editable: function () { return $editor; },
-          popover: makeFinder('#note-popover-'),
-          handle: makeFinder('#note-handle-'),
-          dialog: makeFinder('#note-dialog-')
-        };
-
-        // frame mode
-      } else {
-        makeFinder = function (className, $base) {
-          $base = $base || $editor;
-          return function () { return $base.find(className); };
-        };
-
-        var options = $editor.data('options');
-        var $dialogHolder = (options && options.dialogsInBody) ? $(document.body) : null;
-
-        return {
-          editor: function () { return $editor; },
-          holder : function () { return $editor.data('holder'); },
-          dropzone: makeFinder('.note-dropzone'),
-          toolbar: makeFinder('.note-toolbar'),
-          editable: makeFinder('.note-editable'),
-          codable: makeFinder('.note-codable'),
-          statusbar: makeFinder('.note-statusbar'),
-          popover: makeFinder('.note-popover'),
-          handle: makeFinder('.note-handle'),
-          dialog: makeFinder('.note-dialog', $dialogHolder)
-        };
-      }
-    };
-
-    /**
-     * returns makeLayoutInfo from editor's descendant node.
-     *
-     * @private
-     * @param {Node} descendant
-     * @return {Object}
-     */
-    var makeLayoutInfo = function (descendant) {
-      var $target = $(descendant).closest('.note-editor, .note-air-editor, .note-air-layout');
-
-      if (!$target.length) {
-        return null;
-      }
-
-      var $editor;
-      if ($target.is('.note-editor, .note-air-editor')) {
-        $editor = $target;
-      } else {
-        $editor = $('#note-editor-' + list.last($target.attr('id').split('-')));
-      }
-
-      return buildLayoutInfo($editor);
-    };
-
-    /**
      * @method makePredByNodeName
      *
      * returns predicate which judge whether nodeName is same
@@ -36824,6 +36671,18 @@ S2.define('jquery.mousewheel',[
     };
 
     /**
+     * @method isElement
+     *
+     *
+     *
+     * @param {Node} node
+     * @return {Boolean} true if node's type is element(1)
+     */
+    var isElement = function (node) {
+      return node && node.nodeType === 1;
+    };
+
+    /**
      * ex) br, col, embed, hr, img, input, ...
      * @see http://www.w3.org/html/wg/drafts/html/master/syntax.html#void-elements
      */
@@ -36839,6 +36698,12 @@ S2.define('jquery.mousewheel',[
       // Chrome(v31.0), FF(v25.0.1) use DIV for paragraph
       return node && /^DIV|^P|^LI|^H[1-7]/.test(node.nodeName.toUpperCase());
     };
+
+    var isHeading = function (node) {
+      return node && /^H[1-7]/.test(node.nodeName.toUpperCase());
+    };
+
+    var isPre = makePredByNodeName('PRE');
 
     var isLi = makePredByNodeName('LI');
 
@@ -37091,20 +36956,20 @@ S2.define('jquery.mousewheel',[
      * @param {Function} [pred] - predicate function
      */
     var listDescendant = function (node, pred) {
-      var descendents = [];
+      var descendants = [];
       pred = pred || func.ok;
 
       // start DFS(depth first search) with node
       (function fnWalk(current) {
         if (node !== current && pred(current)) {
-          descendents.push(current);
+          descendants.push(current);
         }
         for (var idx = 0, len = current.childNodes.length; idx < len; idx++) {
           fnWalk(current.childNodes[idx]);
         }
       })(node);
 
-      return descendents;
+      return descendants;
     };
 
     /**
@@ -37184,7 +37049,7 @@ S2.define('jquery.mousewheel',[
     };
 
     /**
-     * returns wheter node is left edge of ancestor or not.
+     * returns whether node is left edge of ancestor or not.
      *
      * @param {Node} node
      * @param {Node} ancestor
@@ -37698,6 +37563,29 @@ S2.define('jquery.mousewheel',[
       return markup;
     };
 
+    var posFromPlaceholder = function (placeholder) {
+      var $placeholder = $(placeholder);
+      var pos = $placeholder.offset();
+      var height = $placeholder.outerHeight(true); // include margin
+
+      return {
+        left: pos.left,
+        top: pos.top + height
+      };
+    };
+
+    var attachEvents = function ($node, events) {
+      Object.keys(events).forEach(function (key) {
+        $node.on(key, events[key]);
+      });
+    };
+
+    var detachEvents = function ($node, events) {
+      Object.keys(events).forEach(function (key) {
+        $node.off(key, events[key]);
+      });
+    };
+
     return {
       /** @property {String} NBSP_CHAR */
       NBSP_CHAR: NBSP_CHAR,
@@ -37710,17 +37598,18 @@ S2.define('jquery.mousewheel',[
       makePredByNodeName: makePredByNodeName,
       isEditable: isEditable,
       isControlSizing: isControlSizing,
-      buildLayoutInfo: buildLayoutInfo,
-      makeLayoutInfo: makeLayoutInfo,
       isText: isText,
+      isElement: isElement,
       isVoid: isVoid,
       isPara: isPara,
       isPurePara: isPurePara,
+      isHeading: isHeading,
       isInline: isInline,
       isBlock: func.not(isInline),
       isBodyInline: isBodyInline,
       isBody: isBody,
       isParaInline: isParaInline,
+      isPre: isPre,
       isList: isList,
       isTable: isTable,
       isCell: isCell,
@@ -37780,10 +37669,759 @@ S2.define('jquery.mousewheel',[
       removeWhile: removeWhile,
       replace: replace,
       html: html,
-      value: value
+      value: value,
+      posFromPlaceholder: posFromPlaceholder,
+      attachEvents: attachEvents,
+      detachEvents: detachEvents
     };
   })();
 
+  /**
+   * @param {jQuery} $note
+   * @param {Object} options
+   * @return {Context}
+   */
+  var Context = function ($note, options) {
+    var self = this;
+
+    var ui = $.summernote.ui;
+    this.memos = {};
+    this.modules = {};
+    this.layoutInfo = {};
+    this.options = options;
+
+    /**
+     * create layout and initialize modules and other resources
+     */
+    this.initialize = function () {
+      this.layoutInfo = ui.createLayout($note, options);
+      this._initialize();
+      $note.hide();
+      return this;
+    };
+
+    /**
+     * destroy modules and other resources and remove layout
+     */
+    this.destroy = function () {
+      this._destroy();
+      $note.removeData('summernote');
+      ui.removeLayout($note, this.layoutInfo);
+    };
+
+    /**
+     * destory modules and other resources and initialize it again
+     */
+    this.reset = function () {
+      var disabled = self.isDisabled();
+      this.code(dom.emptyPara);
+      this._destroy();
+      this._initialize();
+
+      if (disabled) {
+        self.disable();
+      }
+    };
+
+    this._initialize = function () {
+      // add optional buttons
+      var buttons = $.extend({}, this.options.buttons);
+      Object.keys(buttons).forEach(function (key) {
+        self.memo('button.' + key, buttons[key]);
+      });
+
+      var modules = $.extend({}, this.options.modules, $.summernote.plugins || {});
+
+      // add and initialize modules
+      Object.keys(modules).forEach(function (key) {
+        self.module(key, modules[key], true);
+      });
+
+      Object.keys(this.modules).forEach(function (key) {
+        self.initializeModule(key);
+      });
+    };
+
+    this._destroy = function () {
+      // destroy modules with reversed order
+      Object.keys(this.modules).reverse().forEach(function (key) {
+        self.removeModule(key);
+      });
+
+      Object.keys(this.memos).forEach(function (key) {
+        self.removeMemo(key);
+      });
+    };
+
+    this.code = function (html) {
+      var isActivated = this.invoke('codeview.isActivated');
+
+      if (html === undefined) {
+        this.invoke('codeview.sync');
+        return isActivated ? this.layoutInfo.codable.val() : this.layoutInfo.editable.html();
+      } else {
+        if (isActivated) {
+          this.layoutInfo.codable.val(html);
+        } else {
+          this.layoutInfo.editable.html(html);
+        }
+        $note.val(html);
+        this.triggerEvent('change', html);
+      }
+    };
+
+    this.isDisabled = function () {
+      return this.layoutInfo.editable.attr('contenteditable') === 'false';
+    };
+
+    this.enable = function () {
+      this.layoutInfo.editable.attr('contenteditable', true);
+      this.invoke('toolbar.activate', true);
+    };
+
+    this.disable = function () {
+      // close codeview if codeview is opend
+      if (this.invoke('codeview.isActivated')) {
+        this.invoke('codeview.deactivate');
+      }
+      this.layoutInfo.editable.attr('contenteditable', false);
+      this.invoke('toolbar.deactivate', true);
+    };
+
+    this.triggerEvent = function () {
+      var namespace = list.head(arguments);
+      var args = list.tail(list.from(arguments));
+
+      var callback = this.options.callbacks[func.namespaceToCamel(namespace, 'on')];
+      if (callback) {
+        callback.apply($note[0], args);
+      }
+      $note.trigger('summernote.' + namespace, args);
+    };
+
+    this.initializeModule = function (key) {
+      var module = this.modules[key];
+      module.shouldInitialize = module.shouldInitialize || func.ok;
+      if (!module.shouldInitialize()) {
+        return;
+      }
+
+      // initialize module
+      if (module.initialize) {
+        module.initialize();
+      }
+
+      // attach events
+      if (module.events) {
+        dom.attachEvents($note, module.events);
+      }
+    };
+
+    this.module = function (key, ModuleClass, withoutIntialize) {
+      if (arguments.length === 1) {
+        return this.modules[key];
+      }
+
+      this.modules[key] = new ModuleClass(this);
+
+      if (!withoutIntialize) {
+        this.initializeModule(key);
+      }
+    };
+
+    this.removeModule = function (key) {
+      var module = this.modules[key];
+      if (module.shouldInitialize()) {
+        if (module.events) {
+          dom.detachEvents($note, module.events);
+        }
+
+        if (module.destroy) {
+          module.destroy();
+        }
+      }
+
+      delete this.modules[key];
+    };
+
+    this.memo = function (key, obj) {
+      if (arguments.length === 1) {
+        return this.memos[key];
+      }
+      this.memos[key] = obj;
+    };
+
+    this.removeMemo = function (key) {
+      if (this.memos[key] && this.memos[key].destroy) {
+        this.memos[key].destroy();
+      }
+
+      delete this.memos[key];
+    };
+
+    this.createInvokeHandler = function (namespace, value) {
+      return function (event) {
+        event.preventDefault();
+        self.invoke(namespace, value || $(event.target).closest('[data-value]').data('value'));
+      };
+    };
+
+    this.invoke = function () {
+      var namespace = list.head(arguments);
+      var args = list.tail(list.from(arguments));
+
+      var splits = namespace.split('.');
+      var hasSeparator = splits.length > 1;
+      var moduleName = hasSeparator && list.head(splits);
+      var methodName = hasSeparator ? list.last(splits) : list.head(splits);
+
+      var module = this.modules[moduleName || 'editor'];
+      if (!moduleName && this[methodName]) {
+        return this[methodName].apply(this, args);
+      } else if (module && module[methodName] && module.shouldInitialize()) {
+        return module[methodName].apply(module, args);
+      }
+    };
+
+    return this.initialize();
+  };
+
+  $.fn.extend({
+    /**
+     * Summernote API
+     *
+     * @param {Object|String}
+     * @return {this}
+     */
+    summernote: function () {
+      var type = $.type(list.head(arguments));
+      var isExternalAPICalled = type === 'string';
+      var hasInitOptions = type === 'object';
+
+      var options = hasInitOptions ? list.head(arguments) : {};
+
+      options = $.extend({}, $.summernote.options, options);
+      options.langInfo = $.extend(true, {}, $.summernote.lang['en-US'], $.summernote.lang[options.lang]);
+
+      this.each(function (idx, note) {
+        var $note = $(note);
+        if (!$note.data('summernote')) {
+          var context = new Context($note, options);
+          $note.data('summernote', context);
+          $note.data('summernote').triggerEvent('init', context.layoutInfo);
+        }
+      });
+
+      var $note = this.first();
+      if ($note.length) {
+        var context = $note.data('summernote');
+        if (isExternalAPICalled) {
+          return context.invoke.apply(context, list.from(arguments));
+        } else if (options.focus) {
+          context.invoke('editor.focus');
+        }
+      }
+
+      return this;
+    }
+  });
+
+
+  var Renderer = function (markup, children, options, callback) {
+    this.render = function ($parent) {
+      var $node = $(markup);
+
+      if (options && options.contents) {
+        $node.html(options.contents);
+      }
+
+      if (options && options.className) {
+        $node.addClass(options.className);
+      }
+
+      if (options && options.data) {
+        $.each(options.data, function (k, v) {
+          $node.attr('data-' + k, v);
+        });
+      }
+
+      if (options && options.click) {
+        $node.on('click', options.click);
+      }
+
+      if (children) {
+        var $container = $node.find('.note-children-container');
+        children.forEach(function (child) {
+          child.render($container.length ? $container : $node);
+        });
+      }
+
+      if (callback) {
+        callback($node, options);
+      }
+
+      if (options && options.callback) {
+        options.callback($node);
+      }
+
+      if ($parent) {
+        $parent.append($node);
+      }
+
+      return $node;
+    };
+  };
+
+  var renderer = {
+    create: function (markup, callback) {
+      return function () {
+        var children = $.isArray(arguments[0]) ? arguments[0] : [];
+        var options = typeof arguments[1] === 'object' ? arguments[1] : arguments[0];
+        if (options && options.children) {
+          children = options.children;
+        }
+        return new Renderer(markup, children, options, callback);
+      };
+    }
+  };
+
+  var editor = renderer.create('<div class="note-editor note-frame panel panel-default"/>');
+  var toolbar = renderer.create('<div class="note-toolbar panel-heading"/>');
+  var editingArea = renderer.create('<div class="note-editing-area"/>');
+  var codable = renderer.create('<textarea class="note-codable"/>');
+  var editable = renderer.create('<div class="note-editable panel-body" contentEditable="true"/>');
+  var statusbar = renderer.create([
+    '<div class="note-statusbar">',
+    '  <div class="note-resizebar">',
+    '    <div class="note-icon-bar"/>',
+    '    <div class="note-icon-bar"/>',
+    '    <div class="note-icon-bar"/>',
+    '  </div>',
+    '</div>'
+  ].join(''));
+
+  var airEditor = renderer.create('<div class="note-editor"/>');
+  var airEditable = renderer.create('<div class="note-editable" contentEditable="true"/>');
+
+  var buttonGroup = renderer.create('<div class="note-btn-group btn-group">');
+  var button = renderer.create('<button type="button" class="note-btn btn btn-default btn-sm">', function ($node, options) {
+    if (options && options.tooltip) {
+      $node.attr({
+        title: options.tooltip
+      }).tooltip({
+        container: 'body',
+        trigger: 'hover',
+        placement: 'bottom'
+      });
+    }
+  });
+
+  var dropdown = renderer.create('<div class="dropdown-menu">', function ($node, options) {
+    var markup = $.isArray(options.items) ? options.items.map(function (item) {
+      var value = (typeof item === 'string') ? item : (item.value || '');
+      var content = options.template ? options.template(item) : item;
+      return '<li><a href="#" data-value="' + value + '">' + content + '</a></li>';
+    }).join('') : options.items;
+
+    $node.html(markup);
+  });
+
+  var dropdownCheck = renderer.create('<div class="dropdown-menu note-check">', function ($node, options) {
+    var markup = $.isArray(options.items) ? options.items.map(function (item) {
+      var value = (typeof item === 'string') ? item : (item.value || '');
+      var content = options.template ? options.template(item) : item;
+      return '<li><a href="#" data-value="' + value + '">' + icon(options.checkClassName) + ' ' + content + '</a></li>';
+    }).join('') : options.items;
+    $node.html(markup);
+  });
+
+  var palette = renderer.create('<div class="note-color-palette"/>', function ($node, options) {
+    var contents = [];
+    for (var row = 0, rowSize = options.colors.length; row < rowSize; row++) {
+      var eventName = options.eventName;
+      var colors = options.colors[row];
+      var buttons = [];
+      for (var col = 0, colSize = colors.length; col < colSize; col++) {
+        var color = colors[col];
+        buttons.push([
+          '<button type="button" class="note-color-btn"',
+          'style="background-color:', color, '" ',
+          'data-event="', eventName, '" ',
+          'data-value="', color, '" ',
+          'title="', color, '" ',
+          'data-toggle="button" tabindex="-1"></button>'
+        ].join(''));
+      }
+      contents.push('<div class="note-color-row">' + buttons.join('') + '</div>');
+    }
+    $node.html(contents.join(''));
+
+    $node.find('.note-color-btn').tooltip({
+      container: 'body',
+      trigger: 'hover',
+      placement: 'bottom'
+    });
+  });
+
+  var dialog = renderer.create('<div class="modal" aria-hidden="false" tabindex="-1"/>', function ($node, options) {
+    if (options.fade) {
+      $node.addClass('fade');
+    }
+    $node.html([
+      '<div class="modal-dialog">',
+      '  <div class="modal-content">',
+      (options.title ?
+      '    <div class="modal-header">' +
+      '      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+      '      <h4 class="modal-title">' + options.title + '</h4>' +
+      '    </div>' : ''
+      ),
+      '    <div class="modal-body">' + options.body + '</div>',
+      (options.footer ?
+      '    <div class="modal-footer">' + options.footer + '</div>' : ''
+      ),
+      '  </div>',
+      '</div>'
+    ].join(''));
+  });
+
+  var popover = renderer.create([
+    '<div class="note-popover popover in">',
+    '  <div class="arrow"/>',
+    '  <div class="popover-content note-children-container"/>',
+    '</div>'
+  ].join(''), function ($node, options) {
+    var direction = typeof options.direction !== 'undefined' ? options.direction : 'bottom';
+
+    $node.addClass(direction);
+
+    if (options.hideArrow) {
+      $node.find('.arrow').hide();
+    }
+  });
+
+  var icon = function (iconClassName, tagName) {
+    tagName = tagName || 'i';
+    return '<' + tagName + ' class="' + iconClassName + '"/>';
+  };
+
+  var ui = {
+    editor: editor,
+    toolbar: toolbar,
+    editingArea: editingArea,
+    codable: codable,
+    editable: editable,
+    statusbar: statusbar,
+    airEditor: airEditor,
+    airEditable: airEditable,
+    buttonGroup: buttonGroup,
+    button: button,
+    dropdown: dropdown,
+    dropdownCheck: dropdownCheck,
+    palette: palette,
+    dialog: dialog,
+    popover: popover,
+    icon: icon,
+
+    toggleBtn: function ($btn, isEnable) {
+      $btn.toggleClass('disabled', !isEnable);
+      $btn.attr('disabled', !isEnable);
+    },
+
+    toggleBtnActive: function ($btn, isActive) {
+      $btn.toggleClass('active', isActive);
+    },
+
+    onDialogShown: function ($dialog, handler) {
+      $dialog.one('shown.bs.modal', handler);
+    },
+
+    onDialogHidden: function ($dialog, handler) {
+      $dialog.one('hidden.bs.modal', handler);
+    },
+
+    showDialog: function ($dialog) {
+      $dialog.modal('show');
+    },
+
+    hideDialog: function ($dialog) {
+      $dialog.modal('hide');
+    },
+
+    createLayout: function ($note, options) {
+      var $editor = (options.airMode ? ui.airEditor([
+        ui.editingArea([
+          ui.airEditable()
+        ])
+      ]) : ui.editor([
+        ui.toolbar(),
+        ui.editingArea([
+          ui.codable(),
+          ui.editable()
+        ]),
+        ui.statusbar()
+      ])).render();
+
+      $editor.insertAfter($note);
+
+      return {
+        note: $note,
+        editor: $editor,
+        toolbar: $editor.find('.note-toolbar'),
+        editingArea: $editor.find('.note-editing-area'),
+        editable: $editor.find('.note-editable'),
+        codable: $editor.find('.note-codable'),
+        statusbar: $editor.find('.note-statusbar')
+      };
+    },
+
+    removeLayout: function ($note, layoutInfo) {
+      $note.html(layoutInfo.editable.html());
+      layoutInfo.editor.remove();
+      $note.show();
+    }
+  };
+
+  $.summernote = $.summernote || {
+    lang: {}
+  };
+
+  $.extend($.summernote.lang, {
+    'en-US': {
+      font: {
+        bold: 'Bold',
+        italic: 'Italic',
+        underline: 'Underline',
+        clear: 'Remove Font Style',
+        height: 'Line Height',
+        name: 'Font Family',
+        strikethrough: 'Strikethrough',
+        subscript: 'Subscript',
+        superscript: 'Superscript',
+        size: 'Font Size'
+      },
+      image: {
+        image: 'Picture',
+        insert: 'Insert Image',
+        resizeFull: 'Resize Full',
+        resizeHalf: 'Resize Half',
+        resizeQuarter: 'Resize Quarter',
+        floatLeft: 'Float Left',
+        floatRight: 'Float Right',
+        floatNone: 'Float None',
+        shapeRounded: 'Shape: Rounded',
+        shapeCircle: 'Shape: Circle',
+        shapeThumbnail: 'Shape: Thumbnail',
+        shapeNone: 'Shape: None',
+        dragImageHere: 'Drag image or text here',
+        dropImage: 'Drop image or Text',
+        selectFromFiles: 'Select from files',
+        maximumFileSize: 'Maximum file size',
+        maximumFileSizeError: 'Maximum file size exceeded.',
+        url: 'Image URL',
+        remove: 'Remove Image'
+      },
+      video: {
+        video: 'Video',
+        videoLink: 'Video Link',
+        insert: 'Insert Video',
+        url: 'Video URL?',
+        providers: '(YouTube, Vimeo, Vine, Instagram, DailyMotion or Youku)'
+      },
+      link: {
+        link: 'Link',
+        insert: 'Insert Link',
+        unlink: 'Unlink',
+        edit: 'Edit',
+        textToDisplay: 'Text to display',
+        url: 'To what URL should this link go?',
+        openInNewWindow: 'Open in new window'
+      },
+      table: {
+        table: 'Table'
+      },
+      hr: {
+        insert: 'Insert Horizontal Rule'
+      },
+      style: {
+        style: 'Style',
+        normal: 'Normal',
+        blockquote: 'Quote',
+        pre: 'Code',
+        h1: 'Header 1',
+        h2: 'Header 2',
+        h3: 'Header 3',
+        h4: 'Header 4',
+        h5: 'Header 5',
+        h6: 'Header 6'
+      },
+      lists: {
+        unordered: 'Unordered list',
+        ordered: 'Ordered list'
+      },
+      options: {
+        help: 'Help',
+        fullscreen: 'Full Screen',
+        codeview: 'Code View'
+      },
+      paragraph: {
+        paragraph: 'Paragraph',
+        outdent: 'Outdent',
+        indent: 'Indent',
+        left: 'Align left',
+        center: 'Align center',
+        right: 'Align right',
+        justify: 'Justify full'
+      },
+      color: {
+        recent: 'Recent Color',
+        more: 'More Color',
+        background: 'Background Color',
+        foreground: 'Foreground Color',
+        transparent: 'Transparent',
+        setTransparent: 'Set transparent',
+        reset: 'Reset',
+        resetToDefault: 'Reset to default'
+      },
+      shortcut: {
+        shortcuts: 'Keyboard shortcuts',
+        close: 'Close',
+        textFormatting: 'Text formatting',
+        action: 'Action',
+        paragraphFormatting: 'Paragraph formatting',
+        documentStyle: 'Document Style',
+        extraKeys: 'Extra keys'
+      },
+      help: {
+        'insertParagraph': 'Insert Paragraph',
+        'undo': 'Undoes the last command',
+        'redo': 'Redoes the last command',
+        'tab': 'Tab',
+        'untab': 'Untab',
+        'bold': 'Set a bold style',
+        'italic': 'Set a italic style',
+        'underline': 'Set a underline style',
+        'strikethrough': 'Set a strikethrough style',
+        'removeFormat': 'Clean a style',
+        'justifyLeft': 'Set left align',
+        'justifyCenter': 'Set center align',
+        'justifyRight': 'Set right align',
+        'justifyFull': 'Set full align',
+        'insertUnorderedList': 'Toggle unordered list',
+        'insertOrderedList': 'Toggle ordered list',
+        'outdent': 'Outdent on current paragraph',
+        'indent': 'Indent on current paragraph',
+        'formatPara': 'Change current block\'s format as a paragraph(P tag)',
+        'formatH1': 'Change current block\'s format as H1',
+        'formatH2': 'Change current block\'s format as H2',
+        'formatH3': 'Change current block\'s format as H3',
+        'formatH4': 'Change current block\'s format as H4',
+        'formatH5': 'Change current block\'s format as H5',
+        'formatH6': 'Change current block\'s format as H6',
+        'insertHorizontalRule': 'Insert horizontal rule',
+        'linkDialog.show': 'Show Link Dialog'
+      },
+      history: {
+        undo: 'Undo',
+        redo: 'Redo'
+      },
+      specialChar: {
+        specialChar: 'SPECIAL CHARACTERS',
+        select: 'Select Special characters'
+      }
+    }
+  });
+
+
+  /**
+   * @class core.key
+   *
+   * Object for keycodes.
+   *
+   * @singleton
+   * @alternateClassName key
+   */
+  var key = (function () {
+    var keyMap = {
+      'BACKSPACE': 8,
+      'TAB': 9,
+      'ENTER': 13,
+      'SPACE': 32,
+
+      // Arrow
+      'LEFT': 37,
+      'UP': 38,
+      'RIGHT': 39,
+      'DOWN': 40,
+
+      // Number: 0-9
+      'NUM0': 48,
+      'NUM1': 49,
+      'NUM2': 50,
+      'NUM3': 51,
+      'NUM4': 52,
+      'NUM5': 53,
+      'NUM6': 54,
+      'NUM7': 55,
+      'NUM8': 56,
+
+      // Alphabet: a-z
+      'B': 66,
+      'E': 69,
+      'I': 73,
+      'J': 74,
+      'K': 75,
+      'L': 76,
+      'R': 82,
+      'S': 83,
+      'U': 85,
+      'V': 86,
+      'Y': 89,
+      'Z': 90,
+
+      'SLASH': 191,
+      'LEFTBRACKET': 219,
+      'BACKSLASH': 220,
+      'RIGHTBRACKET': 221
+    };
+
+    return {
+      /**
+       * @method isEdit
+       *
+       * @param {Number} keyCode
+       * @return {Boolean}
+       */
+      isEdit: function (keyCode) {
+        return list.contains([
+          keyMap.BACKSPACE,
+          keyMap.TAB,
+          keyMap.ENTER,
+          keyMap.SPACE
+        ], keyCode);
+      },
+      /**
+       * @method isMove
+       *
+       * @param {Number} keyCode
+       * @return {Boolean}
+       */
+      isMove: function (keyCode) {
+        return list.contains([
+          keyMap.LEFT,
+          keyMap.UP,
+          keyMap.RIGHT,
+          keyMap.DOWN
+        ], keyCode);
+      },
+      /**
+       * @property {Object} nameFromCode
+       * @property {String} nameFromCode.8 "BACKSPACE"
+       */
+      nameFromCode: func.invertObject(keyMap),
+      code: keyMap
+    };
+  })();
 
   var range = (function () {
 
@@ -37964,6 +38602,20 @@ S2.define('jquery.mousewheel',[
           nativeRng.select();
         }
         
+        return this;
+      };
+
+      /**
+       * Moves the scrollbar to start container(sc) of current range
+       *
+       * @return {WrappedRange}
+       */
+      this.scrollIntoView = function (container) {
+        var height = $(container).height();
+        if (container.scrollTop + height < this.sc.offsetTop) {
+          container.scrollTop += Math.abs(container.scrollTop + height - this.sc.offsetTop);
+        }
+
         return this;
       };
 
@@ -38407,8 +39059,6 @@ S2.define('jquery.mousewheel',[
    */
     return {
       /**
-       * @method
-       * 
        * create Range Object From arguments or Browser Selection
        *
        * @param {Node} sc - start container
@@ -38417,48 +39067,63 @@ S2.define('jquery.mousewheel',[
        * @param {Number} eo - end offset
        * @return {WrappedRange}
        */
-      create : function (sc, so, ec, eo) {
-        if (!arguments.length) { // from Browser Selection
-          if (agent.isW3CRangeSupport) {
-            var selection = document.getSelection();
-            if (!selection || selection.rangeCount === 0) {
-              return null;
-            } else if (dom.isBody(selection.anchorNode)) {
-              // Firefox: returns entire body as range on initialization. We won't never need it.
-              return null;
-            }
-  
-            var nativeRng = selection.getRangeAt(0);
-            sc = nativeRng.startContainer;
-            so = nativeRng.startOffset;
-            ec = nativeRng.endContainer;
-            eo = nativeRng.endOffset;
-          } else { // IE8: TextRange
-            var textRange = document.selection.createRange();
-            var textRangeEnd = textRange.duplicate();
-            textRangeEnd.collapse(false);
-            var textRangeStart = textRange;
-            textRangeStart.collapse(true);
-  
-            var startPoint = textRangeToPoint(textRangeStart, true),
-            endPoint = textRangeToPoint(textRangeEnd, false);
-
-            // same visible point case: range was collapsed.
-            if (dom.isText(startPoint.node) && dom.isLeftEdgePoint(startPoint) &&
-                dom.isTextNode(endPoint.node) && dom.isRightEdgePoint(endPoint) &&
-                endPoint.node.nextSibling === startPoint.node) {
-              startPoint = endPoint;
-            }
-
-            sc = startPoint.cont;
-            so = startPoint.offset;
-            ec = endPoint.cont;
-            eo = endPoint.offset;
-          }
+      create: function (sc, so, ec, eo) {
+        if (arguments.length === 4) {
+          return new WrappedRange(sc, so, ec, eo);
         } else if (arguments.length === 2) { //collapsed
           ec = sc;
           eo = so;
+          return new WrappedRange(sc, so, ec, eo);
+        } else {
+          var wrappedRange = this.createFromSelection();
+          if (!wrappedRange && arguments.length === 1) {
+            wrappedRange = this.createFromNode(arguments[0]);
+            return wrappedRange.collapse(dom.emptyPara === arguments[0].innerHTML);
+          }
+          return wrappedRange;
         }
+      },
+
+      createFromSelection: function () {
+        var sc, so, ec, eo;
+        if (agent.isW3CRangeSupport) {
+          var selection = document.getSelection();
+          if (!selection || selection.rangeCount === 0) {
+            return null;
+          } else if (dom.isBody(selection.anchorNode)) {
+            // Firefox: returns entire body as range on initialization.
+            // We won't never need it.
+            return null;
+          }
+
+          var nativeRng = selection.getRangeAt(0);
+          sc = nativeRng.startContainer;
+          so = nativeRng.startOffset;
+          ec = nativeRng.endContainer;
+          eo = nativeRng.endOffset;
+        } else { // IE8: TextRange
+          var textRange = document.selection.createRange();
+          var textRangeEnd = textRange.duplicate();
+          textRangeEnd.collapse(false);
+          var textRangeStart = textRange;
+          textRangeStart.collapse(true);
+
+          var startPoint = textRangeToPoint(textRangeStart, true),
+          endPoint = textRangeToPoint(textRangeEnd, false);
+
+          // same visible point case: range was collapsed.
+          if (dom.isText(startPoint.node) && dom.isLeftEdgePoint(startPoint) &&
+              dom.isTextNode(endPoint.node) && dom.isRightEdgePoint(endPoint) &&
+              endPoint.node.nextSibling === startPoint.node) {
+            startPoint = endPoint;
+          }
+
+          sc = startPoint.cont;
+          so = startPoint.offset;
+          ec = endPoint.cont;
+          eo = endPoint.offset;
+        }
+
         return new WrappedRange(sc, so, ec, eo);
       },
 
@@ -38521,7 +39186,7 @@ S2.define('jquery.mousewheel',[
        * @param {Object} bookmark
        * @return {WrappedRange}
        */
-      createFromBookmark : function (editable, bookmark) {
+      createFromBookmark: function (editable, bookmark) {
         var sc = dom.fromOffsetPath(editable, bookmark.s.path);
         var so = bookmark.s.offset;
         var ec = dom.fromOffsetPath(editable, bookmark.e.path);
@@ -38550,419 +39215,6 @@ S2.define('jquery.mousewheel',[
   })();
 
   /**
-   * @class defaults 
-   * 
-   * @singleton
-   */
-  var defaults = {
-    /** @property */
-    version: '0.6.16',
-
-    /**
-     * 
-     * for event options, reference to EventHandler.attach
-     * 
-     * @property {Object} options 
-     * @property {String/Number} [options.width=null] set editor width 
-     * @property {String/Number} [options.height=null] set editor height, ex) 300
-     * @property {String/Number} options.minHeight set minimum height of editor
-     * @property {String/Number} options.maxHeight
-     * @property {String/Number} options.focus 
-     * @property {Number} options.tabsize 
-     * @property {Boolean} options.styleWithSpan
-     * @property {Object} options.codemirror
-     * @property {Object} [options.codemirror.mode='text/html']
-     * @property {Object} [options.codemirror.htmlMode=true]
-     * @property {Object} [options.codemirror.lineNumbers=true]
-     * @property {String} [options.lang=en-US] language 'en-US', 'ko-KR', ...
-     * @property {String} [options.direction=null] text direction, ex) 'rtl'
-     * @property {Array} [options.toolbar]
-     * @property {Boolean} [options.airMode=false]
-     * @property {Array} [options.airPopover]
-     * @property {Fucntion} [options.onInit] initialize
-     * @property {Fucntion} [options.onsubmit]
-     */
-    options: {
-      width: null,                  // set editor width
-      height: null,                 // set editor height, ex) 300
-
-      minHeight: null,              // set minimum height of editor
-      maxHeight: null,              // set maximum height of editor
-
-      focus: false,                 // set focus to editable area after initializing summernote
-
-      tabsize: 4,                   // size of tab ex) 2 or 4
-      styleWithSpan: true,          // style with span (Chrome and FF only)
-
-      disableLinkTarget: false,     // hide link Target Checkbox
-      disableDragAndDrop: false,    // disable drag and drop event
-      disableResizeEditor: false,   // disable resizing editor
-      disableResizeImage: false,    // disable resizing image
-
-      shortcuts: true,              // enable keyboard shortcuts
-
-      textareaAutoSync: true,       // enable textarea auto sync
-
-      placeholder: false,           // enable placeholder text
-      prettifyHtml: true,           // enable prettifying html while toggling codeview
-
-      iconPrefix: 'fa fa-',         // prefix for css icon classes
-
-      icons: {
-        font: {
-          bold: 'bold',
-          italic: 'italic',
-          underline: 'underline',
-          clear: 'eraser',
-          height: 'text-height',
-          strikethrough: 'strikethrough',
-          superscript: 'superscript',
-          subscript: 'subscript'
-        },
-        image: {
-          image: 'picture-o',
-          floatLeft: 'align-left',
-          floatRight: 'align-right',
-          floatNone: 'align-justify',
-          shapeRounded: 'square',
-          shapeCircle: 'circle-o',
-          shapeThumbnail: 'picture-o',
-          shapeNone: 'times',
-          remove: 'trash-o'
-        },
-        link: {
-          link: 'link',
-          unlink: 'unlink',
-          edit: 'edit'
-        },
-        table: {
-          table: 'table'
-        },
-        hr: {
-          insert: 'minus'
-        },
-        style: {
-          style: 'magic'
-        },
-        lists: {
-          unordered: 'list-ul',
-          ordered: 'list-ol'
-        },
-        options: {
-          help: 'question',
-          fullscreen: 'arrows-alt',
-          codeview: 'code'
-        },
-        paragraph: {
-          paragraph: 'align-left',
-          outdent: 'outdent',
-          indent: 'indent',
-          left: 'align-left',
-          center: 'align-center',
-          right: 'align-right',
-          justify: 'align-justify'
-        },
-        color: {
-          recent: 'font'
-        },
-        history: {
-          undo: 'undo',
-          redo: 'repeat'
-        },
-        misc: {
-          check: 'check'
-        }
-      },
-
-      dialogsInBody: false,          // false will add dialogs into editor
-
-      codemirror: {                 // codemirror options
-        mode: 'text/html',
-        htmlMode: true,
-        lineNumbers: true
-      },
-
-      // language
-      lang: 'en-US',                // language 'en-US', 'ko-KR', ...
-      direction: null,              // text direction, ex) 'rtl'
-
-      // toolbar
-      toolbar: [
-        ['style', ['style']],
-        ['font', ['bold', 'italic', 'underline', 'clear']],
-        // ['font', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
-        ['fontname', ['fontname']],
-        ['fontsize', ['fontsize']],
-        ['color', ['color']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['height', ['height']],
-        ['table', ['table']],
-        ['insert', ['link', 'picture', 'hr']],
-        ['view', ['fullscreen', 'codeview']],
-        ['help', ['help']]
-      ],
-
-      plugin : { },
-
-      // air mode: inline editor
-      airMode: false,
-      // airPopover: [
-      //   ['style', ['style']],
-      //   ['font', ['bold', 'italic', 'underline', 'clear']],
-      //   ['fontname', ['fontname']],
-      //   ['color', ['color']],
-      //   ['para', ['ul', 'ol', 'paragraph']],
-      //   ['height', ['height']],
-      //   ['table', ['table']],
-      //   ['insert', ['link', 'picture']],
-      //   ['help', ['help']]
-      // ],
-      airPopover: [
-        ['color', ['color']],
-        ['font', ['bold', 'underline', 'clear']],
-        ['para', ['ul', 'paragraph']],
-        ['table', ['table']],
-        ['insert', ['link', 'picture']]
-      ],
-
-      // style tag
-      styleTags: ['p', 'blockquote', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
-
-      // default fontName
-      defaultFontName: 'Helvetica Neue',
-
-      // fontName
-      fontNames: [
-        'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New',
-        'Helvetica Neue', 'Helvetica', 'Impact', 'Lucida Grande',
-        'Tahoma', 'Times New Roman', 'Verdana'
-      ],
-      fontNamesIgnoreCheck: [],
-
-      fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36'],
-
-      // pallete colors(n x n)
-      colors: [
-        ['#000000', '#424242', '#636363', '#9C9C94', '#CEC6CE', '#EFEFEF', '#F7F7F7', '#FFFFFF'],
-        ['#FF0000', '#FF9C00', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#9C00FF', '#FF00FF'],
-        ['#F7C6CE', '#FFE7CE', '#FFEFC6', '#D6EFD6', '#CEDEE7', '#CEE7F7', '#D6D6E7', '#E7D6DE'],
-        ['#E79C9C', '#FFC69C', '#FFE79C', '#B5D6A5', '#A5C6CE', '#9CC6EF', '#B5A5D6', '#D6A5BD'],
-        ['#E76363', '#F7AD6B', '#FFD663', '#94BD7B', '#73A5AD', '#6BADDE', '#8C7BC6', '#C67BA5'],
-        ['#CE0000', '#E79439', '#EFC631', '#6BA54A', '#4A7B8C', '#3984C6', '#634AA5', '#A54A7B'],
-        ['#9C0000', '#B56308', '#BD9400', '#397B21', '#104A5A', '#085294', '#311873', '#731842'],
-        ['#630000', '#7B3900', '#846300', '#295218', '#083139', '#003163', '#21104A', '#4A1031']
-      ],
-
-      // lineHeight
-      lineHeights: ['1.0', '1.2', '1.4', '1.5', '1.6', '1.8', '2.0', '3.0'],
-
-      // insertTable max size
-      insertTableMaxSize: {
-        col: 10,
-        row: 10
-      },
-
-      // image
-      maximumImageFileSize: null, // size in bytes, null = no limit
-
-      // callbacks
-      oninit: null,             // initialize
-      onfocus: null,            // editable has focus
-      onblur: null,             // editable out of focus
-      onenter: null,            // enter key pressed
-      onkeyup: null,            // keyup
-      onkeydown: null,          // keydown
-      onImageUpload: null,      // imageUpload
-      onImageUploadError: null, // imageUploadError
-      onMediaDelete: null,      // media delete
-      onToolbarClick: null,
-      onsubmit: null,
-
-      /**
-       * manipulate link address when user create link
-       * @param {String} sLinkUrl
-       * @return {String}
-       */
-      onCreateLink: function (sLinkUrl) {
-        if (sLinkUrl.indexOf('@') !== -1 && sLinkUrl.indexOf(':') === -1) {
-          sLinkUrl =  'mailto:' + sLinkUrl;
-        }
-
-        return sLinkUrl;
-      },
-
-      keyMap: {
-        pc: {
-          'ENTER': 'insertParagraph',
-          'CTRL+Z': 'undo',
-          'CTRL+Y': 'redo',
-          'TAB': 'tab',
-          'SHIFT+TAB': 'untab',
-          'CTRL+B': 'bold',
-          'CTRL+I': 'italic',
-          'CTRL+U': 'underline',
-          'CTRL+SHIFT+S': 'strikethrough',
-          'CTRL+BACKSLASH': 'removeFormat',
-          'CTRL+SHIFT+L': 'justifyLeft',
-          'CTRL+SHIFT+E': 'justifyCenter',
-          'CTRL+SHIFT+R': 'justifyRight',
-          'CTRL+SHIFT+J': 'justifyFull',
-          'CTRL+SHIFT+NUM7': 'insertUnorderedList',
-          'CTRL+SHIFT+NUM8': 'insertOrderedList',
-          'CTRL+LEFTBRACKET': 'outdent',
-          'CTRL+RIGHTBRACKET': 'indent',
-          'CTRL+NUM0': 'formatPara',
-          'CTRL+NUM1': 'formatH1',
-          'CTRL+NUM2': 'formatH2',
-          'CTRL+NUM3': 'formatH3',
-          'CTRL+NUM4': 'formatH4',
-          'CTRL+NUM5': 'formatH5',
-          'CTRL+NUM6': 'formatH6',
-          'CTRL+ENTER': 'insertHorizontalRule',
-          'CTRL+K': 'showLinkDialog'
-        },
-
-        mac: {
-          'ENTER': 'insertParagraph',
-          'CMD+Z': 'undo',
-          'CMD+SHIFT+Z': 'redo',
-          'TAB': 'tab',
-          'SHIFT+TAB': 'untab',
-          'CMD+B': 'bold',
-          'CMD+I': 'italic',
-          'CMD+U': 'underline',
-          'CMD+SHIFT+S': 'strikethrough',
-          'CMD+BACKSLASH': 'removeFormat',
-          'CMD+SHIFT+L': 'justifyLeft',
-          'CMD+SHIFT+E': 'justifyCenter',
-          'CMD+SHIFT+R': 'justifyRight',
-          'CMD+SHIFT+J': 'justifyFull',
-          'CMD+SHIFT+NUM7': 'insertUnorderedList',
-          'CMD+SHIFT+NUM8': 'insertOrderedList',
-          'CMD+LEFTBRACKET': 'outdent',
-          'CMD+RIGHTBRACKET': 'indent',
-          'CMD+NUM0': 'formatPara',
-          'CMD+NUM1': 'formatH1',
-          'CMD+NUM2': 'formatH2',
-          'CMD+NUM3': 'formatH3',
-          'CMD+NUM4': 'formatH4',
-          'CMD+NUM5': 'formatH5',
-          'CMD+NUM6': 'formatH6',
-          'CMD+ENTER': 'insertHorizontalRule',
-          'CMD+K': 'showLinkDialog'
-        }
-      }
-    },
-
-    // default language: en-US
-    lang: {
-      'en-US': {
-        font: {
-          bold: 'Bold',
-          italic: 'Italic',
-          underline: 'Underline',
-          clear: 'Remove Font Style',
-          height: 'Line Height',
-          name: 'Font Family',
-          strikethrough: 'Strikethrough',
-          subscript: 'Subscript',
-          superscript: 'Superscript',
-          size: 'Font Size'
-        },
-        image: {
-          image: 'Picture',
-          insert: 'Insert Image',
-          resizeFull: 'Resize Full',
-          resizeHalf: 'Resize Half',
-          resizeQuarter: 'Resize Quarter',
-          floatLeft: 'Float Left',
-          floatRight: 'Float Right',
-          floatNone: 'Float None',
-          shapeRounded: 'Shape: Rounded',
-          shapeCircle: 'Shape: Circle',
-          shapeThumbnail: 'Shape: Thumbnail',
-          shapeNone: 'Shape: None',
-          dragImageHere: 'Drag image or text here',
-          dropImage: 'Drop image or Text',
-          selectFromFiles: 'Select from files',
-          maximumFileSize: 'Maximum file size',
-          maximumFileSizeError: 'Maximum file size exceeded.',
-          url: 'Image URL',
-          remove: 'Remove Image'
-        },
-        link: {
-          link: 'Link',
-          insert: 'Insert Link',
-          unlink: 'Unlink',
-          edit: 'Edit',
-          textToDisplay: 'Text to display',
-          url: 'To what URL should this link go?',
-          openInNewWindow: 'Open in new window'
-        },
-        table: {
-          table: 'Table'
-        },
-        hr: {
-          insert: 'Insert Horizontal Rule'
-        },
-        style: {
-          style: 'Style',
-          normal: 'Normal',
-          blockquote: 'Quote',
-          pre: 'Code',
-          h1: 'Header 1',
-          h2: 'Header 2',
-          h3: 'Header 3',
-          h4: 'Header 4',
-          h5: 'Header 5',
-          h6: 'Header 6'
-        },
-        lists: {
-          unordered: 'Unordered list',
-          ordered: 'Ordered list'
-        },
-        options: {
-          help: 'Help',
-          fullscreen: 'Full Screen',
-          codeview: 'Code View'
-        },
-        paragraph: {
-          paragraph: 'Paragraph',
-          outdent: 'Outdent',
-          indent: 'Indent',
-          left: 'Align left',
-          center: 'Align center',
-          right: 'Align right',
-          justify: 'Justify full'
-        },
-        color: {
-          recent: 'Recent Color',
-          more: 'More Color',
-          background: 'Background Color',
-          foreground: 'Foreground Color',
-          transparent: 'Transparent',
-          setTransparent: 'Set transparent',
-          reset: 'Reset',
-          resetToDefault: 'Reset to default'
-        },
-        shortcut: {
-          shortcuts: 'Keyboard shortcuts',
-          close: 'Close',
-          textFormatting: 'Text formatting',
-          action: 'Action',
-          paragraphFormatting: 'Paragraph formatting',
-          documentStyle: 'Document Style',
-          extraKeys: 'Extra keys'
-        },
-        history: {
-          undo: 'Undo',
-          redo: 'Redo'
-        }
-      }
-    }
-  };
-
-  /**
    * @class core.async
    *
    * Async functions which returns `Promise`
@@ -38977,14 +39229,14 @@ S2.define('jquery.mousewheel',[
      * read contents of file as representing URL
      *
      * @param {File} file
-     * @return {Promise} - then: sDataUrl
+     * @return {Promise} - then: dataUrl
      */
     var readFileAsDataURL = function (file) {
       return $.Deferred(function (deferred) {
         $.extend(new FileReader(), {
           onload: function (e) {
-            var sDataURL = e.target.result;
-            deferred.resolve(sDataURL);
+            var dataURL = e.target.result;
+            deferred.resolve(dataURL);
           },
           onerror: function () {
             deferred.reject(this);
@@ -38998,11 +39250,10 @@ S2.define('jquery.mousewheel',[
      *
      * create `<image>` from url string
      *
-     * @param {String} sUrl
-     * @param {String} filename
+     * @param {String} url
      * @return {Promise} - then: $image
      */
-    var createImage = function (sUrl, filename) {
+    var createImage = function (url) {
       return $.Deferred(function (deferred) {
         var $img = $('<img>');
 
@@ -39014,90 +39265,13 @@ S2.define('jquery.mousewheel',[
           deferred.reject($img);
         }).css({
           display: 'none'
-        }).appendTo(document.body).attr({
-          'src': sUrl,
-          'data-filename': filename
-        });
+        }).appendTo(document.body).attr('src', url);
       }).promise();
     };
 
     return {
       readFileAsDataURL: readFileAsDataURL,
       createImage: createImage
-    };
-  })();
-
-  /**
-   * @class core.key
-   *
-   * Object for keycodes.
-   *
-   * @singleton
-   * @alternateClassName key
-   */
-  var key = (function () {
-    var keyMap = {
-      'BACKSPACE': 8,
-      'TAB': 9,
-      'ENTER': 13,
-      'SPACE': 32,
-
-      // Number: 0-9
-      'NUM0': 48,
-      'NUM1': 49,
-      'NUM2': 50,
-      'NUM3': 51,
-      'NUM4': 52,
-      'NUM5': 53,
-      'NUM6': 54,
-      'NUM7': 55,
-      'NUM8': 56,
-
-      // Alphabet: a-z
-      'B': 66,
-      'E': 69,
-      'I': 73,
-      'J': 74,
-      'K': 75,
-      'L': 76,
-      'R': 82,
-      'S': 83,
-      'U': 85,
-      'V': 86,
-      'Y': 89,
-      'Z': 90,
-
-      'SLASH': 191,
-      'LEFTBRACKET': 219,
-      'BACKSLASH': 220,
-      'RIGHTBRACKET': 221
-    };
-
-    return {
-      /**
-       * @method isEdit
-       *
-       * @param {Number} keyCode
-       * @return {Boolean}
-       */
-      isEdit: function (keyCode) {
-        return list.contains([8, 9, 13, 32], keyCode);
-      },
-      /**
-       * @method isMove
-       *
-       * @param {Number} keyCode
-       * @return {Boolean}
-       */
-      isMove: function (keyCode) {
-        return list.contains([37, 38, 39, 40], keyCode);
-      },
-      /**
-       * @property {Object} nameFromCode
-       * @property {String} nameFromCode.8 "BACKSPACE"
-       */
-      nameFromCode: func.invertObject(keyMap),
-      code: keyMap
     };
   })();
 
@@ -39112,7 +39286,7 @@ S2.define('jquery.mousewheel',[
     var editable = $editable[0];
 
     var makeSnapshot = function () {
-      var rng = range.create();
+      var rng = range.create(editable);
       var emptyBookmark = {s: {path: [], offset: 0}, e: {path: [], offset: 0}};
 
       return {
@@ -39128,6 +39302,42 @@ S2.define('jquery.mousewheel',[
       if (snapshot.bookmark !== null) {
         range.createFromBookmark(editable, snapshot.bookmark).select();
       }
+    };
+
+    /**
+    * @method rewind
+    * Rewinds the history stack back to the first snapshot taken.
+    * Leaves the stack intact, so that "Redo" can still be used.
+    */
+    this.rewind = function () {
+      // Create snap shot if not yet recorded
+      if ($editable.html() !== stack[stackOffset].contents) {
+        this.recordUndo();
+      }
+
+      // Return to the first available snapshot.
+      stackOffset = 0;
+
+      // Apply that snapshot.
+      applySnapshot(stack[stackOffset]);
+    };
+
+    /**
+    * @method reset
+    * Resets the history stack completely; reverting to an empty editor.
+    */
+    this.reset = function () {
+      // Clear the stack.
+      stack = [];
+
+      // Restore stackOffset to its original value.
+      stackOffset = -1;
+
+      // Clear the editable area.
+      $editable.html('');
+
+      // Record our first snapshot (of nothing).
+      this.recordUndo();
     };
 
     /**
@@ -39169,9 +39379,6 @@ S2.define('jquery.mousewheel',[
       // Create new snapshot and push it to the end
       stack.push(makeSnapshot());
     };
-
-    // Create first undo stack
-    this.recordUndo();
   };
 
   /**
@@ -39291,23 +39498,28 @@ S2.define('jquery.mousewheel',[
      * @return {Object} - object contains style properties.
      */
     this.current = function (rng) {
-      var $cont = $(dom.isText(rng.sc) ? rng.sc.parentNode : rng.sc);
+      var $cont = $(!dom.isElement(rng.sc) ? rng.sc.parentNode : rng.sc);
       var styleInfo = this.fromNode($cont);
 
       // document.queryCommandState for toggle state
-      styleInfo['font-bold'] = document.queryCommandState('bold') ? 'bold' : 'normal';
-      styleInfo['font-italic'] = document.queryCommandState('italic') ? 'italic' : 'normal';
-      styleInfo['font-underline'] = document.queryCommandState('underline') ? 'underline' : 'normal';
-      styleInfo['font-strikethrough'] = document.queryCommandState('strikeThrough') ? 'strikethrough' : 'normal';
-      styleInfo['font-superscript'] = document.queryCommandState('superscript') ? 'superscript' : 'normal';
-      styleInfo['font-subscript'] = document.queryCommandState('subscript') ? 'subscript' : 'normal';
+      // [workaround] prevent Firefox nsresult: "0x80004005 (NS_ERROR_FAILURE)"
+      try {
+        styleInfo = $.extend(styleInfo, {
+          'font-bold': document.queryCommandState('bold') ? 'bold' : 'normal',
+          'font-italic': document.queryCommandState('italic') ? 'italic' : 'normal',
+          'font-underline': document.queryCommandState('underline') ? 'underline' : 'normal',
+          'font-subscript': document.queryCommandState('subscript') ? 'subscript' : 'normal',
+          'font-superscript': document.queryCommandState('superscript') ? 'superscript' : 'normal',
+          'font-strikethrough': document.queryCommandState('strikethrough') ? 'strikethrough' : 'normal'
+        });
+      } catch (e) {}
 
       // list-style-type to list-style(unordered, ordered)
       if (!rng.isOnList()) {
         styleInfo['list-style'] = 'none';
       } else {
-        var aOrderedType = ['circle', 'disc', 'disc-leading-zero', 'square'];
-        var isUnordered = $.inArray(styleInfo['list-style-type'], aOrderedType) > -1;
+        var orderedTypes = ['circle', 'disc', 'disc-leading-zero', 'square'];
+        var isUnordered = $.inArray(styleInfo['list-style-type'], orderedTypes) > -1;
         styleInfo['list-style'] = isUnordered ? 'unordered' : 'ordered';
       }
 
@@ -39334,38 +39546,28 @@ S2.define('jquery.mousewheel',[
    * @alternateClassName Bullet
    */
   var Bullet = function () {
+    var self = this;
+
     /**
-     * @method insertOrderedList
-     *
      * toggle ordered list
-     *
-     * @type command
      */
-    this.insertOrderedList = function () {
-      this.toggleList('OL');
+    this.insertOrderedList = function (editable) {
+      this.toggleList('OL', editable);
     };
 
     /**
-     * @method insertUnorderedList
-     *
      * toggle unordered list
-     *
-     * @type command
      */
-    this.insertUnorderedList = function () {
-      this.toggleList('UL');
+    this.insertUnorderedList = function (editable) {
+      this.toggleList('UL', editable);
     };
 
     /**
-     * @method indent
-     *
      * indent
-     *
-     * @type command
      */
-    this.indent = function () {
+    this.indent = function (editable) {
       var self = this;
-      var rng = range.create().wrapBodyInlineWithPara();
+      var rng = range.create(editable).wrapBodyInlineWithPara();
 
       var paras = rng.nodes(dom.isPara, { includeAncestor: true });
       var clustereds = list.clusterBy(paras, func.peq2('parentNode'));
@@ -39387,15 +39589,11 @@ S2.define('jquery.mousewheel',[
     };
 
     /**
-     * @method outdent
-     *
      * outdent
-     *
-     * @type command
      */
-    this.outdent = function () {
+    this.outdent = function (editable) {
       var self = this;
-      var rng = range.create().wrapBodyInlineWithPara();
+      var rng = range.create(editable).wrapBodyInlineWithPara();
 
       var paras = rng.nodes(dom.isPara, { includeAncestor: true });
       var clustereds = list.clusterBy(paras, func.peq2('parentNode'));
@@ -39418,15 +39616,12 @@ S2.define('jquery.mousewheel',[
     };
 
     /**
-     * @method toggleList
-     *
      * toggle list
      *
      * @param {String} listName - OL or UL
      */
-    this.toggleList = function (listName) {
-      var self = this;
-      var rng = range.create().wrapBodyInlineWithPara();
+    this.toggleList = function (listName, editable) {
+      var rng = range.create(editable).wrapBodyInlineWithPara();
 
       var paras = rng.nodes(dom.isPara, { includeAncestor: true });
       var bookmark = rng.paraBookmark(paras);
@@ -39460,8 +39655,6 @@ S2.define('jquery.mousewheel',[
     };
 
     /**
-     * @method wrapList
-     *
      * @param {Node[]} paras
      * @param {String} listName
      * @return {Node[]}
@@ -39568,11 +39761,10 @@ S2.define('jquery.mousewheel',[
     /**
      * insert tab
      *
-     * @param {jQuery} $editable
      * @param {WrappedRange} rng
      * @param {Number} tabsize
      */
-    this.insertTab = function ($editable, rng, tabsize) {
+    this.insertTab = function (rng, tabsize) {
       var tab = dom.createText(new Array(tabsize + 1).join(dom.NBSP_CHAR));
       rng = rng.deleteContents();
       rng.insertNode(tab, true);
@@ -39584,8 +39776,8 @@ S2.define('jquery.mousewheel',[
     /**
      * insert paragraph
      */
-    this.insertParagraph = function () {
-      var rng = range.create();
+    this.insertParagraph = function (editable) {
+      var rng = range.create(editable);
 
       // deleteContents on range.
       rng = rng.deleteContents();
@@ -39601,9 +39793,14 @@ S2.define('jquery.mousewheel',[
       if (splitRoot) {
         // if it is an empty line with li
         if (dom.isEmpty(splitRoot) && dom.isLi(splitRoot)) {
-          // disable UL/OL and escape!
+          // toogle UL/OL and escape
           bullet.toggleList(splitRoot.parentNode.nodeName);
           return;
+        // if it is an empty line with para on blockquote
+        } else if (dom.isEmpty(splitRoot) && dom.isPara(splitRoot) && dom.isBlockquote(splitRoot.parentNode)) {
+          // escape blockquote
+          dom.insertAfter(splitRoot, splitRoot.parentNode);
+          nextPara = splitRoot;
         // if new line has content (not a line break)
         } else {
           nextPara = dom.splitTree(splitRoot, rng.getStartPoint());
@@ -39614,6 +39811,11 @@ S2.define('jquery.mousewheel',[
           $.each(emptyAnchors, function (idx, anchor) {
             dom.remove(anchor);
           });
+
+          // replace empty heading or pre with P tag
+          if ((dom.isHeading(nextPara) || dom.isPre(nextPara)) && dom.isEmpty(nextPara)) {
+            nextPara = dom.replace(nextPara, 'p');
+          }
         }
       // no paragraph: insert empty paragraph
       } else {
@@ -39626,10 +39828,8 @@ S2.define('jquery.mousewheel',[
         }
       }
 
-      range.create(nextPara, 0).normalize().select();
-
+      range.create(nextPara, 0).normalize().select().scrollIntoView(editable);
     };
-
   };
 
   /**
@@ -39663,7 +39863,7 @@ S2.define('jquery.mousewheel',[
      * @param {Number} colCount
      * @return {Node}
      */
-    this.createTable = function (colCount, rowCount) {
+    this.createTable = function (colCount, rowCount, options) {
       var tds = [], tdHTML;
       for (var idxCol = 0; idxCol < colCount; idxCol++) {
         tds.push('<td>' + dom.blank + '</td>');
@@ -39675,7 +39875,12 @@ S2.define('jquery.mousewheel',[
         trs.push('<tr>' + tdHTML + '</tr>');
       }
       trHTML = trs.join('');
-      return $('<table class="table table-bordered">' + trHTML + '</table>')[0];
+      var $table = $('<table>' + trHTML + '</table>');
+      if (options && options.tableClassName) {
+        $table.addClass(options.tableClassName);
+      }
+
+      return $table[0];
     };
   };
 
@@ -39683,109 +39888,167 @@ S2.define('jquery.mousewheel',[
   var KEY_BOGUS = 'bogus';
 
   /**
-   * @class editing.Editor
-   *
-   * Editor
-   *
+   * @class Editor
    */
-  var Editor = function (handler) {
-
+  var Editor = function (context) {
     var self = this;
+
+    var $note = context.layoutInfo.note;
+    var $editor = context.layoutInfo.editor;
+    var $editable = context.layoutInfo.editable;
+    var options = context.options;
+    var lang = options.langInfo;
+
+    var editable = $editable[0];
+    var lastRange = null;
+
     var style = new Style();
     var table = new Table();
     var typing = new Typing();
     var bullet = new Bullet();
+    var history = new History($editable);
 
-    /**
-     * @method createRange
-     *
-     * create range
-     *
-     * @param {jQuery} $editable
-     * @return {WrappedRange}
-     */
-    this.createRange = function ($editable) {
-      this.focus($editable);
-      return range.create();
+    this.initialize = function () {
+      // bind custom events
+      $editable.on('keydown', function (event) {
+        if (event.keyCode === key.code.ENTER) {
+          context.triggerEvent('enter', event);
+        }
+        context.triggerEvent('keydown', event);
+
+        if (options.shortcuts && !event.isDefaultPrevented()) {
+          self.handleKeyMap(event);
+        }
+      }).on('keyup', function (event) {
+        context.triggerEvent('keyup', event);
+      }).on('focus', function (event) {
+        context.triggerEvent('focus', event);
+      }).on('blur', function (event) {
+        context.triggerEvent('blur', event);
+      }).on('mousedown', function (event) {
+        context.triggerEvent('mousedown', event);
+      }).on('mouseup', function (event) {
+        context.triggerEvent('mouseup', event);
+      }).on('scroll', function (event) {
+        context.triggerEvent('scroll', event);
+      }).on('paste', function (event) {
+        context.triggerEvent('paste', event);
+      });
+
+      // init content before set event
+      $editable.html(dom.html($note) || dom.emptyPara);
+
+      // [workaround] IE doesn't have input events for contentEditable
+      // - see: https://goo.gl/4bfIvA
+      var changeEventName = agent.isMSIE ? 'DOMCharacterDataModified DOMSubtreeModified DOMNodeInserted' : 'input';
+      $editable.on(changeEventName, function () {
+        context.triggerEvent('change', $editable.html());
+      });
+
+      $editor.on('focusin', function (event) {
+        context.triggerEvent('focusin', event);
+      }).on('focusout', function (event) {
+        context.triggerEvent('focusout', event);
+      });
+
+      if (!options.airMode && options.height) {
+        this.setHeight(options.height);
+      }
+      if (!options.airMode && options.maxHeight) {
+        $editable.css('max-height', options.maxHeight);
+      }
+      if (!options.airMode && options.minHeight) {
+        $editable.css('min-height', options.minHeight);
+      }
+
+      history.recordUndo();
+    };
+
+    this.destroy = function () {
+      $editable.off();
+    };
+
+    this.handleKeyMap = function (event) {
+      var keyMap = options.keyMap[agent.isMac ? 'mac' : 'pc'];
+      var keys = [];
+
+      if (event.metaKey) { keys.push('CMD'); }
+      if (event.ctrlKey && !event.altKey) { keys.push('CTRL'); }
+      if (event.shiftKey) { keys.push('SHIFT'); }
+
+      var keyName = key.nameFromCode[event.keyCode];
+      if (keyName) {
+        keys.push(keyName);
+      }
+
+      var eventName = keyMap[keys.join('+')];
+      if (eventName) {
+        event.preventDefault();
+        context.invoke(eventName);
+      } else if (key.isEdit(event.keyCode)) {
+        this.afterCommand();
+      }
     };
 
     /**
-     * @method saveRange
+     * create range
+     * @return {WrappedRange}
+     */
+    this.createRange = function () {
+      this.focus();
+      return range.create(editable);
+    };
+
+    /**
+     * saveRange
      *
      * save current range
      *
-     * @param {jQuery} $editable
      * @param {Boolean} [thenCollapse=false]
      */
-    this.saveRange = function ($editable, thenCollapse) {
-      this.focus($editable);
-      $editable.data('range', range.create());
+    this.saveRange = function (thenCollapse) {
+      lastRange = this.createRange();
       if (thenCollapse) {
-        range.create().collapse().select();
+        lastRange.collapse().select();
       }
     };
 
     /**
-     * @method saveRange
-     *
-     * save current node list to $editable.data('childNodes')
-     *
-     * @param {jQuery} $editable
-     */
-    this.saveNode = function ($editable) {
-      // copy child node reference
-      var copy = [];
-      for (var key  = 0, len = $editable[0].childNodes.length; key < len; key++) {
-        copy.push($editable[0].childNodes[key]);
-      }
-      $editable.data('childNodes', copy);
-    };
-
-    /**
-     * @method restoreRange
+     * restoreRange
      *
      * restore lately range
-     *
-     * @param {jQuery} $editable
      */
-    this.restoreRange = function ($editable) {
-      var rng = $editable.data('range');
-      if (rng) {
-        rng.select();
-        this.focus($editable);
+    this.restoreRange = function () {
+      if (lastRange) {
+        lastRange.select();
+        this.focus();
       }
     };
 
-    /**
-     * @method restoreNode
-     *
-     * restore lately node list
-     *
-     * @param {jQuery} $editable
-     */
-    this.restoreNode = function ($editable) {
-      $editable.html('');
-      var child = $editable.data('childNodes');
-      for (var index = 0, len = child.length; index < len; index++) {
-        $editable[0].appendChild(child[index]);
-      }
+    this.saveTarget = function (node) {
+      $editable.data('target', node);
+    };
+
+    this.clearTarget = function () {
+      $editable.removeData('target');
+    };
+
+    this.restoreTarget = function () {
+      return $editable.data('target');
     };
 
     /**
-     * @method currentStyle
+     * currentStyle
      *
      * current style
-     *
-     * @param {Node} target
      * @return {Object|Boolean} unfocus
      */
-    this.currentStyle = function (target) {
+    this.currentStyle = function () {
       var rng = range.create();
-      var styleInfo =  rng && rng.isOnEditable() ? style.current(rng.normalize()) : {};
-      if (dom.isImg(target)) {
-        styleInfo.image = target;
+      if (rng) {
+        rng = rng.normalize();
       }
-      return styleInfo;
+      return rng ? style.current(rng) : style.fromNode($editable);
     };
 
     /**
@@ -39798,170 +40061,45 @@ S2.define('jquery.mousewheel',[
       return style.fromNode($node);
     };
 
-    var triggerOnBeforeChange = function ($editable) {
-      var $holder = dom.makeLayoutInfo($editable).holder();
-      handler.bindCustomEvent(
-        $holder, $editable.data('callbacks'), 'before.command'
-      )($editable.html(), $editable);
-    };
-
-    var triggerOnChange = function ($editable) {
-      var $holder = dom.makeLayoutInfo($editable).holder();
-      handler.bindCustomEvent(
-        $holder, $editable.data('callbacks'), 'change'
-      )($editable.html(), $editable);
-    };
-
     /**
-     * @method undo
      * undo
-     * @param {jQuery} $editable
      */
-    this.undo = function ($editable) {
-      triggerOnBeforeChange($editable);
-      $editable.data('NoteHistory').undo();
-      triggerOnChange($editable);
+    this.undo = function () {
+      context.triggerEvent('before.command', $editable.html());
+      history.undo();
+      context.triggerEvent('change', $editable.html());
     };
+    context.memo('help.undo', lang.help.undo);
 
     /**
-     * @method redo
      * redo
-     * @param {jQuery} $editable
      */
-    this.redo = function ($editable) {
-      triggerOnBeforeChange($editable);
-      $editable.data('NoteHistory').redo();
-      triggerOnChange($editable);
+    this.redo = function () {
+      context.triggerEvent('before.command', $editable.html());
+      history.redo();
+      context.triggerEvent('change', $editable.html());
     };
+    context.memo('help.redo', lang.help.redo);
 
     /**
-     * @method beforeCommand
      * before command
-     * @param {jQuery} $editable
      */
-    var beforeCommand = this.beforeCommand = function ($editable) {
-      triggerOnBeforeChange($editable);
+    var beforeCommand = this.beforeCommand = function () {
+      context.triggerEvent('before.command', $editable.html());
       // keep focus on editable before command execution
-      self.focus($editable);
+      self.focus();
     };
 
     /**
-     * @method afterCommand
      * after command
-     * @param {jQuery} $editable
      * @param {Boolean} isPreventTrigger
      */
-    var afterCommand = this.afterCommand = function ($editable, isPreventTrigger) {
-      $editable.data('NoteHistory').recordUndo();
+    var afterCommand = this.afterCommand = function (isPreventTrigger) {
+      history.recordUndo();
       if (!isPreventTrigger) {
-        triggerOnChange($editable);
+        context.triggerEvent('change', $editable.html());
       }
     };
-
-    /**
-     * @method bold
-     * @param {jQuery} $editable
-     * @param {Mixed} value
-     */
-
-    /**
-     * @method italic
-     * @param {jQuery} $editable
-     * @param {Mixed} value
-     */
-
-    /**
-     * @method underline
-     * @param {jQuery} $editable
-     * @param {Mixed} value
-     */
-
-    /**
-     * @method strikethrough
-     * @param {jQuery} $editable
-     * @param {Mixed} value
-     */
-
-    /**
-     * @method formatBlock
-     * @param {jQuery} $editable
-     * @param {Mixed} value
-     */
-
-    /**
-     * @method superscript
-     * @param {jQuery} $editable
-     * @param {Mixed} value
-     */
-
-    /**
-     * @method subscript
-     * @param {jQuery} $editable
-     * @param {Mixed} value
-     */
-
-    /**
-     * @method justifyLeft
-     * @param {jQuery} $editable
-     * @param {Mixed} value
-     */
-
-    /**
-     * @method justifyCenter
-     * @param {jQuery} $editable
-     * @param {Mixed} value
-     */
-
-    /**
-     * @method justifyRight
-     * @param {jQuery} $editable
-     * @param {Mixed} value
-     */
-
-    /**
-     * @method justifyFull
-     * @param {jQuery} $editable
-     * @param {Mixed} value
-     */
-
-    /**
-     * @method formatBlock
-     * @param {jQuery} $editable
-     * @param {Mixed} value
-     */
-
-    /**
-     * @method removeFormat
-     * @param {jQuery} $editable
-     * @param {Mixed} value
-     */
-
-    /**
-     * @method backColor
-     * @param {jQuery} $editable
-     * @param {Mixed} value
-     */
-
-    /**
-     * @method foreColor
-     * @param {jQuery} $editable
-     * @param {Mixed} value
-     */
-
-    /**
-     * @method insertHorizontalRule
-     * @param {jQuery} $editable
-     * @param {Mixed} value
-     */
-
-    /**
-     * @method fontName
-     *
-     * change font name
-     *
-     * @param {jQuery} $editable
-     * @param {Mixed} value
-     */
 
     /* jshint ignore:start */
     // native commands(with execCommand), generate function for execCommand
@@ -39972,201 +40110,226 @@ S2.define('jquery.mousewheel',[
 
     for (var idx = 0, len = commands.length; idx < len; idx ++) {
       this[commands[idx]] = (function (sCmd) {
-        return function ($editable, value) {
-          beforeCommand($editable);
-
+        return function (value) {
+          beforeCommand();
           document.execCommand(sCmd, false, value);
-
-          afterCommand($editable, true);
+          afterCommand(true);
         };
       })(commands[idx]);
+      context.memo('help.' + commands[idx], lang.help[commands[idx]]);
     }
     /* jshint ignore:end */
 
     /**
-     * @method tab
-     *
      * handle tab key
-     *
-     * @param {jQuery} $editable
-     * @param {Object} options
      */
-    this.tab = function ($editable, options) {
-      var rng = this.createRange($editable);
+    this.tab = function () {
+      var rng = this.createRange();
       if (rng.isCollapsed() && rng.isOnCell()) {
         table.tab(rng);
       } else {
-        beforeCommand($editable);
-        typing.insertTab($editable, rng, options.tabsize);
-        afterCommand($editable);
+        beforeCommand();
+        typing.insertTab(rng, options.tabSize);
+        afterCommand();
       }
     };
+    context.memo('help.tab', lang.help.tab);
 
     /**
-     * @method untab
-     *
      * handle shift+tab key
-     *
      */
-    this.untab = function ($editable) {
-      var rng = this.createRange($editable);
+    this.untab = function () {
+      var rng = this.createRange();
       if (rng.isCollapsed() && rng.isOnCell()) {
         table.tab(rng, true);
       }
     };
+    context.memo('help.untab', lang.help.untab);
 
     /**
-     * @method insertParagraph
-     *
+     * run given function between beforeCommand and afterCommand
+     */
+    this.wrapCommand = function (fn) {
+      return function () {
+        beforeCommand();
+        fn.apply(self, arguments);
+        afterCommand();
+      };
+    };
+
+    /**
      * insert paragraph
-     *
-     * @param {Node} $editable
      */
-    this.insertParagraph = function ($editable) {
-      beforeCommand($editable);
-      typing.insertParagraph($editable);
-      afterCommand($editable);
-    };
+    this.insertParagraph = this.wrapCommand(function () {
+      typing.insertParagraph(editable);
+    });
+    context.memo('help.insertParagraph', lang.help.insertParagraph);
 
-    /**
-     * @method insertOrderedList
-     *
-     * @param {jQuery} $editable
-     */
-    this.insertOrderedList = function ($editable) {
-      beforeCommand($editable);
-      bullet.insertOrderedList($editable);
-      afterCommand($editable);
-    };
+    this.insertOrderedList = this.wrapCommand(function () {
+      bullet.insertOrderedList(editable);
+    });
+    context.memo('help.insertOrderedList', lang.help.insertOrderedList);
 
-    /**
-     * @param {jQuery} $editable
-     */
-    this.insertUnorderedList = function ($editable) {
-      beforeCommand($editable);
-      bullet.insertUnorderedList($editable);
-      afterCommand($editable);
-    };
+    this.insertUnorderedList = this.wrapCommand(function () {
+      bullet.insertUnorderedList(editable);
+    });
+    context.memo('help.insertUnorderedList', lang.help.insertUnorderedList);
 
-    /**
-     * @param {jQuery} $editable
-     */
-    this.indent = function ($editable) {
-      beforeCommand($editable);
-      bullet.indent($editable);
-      afterCommand($editable);
-    };
+    this.indent = this.wrapCommand(function () {
+      bullet.indent(editable);
+    });
+    context.memo('help.indent', lang.help.indent);
 
-    /**
-     * @param {jQuery} $editable
-     */
-    this.outdent = function ($editable) {
-      beforeCommand($editable);
-      bullet.outdent($editable);
-      afterCommand($editable);
-    };
+    this.outdent = this.wrapCommand(function () {
+      bullet.outdent(editable);
+    });
+    context.memo('help.outdent', lang.help.outdent);
 
     /**
      * insert image
      *
-     * @param {jQuery} $editable
-     * @param {String} sUrl
+     * @param {String} src
+     * @param {String|Function} param
+     * @return {Promise}
      */
-    this.insertImage = function ($editable, sUrl, filename) {
-      async.createImage(sUrl, filename).then(function ($image) {
-        beforeCommand($editable);
-        $image.css({
-          display: '',
-          width: Math.min($editable.width(), $image.width())
-        });
-        range.create().insertNode($image[0]);
+    this.insertImage = function (src, param) {
+      return async.createImage(src, param).then(function ($image) {
+        beforeCommand();
+
+        if (typeof param === 'function') {
+          param($image);
+        } else {
+          if (typeof param === 'string') {
+            $image.attr('data-filename', param);
+          }
+          $image.css('width', Math.min($editable.width(), $image.width()));
+        }
+
+        $image.show();
+        range.create(editable).insertNode($image[0]);
         range.createFromNodeAfter($image[0]).select();
-        afterCommand($editable);
-      }).fail(function () {
-        var $holder = dom.makeLayoutInfo($editable).holder();
-        handler.bindCustomEvent(
-          $holder, $editable.data('callbacks'), 'image.upload.error'
-        )();
+        afterCommand();
+      }).fail(function (e) {
+        context.triggerEvent('image.upload.error', e);
       });
     };
 
     /**
-     * @method insertNode
-     * insert node
-     * @param {Node} $editable
-     * @param {Node} node
+     * insertImages
+     * @param {File[]} files
      */
-    this.insertNode = function ($editable, node) {
-      beforeCommand($editable);
-      range.create().insertNode(node);
-      range.createFromNodeAfter(node).select();
-      afterCommand($editable);
+    this.insertImages = function (files) {
+      $.each(files, function (idx, file) {
+        var filename = file.name;
+        if (options.maximumImageFileSize && options.maximumImageFileSize < file.size) {
+          context.triggerEvent('image.upload.error', lang.image.maximumFileSizeError);
+        } else {
+          async.readFileAsDataURL(file).then(function (dataURL) {
+            return self.insertImage(dataURL, filename);
+          }).fail(function () {
+            context.triggerEvent('image.upload.error');
+          });
+        }
+      });
     };
 
     /**
+     * insertImagesOrCallback
+     * @param {File[]} files
+     */
+    this.insertImagesOrCallback = function (files) {
+      var callbacks = options.callbacks;
+
+      // If onImageUpload options setted
+      if (callbacks.onImageUpload) {
+        context.triggerEvent('image.upload', files);
+      // else insert Image as dataURL
+      } else {
+        this.insertImages(files);
+      }
+    };
+
+    /**
+     * insertNode
+     * insert node
+     * @param {Node} node
+     */
+    this.insertNode = this.wrapCommand(function (node) {
+      var rng = this.createRange();
+      rng.insertNode(node);
+      range.createFromNodeAfter(node).select();
+    });
+
+    /**
      * insert text
-     * @param {Node} $editable
      * @param {String} text
      */
-    this.insertText = function ($editable, text) {
-      beforeCommand($editable);
-      var textNode = range.create().insertNode(dom.createText(text));
+    this.insertText = this.wrapCommand(function (text) {
+      var rng = this.createRange();
+      var textNode = rng.insertNode(dom.createText(text));
       range.create(textNode, dom.nodeLength(textNode)).select();
-      afterCommand($editable);
+    });
+
+    /**
+     * return selected plain text
+     * @return {String} text
+     */
+    this.getSelectedText = function () {
+      var rng = this.createRange();
+
+      // if range on anchor, expand range with anchor
+      if (rng.isOnAnchor()) {
+        rng = range.createFromNode(dom.ancestor(rng.sc, dom.isAnchor));
+      }
+
+      return rng.toString();
     };
 
     /**
      * paste HTML
-     * @param {Node} $editable
      * @param {String} markup
      */
-    this.pasteHTML = function ($editable, markup) {
-      beforeCommand($editable);
-      var contents = range.create().pasteHTML(markup);
+    this.pasteHTML = this.wrapCommand(function (markup) {
+      var contents = this.createRange().pasteHTML(markup);
       range.createFromNodeAfter(list.last(contents)).select();
-      afterCommand($editable);
-    };
+    });
 
     /**
      * formatBlock
      *
-     * @param {jQuery} $editable
      * @param {String} tagName
      */
-    this.formatBlock = function ($editable, tagName) {
-      beforeCommand($editable);
+    this.formatBlock = this.wrapCommand(function (tagName) {
       // [workaround] for MSIE, IE need `<`
       tagName = agent.isMSIE ? '<' + tagName + '>' : tagName;
       document.execCommand('FormatBlock', false, tagName);
-      afterCommand($editable);
-    };
+    });
 
-    this.formatPara = function ($editable) {
-      beforeCommand($editable);
-      this.formatBlock($editable, 'P');
-      afterCommand($editable);
+    this.formatPara = function () {
+      this.formatBlock('P');
     };
+    context.memo('help.formatPara', lang.help.formatPara);
 
     /* jshint ignore:start */
     for (var idx = 1; idx <= 6; idx ++) {
       this['formatH' + idx] = function (idx) {
-        return function ($editable) {
-          this.formatBlock($editable, 'H' + idx);
+        return function () {
+          this.formatBlock('H' + idx);
         };
       }(idx);
+      context.memo('help.formatH'+idx, lang.help['formatH' + idx]);
     };
     /* jshint ignore:end */
 
     /**
      * fontSize
      *
-     * @param {jQuery} $editable
      * @param {String} value - px
      */
-    this.fontSize = function ($editable, value) {
-      var rng = range.create();
+    this.fontSize = function (value) {
+      var rng = this.createRange();
 
-      if (rng.isCollapsed()) {
+      if (rng && rng.isCollapsed()) {
         var spans = style.styleNodes(rng);
         var firstSpan = list.head(spans);
 
@@ -40182,34 +40345,29 @@ S2.define('jquery.mousewheel',[
           $editable.data(KEY_BOGUS, firstSpan);
         }
       } else {
-        beforeCommand($editable);
+        beforeCommand();
         $(style.styleNodes(rng)).css({
           'font-size': value + 'px'
         });
-        afterCommand($editable);
+        afterCommand();
       }
     };
 
     /**
      * insert horizontal rule
-     * @param {jQuery} $editable
      */
-    this.insertHorizontalRule = function ($editable) {
-      beforeCommand($editable);
-
-      var rng = range.create();
-      var hrNode = rng.insertNode($('<HR/>')[0]);
+    this.insertHorizontalRule = this.wrapCommand(function () {
+      var hrNode = this.createRange().insertNode(dom.create('HR'));
       if (hrNode.nextSibling) {
         range.create(hrNode.nextSibling, 0).normalize().select();
       }
-
-      afterCommand($editable);
-    };
+    });
+    context.memo('help.insertHorizontalRule', lang.help.insertHorizontalRule);
 
     /**
      * remove bogus node and character
      */
-    this.removeBogus = function ($editable) {
+    this.removeBogus = function () {
       var bogusNode = $editable.data(KEY_BOGUS);
       if (!bogusNode) {
         return;
@@ -40231,54 +40389,43 @@ S2.define('jquery.mousewheel',[
 
     /**
      * lineHeight
-     * @param {jQuery} $editable
      * @param {String} value
      */
-    this.lineHeight = function ($editable, value) {
-      beforeCommand($editable);
-      style.stylePara(range.create(), {
+    this.lineHeight = this.wrapCommand(function (value) {
+      style.stylePara(this.createRange(), {
         lineHeight: value
       });
-      afterCommand($editable);
-    };
+    });
 
     /**
      * unlink
      *
      * @type command
-     *
-     * @param {jQuery} $editable
      */
-    this.unlink = function ($editable) {
-      var rng = this.createRange($editable);
+    this.unlink = function () {
+      var rng = this.createRange();
       if (rng.isOnAnchor()) {
         var anchor = dom.ancestor(rng.sc, dom.isAnchor);
         rng = range.createFromNode(anchor);
         rng.select();
 
-        beforeCommand($editable);
+        beforeCommand();
         document.execCommand('unlink');
-        afterCommand($editable);
+        afterCommand();
       }
     };
 
     /**
      * create link (command)
      *
-     * @param {jQuery} $editable
      * @param {Object} linkInfo
-     * @param {Object} options
      */
-    this.createLink = function ($editable, linkInfo, options) {
+    this.createLink = this.wrapCommand(function (linkInfo) {
       var linkUrl = linkInfo.url;
       var linkText = linkInfo.text;
       var isNewWindow = linkInfo.isNewWindow;
-      var rng = linkInfo.range || this.createRange($editable);
+      var rng = linkInfo.range || this.createRange();
       var isTextChanged = rng.toString() !== linkText;
-
-      options = options || dom.makeLayoutInfo($editable).editor().data('options');
-
-      beforeCommand($editable);
 
       if (options.onCreateLink) {
         linkUrl = options.onCreateLink(linkUrl);
@@ -40286,7 +40433,7 @@ S2.define('jquery.mousewheel',[
 
       var anchors = [];
       if (isTextChanged) {
-        // Create a new link when text changed.
+        rng = rng.deleteContents();
         var anchor = rng.insertNode($('<A>' + linkText + '</A>')[0]);
         anchors.push(anchor);
       } else {
@@ -40317,9 +40464,7 @@ S2.define('jquery.mousewheel',[
         endPoint.node,
         endPoint.offset
       ).select();
-
-      afterCommand($editable);
-    };
+    });
 
     /**
      * returns link info
@@ -40330,10 +40475,8 @@ S2.define('jquery.mousewheel',[
      * @return {Boolean} [return.isNewWindow=true]
      * @return {String} [return.url=""]
      */
-    this.getLinkInfo = function ($editable) {
-      this.focus($editable);
-
-      var rng = range.create().expand(dom.isAnchor);
+    this.getLinkInfo = function () {
+      var rng = this.createRange().expand(dom.isAnchor);
 
       // Get the first anchor on range(for edit).
       var $anchor = $(list.head(rng.nodes(dom.isAnchor)));
@@ -40349,93 +40492,51 @@ S2.define('jquery.mousewheel',[
     /**
      * setting color
      *
-     * @param {Node} $editable
      * @param {Object} sObjColor  color code
      * @param {String} sObjColor.foreColor foreground color
      * @param {String} sObjColor.backColor background color
      */
-    this.color = function ($editable, sObjColor) {
-      var oColor = JSON.parse(sObjColor);
-      var foreColor = oColor.foreColor, backColor = oColor.backColor;
-
-      beforeCommand($editable);
+    this.color = this.wrapCommand(function (colorInfo) {
+      var foreColor = colorInfo.foreColor;
+      var backColor = colorInfo.backColor;
 
       if (foreColor) { document.execCommand('foreColor', false, foreColor); }
       if (backColor) { document.execCommand('backColor', false, backColor); }
-
-      afterCommand($editable);
-    };
+    });
 
     /**
      * insert Table
      *
-     * @param {Node} $editable
-     * @param {String} sDim dimension of table (ex : "5x5")
+     * @param {String} dimension of table (ex : "5x5")
      */
-    this.insertTable = function ($editable, sDim) {
-      var dimension = sDim.split('x');
-      beforeCommand($editable);
+    this.insertTable = this.wrapCommand(function (dim) {
+      var dimension = dim.split('x');
 
-      var rng = range.create().deleteContents();
-      rng.insertNode(table.createTable(dimension[0], dimension[1]));
-      afterCommand($editable);
-    };
+      var rng = this.createRange().deleteContents();
+      rng.insertNode(table.createTable(dimension[0], dimension[1], options));
+    });
 
     /**
      * float me
      *
-     * @param {jQuery} $editable
      * @param {String} value
-     * @param {jQuery} $target
      */
-    this.floatMe = function ($editable, value, $target) {
-      beforeCommand($editable);
-      // bootstrap
-      $target.removeClass('pull-left pull-right');
-      if (value && value !== 'none') {
-        $target.addClass('pull-' + value);
-      }
-
-      // fallback for non-bootstrap
+    this.floatMe = this.wrapCommand(function (value) {
+      var $target = $(this.restoreTarget());
       $target.css('float', value);
-      afterCommand($editable);
-    };
-
-    /**
-     * change image shape
-     *
-     * @param {jQuery} $editable
-     * @param {String} value css class
-     * @param {Node} $target
-     */
-    this.imageShape = function ($editable, value, $target) {
-      beforeCommand($editable);
-
-      $target.removeClass('img-rounded img-circle img-thumbnail');
-
-      if (value) {
-        $target.addClass(value);
-      }
-
-      afterCommand($editable);
-    };
+    });
 
     /**
      * resize overlay element
-     * @param {jQuery} $editable
      * @param {String} value
-     * @param {jQuery} $target - target element
      */
-    this.resize = function ($editable, value, $target) {
-      beforeCommand($editable);
-
+    this.resize = this.wrapCommand(function (value) {
+      var $target = $(this.restoreTarget());
       $target.css({
         width: value * 100 + '%',
         height: ''
       });
-
-      afterCommand($editable);
-    };
+    });
 
     /**
      * @param {Position} pos
@@ -40463,605 +40564,238 @@ S2.define('jquery.mousewheel',[
 
     /**
      * remove media object
-     *
-     * @param {jQuery} $editable
-     * @param {String} value - dummy argument (for keep interface)
-     * @param {jQuery} $target - target element
      */
-    this.removeMedia = function ($editable, value, $target) {
-      beforeCommand($editable);
-      $target.detach();
+    this.removeMedia = this.wrapCommand(function () {
+      var $target = $(this.restoreTarget()).detach();
+      context.triggerEvent('media.delete', $target, $editable);
+    });
 
-      handler.bindCustomEvent(
-        $(), $editable.data('callbacks'), 'media.delete'
-      )($target, $editable);
-
-      afterCommand($editable);
+    /**
+     * returns whether editable area has focus or not.
+     */
+    this.hasFocus = function () {
+      return $editable.is(':focus');
     };
 
     /**
      * set focus
-     *
-     * @param $editable
      */
-    this.focus = function ($editable) {
-      $editable.focus();
-
-      // [workaround] for firefox bug http://goo.gl/lVfAaI
-      if (agent.isFF && !range.create().isOnEditable()) {
-        range.createFromNode($editable[0])
-             .normalize()
-             .collapse()
-             .select();
+    this.focus = function () {
+      // [workaround] Screen will move when page is scolled in IE.
+      //  - do focus when not focused
+      if (!this.hasFocus()) {
+        $editable.focus();
       }
     };
 
     /**
      * returns whether contents is empty or not.
-     *
-     * @param {jQuery} $editable
      * @return {Boolean}
      */
-    this.isEmpty = function ($editable) {
+    this.isEmpty = function () {
       return dom.isEmpty($editable[0]) || dom.emptyPara === $editable.html();
     };
+
+    /**
+     * Removes all contents and restores the editable instance to an _emptyPara_.
+     */
+    this.empty = function () {
+      context.invoke('code', dom.emptyPara);
+    };
+
+    /**
+     * set height for editable
+     */
+    this.setHeight = function (height) {
+      $editable.outerHeight(height);
+    };
   };
 
-  /**
-   * @class module.Button
-   *
-   * Button
-   */
-  var Button = function () {
-    /**
-     * update button status
-     *
-     * @param {jQuery} $container
-     * @param {Object} styleInfo
-     */
-    this.update = function ($container, styleInfo) {
-      /**
-       * handle dropdown's check mark (for fontname, fontsize, lineHeight).
-       * @param {jQuery} $btn
-       * @param {Number} value
-       */
-      var checkDropdownMenu = function ($btn, value) {
-        $btn.find('.dropdown-menu li a').each(function () {
-          // always compare string to avoid creating another func.
-          var isChecked = ($(this).data('value') + '') === (value + '');
-          this.className = isChecked ? 'checked' : '';
-        });
-      };
+  var Clipboard = function (context) {
+    var self = this;
 
-      /**
-       * update button state(active or not).
-       *
-       * @private
-       * @param {String} selector
-       * @param {Function} pred
-       */
-      var btnState = function (selector, pred) {
-        var $btn = $container.find(selector);
-        $btn.toggleClass('active', pred());
-      };
+    var $editable = context.layoutInfo.editable;
 
-      if (styleInfo.image) {
-        var $img = $(styleInfo.image);
+    this.events = {
+      'summernote.keydown': function (we, e) {
+        if (self.needKeydownHook()) {
+          if ((e.ctrlKey || e.metaKey) && e.keyCode === key.code.V) {
+            context.invoke('editor.saveRange');
+            self.$paste.focus();
 
-        btnState('button[data-event="imageShape"][data-value="img-rounded"]', function () {
-          return $img.hasClass('img-rounded');
-        });
-        btnState('button[data-event="imageShape"][data-value="img-circle"]', function () {
-          return $img.hasClass('img-circle');
-        });
-        btnState('button[data-event="imageShape"][data-value="img-thumbnail"]', function () {
-          return $img.hasClass('img-thumbnail');
-        });
-        btnState('button[data-event="imageShape"]:not([data-value])', function () {
-          return !$img.is('.img-rounded, .img-circle, .img-thumbnail');
-        });
-
-        var imgFloat = $img.css('float');
-        btnState('button[data-event="floatMe"][data-value="left"]', function () {
-          return imgFloat === 'left';
-        });
-        btnState('button[data-event="floatMe"][data-value="right"]', function () {
-          return imgFloat === 'right';
-        });
-        btnState('button[data-event="floatMe"][data-value="none"]', function () {
-          return imgFloat !== 'left' && imgFloat !== 'right';
-        });
-
-        var style = $img.attr('style');
-        btnState('button[data-event="resize"][data-value="1"]', function () {
-          return !!/(^|\s)(max-)?width\s*:\s*100%/.test(style);
-        });
-        btnState('button[data-event="resize"][data-value="0.5"]', function () {
-          return !!/(^|\s)(max-)?width\s*:\s*50%/.test(style);
-        });
-        btnState('button[data-event="resize"][data-value="0.25"]', function () {
-          return !!/(^|\s)(max-)?width\s*:\s*25%/.test(style);
-        });
-        return;
-      }
-
-      // fontname
-      var $fontname = $container.find('.note-fontname');
-      if ($fontname.length) {
-        var selectedFont = styleInfo['font-family'];
-        if (!!selectedFont) {
-
-          var list = selectedFont.split(',');
-          for (var i = 0, len = list.length; i < len; i++) {
-            selectedFont = list[i].replace(/[\'\"]/g, '').replace(/\s+$/, '').replace(/^\s+/, '');
-            if (agent.isFontInstalled(selectedFont)) {
-              break;
-            }
+            setTimeout(function () {
+              self.pasteByHook();
+            }, 0);
           }
-          
-          $fontname.find('.note-current-fontname').text(selectedFont);
-          checkDropdownMenu($fontname, selectedFont);
+        }
+      }
+    };
 
+    this.needKeydownHook = function () {
+      return (agent.isMSIE && agent.browserVersion > 10) || agent.isFF;
+    };
+
+    this.initialize = function () {
+      // [workaround] getting image from clipboard
+      //  - IE11 and Firefox: CTRL+v hook
+      //  - Webkit: event.clipboardData
+      if (this.needKeydownHook()) {
+        this.$paste = $('<div />').attr('contenteditable', true).css({
+          position: 'absolute',
+          left: -100000,
+          opacity: 0
+        });
+        $editable.before(this.$paste);
+
+        this.$paste.on('paste', function (event) {
+          context.triggerEvent('paste', event);
+        });
+      } else {
+        $editable.on('paste', this.pasteByEvent);
+      }
+    };
+
+    this.destroy = function () {
+      if (this.needKeydownHook()) {
+        this.$paste.remove();
+        this.$paste = null;
+      }
+    };
+
+    this.pasteByHook = function () {
+      var node = this.$paste[0].firstChild;
+
+      if (dom.isImg(node)) {
+        var dataURI = node.src;
+        var decodedData = atob(dataURI.split(',')[1]);
+        var array = new Uint8Array(decodedData.length);
+        for (var i = 0; i < decodedData.length; i++) {
+          array[i] = decodedData.charCodeAt(i);
+        }
+
+        var blob = new Blob([array], { type: 'image/png' });
+        blob.name = 'clipboard.png';
+
+        context.invoke('editor.restoreRange');
+        context.invoke('editor.focus');
+        context.invoke('editor.insertImagesOrCallback', [blob]);
+      } else {
+        var pasteContent = $('<div />').html(this.$paste.html()).html();
+        context.invoke('editor.restoreRange');
+        context.invoke('editor.focus');
+
+        if (pasteContent) {
+          context.invoke('editor.pasteHTML', pasteContent);
         }
       }
 
-      // fontsize
-      var $fontsize = $container.find('.note-fontsize');
-      $fontsize.find('.note-current-fontsize').text(styleInfo['font-size']);
-      checkDropdownMenu($fontsize, parseFloat(styleInfo['font-size']));
-
-      // lineheight
-      var $lineHeight = $container.find('.note-height');
-      checkDropdownMenu($lineHeight, parseFloat(styleInfo['line-height']));
-
-      btnState('button[data-event="bold"]', function () {
-        return styleInfo['font-bold'] === 'bold';
-      });
-      btnState('button[data-event="italic"]', function () {
-        return styleInfo['font-italic'] === 'italic';
-      });
-      btnState('button[data-event="underline"]', function () {
-        return styleInfo['font-underline'] === 'underline';
-      });
-      btnState('button[data-event="strikethrough"]', function () {
-        return styleInfo['font-strikethrough'] === 'strikethrough';
-      });
-      btnState('button[data-event="superscript"]', function () {
-        return styleInfo['font-superscript'] === 'superscript';
-      });
-      btnState('button[data-event="subscript"]', function () {
-        return styleInfo['font-subscript'] === 'subscript';
-      });
-      btnState('button[data-event="justifyLeft"]', function () {
-        return styleInfo['text-align'] === 'left' || styleInfo['text-align'] === 'start';
-      });
-      btnState('button[data-event="justifyCenter"]', function () {
-        return styleInfo['text-align'] === 'center';
-      });
-      btnState('button[data-event="justifyRight"]', function () {
-        return styleInfo['text-align'] === 'right';
-      });
-      btnState('button[data-event="justifyFull"]', function () {
-        return styleInfo['text-align'] === 'justify';
-      });
-      btnState('button[data-event="insertUnorderedList"]', function () {
-        return styleInfo['list-style'] === 'unordered';
-      });
-      btnState('button[data-event="insertOrderedList"]', function () {
-        return styleInfo['list-style'] === 'ordered';
-      });
+      this.$paste.empty();
     };
 
     /**
-     * update recent color
+     * paste by clipboard event
      *
-     * @param {Node} button
-     * @param {String} eventName
-     * @param {Mixed} value
+     * @param {Event} event
      */
-    this.updateRecentColor = function (button, eventName, value) {
-      var $color = $(button).closest('.note-color');
-      var $recentColor = $color.find('.note-recent-color');
-      var colorInfo = JSON.parse($recentColor.attr('data-value'));
-      colorInfo[eventName] = value;
-      $recentColor.attr('data-value', JSON.stringify(colorInfo));
-      var sKey = eventName === 'backColor' ? 'background-color' : 'color';
-      $recentColor.find('i').css(sKey, value);
-    };
-  };
-
-  /**
-   * @class module.Toolbar
-   *
-   * Toolbar
-   */
-  var Toolbar = function () {
-    var button = new Button();
-
-    this.update = function ($toolbar, styleInfo) {
-      button.update($toolbar, styleInfo);
-    };
-
-    /**
-     * @param {Node} button
-     * @param {String} eventName
-     * @param {String} value
-     */
-    this.updateRecentColor = function (buttonNode, eventName, value) {
-      button.updateRecentColor(buttonNode, eventName, value);
-    };
-
-    /**
-     * activate buttons exclude codeview
-     * @param {jQuery} $toolbar
-     */
-    this.activate = function ($toolbar) {
-      $toolbar.find('button')
-              .not('button[data-event="codeview"]')
-              .removeClass('disabled');
-    };
-
-    /**
-     * deactivate buttons exclude codeview
-     * @param {jQuery} $toolbar
-     */
-    this.deactivate = function ($toolbar) {
-      $toolbar.find('button')
-              .not('button[data-event="codeview"]')
-              .addClass('disabled');
-    };
-
-    /**
-     * @param {jQuery} $container
-     * @param {Boolean} [bFullscreen=false]
-     */
-    this.updateFullscreen = function ($container, bFullscreen) {
-      var $btn = $container.find('button[data-event="fullscreen"]');
-      $btn.toggleClass('active', bFullscreen);
-    };
-
-    /**
-     * @param {jQuery} $container
-     * @param {Boolean} [isCodeview=false]
-     */
-    this.updateCodeview = function ($container, isCodeview) {
-      var $btn = $container.find('button[data-event="codeview"]');
-      $btn.toggleClass('active', isCodeview);
-
-      if (isCodeview) {
-        this.deactivate($container);
-      } else {
-        this.activate($container);
+    this.pasteByEvent = function (event) {
+      var clipboardData = event.originalEvent.clipboardData;
+      if (clipboardData && clipboardData.items && clipboardData.items.length) {
+        var item = list.head(clipboardData.items);
+        if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
+          context.invoke('editor.insertImagesOrCallback', [item.getAsFile()]);
+        }
+        context.invoke('editor.afterCommand');
       }
     };
-
-    /**
-     * get button in toolbar 
-     *
-     * @param {jQuery} $editable
-     * @param {String} name
-     * @return {jQuery}
-     */
-    this.get = function ($editable, name) {
-      var $toolbar = dom.makeLayoutInfo($editable).toolbar();
-
-      return $toolbar.find('[data-name=' + name + ']');
-    };
-
-    /**
-     * set button state
-     * @param {jQuery} $editable
-     * @param {String} name
-     * @param {Boolean} [isActive=true]
-     */
-    this.setButtonState = function ($editable, name, isActive) {
-      isActive = (isActive === false) ? false : true;
-
-      var $button = this.get($editable, name);
-      $button.toggleClass('active', isActive);
-    };
   };
 
-  var EDITABLE_PADDING = 24;
-
-  var Statusbar = function () {
+  var Dropzone = function (context) {
     var $document = $(document);
+    var $editor = context.layoutInfo.editor;
+    var $editable = context.layoutInfo.editable;
+    var options = context.options;
+    var lang = options.langInfo;
 
-    this.attach = function (layoutInfo, options) {
-      if (!options.disableResizeEditor) {
-        layoutInfo.statusbar().on('mousedown', hStatusbarMousedown);
+    var $dropzone = $([
+      '<div class="note-dropzone">',
+      '  <div class="note-dropzone-message"/>',
+      '</div>'
+    ].join('')).prependTo($editor);
+
+    /**
+     * attach Drag and Drop Events
+     */
+    this.initialize = function () {
+      if (options.disableDragAndDrop) {
+        // prevent default drop event
+        $document.on('drop', function (e) {
+          e.preventDefault();
+        });
+      } else {
+        this.attachDragAndDropEvent();
       }
     };
 
     /**
-     * `mousedown` event handler on statusbar
-     *
-     * @param {MouseEvent} event
+     * attach Drag and Drop Events
      */
-    var hStatusbarMousedown = function (event) {
-      event.preventDefault();
-      event.stopPropagation();
+    this.attachDragAndDropEvent = function () {
+      var collection = $(),
+          $dropzoneMessage = $dropzone.find('.note-dropzone-message');
 
-      var $editable = dom.makeLayoutInfo(event.target).editable();
-      var editableTop = $editable.offset().top - $document.scrollTop();
-
-      var layoutInfo = dom.makeLayoutInfo(event.currentTarget || event.target);
-      var options = layoutInfo.editor().data('options');
-
-      $document.on('mousemove', function (event) {
-        var nHeight = event.clientY - (editableTop + EDITABLE_PADDING);
-
-        nHeight = (options.minHeight > 0) ? Math.max(nHeight, options.minHeight) : nHeight;
-        nHeight = (options.maxHeight > 0) ? Math.min(nHeight, options.maxHeight) : nHeight;
-
-        $editable.height(nHeight);
-      }).one('mouseup', function () {
-        $document.off('mousemove');
+      // show dropzone on dragenter when dragging a object to document
+      // -but only if the editor is visible, i.e. has a positive width and height
+      $document.on('dragenter', function (e) {
+        var isCodeview = context.invoke('codeview.isActivated');
+        var hasEditorSize = $editor.width() > 0 && $editor.height() > 0;
+        if (!isCodeview && !collection.length && hasEditorSize) {
+          $editor.addClass('dragover');
+          $dropzone.width($editor.width());
+          $dropzone.height($editor.height());
+          $dropzoneMessage.text(lang.image.dragImageHere);
+        }
+        collection = collection.add(e.target);
+      }).on('dragleave', function (e) {
+        collection = collection.not(e.target);
+        if (!collection.length) {
+          $editor.removeClass('dragover');
+        }
+      }).on('drop', function () {
+        collection = $();
+        $editor.removeClass('dragover');
       });
-    };
-  };
 
-  /**
-   * @class module.Popover
-   *
-   * Popover (http://getbootstrap.com/javascript/#popovers)
-   *
-   */
-  var Popover = function () {
-    var button = new Button();
-
-    /**
-     * returns position from placeholder
-     *
-     * @private
-     * @param {Node} placeholder
-     * @param {Object} options
-     * @param {Boolean} options.isAirMode
-     * @return {Position}
-     */
-    var posFromPlaceholder = function (placeholder, options) {
-      var isAirMode = options && options.isAirMode;
-      var isLeftTop = options && options.isLeftTop;
-
-      var $placeholder = $(placeholder);
-      var pos = isAirMode ? $placeholder.offset() : $placeholder.position();
-      var height = isLeftTop ? 0 : $placeholder.outerHeight(true); // include margin
-
-      // popover below placeholder.
-      return {
-        left: pos.left,
-        top: pos.top + height
-      };
-    };
-
-    /**
-     * show popover
-     *
-     * @private
-     * @param {jQuery} popover
-     * @param {Position} pos
-     */
-    var showPopover = function ($popover, pos) {
-      $popover.css({
-        display: 'block',
-        left: pos.left,
-        top: pos.top
+      // change dropzone's message on hover.
+      $dropzone.on('dragenter', function () {
+        $dropzone.addClass('hover');
+        $dropzoneMessage.text(lang.image.dropImage);
+      }).on('dragleave', function () {
+        $dropzone.removeClass('hover');
+        $dropzoneMessage.text(lang.image.dragImageHere);
       });
-    };
 
-    var PX_POPOVER_ARROW_OFFSET_X = 20;
+      // attach dropImage
+      $dropzone.on('drop', function (event) {
+        var dataTransfer = event.originalEvent.dataTransfer;
 
-    /**
-     * update current state
-     * @param {jQuery} $popover - popover container
-     * @param {Object} styleInfo - style object
-     * @param {Boolean} isAirMode
-     */
-    this.update = function ($popover, styleInfo, isAirMode) {
-      button.update($popover, styleInfo);
-
-      var $linkPopover = $popover.find('.note-link-popover');
-      if (styleInfo.anchor) {
-        var $anchor = $linkPopover.find('a');
-        var href = $(styleInfo.anchor).attr('href');
-        var target = $(styleInfo.anchor).attr('target');
-        $anchor.attr('href', href).html(href);
-        if (!target) {
-          $anchor.removeAttr('target');
+        if (dataTransfer && dataTransfer.files && dataTransfer.files.length) {
+          event.preventDefault();
+          $editable.focus();
+          context.invoke('editor.insertImagesOrCallback', dataTransfer.files);
         } else {
-          $anchor.attr('target', '_blank');
-        }
-        showPopover($linkPopover, posFromPlaceholder(styleInfo.anchor, {
-          isAirMode: isAirMode
-        }));
-      } else {
-        $linkPopover.hide();
-      }
+          $.each(dataTransfer.types, function (idx, type) {
+            var content = dataTransfer.getData(type);
 
-      var $imagePopover = $popover.find('.note-image-popover');
-      if (styleInfo.image) {
-        showPopover($imagePopover, posFromPlaceholder(styleInfo.image, {
-          isAirMode: isAirMode,
-          isLeftTop: true
-        }));
-      } else {
-        $imagePopover.hide();
-      }
-
-      var $airPopover = $popover.find('.note-air-popover');
-      if (isAirMode && styleInfo.range && !styleInfo.range.isCollapsed()) {
-        var rect = list.last(styleInfo.range.getClientRects());
-        if (rect) {
-          var bnd = func.rect2bnd(rect);
-          showPopover($airPopover, {
-            left: Math.max(bnd.left + bnd.width / 2 - PX_POPOVER_ARROW_OFFSET_X, 0),
-            top: bnd.top + bnd.height
+            if (type.toLowerCase().indexOf('text') > -1) {
+              context.invoke('editor.pasteHTML', content);
+            } else {
+              $(content).each(function () {
+                context.invoke('editor.insertNode', this);
+              });
+            }
           });
         }
-      } else {
-        $airPopover.hide();
-      }
-    };
-
-    /**
-     * @param {Node} button
-     * @param {String} eventName
-     * @param {String} value
-     */
-    this.updateRecentColor = function (button, eventName, value) {
-      button.updateRecentColor(button, eventName, value);
-    };
-
-    /**
-     * hide all popovers
-     * @param {jQuery} $popover - popover container
-     */
-    this.hide = function ($popover) {
-      $popover.children().hide();
-    };
-  };
-
-  /**
-   * @class module.Handle
-   *
-   * Handle
-   */
-  var Handle = function (handler) {
-    var $document = $(document);
-
-    /**
-     * `mousedown` event handler on $handle
-     *  - controlSizing: resize image
-     *
-     * @param {MouseEvent} event
-     */
-    var hHandleMousedown = function (event) {
-      if (dom.isControlSizing(event.target)) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        var layoutInfo = dom.makeLayoutInfo(event.target),
-            $handle = layoutInfo.handle(),
-            $popover = layoutInfo.popover(),
-            $editable = layoutInfo.editable(),
-            $editor = layoutInfo.editor();
-
-        var target = $handle.find('.note-control-selection').data('target'),
-            $target = $(target), posStart = $target.offset(),
-            scrollTop = $document.scrollTop();
-
-        var isAirMode = $editor.data('options').airMode;
-
-        $document.on('mousemove', function (event) {
-          handler.invoke('editor.resizeTo', {
-            x: event.clientX - posStart.left,
-            y: event.clientY - (posStart.top - scrollTop)
-          }, $target, !event.shiftKey);
-
-          handler.invoke('handle.update', $handle, {image: target}, isAirMode);
-          handler.invoke('popover.update', $popover, {image: target}, isAirMode);
-        }).one('mouseup', function () {
-          $document.off('mousemove');
-          handler.invoke('editor.afterCommand', $editable);
-        });
-
-        if (!$target.data('ratio')) { // original ratio.
-          $target.data('ratio', $target.height() / $target.width());
-        }
-      }
-    };
-
-    this.attach = function (layoutInfo) {
-      layoutInfo.handle().on('mousedown', hHandleMousedown);
-    };
-
-    /**
-     * update handle
-     * @param {jQuery} $handle
-     * @param {Object} styleInfo
-     * @param {Boolean} isAirMode
-     */
-    this.update = function ($handle, styleInfo, isAirMode) {
-      var $selection = $handle.find('.note-control-selection');
-      if (styleInfo.image) {
-        var $image = $(styleInfo.image);
-        var pos = isAirMode ? $image.offset() : $image.position();
-
-        // include margin
-        var imageSize = {
-          w: $image.outerWidth(true),
-          h: $image.outerHeight(true)
-        };
-
-        $selection.css({
-          display: 'block',
-          left: pos.left,
-          top: pos.top,
-          width: imageSize.w,
-          height: imageSize.h
-        }).data('target', styleInfo.image); // save current image element.
-        var sizingText = imageSize.w + 'x' + imageSize.h;
-        $selection.find('.note-control-selection-info').text(sizingText);
-      } else {
-        $selection.hide();
-      }
-    };
-
-    /**
-     * hide
-     *
-     * @param {jQuery} $handle
-     */
-    this.hide = function ($handle) {
-      $handle.children().hide();
-    };
-  };
-
-  var Fullscreen = function (handler) {
-    var $window = $(window);
-    var $scrollbar = $('html, body');
-
-    /**
-     * toggle fullscreen
-     *
-     * @param {Object} layoutInfo
-     */
-    this.toggle = function (layoutInfo) {
-
-      var $editor = layoutInfo.editor(),
-          $toolbar = layoutInfo.toolbar(),
-          $editable = layoutInfo.editable(),
-          $codable = layoutInfo.codable();
-
-      var resize = function (size) {
-        $editable.css('height', size.h);
-        $codable.css('height', size.h);
-        if ($codable.data('cmeditor')) {
-          $codable.data('cmeditor').setsize(null, size.h);
-        }
-      };
-
-      $editor.toggleClass('fullscreen');
-      var isFullscreen = $editor.hasClass('fullscreen');
-      if (isFullscreen) {
-        $editable.data('orgheight', $editable.css('height'));
-
-        $window.on('resize', function () {
-          resize({
-            h: $window.height() - $toolbar.outerHeight()
-          });
-        }).trigger('resize');
-
-        $scrollbar.css('overflow', 'hidden');
-      } else {
-        $window.off('resize');
-        resize({
-          h: $editable.data('orgheight')
-        });
-        $scrollbar.css('overflow', 'visible');
-      }
-
-      handler.invoke('toolbar.updateFullscreen', $toolbar, isFullscreen);
+      }).on('dragover', false); // prevent default dragover event
     };
   };
 
@@ -41069,7 +40803,7 @@ S2.define('jquery.mousewheel',[
   var CodeMirror;
   if (agent.hasCodeMirror) {
     if (agent.isSupportAmd) {
-      require(['CodeMirror'], function (cm) {
+      require(['codemirror'], function (cm) {
         CodeMirror = cm;
       });
     } else {
@@ -41080,61 +40814,47 @@ S2.define('jquery.mousewheel',[
   /**
    * @class Codeview
    */
-  var Codeview = function (handler) {
+  var Codeview = function (context) {
+    var $editor = context.layoutInfo.editor;
+    var $editable = context.layoutInfo.editable;
+    var $codable = context.layoutInfo.codable;
+    var options = context.options;
 
-    this.sync = function (layoutInfo) {
-      var isCodeview = handler.invoke('codeview.isActivated', layoutInfo);
+    this.sync = function () {
+      var isCodeview = this.isActivated();
       if (isCodeview && agent.hasCodeMirror) {
-        layoutInfo.codable().data('cmEditor').save();
+        $codable.data('cmEditor').save();
       }
     };
 
     /**
-     * @param {Object} layoutInfo
      * @return {Boolean}
      */
-    this.isActivated = function (layoutInfo) {
-      var $editor = layoutInfo.editor();
+    this.isActivated = function () {
       return $editor.hasClass('codeview');
     };
 
     /**
      * toggle codeview
-     *
-     * @param {Object} layoutInfo
      */
-    this.toggle = function (layoutInfo) {
-      if (this.isActivated(layoutInfo)) {
-        this.deactivate(layoutInfo);
+    this.toggle = function () {
+      if (this.isActivated()) {
+        this.deactivate();
       } else {
-        this.activate(layoutInfo);
+        this.activate();
       }
+      context.triggerEvent('codeview.toggled');
     };
 
     /**
      * activate code view
-     *
-     * @param {Object} layoutInfo
      */
-    this.activate = function (layoutInfo) {
-      var $editor = layoutInfo.editor(),
-          $toolbar = layoutInfo.toolbar(),
-          $editable = layoutInfo.editable(),
-          $codable = layoutInfo.codable(),
-          $popover = layoutInfo.popover(),
-          $handle = layoutInfo.handle();
-
-      var options = $editor.data('options');
-
+    this.activate = function () {
       $codable.val(dom.html($editable, options.prettifyHtml));
       $codable.height($editable.height());
 
-      handler.invoke('toolbar.updateCodeview', $toolbar, true);
-      handler.invoke('popover.hide', $popover);
-      handler.invoke('handle.hide', $handle);
-
+      context.invoke('toolbar.updateCodeview', true);
       $editor.addClass('codeview');
-
       $codable.focus();
 
       // activate CodeMirror as codable
@@ -41158,18 +40878,8 @@ S2.define('jquery.mousewheel',[
 
     /**
      * deactivate code view
-     *
-     * @param {Object} layoutInfo
      */
-    this.deactivate = function (layoutInfo) {
-      var $holder = layoutInfo.holder(),
-          $editor = layoutInfo.editor(),
-          $toolbar = layoutInfo.toolbar(),
-          $editable = layoutInfo.editable(),
-          $codable = layoutInfo.codable();
-
-      var options = $editor.data('options');
-
+    this.deactivate = function () {
       // deactivate CodeMirror as codable
       if (agent.hasCodeMirror) {
         var cmEditor = $codable.data('cmEditor');
@@ -41185,707 +40895,967 @@ S2.define('jquery.mousewheel',[
       $editor.removeClass('codeview');
 
       if (isChange) {
-        handler.bindCustomEvent(
-          $holder, $editable.data('callbacks'), 'change'
-        )($editable.html(), $editable);
+        context.triggerEvent('change', $editable.html(), $editable);
       }
 
       $editable.focus();
 
-      handler.invoke('toolbar.updateCodeview', $toolbar, false);
+      context.invoke('toolbar.updateCodeview', false);
+    };
+
+    this.destroy = function () {
+      if (this.isActivated()) {
+        this.deactivate();
+      }
     };
   };
 
-  var DragAndDrop = function (handler) {
+  var EDITABLE_PADDING = 24;
+
+  var Statusbar = function (context) {
     var $document = $(document);
+    var $statusbar = context.layoutInfo.statusbar;
+    var $editable = context.layoutInfo.editable;
+    var options = context.options;
 
-    /**
-     * attach Drag and Drop Events
-     *
-     * @param {Object} layoutInfo - layout Informations
-     * @param {Object} options
-     */
-    this.attach = function (layoutInfo, options) {
-      if (options.airMode || options.disableDragAndDrop) {
-        // prevent default drop event
-        $document.on('drop', function (e) {
-          e.preventDefault();
+    this.initialize = function () {
+      if (options.airMode || options.disableResizeEditor) {
+        return;
+      }
+
+      $statusbar.on('mousedown', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        var editableTop = $editable.offset().top - $document.scrollTop();
+
+        $document.on('mousemove', function (event) {
+          var height = event.clientY - (editableTop + EDITABLE_PADDING);
+
+          height = (options.minheight > 0) ? Math.max(height, options.minheight) : height;
+          height = (options.maxHeight > 0) ? Math.min(height, options.maxHeight) : height;
+
+          $editable.height(height);
+        }).one('mouseup', function () {
+          $document.off('mousemove');
         });
-      } else {
-        this.attachDragAndDropEvent(layoutInfo, options);
-      }
+      });
     };
 
-    /**
-     * attach Drag and Drop Events
-     *
-     * @param {Object} layoutInfo - layout Informations
-     * @param {Object} options
-     */
-    this.attachDragAndDropEvent = function (layoutInfo, options) {
-      var collection = $(),
-          $editor = layoutInfo.editor(),
-          $dropzone = layoutInfo.dropzone(),
-          $dropzoneMessage = $dropzone.find('.note-dropzone-message');
-
-      // show dropzone on dragenter when dragging a object to document
-      // -but only if the editor is visible, i.e. has a positive width and height
-      $document.on('dragenter', function (e) {
-        var isCodeview = handler.invoke('codeview.isActivated', layoutInfo);
-        var hasEditorSize = $editor.width() > 0 && $editor.height() > 0;
-        if (!isCodeview && !collection.length && hasEditorSize) {
-          $editor.addClass('dragover');
-          $dropzone.width($editor.width());
-          $dropzone.height($editor.height());
-          $dropzoneMessage.text(options.langInfo.image.dragImageHere);
-        }
-        collection = collection.add(e.target);
-      }).on('dragleave', function (e) {
-        collection = collection.not(e.target);
-        if (!collection.length) {
-          $editor.removeClass('dragover');
-        }
-      }).on('drop', function () {
-        collection = $();
-        $editor.removeClass('dragover');
-      });
-
-      // change dropzone's message on hover.
-      $dropzone.on('dragenter', function () {
-        $dropzone.addClass('hover');
-        $dropzoneMessage.text(options.langInfo.image.dropImage);
-      }).on('dragleave', function () {
-        $dropzone.removeClass('hover');
-        $dropzoneMessage.text(options.langInfo.image.dragImageHere);
-      });
-
-      // attach dropImage
-      $dropzone.on('drop', function (event) {
-
-        var dataTransfer = event.originalEvent.dataTransfer;
-        var layoutInfo = dom.makeLayoutInfo(event.currentTarget || event.target);
-
-        if (dataTransfer && dataTransfer.files && dataTransfer.files.length) {
-          event.preventDefault();
-          layoutInfo.editable().focus();
-          handler.insertImages(layoutInfo, dataTransfer.files);
-        } else {
-          var insertNodefunc = function () {
-            layoutInfo.holder().summernote('insertNode', this);
-          };
-
-          for (var i = 0, len = dataTransfer.types.length; i < len; i++) {
-            var type = dataTransfer.types[i];
-            var content = dataTransfer.getData(type);
-
-            if (type.toLowerCase().indexOf('text') > -1) {
-              layoutInfo.holder().summernote('pasteHTML', content);
-            } else {
-              $(content).each(insertNodefunc);
-            }
-          }
-        }
-      }).on('dragover', false); // prevent default dragover event
+    this.destroy = function () {
+      $statusbar.off();
     };
   };
 
-  var Clipboard = function (handler) {
-    var $paste;
+  var Fullscreen = function (context) {
+    var $editor = context.layoutInfo.editor;
+    var $toolbar = context.layoutInfo.toolbar;
+    var $editable = context.layoutInfo.editable;
+    var $codable = context.layoutInfo.codable;
 
-    this.attach = function (layoutInfo) {
-      // [workaround] getting image from clipboard
-      //  - IE11 and Firefox: CTRL+v hook
-      //  - Webkit: event.clipboardData
-      if ((agent.isMSIE && agent.browserVersion > 10) || agent.isFF) {
-        $paste = $('<div />').attr('contenteditable', true).css({
-          position : 'absolute',
-          left : -100000,
-          opacity : 0
+    var $window = $(window);
+    var $scrollbar = $('html, body');
+
+    /**
+     * toggle fullscreen
+     */
+    this.toggle = function () {
+      var resize = function (size) {
+        $editable.css('height', size.h);
+        $codable.css('height', size.h);
+        if ($codable.data('cmeditor')) {
+          $codable.data('cmeditor').setsize(null, size.h);
+        }
+      };
+
+      $editor.toggleClass('fullscreen');
+      if (this.isFullscreen()) {
+        $editable.data('orgHeight', $editable.css('height'));
+
+        $window.on('resize', function () {
+          resize({
+            h: $window.height() - $toolbar.outerHeight()
+          });
+        }).trigger('resize');
+
+        $scrollbar.css('overflow', 'hidden');
+      } else {
+        $window.off('resize');
+        resize({
+          h: $editable.data('orgHeight')
         });
-
-        layoutInfo.editable().on('keydown', function (e) {
-          if (e.ctrlKey && e.keyCode === key.code.V) {
-            handler.invoke('saveRange', layoutInfo.editable());
-            $paste.focus();
-
-            setTimeout(function () {
-              pasteByHook(layoutInfo);
-            }, 0);
-          }
-        });
-
-        layoutInfo.editable().before($paste);
-      } else {
-        layoutInfo.editable().on('paste', pasteByEvent);
-      }
-    };
-
-    var pasteByHook = function (layoutInfo) {
-      var $editable = layoutInfo.editable();
-      var node = $paste[0].firstChild;
-
-      if (dom.isImg(node)) {
-        var dataURI = node.src;
-        var decodedData = atob(dataURI.split(',')[1]);
-        var array = new Uint8Array(decodedData.length);
-        for (var i = 0; i < decodedData.length; i++) {
-          array[i] = decodedData.charCodeAt(i);
-        }
-
-        var blob = new Blob([array], { type : 'image/png' });
-        blob.name = 'clipboard.png';
-
-        handler.invoke('restoreRange', $editable);
-        handler.invoke('focus', $editable);
-        handler.insertImages(layoutInfo, [blob]);
-      } else {
-        var pasteContent = $('<div />').html($paste.html()).html();
-        handler.invoke('restoreRange', $editable);
-        handler.invoke('focus', $editable);
-
-        if (pasteContent) {
-          handler.invoke('pasteHTML', $editable, pasteContent);
-        }
+        $scrollbar.css('overflow', 'visible');
       }
 
-      $paste.empty();
+      context.invoke('toolbar.updateFullscreen', this.isFullscreen());
     };
 
-    /**
-     * paste by clipboard event
-     *
-     * @param {Event} event
-     */
-    var pasteByEvent = function (event) {
-      var clipboardData = event.originalEvent.clipboardData;
-      var layoutInfo = dom.makeLayoutInfo(event.currentTarget || event.target);
-      var $editable = layoutInfo.editable();
-
-      if (clipboardData && clipboardData.items && clipboardData.items.length) {
-        var item = list.head(clipboardData.items);
-        if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
-          handler.insertImages(layoutInfo, [item.getAsFile()]);
-        }
-        handler.invoke('editor.afterCommand', $editable);
-      }
+    this.isFullscreen = function () {
+      return $editor.hasClass('fullscreen');
     };
   };
 
-  var LinkDialog = function (handler) {
-
-    /**
-     * toggle button status
-     *
-     * @private
-     * @param {jQuery} $btn
-     * @param {Boolean} isEnable
-     */
-    var toggleBtn = function ($btn, isEnable) {
-      $btn.toggleClass('disabled', !isEnable);
-      $btn.attr('disabled', !isEnable);
-    };
-
-    /**
-     * bind enter key
-     *
-     * @private
-     * @param {jQuery} $input
-     * @param {jQuery} $btn
-     */
-    var bindEnterKey = function ($input, $btn) {
-      $input.on('keypress', function (event) {
-        if (event.keyCode === key.code.ENTER) {
-          $btn.trigger('click');
-        }
-      });
-    };
-
-    /**
-     * Show link dialog and set event handlers on dialog controls.
-     *
-     * @param {jQuery} $editable
-     * @param {jQuery} $dialog
-     * @param {Object} linkInfo
-     * @return {Promise}
-     */
-    this.showLinkDialog = function ($editable, $dialog, linkInfo) {
-      return $.Deferred(function (deferred) {
-        var $linkDialog = $dialog.find('.note-link-dialog');
-
-        var $linkText = $linkDialog.find('.note-link-text'),
-        $linkUrl = $linkDialog.find('.note-link-url'),
-        $linkBtn = $linkDialog.find('.note-link-btn'),
-        $openInNewWindow = $linkDialog.find('input[type=checkbox]');
-
-        $linkDialog.one('shown.bs.modal', function () {
-          $linkText.val(linkInfo.text);
-
-          $linkText.on('input', function () {
-            toggleBtn($linkBtn, $linkText.val() && $linkUrl.val());
-            // if linktext was modified by keyup,
-            // stop cloning text from linkUrl
-            linkInfo.text = $linkText.val();
-          });
-
-          // if no url was given, copy text to url
-          if (!linkInfo.url) {
-            linkInfo.url = linkInfo.text || 'http://';
-            toggleBtn($linkBtn, linkInfo.text);
-          }
-
-          $linkUrl.on('input', function () {
-            toggleBtn($linkBtn, $linkText.val() && $linkUrl.val());
-            // display same link on `Text to display` input
-            // when create a new link
-            if (!linkInfo.text) {
-              $linkText.val($linkUrl.val());
-            }
-          }).val(linkInfo.url).trigger('focus').trigger('select');
-
-          bindEnterKey($linkUrl, $linkBtn);
-          bindEnterKey($linkText, $linkBtn);
-
-          $openInNewWindow.prop('checked', linkInfo.isNewWindow);
-
-          $linkBtn.one('click', function (event) {
-            event.preventDefault();
-
-            deferred.resolve({
-              range: linkInfo.range,
-              url: $linkUrl.val(),
-              text: $linkText.val(),
-              isNewWindow: $openInNewWindow.is(':checked')
-            });
-            $linkDialog.modal('hide');
-          });
-        }).one('hidden.bs.modal', function () {
-          // detach events
-          $linkText.off('input keypress');
-          $linkUrl.off('input keypress');
-          $linkBtn.off('click');
-
-          if (deferred.state() === 'pending') {
-            deferred.reject();
-          }
-        }).modal('show');
-      }).promise();
-    };
-
-    /**
-     * @param {Object} layoutInfo
-     */
-    this.show = function (layoutInfo) {
-      var $editor = layoutInfo.editor(),
-          $dialog = layoutInfo.dialog(),
-          $editable = layoutInfo.editable(),
-          $popover = layoutInfo.popover(),
-          linkInfo = handler.invoke('editor.getLinkInfo', $editable);
-
-      var options = $editor.data('options');
-
-      handler.invoke('editor.saveRange', $editable);
-      this.showLinkDialog($editable, $dialog, linkInfo).then(function (linkInfo) {
-        handler.invoke('editor.restoreRange', $editable);
-        handler.invoke('editor.createLink', $editable, linkInfo, options);
-        // hide popover after creating link
-        handler.invoke('popover.hide', $popover);
-      }).fail(function () {
-        handler.invoke('editor.restoreRange', $editable);
-      });
-    };
-  };
-
-  var ImageDialog = function (handler) {
-    /**
-     * toggle button status
-     *
-     * @private
-     * @param {jQuery} $btn
-     * @param {Boolean} isEnable
-     */
-    var toggleBtn = function ($btn, isEnable) {
-      $btn.toggleClass('disabled', !isEnable);
-      $btn.attr('disabled', !isEnable);
-    };
-
-    /**
-     * bind enter key
-     *
-     * @private
-     * @param {jQuery} $input
-     * @param {jQuery} $btn
-     */
-    var bindEnterKey = function ($input, $btn) {
-      $input.on('keypress', function (event) {
-        if (event.keyCode === key.code.ENTER) {
-          $btn.trigger('click');
-        }
-      });
-    };
-
-    this.show = function (layoutInfo) {
-      var $dialog = layoutInfo.dialog(),
-          $editable = layoutInfo.editable();
-
-      handler.invoke('editor.saveRange', $editable);
-      this.showImageDialog($editable, $dialog).then(function (data) {
-        handler.invoke('editor.restoreRange', $editable);
-
-        if (typeof data === 'string') {
-          // image url
-          handler.invoke('editor.insertImage', $editable, data);
-        } else {
-          // array of files
-          handler.insertImages(layoutInfo, data);
-        }
-      }).fail(function () {
-        handler.invoke('editor.restoreRange', $editable);
-      });
-    };
-
-    /**
-     * show image dialog
-     *
-     * @param {jQuery} $editable
-     * @param {jQuery} $dialog
-     * @return {Promise}
-     */
-    this.showImageDialog = function ($editable, $dialog) {
-      return $.Deferred(function (deferred) {
-        var $imageDialog = $dialog.find('.note-image-dialog');
-
-        var $imageInput = $dialog.find('.note-image-input'),
-            $imageUrl = $dialog.find('.note-image-url'),
-            $imageBtn = $dialog.find('.note-image-btn');
-
-        $imageDialog.one('shown.bs.modal', function () {
-          // Cloning imageInput to clear element.
-          $imageInput.replaceWith($imageInput.clone()
-            .on('change', function () {
-              deferred.resolve(this.files || this.value);
-              $imageDialog.modal('hide');
-            })
-            .val('')
-          );
-
-          $imageBtn.click(function (event) {
-            event.preventDefault();
-
-            deferred.resolve($imageUrl.val());
-            $imageDialog.modal('hide');
-          });
-
-          $imageUrl.on('keyup paste', function (event) {
-            var url;
-            
-            if (event.type === 'paste') {
-              url = event.originalEvent.clipboardData.getData('text');
-            } else {
-              url = $imageUrl.val();
-            }
-            
-            toggleBtn($imageBtn, url);
-          }).val('').trigger('focus');
-          bindEnterKey($imageUrl, $imageBtn);
-        }).one('hidden.bs.modal', function () {
-          $imageInput.off('change');
-          $imageUrl.off('keyup paste keypress');
-          $imageBtn.off('click');
-
-          if (deferred.state() === 'pending') {
-            deferred.reject();
-          }
-        }).modal('show');
-      });
-    };
-  };
-
-  var HelpDialog = function (handler) {
-    /**
-     * show help dialog
-     *
-     * @param {jQuery} $editable
-     * @param {jQuery} $dialog
-     * @return {Promise}
-     */
-    this.showHelpDialog = function ($editable, $dialog) {
-      return $.Deferred(function (deferred) {
-        var $helpDialog = $dialog.find('.note-help-dialog');
-
-        $helpDialog.one('hidden.bs.modal', function () {
-          deferred.resolve();
-        }).modal('show');
-      }).promise();
-    };
-
-    /**
-     * @param {Object} layoutInfo
-     */
-    this.show = function (layoutInfo) {
-      var $dialog = layoutInfo.dialog(),
-          $editable = layoutInfo.editable();
-
-      handler.invoke('editor.saveRange', $editable, true);
-      this.showHelpDialog($editable, $dialog).then(function () {
-        handler.invoke('editor.restoreRange', $editable);
-      });
-    };
-  };
-
-
-  /**
-   * @class EventHandler
-   *
-   * EventHandler
-   *  - TODO: new instance per a editor
-   */
-  var EventHandler = function () {
+  var Handle = function (context) {
     var self = this;
 
-    /**
-     * Modules
-     */
-    var modules = this.modules = {
-      editor: new Editor(this),
-      toolbar: new Toolbar(this),
-      statusbar: new Statusbar(this),
-      popover: new Popover(this),
-      handle: new Handle(this),
-      fullscreen: new Fullscreen(this),
-      codeview: new Codeview(this),
-      dragAndDrop: new DragAndDrop(this),
-      clipboard: new Clipboard(this),
-      linkDialog: new LinkDialog(this),
-      imageDialog: new ImageDialog(this),
-      helpDialog: new HelpDialog(this)
-    };
+    var $document = $(document);
+    var $editingArea = context.layoutInfo.editingArea;
+    var options = context.options;
 
-    /**
-     * invoke module's method
-     *
-     * @param {String} moduleAndMethod - ex) 'editor.redo'
-     * @param {...*} arguments - arguments of method
-     * @return {*}
-     */
-    this.invoke = function () {
-      var moduleAndMethod = list.head(list.from(arguments));
-      var args = list.tail(list.from(arguments));
-
-      var splits = moduleAndMethod.split('.');
-      var hasSeparator = splits.length > 1;
-      var moduleName = hasSeparator && list.head(splits);
-      var methodName = hasSeparator ? list.last(splits) : list.head(splits);
-
-      var module = this.getModule(moduleName);
-      var method = module[methodName];
-
-      return method && method.apply(module, args);
-    };
-
-    /**
-     * returns module
-     *
-     * @param {String} moduleName - name of module
-     * @return {Module} - defaults is editor
-     */
-    this.getModule = function (moduleName) {
-      return this.modules[moduleName] || this.modules.editor;
-    };
-
-    /**
-     * @param {jQuery} $holder
-     * @param {Object} callbacks
-     * @param {String} eventNamespace
-     * @returns {Function}
-     */
-    var bindCustomEvent = this.bindCustomEvent = function ($holder, callbacks, eventNamespace) {
-      return function () {
-        var callback = callbacks[func.namespaceToCamel(eventNamespace, 'on')];
-        if (callback) {
-          callback.apply($holder[0], arguments);
+    this.events = {
+      'summernote.mousedown': function (we, e) {
+        if (self.update(e.target)) {
+          e.preventDefault();
         }
-        return $holder.trigger('summernote.' + eventNamespace, arguments);
-      };
+      },
+      'summernote.keyup summernote.scroll summernote.change summernote.dialog.shown': function () {
+        self.update();
+      }
+    };
+
+    this.initialize = function () {
+      this.$handle = $([
+        '<div class="note-handle">',
+        '<div class="note-control-selection">',
+        '<div class="note-control-selection-bg"></div>',
+        '<div class="note-control-holder note-control-nw"></div>',
+        '<div class="note-control-holder note-control-ne"></div>',
+        '<div class="note-control-holder note-control-sw"></div>',
+        '<div class="',
+        (options.disableResizeImage ? 'note-control-holder' : 'note-control-sizing'),
+        ' note-control-se"></div>',
+        (options.disableResizeImage ? '' : '<div class="note-control-selection-info"></div>'),
+        '</div>',
+        '</div>'
+      ].join('')).prependTo($editingArea);
+
+      this.$handle.on('mousedown', function (event) {
+        if (dom.isControlSizing(event.target)) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          var $target = self.$handle.find('.note-control-selection').data('target'),
+              posStart = $target.offset(),
+              scrollTop = $document.scrollTop();
+
+          $document.on('mousemove', function (event) {
+            context.invoke('editor.resizeTo', {
+              x: event.clientX - posStart.left,
+              y: event.clientY - (posStart.top - scrollTop)
+            }, $target, !event.shiftKey);
+
+            self.update($target[0]);
+          }).one('mouseup', function (e) {
+            e.preventDefault();
+            $document.off('mousemove');
+            context.invoke('editor.afterCommand');
+          });
+
+          if (!$target.data('ratio')) { // original ratio.
+            $target.data('ratio', $target.height() / $target.width());
+          }
+        }
+      });
+    };
+
+    this.destroy = function () {
+      this.$handle.remove();
+    };
+
+    this.update = function (target) {
+      var isImage = dom.isImg(target);
+      var $selection = this.$handle.find('.note-control-selection');
+
+      context.invoke('imagePopover.update', target);
+
+      if (isImage) {
+        var $image = $(target);
+        var pos = $image.position();
+
+        // include margin
+        var imageSize = {
+          w: $image.outerWidth(true),
+          h: $image.outerHeight(true)
+        };
+
+        $selection.css({
+          display: 'block',
+          left: pos.left,
+          top: pos.top,
+          width: imageSize.w,
+          height: imageSize.h
+        }).data('target', $image); // save current image element.
+
+        var sizingText = imageSize.w + 'x' + imageSize.h;
+        $selection.find('.note-control-selection-info').text(sizingText);
+        context.invoke('editor.saveTarget', target);
+      } else {
+        this.hide();
+      }
+
+      return isImage;
     };
 
     /**
-     * insert Images from file array.
+     * hide
      *
-     * @private
-     * @param {Object} layoutInfo
-     * @param {File[]} files
+     * @param {jQuery} $handle
      */
-    this.insertImages = function (layoutInfo, files) {
-      var $editor = layoutInfo.editor(),
-          $editable = layoutInfo.editable(),
-          $holder = layoutInfo.holder();
+    this.hide = function () {
+      context.invoke('editor.clearTarget');
+      this.$handle.children().hide();
+    };
+  };
 
-      var callbacks = $editable.data('callbacks');
-      var options = $editor.data('options');
+  var AutoLink = function (context) {
+    var self = this;
+    var defaultScheme = 'http://';
+    var linkPattern = /^(https?:\/\/|ssh:\/\/|ftp:\/\/|file:\/|mailto:[A-Z0-9._%+-]+@)?(www\.)?(.+)$/i;
 
-      // If onImageUpload options setted
-      if (callbacks.onImageUpload) {
-        bindCustomEvent($holder, callbacks, 'image.upload')(files);
-      // else insert Image as dataURL
-      } else {
-        $.each(files, function (idx, file) {
-          var filename = file.name;
-          if (options.maximumImageFileSize && options.maximumImageFileSize < file.size) {
-            bindCustomEvent($holder, callbacks, 'image.upload.error')(options.langInfo.image.maximumFileSizeError);
-          } else {
-            async.readFileAsDataURL(file).then(function (sDataURL) {
-              modules.editor.insertImage($editable, sDataURL, filename);
-            }).fail(function () {
-              bindCustomEvent($holder, callbacks, 'image.upload.error')(options.langInfo.image.maximumFileSizeError);
-            });
+    this.events = {
+      'summernote.keyup': function (we, e) {
+        if (!e.isDefaultPrevented()) {
+          self.handleKeyup(e);
+        }
+      },
+      'summernote.keydown': function (we, e) {
+        self.handleKeydown(e);
+      }
+    };
+
+    this.initialize = function () {
+      this.lastWordRange = null;
+    };
+
+    this.destroy = function () {
+      this.lastWordRange = null;
+    };
+
+    this.replace = function () {
+      if (!this.lastWordRange) {
+        return;
+      }
+
+      var keyword = this.lastWordRange.toString();
+      var match = keyword.match(linkPattern);
+
+      if (match && (match[1] || match[2])) {
+        var link = match[1] ? keyword : defaultScheme + keyword;
+        var node = $('<a />').html(keyword).attr('href', link)[0];
+
+        this.lastWordRange.insertNode(node);
+        this.lastWordRange = null;
+        context.invoke('editor.focus');
+      }
+
+    };
+
+    this.handleKeydown = function (e) {
+      if (list.contains([key.code.ENTER, key.code.SPACE], e.keyCode)) {
+        var wordRange = context.invoke('editor.createRange').getWordRange();
+        this.lastWordRange = wordRange;
+      }
+    };
+
+    this.handleKeyup = function (e) {
+      if (list.contains([key.code.ENTER, key.code.SPACE], e.keyCode)) {
+        this.replace();
+      }
+    };
+  };
+
+  /**
+   * textarea auto sync.
+   */
+  var AutoSync = function (context) {
+    var $note = context.layoutInfo.note;
+
+    this.events = {
+      'summernote.change': function () {
+        $note.val(context.invoke('code'));
+      }
+    };
+
+    this.shouldInitialize = function () {
+      return dom.isTextarea($note[0]);
+    };
+  };
+
+  var Placeholder = function (context) {
+    var self = this;
+    var $editingArea = context.layoutInfo.editingArea;
+    var options = context.options;
+
+    this.events = {
+      'summernote.init summernote.change': function () {
+        self.update();
+      },
+      'summernote.codeview.toggled': function () {
+        self.update();
+      }
+    };
+
+    this.shouldInitialize = function () {
+      return !!options.placeholder;
+    };
+
+    this.initialize = function () {
+      this.$placeholder = $('<div class="note-placeholder">');
+      this.$placeholder.on('click', function () {
+        context.invoke('focus');
+      }).text(options.placeholder).prependTo($editingArea);
+    };
+
+    this.destroy = function () {
+      this.$placeholder.remove();
+    };
+
+    this.update = function () {
+      var isShow = !context.invoke('codeview.isActivated') && context.invoke('editor.isEmpty');
+      this.$placeholder.toggle(isShow);
+    };
+  };
+
+  var Buttons = function (context) {
+    var self = this;
+    var ui = $.summernote.ui;
+
+    var $toolbar = context.layoutInfo.toolbar;
+    var options = context.options;
+    var lang = options.langInfo;
+
+    var invertedKeyMap = func.invertObject(options.keyMap[agent.isMac ? 'mac' : 'pc']);
+
+    var representShortcut = this.representShortcut = function (editorMethod) {
+      var shortcut = invertedKeyMap[editorMethod];
+      if (agent.isMac) {
+        shortcut = shortcut.replace('CMD', '⌘').replace('SHIFT', '⇧');
+      }
+
+      shortcut = shortcut.replace('BACKSLASH', '\\')
+                         .replace('SLASH', '/')
+                         .replace('LEFTBRACKET', '[')
+                         .replace('RIGHTBRACKET', ']');
+
+      return ' (' + shortcut + ')';
+    };
+
+    this.initialize = function () {
+      this.addToolbarButtons();
+      this.addImagePopoverButtons();
+      this.addLinkPopoverButtons();
+      this.fontInstalledMap = {};
+    };
+
+    this.destroy = function () {
+      delete this.fontInstalledMap;
+    };
+
+    this.isFontInstalled = function (name) {
+      if (!self.fontInstalledMap.hasOwnProperty(name)) {
+        self.fontInstalledMap[name] = agent.isFontInstalled(name) ||
+          list.contains(options.fontNamesIgnoreCheck, name);
+      }
+
+      return self.fontInstalledMap[name];
+    };
+
+    this.addToolbarButtons = function () {
+      context.memo('button.style', function () {
+        return ui.buttonGroup([
+          ui.button({
+            className: 'dropdown-toggle',
+            contents: ui.icon(options.icons.magic) + ' ' + ui.icon(options.icons.caret, 'span'),
+            tooltip: lang.style.style,
+            data: {
+              toggle: 'dropdown'
+            }
+          }),
+          ui.dropdown({
+            className: 'dropdown-style',
+            items: context.options.styleTags,
+            template: function (item) {
+
+              if (typeof item === 'string') {
+                item = { tag: item, title: item };
+              }
+
+              var tag = item.tag;
+              var title = item.title;
+              var style = item.style ? ' style="' + item.style + '" ' : '';
+              var className = item.className ? ' className="' + item.className + '"' : '';
+
+              return '<' + tag + style + className + '>' + title + '</' + tag +  '>';
+            },
+            click: context.createInvokeHandler('editor.formatBlock')
+          })
+        ]).render();
+      });
+
+      context.memo('button.bold', function () {
+        return ui.button({
+          className: 'note-btn-bold',
+          contents: ui.icon(options.icons.bold),
+          tooltip: lang.font.bold + representShortcut('bold'),
+          click: context.createInvokeHandler('editor.bold')
+        }).render();
+      });
+
+      context.memo('button.italic', function () {
+        return ui.button({
+          className: 'note-btn-italic',
+          contents: ui.icon(options.icons.italic),
+          tooltip: lang.font.italic + representShortcut('italic'),
+          click: context.createInvokeHandler('editor.italic')
+        }).render();
+      });
+
+      context.memo('button.underline', function () {
+        return ui.button({
+          className: 'note-btn-underline',
+          contents: ui.icon(options.icons.underline),
+          tooltip: lang.font.underline + representShortcut('underline'),
+          click: context.createInvokeHandler('editor.underline')
+        }).render();
+      });
+
+      context.memo('button.clear', function () {
+        return ui.button({
+          contents: ui.icon(options.icons.eraser),
+          tooltip: lang.font.clear + representShortcut('removeFormat'),
+          click: context.createInvokeHandler('editor.removeFormat')
+        }).render();
+      });
+
+      context.memo('button.strikethrough', function () {
+        return ui.button({
+          className: 'note-btn-strikethrough',
+          contents: ui.icon(options.icons.strikethrough),
+          tooltip: lang.font.strikethrough + representShortcut('strikethrough'),
+          click: context.createInvokeHandler('editor.strikethrough')
+        }).render();
+      });
+
+      context.memo('button.superscript', function () {
+        return ui.button({
+          className: 'note-btn-superscript',
+          contents: ui.icon(options.icons.superscript),
+          tooltip: lang.font.superscript,
+          click: context.createInvokeHandler('editor.superscript')
+        }).render();
+      });
+
+      context.memo('button.subscript', function () {
+        return ui.button({
+          className: 'note-btn-subscript',
+          contents: ui.icon(options.icons.subscript),
+          tooltip: lang.font.subscript,
+          click: context.createInvokeHandler('editor.subscript')
+        }).render();
+      });
+
+      context.memo('button.fontname', function () {
+        return ui.buttonGroup([
+          ui.button({
+            className: 'dropdown-toggle',
+            contents: '<span class="note-current-fontname"/> ' + ui.icon(options.icons.caret, 'span'),
+            tooltip: lang.font.name,
+            data: {
+              toggle: 'dropdown'
+            }
+          }),
+          ui.dropdownCheck({
+            className: 'dropdown-fontname',
+            checkClassName: options.icons.menuCheck,
+            items: options.fontNames.filter(self.isFontInstalled),
+            template: function (item) {
+              return '<span style="font-family:' + item + '">' + item + '</span>';
+            },
+            click: context.createInvokeHandler('editor.fontName')
+          })
+        ]).render();
+      });
+
+      context.memo('button.fontsize', function () {
+        return ui.buttonGroup([
+          ui.button({
+            className: 'dropdown-toggle',
+            contents: '<span class="note-current-fontsize"/>' + ui.icon(options.icons.caret, 'span'),
+            tooltip: lang.font.size,
+            data: {
+              toggle: 'dropdown'
+            }
+          }),
+          ui.dropdownCheck({
+            className: 'dropdown-fontsize',
+            checkClassName: options.icons.menuCheck,
+            items: options.fontSizes,
+            click: context.createInvokeHandler('editor.fontSize')
+          })
+        ]).render();
+      });
+
+      context.memo('button.color', function () {
+        return ui.buttonGroup({
+          className: 'note-color',
+          children: [
+            ui.button({
+              className: 'note-current-color-button',
+              contents: ui.icon(options.icons.font + ' note-recent-color'),
+              tooltip: lang.color.recent,
+              click: function (e) {
+                var $button = $(e.currentTarget);
+                context.invoke('editor.color', {
+                  backColor: $button.attr('data-backColor'),
+                  foreColor: $button.attr('data-foreColor')
+                });
+              },
+              callback: function ($button) {
+                var $recentColor = $button.find('.note-recent-color');
+                $recentColor.css('background-color', '#FFFF00');
+                $button.attr('data-backColor', '#FFFF00');
+              }
+            }),
+            ui.button({
+              className: 'dropdown-toggle',
+              contents: ui.icon(options.icons.caret, 'span'),
+              tooltip: lang.color.more,
+              data: {
+                toggle: 'dropdown'
+              }
+            }),
+            ui.dropdown({
+              items: [
+                '<li>',
+                '<div class="btn-group">',
+                '  <div class="note-palette-title">' + lang.color.background + '</div>',
+                '  <div>',
+                '    <button type="button" class="note-color-reset btn btn-default" data-event="backColor" data-value="inherit">',
+                lang.color.transparent,
+                '    </button>',
+                '  </div>',
+                '  <div class="note-holder" data-event="backColor"/>',
+                '</div>',
+                '<div class="btn-group">',
+                '  <div class="note-palette-title">' + lang.color.foreground + '</div>',
+                '  <div>',
+                '    <button type="button" class="note-color-reset btn btn-default" data-event="removeFormat" data-value="foreColor">',
+                lang.color.resetToDefault,
+                '    </button>',
+                '  </div>',
+                '  <div class="note-holder" data-event="foreColor"/>',
+                '</div>',
+                '</li>'
+              ].join(''),
+              callback: function ($dropdown) {
+                $dropdown.find('.note-holder').each(function () {
+                  var $holder = $(this);
+                  $holder.append(ui.palette({
+                    colors: options.colors,
+                    eventName: $holder.data('event')
+                  }).render());
+                });
+              },
+              click: function (event) {
+                var $button = $(event.target);
+                var eventName = $button.data('event');
+                var value = $button.data('value');
+
+                if (eventName && value) {
+                  var key = eventName === 'backColor' ? 'background-color' : 'color';
+                  var $color = $button.closest('.note-color').find('.note-recent-color');
+                  var $currentButton = $button.closest('.note-color').find('.note-current-color-button');
+
+                  $color.css(key, value);
+                  $currentButton.attr('data-' + eventName, value);
+                  context.invoke('editor.' + eventName, value);
+                }
+              }
+            })
+          ]
+        }).render();
+      });
+
+      context.memo('button.ul',  function () {
+        return ui.button({
+          contents: ui.icon(options.icons.unorderedlist),
+          tooltip: lang.lists.unordered + representShortcut('insertUnorderedList'),
+          click: context.createInvokeHandler('editor.insertUnorderedList')
+        }).render();
+      });
+
+      context.memo('button.ol', function () {
+        return ui.button({
+          contents: ui.icon(options.icons.orderedlist),
+          tooltip: lang.lists.ordered + representShortcut('insertOrderedList'),
+          click:  context.createInvokeHandler('editor.insertOrderedList')
+        }).render();
+      });
+
+      var justifyLeft = ui.button({
+        contents: ui.icon(options.icons.alignLeft),
+        tooltip: lang.paragraph.left + representShortcut('justifyLeft'),
+        click: context.createInvokeHandler('editor.justifyLeft')
+      });
+
+      var justifyCenter = ui.button({
+        contents: ui.icon(options.icons.alignCenter),
+        tooltip: lang.paragraph.center + representShortcut('justifyCenter'),
+        click: context.createInvokeHandler('editor.justifyCenter')
+      });
+
+      var justifyRight = ui.button({
+        contents: ui.icon(options.icons.alignRight),
+        tooltip: lang.paragraph.right + representShortcut('justifyRight'),
+        click: context.createInvokeHandler('editor.justifyRight')
+      });
+
+      var justifyFull = ui.button({
+        contents: ui.icon(options.icons.alignJustify),
+        tooltip: lang.paragraph.justify + representShortcut('justifyFull'),
+        click: context.createInvokeHandler('editor.justifyFull')
+      });
+
+      var outdent = ui.button({
+        contents: ui.icon(options.icons.outdent),
+        tooltip: lang.paragraph.outdent + representShortcut('outdent'),
+        click: context.createInvokeHandler('editor.outdent')
+      });
+
+      var indent = ui.button({
+        contents: ui.icon(options.icons.indent),
+        tooltip: lang.paragraph.indent + representShortcut('indent'),
+        click: context.createInvokeHandler('editor.indent')
+      });
+
+      context.memo('button.justifyLeft', func.invoke(justifyLeft, 'render'));
+      context.memo('button.justifyCenter', func.invoke(justifyCenter, 'render'));
+      context.memo('button.justifyRight', func.invoke(justifyRight, 'render'));
+      context.memo('button.justifyFull', func.invoke(justifyFull, 'render'));
+      context.memo('button.outdent', func.invoke(outdent, 'render'));
+      context.memo('button.indent', func.invoke(indent, 'render'));
+
+      context.memo('button.paragraph', function () {
+        return ui.buttonGroup([
+          ui.button({
+            className: 'dropdown-toggle',
+            contents: ui.icon(options.icons.alignLeft) + ' ' + ui.icon(options.icons.caret, 'span'),
+            tooltip: lang.paragraph.paragraph,
+            data: {
+              toggle: 'dropdown'
+            }
+          }),
+          ui.dropdown([
+            ui.buttonGroup({
+              className: 'note-align',
+              children: [justifyLeft, justifyCenter, justifyRight, justifyFull]
+            }),
+            ui.buttonGroup({
+              className: 'note-list',
+              children: [outdent, indent]
+            })
+          ])
+        ]).render();
+      });
+
+      context.memo('button.height', function () {
+        return ui.buttonGroup([
+          ui.button({
+            className: 'dropdown-toggle',
+            contents: ui.icon(options.icons.textHeight) + ' ' + ui.icon(options.icons.caret, 'span'),
+            tooltip: lang.font.height,
+            data: {
+              toggle: 'dropdown'
+            }
+          }),
+          ui.dropdownCheck({
+            items: options.lineHeights,
+            checkClassName: options.icons.menuCheck,
+            className: 'dropdown-line-height',
+            click: context.createInvokeHandler('editor.lineHeight')
+          })
+        ]).render();
+      });
+
+      context.memo('button.table', function () {
+        return ui.buttonGroup([
+          ui.button({
+            className: 'dropdown-toggle',
+            contents: ui.icon(options.icons.table) + ' ' + ui.icon(options.icons.caret, 'span'),
+            tooltip: lang.table.table,
+            data: {
+              toggle: 'dropdown'
+            }
+          }),
+          ui.dropdown({
+            className: 'note-table',
+            items: [
+              '<div class="note-dimension-picker">',
+              '  <div class="note-dimension-picker-mousecatcher" data-event="insertTable" data-value="1x1"/>',
+              '  <div class="note-dimension-picker-highlighted"/>',
+              '  <div class="note-dimension-picker-unhighlighted"/>',
+              '</div>',
+              '<div class="note-dimension-display">1 x 1</div>'
+            ].join('')
+          })
+        ], {
+          callback: function ($node) {
+            var $catcher = $node.find('.note-dimension-picker-mousecatcher');
+            $catcher.css({
+              width: options.insertTableMaxSize.col + 'em',
+              height: options.insertTableMaxSize.row + 'em'
+            }).mousedown(context.createInvokeHandler('editor.insertTable'))
+              .on('mousemove', self.tableMoveHandler);
           }
+        }).render();
+      });
+
+      context.memo('button.link', function () {
+        return ui.button({
+          contents: ui.icon(options.icons.link),
+          tooltip: lang.link.link,
+          click: context.createInvokeHandler('linkDialog.show')
+        }).render();
+      });
+
+      context.memo('button.picture', function () {
+        return ui.button({
+          contents: ui.icon(options.icons.picture),
+          tooltip: lang.image.image,
+          click: context.createInvokeHandler('imageDialog.show')
+        }).render();
+      });
+
+      context.memo('button.video', function () {
+        return ui.button({
+          contents: ui.icon(options.icons.video),
+          tooltip: lang.video.video,
+          click: context.createInvokeHandler('videoDialog.show')
+        }).render();
+      });
+
+      context.memo('button.hr', function () {
+        return ui.button({
+          contents: ui.icon(options.icons.minus),
+          tooltip: lang.hr.insert + representShortcut('insertHorizontalRule'),
+          click: context.createInvokeHandler('editor.insertHorizontalRule')
+        }).render();
+      });
+
+      context.memo('button.fullscreen', function () {
+        return ui.button({
+          className: 'btn-fullscreen',
+          contents: ui.icon(options.icons.arrowsAlt),
+          tooltip: lang.options.fullscreen,
+          click: context.createInvokeHandler('fullscreen.toggle')
+        }).render();
+      });
+
+      context.memo('button.codeview', function () {
+        return ui.button({
+          className: 'btn-codeview',
+          contents: ui.icon(options.icons.code),
+          tooltip: lang.options.codeview,
+          click: context.createInvokeHandler('codeview.toggle')
+        }).render();
+      });
+
+      context.memo('button.redo', function () {
+        return ui.button({
+          contents: ui.icon(options.icons.redo),
+          tooltip: lang.history.redo + representShortcut('redo'),
+          click: context.createInvokeHandler('editor.redo')
+        }).render();
+      });
+
+      context.memo('button.undo', function () {
+        return ui.button({
+          contents: ui.icon(options.icons.undo),
+          tooltip: lang.history.undo + representShortcut('undo'),
+          click: context.createInvokeHandler('editor.undo')
+        }).render();
+      });
+
+      context.memo('button.help', function () {
+        return ui.button({
+          contents: ui.icon(options.icons.question),
+          tooltip: lang.options.help,
+          click: context.createInvokeHandler('helpDialog.show')
+        }).render();
+      });
+    };
+
+    /**
+     * image : [
+     *   ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
+     *   ['float', ['floatLeft', 'floatRight', 'floatNone' ]],
+     *   ['remove', ['removeMedia']]
+     * ],
+     */
+    this.addImagePopoverButtons = function () {
+      // Image Size Buttons
+      context.memo('button.imageSize100', function () {
+        return ui.button({
+          contents: '<span class="note-fontsize-10">100%</span>',
+          tooltip: lang.image.resizeFull,
+          click: context.createInvokeHandler('editor.resize', '1')
+        }).render();
+      });
+      context.memo('button.imageSize50', function () {
+        return  ui.button({
+          contents: '<span class="note-fontsize-10">50%</span>',
+          tooltip: lang.image.resizeHalf,
+          click: context.createInvokeHandler('editor.resize', '0.5')
+        }).render();
+      });
+      context.memo('button.imageSize25', function () {
+        return ui.button({
+          contents: '<span class="note-fontsize-10">25%</span>',
+          tooltip: lang.image.resizeQuarter,
+          click: context.createInvokeHandler('editor.resize', '0.25')
+        }).render();
+      });
+
+      // Float Buttons
+      context.memo('button.floatLeft', function () {
+        return ui.button({
+          contents: ui.icon(options.icons.alignLeft),
+          tooltip: lang.image.floatLeft,
+          click: context.createInvokeHandler('editor.floatMe', 'left')
+        }).render();
+      });
+
+      context.memo('button.floatRight', function () {
+        return ui.button({
+          contents: ui.icon(options.icons.alignRight),
+          tooltip: lang.image.floatRight,
+          click: context.createInvokeHandler('editor.floatMe', 'right')
+        }).render();
+      });
+
+      context.memo('button.floatNone', function () {
+        return ui.button({
+          contents: ui.icon(options.icons.alignJustify),
+          tooltip: lang.image.floatNone,
+          click: context.createInvokeHandler('editor.floatMe', 'none')
+        }).render();
+      });
+
+      // Remove Buttons
+      context.memo('button.removeMedia', function () {
+        return ui.button({
+          contents: ui.icon(options.icons.trash),
+          tooltip: lang.image.remove,
+          click: context.createInvokeHandler('editor.removeMedia')
+        }).render();
+      });
+    };
+
+    this.addLinkPopoverButtons = function () {
+      context.memo('button.linkDialogShow', function () {
+        return ui.button({
+          contents: ui.icon(options.icons.link),
+          tooltip: lang.link.edit,
+          click: context.createInvokeHandler('linkDialog.show')
+        }).render();
+      });
+
+      context.memo('button.unlink', function () {
+        return ui.button({
+          contents: ui.icon(options.icons.unlink),
+          tooltip: lang.link.unlink,
+          click: context.createInvokeHandler('editor.unlink')
+        }).render();
+      });
+    };
+
+    this.build = function ($container, groups) {
+      for (var groupIdx = 0, groupLen = groups.length; groupIdx < groupLen; groupIdx++) {
+        var group = groups[groupIdx];
+        var groupName = group[0];
+        var buttons = group[1];
+
+        var $group = ui.buttonGroup({
+          className: 'note-' + groupName
+        }).render();
+
+        for (var idx = 0, len = buttons.length; idx < len; idx++) {
+          var button = context.memo('button.' + buttons[idx]);
+          if (button) {
+            $group.append(typeof button === 'function' ? button(context) : button);
+          }
+        }
+        $group.appendTo($container);
+      }
+    };
+
+    this.updateCurrentStyle = function () {
+      var styleInfo = context.invoke('editor.currentStyle');
+      this.updateBtnStates({
+        '.note-btn-bold': function () {
+          return styleInfo['font-bold'] === 'bold';
+        },
+        '.note-btn-italic': function () {
+          return styleInfo['font-italic'] === 'italic';
+        },
+        '.note-btn-underline': function () {
+          return styleInfo['font-underline'] === 'underline';
+        },
+        '.note-btn-subscript': function () {
+          return styleInfo['font-subscript'] === 'subscript';
+        },
+        '.note-btn-superscript': function () {
+          return styleInfo['font-superscript'] === 'superscript';
+        },
+        '.note-btn-strikethrough': function () {
+          return styleInfo['font-strikethrough'] === 'strikethrough';
+        }
+      });
+
+      if (styleInfo['font-family']) {
+        var fontNames = styleInfo['font-family'].split(',').map(function (name) {
+          return name.replace(/[\'\"]/g, '')
+            .replace(/\s+$/, '')
+            .replace(/^\s+/, '');
+        });
+        var fontName = list.find(fontNames, self.isFontInstalled);
+
+        $toolbar.find('.dropdown-fontname li a').each(function () {
+          // always compare string to avoid creating another func.
+          var isChecked = ($(this).data('value') + '') === (fontName + '');
+          this.className = isChecked ? 'checked' : '';
+        });
+        $toolbar.find('.note-current-fontname').text(fontName);
+      }
+
+      if (styleInfo['font-size']) {
+        var fontSize = styleInfo['font-size'];
+        $toolbar.find('.dropdown-fontsize li a').each(function () {
+          // always compare with string to avoid creating another func.
+          var isChecked = ($(this).data('value') + '') === (fontSize + '');
+          this.className = isChecked ? 'checked' : '';
+        });
+        $toolbar.find('.note-current-fontsize').text(fontSize);
+      }
+
+      if (styleInfo['line-height']) {
+        var lineHeight = styleInfo['line-height'];
+        $toolbar.find('.dropdown-line-height li a').each(function () {
+          // always compare with string to avoid creating another func.
+          var isChecked = ($(this).data('value') + '') === (lineHeight + '');
+          this.className = isChecked ? 'checked' : '';
         });
       }
     };
 
-    var commands = {
-      /**
-       * @param {Object} layoutInfo
-       */
-      showLinkDialog: function (layoutInfo) {
-        modules.linkDialog.show(layoutInfo);
-      },
-
-      /**
-       * @param {Object} layoutInfo
-       */
-      showImageDialog: function (layoutInfo) {
-        modules.imageDialog.show(layoutInfo);
-      },
-
-      /**
-       * @param {Object} layoutInfo
-       */
-      showHelpDialog: function (layoutInfo) {
-        modules.helpDialog.show(layoutInfo);
-      },
-
-      /**
-       * @param {Object} layoutInfo
-       */
-      fullscreen: function (layoutInfo) {
-        modules.fullscreen.toggle(layoutInfo);
-      },
-
-      /**
-       * @param {Object} layoutInfo
-       */
-      codeview: function (layoutInfo) {
-        modules.codeview.toggle(layoutInfo);
-      }
+    this.updateBtnStates = function (infos) {
+      $.each(infos, function (selector, pred) {
+        ui.toggleBtnActive($toolbar.find(selector), pred());
+      });
     };
 
-    var hMousedown = function (event) {
-      //preventDefault Selection for FF, IE8+
-      if (dom.isImg(event.target)) {
-        event.preventDefault();
-      }
-    };
-
-    var hKeyupAndMouseup = function (event) {
-      var layoutInfo = dom.makeLayoutInfo(event.currentTarget || event.target);
-      modules.editor.removeBogus(layoutInfo.editable());
-      hToolbarAndPopoverUpdate(event);
-    };
-
-    /**
-     * update sytle info
-     * @param {Object} styleInfo
-     * @param {Object} layoutInfo
-     */
-    this.updateStyleInfo = function (styleInfo, layoutInfo) {
-      if (!styleInfo) {
-        return;
-      }
-      var isAirMode = layoutInfo.editor().data('options').airMode;
-      if (!isAirMode) {
-        modules.toolbar.update(layoutInfo.toolbar(), styleInfo);
-      }
-
-      modules.popover.update(layoutInfo.popover(), styleInfo, isAirMode);
-      modules.handle.update(layoutInfo.handle(), styleInfo, isAirMode);
-    };
-
-    var hToolbarAndPopoverUpdate = function (event) {
-      var target = event.target;
-      // delay for range after mouseup
-      setTimeout(function () {
-        var layoutInfo = dom.makeLayoutInfo(target);
-        var styleInfo = modules.editor.currentStyle(target);
-        self.updateStyleInfo(styleInfo, layoutInfo);
-      }, 0);
-    };
-
-    var hScroll = function (event) {
-      var layoutInfo = dom.makeLayoutInfo(event.currentTarget || event.target);
-      //hide popover and handle when scrolled
-      modules.popover.hide(layoutInfo.popover());
-      modules.handle.hide(layoutInfo.handle());
-    };
-
-    var hToolbarAndPopoverMousedown = function (event) {
-      // prevent default event when insertTable (FF, Webkit)
-      var $btn = $(event.target).closest('[data-event]');
-      if ($btn.length) {
-        event.preventDefault();
-      }
-    };
-
-    var hToolbarAndPopoverClick = function (event) {
-      var $btn = $(event.target).closest('[data-event]');
-
-      if (!$btn.length) {
-        return;
-      }
-
-      var eventName = $btn.attr('data-event'),
-          value = $btn.attr('data-value'),
-          hide = $btn.attr('data-hide');
-
-      var layoutInfo = dom.makeLayoutInfo(event.target);
-
-      // before command: detect control selection element($target)
-      var $target;
-      if ($.inArray(eventName, ['resize', 'floatMe', 'removeMedia', 'imageShape']) !== -1) {
-        var $selection = layoutInfo.handle().find('.note-control-selection');
-        $target = $($selection.data('target'));
-      }
-
-      // If requested, hide the popover when the button is clicked.
-      // Useful for things like showHelpDialog.
-      if (hide) {
-        $btn.parents('.popover').hide();
-      }
-
-      if ($.isFunction($.summernote.pluginEvents[eventName])) {
-        $.summernote.pluginEvents[eventName](event, modules.editor, layoutInfo, value);
-      } else if (modules.editor[eventName]) { // on command
-        var $editable = layoutInfo.editable();
-        $editable.focus();
-        modules.editor[eventName]($editable, value, $target);
-        event.preventDefault();
-      } else if (commands[eventName]) {
-        commands[eventName].call(this, layoutInfo);
-        event.preventDefault();
-      }
-
-      // after command
-      if ($.inArray(eventName, ['backColor', 'foreColor']) !== -1) {
-        var options = layoutInfo.editor().data('options', options);
-        var module = options.airMode ? modules.popover : modules.toolbar;
-        module.updateRecentColor(list.head($btn), eventName, value);
-      }
-
-      hToolbarAndPopoverUpdate(event);
-    };
-
-    var PX_PER_EM = 18;
-    var hDimensionPickerMove = function (event, options) {
+    this.tableMoveHandler = function (event) {
+      var PX_PER_EM = 18;
       var $picker = $(event.target.parentNode); // target is mousecatcher
       var $dimensionDisplay = $picker.next();
       var $catcher = $picker.find('.note-dimension-picker-mousecatcher');
@@ -41913,7 +41883,7 @@ S2.define('jquery.mousewheel',[
       };
 
       $highlighted.css({ width: dim.c + 'em', height: dim.r + 'em' });
-      $catcher.attr('data-value', dim.c + 'x' + dim.r);
+      $catcher.data('value', dim.c + 'x' + dim.r);
 
       if (3 < dim.c && dim.c < options.insertTableMaxSize.col) {
         $unhighlighted.css({ width: dim.c + 1 + 'em'});
@@ -41925,1550 +41895,1221 @@ S2.define('jquery.mousewheel',[
 
       $dimensionDisplay.html(dim.c + ' x ' + dim.r);
     };
-    
-    /**
-     * bind KeyMap on keydown
-     *
-     * @param {Object} layoutInfo
-     * @param {Object} keyMap
-     */
-    this.bindKeyMap = function (layoutInfo, keyMap) {
-      var $editor = layoutInfo.editor();
-      var $editable = layoutInfo.editable();
+  };
 
-      $editable.on('keydown', function (event) {
-        var keys = [];
+  var Toolbar = function (context) {
+    var ui = $.summernote.ui;
 
-        // modifier
-        if (event.metaKey) { keys.push('CMD'); }
-        if (event.ctrlKey && !event.altKey) { keys.push('CTRL'); }
-        if (event.shiftKey) { keys.push('SHIFT'); }
+    var $note = context.layoutInfo.note;
+    var $toolbar = context.layoutInfo.toolbar;
+    var options = context.options;
 
-        // keycode
-        var keyName = key.nameFromCode[event.keyCode];
-        if (keyName) {
-          keys.push(keyName);
-        }
-
-        var pluginEvent;
-        var keyString = keys.join('+');
-        var eventName = keyMap[keyString];
-        if (eventName) {
-          // FIXME Summernote doesn't support event pipeline yet.
-          //  - Plugin -> Base Code
-          pluginEvent = $.summernote.pluginEvents[keyString];
-          if ($.isFunction(pluginEvent)) {
-            if (pluginEvent(event, modules.editor, layoutInfo)) {
-              return false;
-            }
-          }
-
-          pluginEvent = $.summernote.pluginEvents[eventName];
-
-          if ($.isFunction(pluginEvent)) {
-            pluginEvent(event, modules.editor, layoutInfo);
-          } else if (modules.editor[eventName]) {
-            modules.editor[eventName]($editable, $editor.data('options'));
-            event.preventDefault();
-          } else if (commands[eventName]) {
-            commands[eventName].call(this, layoutInfo);
-            event.preventDefault();
-          }
-        } else if (key.isEdit(event.keyCode)) {
-          modules.editor.afterCommand($editable);
-        }
-      });
+    this.shouldInitialize = function () {
+      return !options.airMode;
     };
 
-    /**
-     * attach eventhandler
-     *
-     * @param {Object} layoutInfo - layout Informations
-     * @param {Object} options - user options include custom event handlers
-     */
-    this.attach = function (layoutInfo, options) {
-      // handlers for editable
-      if (options.shortcuts) {
-        this.bindKeyMap(layoutInfo, options.keyMap[agent.isMac ? 'mac' : 'pc']);
-      }
-      layoutInfo.editable().on('mousedown', hMousedown);
-      layoutInfo.editable().on('keyup mouseup', hKeyupAndMouseup);
-      layoutInfo.editable().on('scroll', hScroll);
+    this.initialize = function () {
+      options.toolbar = options.toolbar || [];
 
-      // handler for clipboard
-      modules.clipboard.attach(layoutInfo, options);
-
-      // handler for handle and popover
-      modules.handle.attach(layoutInfo, options);
-      layoutInfo.popover().on('click', hToolbarAndPopoverClick);
-      layoutInfo.popover().on('mousedown', hToolbarAndPopoverMousedown);
-
-      // handler for drag and drop
-      modules.dragAndDrop.attach(layoutInfo, options);
-
-      // handlers for frame mode (toolbar, statusbar)
-      if (!options.airMode) {
-        // handler for toolbar
-        layoutInfo.toolbar().on('click', hToolbarAndPopoverClick);
-        layoutInfo.toolbar().on('mousedown', hToolbarAndPopoverMousedown);
-
-        // handler for statusbar
-        modules.statusbar.attach(layoutInfo, options);
+      if (!options.toolbar.length) {
+        $toolbar.hide();
+      } else {
+        context.invoke('buttons.build', $toolbar, options.toolbar);
       }
 
-      // handler for table dimension
-      var $catcherContainer = options.airMode ? layoutInfo.popover() :
-                                                layoutInfo.toolbar();
-      var $catcher = $catcherContainer.find('.note-dimension-picker-mousecatcher');
-      $catcher.css({
-        width: options.insertTableMaxSize.col + 'em',
-        height: options.insertTableMaxSize.row + 'em'
-      }).on('mousemove', function (event) {
-        hDimensionPickerMove(event, options);
+      if (options.toolbarContainer) {
+        $toolbar.appendTo(options.toolbarContainer);
+      }
+
+      $note.on('summernote.keyup summernote.mouseup summernote.change', function () {
+        context.invoke('buttons.updateCurrentStyle');
       });
 
-      // save options on editor
-      layoutInfo.editor().data('options', options);
-
-      // ret styleWithCSS for backColor / foreColor clearing with 'inherit'.
-      if (!agent.isMSIE) {
-        // [workaround] for Firefox
-        //  - protect FF Error: NS_ERROR_FAILURE: Failure
-        setTimeout(function () {
-          document.execCommand('styleWithCSS', 0, options.styleWithSpan);
-        }, 0);
-      }
-
-      // History
-      var history = new History(layoutInfo.editable());
-      layoutInfo.editable().data('NoteHistory', history);
-
-      // All editor status will be saved on editable with jquery's data
-      // for support multiple editor with singleton object.
-      layoutInfo.editable().data('callbacks', {
-        onInit: options.onInit,
-        onFocus: options.onFocus,
-        onBlur: options.onBlur,
-        onKeydown: options.onKeydown,
-        onKeyup: options.onKeyup,
-        onMousedown: options.onMousedown,
-        onEnter: options.onEnter,
-        onPaste: options.onPaste,
-        onBeforeCommand: options.onBeforeCommand,
-        onChange: options.onChange,
-        onImageUpload: options.onImageUpload,
-        onImageUploadError: options.onImageUploadError,
-        onMediaDelete: options.onMediaDelete,
-        onToolbarClick: options.onToolbarClick
-      });
-
-      var styleInfo = modules.editor.styleFromNode(layoutInfo.editable());
-      this.updateStyleInfo(styleInfo, layoutInfo);
+      context.invoke('buttons.updateCurrentStyle');
     };
 
-    /**
-     * attach jquery custom event
-     *
-     * @param {Object} layoutInfo - layout Informations
-     */
-    this.attachCustomEvent = function (layoutInfo, options) {
-      var $holder = layoutInfo.holder();
-      var $editable = layoutInfo.editable();
-      var callbacks = $editable.data('callbacks');
+    this.destroy = function () {
+      $toolbar.children().remove();
+    };
 
-      $editable.focus(bindCustomEvent($holder, callbacks, 'focus'));
-      $editable.blur(bindCustomEvent($holder, callbacks, 'blur'));
+    this.updateFullscreen = function (isFullscreen) {
+      ui.toggleBtnActive($toolbar.find('.btn-fullscreen'), isFullscreen);
+    };
 
-      $editable.keydown(function (event) {
-        if (event.keyCode === key.code.ENTER) {
-          bindCustomEvent($holder, callbacks, 'enter').call(this, event);
-        }
-        bindCustomEvent($holder, callbacks, 'keydown').call(this, event);
-      });
-      $editable.keyup(bindCustomEvent($holder, callbacks, 'keyup'));
-
-      $editable.on('mousedown', bindCustomEvent($holder, callbacks, 'mousedown'));
-      $editable.on('mouseup', bindCustomEvent($holder, callbacks, 'mouseup'));
-      $editable.on('scroll', bindCustomEvent($holder, callbacks, 'scroll'));
-
-      $editable.on('paste', bindCustomEvent($holder, callbacks, 'paste'));
-      
-      // [workaround] IE doesn't have input events for contentEditable
-      //  - see: https://goo.gl/4bfIvA
-      var changeEventName = agent.isMSIE ? 'DOMCharacterDataModified DOMSubtreeModified DOMNodeInserted' : 'input';
-      $editable.on(changeEventName, function () {
-        bindCustomEvent($holder, callbacks, 'change')($editable.html(), $editable);
-      });
-
-      if (!options.airMode) {
-        layoutInfo.toolbar().click(bindCustomEvent($holder, callbacks, 'toolbar.click'));
-        layoutInfo.popover().click(bindCustomEvent($holder, callbacks, 'popover.click'));
-      }
-
-      // Textarea: auto filling the code before form submit.
-      if (dom.isTextarea(list.head($holder))) {
-        $holder.closest('form').submit(function (e) {
-          layoutInfo.holder().val(layoutInfo.holder().code());
-          bindCustomEvent($holder, callbacks, 'submit').call(this, e, $holder.code());
-        });
-      }
-
-      // textarea auto sync
-      if (dom.isTextarea(list.head($holder)) && options.textareaAutoSync) {
-        $holder.on('summernote.change', function () {
-          layoutInfo.holder().val(layoutInfo.holder().code());
-        });
-      }
-
-      // fire init event
-      bindCustomEvent($holder, callbacks, 'init')(layoutInfo);
-
-      // fire plugin init event
-      for (var i = 0, len = $.summernote.plugins.length; i < len; i++) {
-        if ($.isFunction($.summernote.plugins[i].init)) {
-          $.summernote.plugins[i].init(layoutInfo);
-        }
+    this.updateCodeview = function (isCodeview) {
+      ui.toggleBtnActive($toolbar.find('.btn-codeview'), isCodeview);
+      if (isCodeview) {
+        this.deactivate();
+      } else {
+        this.activate();
       }
     };
-      
-    this.detach = function (layoutInfo, options) {
-      layoutInfo.holder().off();
-      layoutInfo.editable().off();
 
-      layoutInfo.popover().off();
-      layoutInfo.handle().off();
-      layoutInfo.dialog().off();
-
-      if (!options.airMode) {
-        layoutInfo.dropzone().off();
-        layoutInfo.toolbar().off();
-        layoutInfo.statusbar().off();
+    this.activate = function (isIncludeCodeview) {
+      var $btn = $toolbar.find('button');
+      if (!isIncludeCodeview) {
+        $btn = $btn.not('.btn-codeview');
       }
+      ui.toggleBtn($btn, true);
+    };
+
+    this.deactivate = function (isIncludeCodeview) {
+      var $btn = $toolbar.find('button');
+      if (!isIncludeCodeview) {
+        $btn = $btn.not('.btn-codeview');
+      }
+      ui.toggleBtn($btn, false);
     };
   };
 
-  /**
-   * @class Renderer
-   *
-   * renderer
-   *
-   * rendering toolbar and editable
-   */
-  var Renderer = function () {
+  var LinkDialog = function (context) {
+    var self = this;
+    var ui = $.summernote.ui;
 
-    /**
-     * bootstrap button template
-     * @private
-     * @param {String} label button name
-     * @param {Object} [options] button options
-     * @param {String} [options.event] data-event
-     * @param {String} [options.className] button's class name
-     * @param {String} [options.value] data-value
-     * @param {String} [options.title] button's title for popup
-     * @param {String} [options.dropdown] dropdown html
-     * @param {String} [options.hide] data-hide
-     */
-    var tplButton = function (label, options) {
-      var event = options.event;
-      var value = options.value;
-      var title = options.title;
-      var className = options.className;
-      var dropdown = options.dropdown;
-      var hide = options.hide;
+    var $editor = context.layoutInfo.editor;
+    var options = context.options;
+    var lang = options.langInfo;
 
-      return (dropdown ? '<div class="btn-group' +
-               (className ? ' ' + className : '') + '">' : '') +
-               '<button type="button"' +
-                 ' class="btn btn-default btn-sm' +
-                   ((!dropdown && className) ? ' ' + className : '') +
-                   (dropdown ? ' dropdown-toggle' : '') +
-                 '"' +
-                 (dropdown ? ' data-toggle="dropdown"' : '') +
-                 (title ? ' title="' + title + '"' : '') +
-                 (event ? ' data-event="' + event + '"' : '') +
-                 (value ? ' data-value=\'' + value + '\'' : '') +
-                 (hide ? ' data-hide=\'' + hide + '\'' : '') +
-                 ' tabindex="-1">' +
-                 label +
-                 (dropdown ? ' <span class="caret"></span>' : '') +
-               '</button>' +
-               (dropdown || '') +
-             (dropdown ? '</div>' : '');
-    };
+    this.initialize = function () {
+      var $container = options.dialogsInBody ? $(document.body) : $editor;
 
-    /**
-     * bootstrap icon button template
-     * @private
-     * @param {String} iconClassName
-     * @param {Object} [options]
-     * @param {String} [options.event]
-     * @param {String} [options.value]
-     * @param {String} [options.title]
-     * @param {String} [options.dropdown]
-     */
-    var tplIconButton = function (iconClassName, options) {
-      var label = '<i class="' + iconClassName + '"></i>';
-      return tplButton(label, options);
-    };
-
-    /**
-     * bootstrap popover template
-     * @private
-     * @param {String} className
-     * @param {String} content
-     */
-    var tplPopover = function (className, content) {
-      var $popover = $('<div class="' + className + ' popover bottom in" style="display: none;">' +
-               '<div class="arrow"></div>' +
-               '<div class="popover-content">' +
-               '</div>' +
-             '</div>');
-
-      $popover.find('.popover-content').append(content);
-      return $popover;
-    };
-
-    /**
-     * bootstrap dialog template
-     *
-     * @param {String} className
-     * @param {String} [title='']
-     * @param {String} body
-     * @param {String} [footer='']
-     */
-    var tplDialog = function (className, title, body, footer) {
-      return '<div class="' + className + ' modal" aria-hidden="false">' +
-               '<div class="modal-dialog">' +
-                 '<div class="modal-content">' +
-                   (title ?
-                   '<div class="modal-header">' +
-                     '<button type="button" class="close" aria-hidden="true" tabindex="-1">&times;</button>' +
-                     '<h4 class="modal-title">' + title + '</h4>' +
-                   '</div>' : ''
-                   ) +
-                   '<div class="modal-body">' + body + '</div>' +
-                   (footer ?
-                   '<div class="modal-footer">' + footer + '</div>' : ''
-                   ) +
+      var body = '<div class="form-group">' +
+                   '<label>' + lang.link.textToDisplay + '</label>' +
+                   '<input class="note-link-text form-control" type="text" />' +
                  '</div>' +
-               '</div>' +
-             '</div>';
+                 '<div class="form-group">' +
+                   '<label>' + lang.link.url + '</label>' +
+                   '<input class="note-link-url form-control" type="text" value="http://" />' +
+                 '</div>' +
+                 (!options.disableLinkTarget ?
+                   '<div class="checkbox">' +
+                     '<label>' + '<input type="checkbox" checked> ' + lang.link.openInNewWindow + '</label>' +
+                   '</div>' : ''
+                 );
+      var footer = '<button href="#" class="btn btn-primary note-link-btn disabled" disabled>' + lang.link.insert + '</button>';
+
+      this.$dialog = ui.dialog({
+        className: 'link-dialog',
+        title: lang.link.insert,
+        fade: options.dialogsFade,
+        body: body,
+        footer: footer
+      }).render().appendTo($container);
     };
 
-    /**
-     * bootstrap dropdown template
-     *
-     * @param {String|String[]} contents
-     * @param {String} [className='']
-     * @param {String} [nodeName='']
-     */
-    var tplDropdown = function (contents, className, nodeName) {
-      var classes = 'dropdown-menu' + (className ? ' ' + className : '');
-      nodeName = nodeName || 'ul';
-      if (contents instanceof Array) {
-        contents = contents.join('');
-      }
-
-      return '<' + nodeName + ' class="' + classes + '">' + contents + '</' + nodeName + '>';
+    this.destroy = function () {
+      ui.hideDialog(this.$dialog);
+      this.$dialog.remove();
     };
 
-    var tplButtonInfo = {
-      picture: function (lang, options) {
-        return tplIconButton(options.iconPrefix + options.icons.image.image, {
-          event: 'showImageDialog',
-          title: lang.image.image,
-          hide: true
-        });
-      },
-      link: function (lang, options) {
-        return tplIconButton(options.iconPrefix + options.icons.link.link, {
-          event: 'showLinkDialog',
-          title: lang.link.link,
-          hide: true
-        });
-      },
-      table: function (lang, options) {
-        var dropdown = [
-          '<div class="note-dimension-picker">',
-          '<div class="note-dimension-picker-mousecatcher" data-event="insertTable" data-value="1x1"></div>',
-          '<div class="note-dimension-picker-highlighted"></div>',
-          '<div class="note-dimension-picker-unhighlighted"></div>',
-          '</div>',
-          '<div class="note-dimension-display"> 1 x 1 </div>'
-        ];
-
-        return tplIconButton(options.iconPrefix + options.icons.table.table, {
-          title: lang.table.table,
-          dropdown: tplDropdown(dropdown, 'note-table')
-        });
-      },
-      style: function (lang, options) {
-        var items = options.styleTags.reduce(function (memo, v) {
-          var label = lang.style[v === 'p' ? 'normal' : v];
-          return memo + '<li><a data-event="formatBlock" href="#" data-value="' + v + '">' +
-                   (
-                     (v === 'p' || v === 'pre') ? label :
-                     '<' + v + '>' + label + '</' + v + '>'
-                   ) +
-                 '</a></li>';
-        }, '');
-
-        return tplIconButton(options.iconPrefix + options.icons.style.style, {
-          title: lang.style.style,
-          dropdown: tplDropdown(items)
-        });
-      },
-      fontname: function (lang, options) {
-        var realFontList = [];
-        var items = options.fontNames.reduce(function (memo, v) {
-          if (!agent.isFontInstalled(v) && !list.contains(options.fontNamesIgnoreCheck, v)) {
-            return memo;
-          }
-          realFontList.push(v);
-          return memo + '<li><a data-event="fontName" href="#" data-value="' + v + '" style="font-family:\'' + v + '\'">' +
-                          '<i class="' + options.iconPrefix + options.icons.misc.check + '"></i> ' + v +
-                        '</a></li>';
-        }, '');
-
-        var hasDefaultFont = agent.isFontInstalled(options.defaultFontName);
-        var defaultFontName = (hasDefaultFont) ? options.defaultFontName : realFontList[0];
-
-        var label = '<span class="note-current-fontname">' +
-                        defaultFontName +
-                     '</span>';
-        return tplButton(label, {
-          title: lang.font.name,
-          className: 'note-fontname',
-          dropdown: tplDropdown(items, 'note-check')
-        });
-      },
-      fontsize: function (lang, options) {
-        var items = options.fontSizes.reduce(function (memo, v) {
-          return memo + '<li><a data-event="fontSize" href="#" data-value="' + v + '">' +
-                          '<i class="' + options.iconPrefix + options.icons.misc.check + '"></i> ' + v +
-                        '</a></li>';
-        }, '');
-
-        var label = '<span class="note-current-fontsize">11</span>';
-        return tplButton(label, {
-          title: lang.font.size,
-          className: 'note-fontsize',
-          dropdown: tplDropdown(items, 'note-check')
-        });
-      },
-      color: function (lang, options) {
-        var colorButtonLabel = '<i class="' +
-                                  options.iconPrefix + options.icons.color.recent +
-                                '" style="color:black;background-color:yellow;"></i>';
-
-        var colorButton = tplButton(colorButtonLabel, {
-          className: 'note-recent-color',
-          title: lang.color.recent,
-          event: 'color',
-          value: '{"backColor":"yellow"}'
-        });
-
-        var items = [
-          '<li><div class="btn-group">',
-          '<div class="note-palette-title">' + lang.color.background + '</div>',
-          '<div class="note-color-reset" data-event="backColor"',
-          ' data-value="inherit" title="' + lang.color.transparent + '">' + lang.color.setTransparent + '</div>',
-          '<div class="note-color-palette" data-target-event="backColor"></div>',
-          '</div><div class="btn-group">',
-          '<div class="note-palette-title">' + lang.color.foreground + '</div>',
-          '<div class="note-color-reset" data-event="foreColor" data-value="inherit" title="' + lang.color.reset + '">',
-          lang.color.resetToDefault,
-          '</div>',
-          '<div class="note-color-palette" data-target-event="foreColor"></div>',
-          '</div></li>'
-        ];
-
-        var moreButton = tplButton('', {
-          title: lang.color.more,
-          dropdown: tplDropdown(items)
-        });
-
-        return colorButton + moreButton;
-      },
-      bold: function (lang, options) {
-        return tplIconButton(options.iconPrefix + options.icons.font.bold, {
-          event: 'bold',
-          title: lang.font.bold
-        });
-      },
-      italic: function (lang, options) {
-        return tplIconButton(options.iconPrefix + options.icons.font.italic, {
-          event: 'italic',
-          title: lang.font.italic
-        });
-      },
-      underline: function (lang, options) {
-        return tplIconButton(options.iconPrefix + options.icons.font.underline, {
-          event: 'underline',
-          title: lang.font.underline
-        });
-      },
-      strikethrough: function (lang, options) {
-        return tplIconButton(options.iconPrefix + options.icons.font.strikethrough, {
-          event: 'strikethrough',
-          title: lang.font.strikethrough
-        });
-      },
-      superscript: function (lang, options) {
-        return tplIconButton(options.iconPrefix + options.icons.font.superscript, {
-          event: 'superscript',
-          title: lang.font.superscript
-        });
-      },
-      subscript: function (lang, options) {
-        return tplIconButton(options.iconPrefix + options.icons.font.subscript, {
-          event: 'subscript',
-          title: lang.font.subscript
-        });
-      },
-      clear: function (lang, options) {
-        return tplIconButton(options.iconPrefix + options.icons.font.clear, {
-          event: 'removeFormat',
-          title: lang.font.clear
-        });
-      },
-      ul: function (lang, options) {
-        return tplIconButton(options.iconPrefix + options.icons.lists.unordered, {
-          event: 'insertUnorderedList',
-          title: lang.lists.unordered
-        });
-      },
-      ol: function (lang, options) {
-        return tplIconButton(options.iconPrefix + options.icons.lists.ordered, {
-          event: 'insertOrderedList',
-          title: lang.lists.ordered
-        });
-      },
-      paragraph: function (lang, options) {
-        var leftButton = tplIconButton(options.iconPrefix + options.icons.paragraph.left, {
-          title: lang.paragraph.left,
-          event: 'justifyLeft'
-        });
-        var centerButton = tplIconButton(options.iconPrefix + options.icons.paragraph.center, {
-          title: lang.paragraph.center,
-          event: 'justifyCenter'
-        });
-        var rightButton = tplIconButton(options.iconPrefix + options.icons.paragraph.right, {
-          title: lang.paragraph.right,
-          event: 'justifyRight'
-        });
-        var justifyButton = tplIconButton(options.iconPrefix + options.icons.paragraph.justify, {
-          title: lang.paragraph.justify,
-          event: 'justifyFull'
-        });
-
-        var outdentButton = tplIconButton(options.iconPrefix + options.icons.paragraph.outdent, {
-          title: lang.paragraph.outdent,
-          event: 'outdent'
-        });
-        var indentButton = tplIconButton(options.iconPrefix + options.icons.paragraph.indent, {
-          title: lang.paragraph.indent,
-          event: 'indent'
-        });
-
-        var dropdown = [
-          '<div class="note-align btn-group">',
-          leftButton + centerButton + rightButton + justifyButton,
-          '</div><div class="note-list btn-group">',
-          indentButton + outdentButton,
-          '</div>'
-        ];
-
-        return tplIconButton(options.iconPrefix + options.icons.paragraph.paragraph, {
-          title: lang.paragraph.paragraph,
-          dropdown: tplDropdown(dropdown, '', 'div')
-        });
-      },
-      height: function (lang, options) {
-        var items = options.lineHeights.reduce(function (memo, v) {
-          return memo + '<li><a data-event="lineHeight" href="#" data-value="' + parseFloat(v) + '">' +
-                          '<i class="' + options.iconPrefix + options.icons.misc.check + '"></i> ' + v +
-                        '</a></li>';
-        }, '');
-
-        return tplIconButton(options.iconPrefix + options.icons.font.height, {
-          title: lang.font.height,
-          dropdown: tplDropdown(items, 'note-check')
-        });
-
-      },
-      help: function (lang, options) {
-        return tplIconButton(options.iconPrefix + options.icons.options.help, {
-          event: 'showHelpDialog',
-          title: lang.options.help,
-          hide: true
-        });
-      },
-      fullscreen: function (lang, options) {
-        return tplIconButton(options.iconPrefix + options.icons.options.fullscreen, {
-          event: 'fullscreen',
-          title: lang.options.fullscreen
-        });
-      },
-      codeview: function (lang, options) {
-        return tplIconButton(options.iconPrefix + options.icons.options.codeview, {
-          event: 'codeview',
-          title: lang.options.codeview
-        });
-      },
-      undo: function (lang, options) {
-        return tplIconButton(options.iconPrefix + options.icons.history.undo, {
-          event: 'undo',
-          title: lang.history.undo
-        });
-      },
-      redo: function (lang, options) {
-        return tplIconButton(options.iconPrefix + options.icons.history.redo, {
-          event: 'redo',
-          title: lang.history.redo
-        });
-      },
-      hr: function (lang, options) {
-        return tplIconButton(options.iconPrefix + options.icons.hr.insert, {
-          event: 'insertHorizontalRule',
-          title: lang.hr.insert
-        });
-      }
-    };
-
-    var tplPopovers = function (lang, options) {
-      var tplLinkPopover = function () {
-        var linkButton = tplIconButton(options.iconPrefix + options.icons.link.edit, {
-          title: lang.link.edit,
-          event: 'showLinkDialog',
-          hide: true
-        });
-        var unlinkButton = tplIconButton(options.iconPrefix + options.icons.link.unlink, {
-          title: lang.link.unlink,
-          event: 'unlink'
-        });
-        var content = '<a href="http://www.google.com" target="_blank">www.google.com</a>&nbsp;&nbsp;' +
-                      '<div class="note-insert btn-group">' +
-                        linkButton + unlinkButton +
-                      '</div>';
-        return tplPopover('note-link-popover', content);
-      };
-
-      var tplImagePopover = function () {
-        var fullButton = tplButton('<span class="note-fontsize-10">100%</span>', {
-          title: lang.image.resizeFull,
-          event: 'resize',
-          value: '1'
-        });
-        var halfButton = tplButton('<span class="note-fontsize-10">50%</span>', {
-          title: lang.image.resizeHalf,
-          event: 'resize',
-          value: '0.5'
-        });
-        var quarterButton = tplButton('<span class="note-fontsize-10">25%</span>', {
-          title: lang.image.resizeQuarter,
-          event: 'resize',
-          value: '0.25'
-        });
-
-        var leftButton = tplIconButton(options.iconPrefix + options.icons.image.floatLeft, {
-          title: lang.image.floatLeft,
-          event: 'floatMe',
-          value: 'left'
-        });
-        var rightButton = tplIconButton(options.iconPrefix + options.icons.image.floatRight, {
-          title: lang.image.floatRight,
-          event: 'floatMe',
-          value: 'right'
-        });
-        var justifyButton = tplIconButton(options.iconPrefix + options.icons.image.floatNone, {
-          title: lang.image.floatNone,
-          event: 'floatMe',
-          value: 'none'
-        });
-
-        var roundedButton = tplIconButton(options.iconPrefix + options.icons.image.shapeRounded, {
-          title: lang.image.shapeRounded,
-          event: 'imageShape',
-          value: 'img-rounded'
-        });
-        var circleButton = tplIconButton(options.iconPrefix + options.icons.image.shapeCircle, {
-          title: lang.image.shapeCircle,
-          event: 'imageShape',
-          value: 'img-circle'
-        });
-        var thumbnailButton = tplIconButton(options.iconPrefix + options.icons.image.shapeThumbnail, {
-          title: lang.image.shapeThumbnail,
-          event: 'imageShape',
-          value: 'img-thumbnail'
-        });
-        var noneButton = tplIconButton(options.iconPrefix + options.icons.image.shapeNone, {
-          title: lang.image.shapeNone,
-          event: 'imageShape',
-          value: ''
-        });
-
-        var removeButton = tplIconButton(options.iconPrefix + options.icons.image.remove, {
-          title: lang.image.remove,
-          event: 'removeMedia',
-          value: 'none'
-        });
-
-        var content = (options.disableResizeImage ? '' : '<div class="btn-group">' + fullButton + halfButton + quarterButton + '</div>') +
-                      '<div class="btn-group">' + leftButton + rightButton + justifyButton + '</div><br>' +
-                      '<div class="btn-group">' + roundedButton + circleButton + thumbnailButton + noneButton + '</div>' +
-                      '<div class="btn-group">' + removeButton + '</div>';
-        return tplPopover('note-image-popover', content);
-      };
-
-      var tplAirPopover = function () {
-        var $content = $('<div />');
-        for (var idx = 0, len = options.airPopover.length; idx < len; idx ++) {
-          var group = options.airPopover[idx];
-
-          var $group = $('<div class="note-' + group[0] + ' btn-group">');
-          for (var i = 0, lenGroup = group[1].length; i < lenGroup; i++) {
-            var $button = $(tplButtonInfo[group[1][i]](lang, options));
-
-            $button.attr('data-name', group[1][i]);
-
-            $group.append($button);
-          }
-          $content.append($group);
+    this.bindEnterKey = function ($input, $btn) {
+      $input.on('keypress', function (event) {
+        if (event.keyCode === key.code.ENTER) {
+          $btn.trigger('click');
         }
-
-        return tplPopover('note-air-popover', $content.children());
-      };
-
-      var $notePopover = $('<div class="note-popover" />');
-
-      $notePopover.append(tplLinkPopover());
-      $notePopover.append(tplImagePopover());
-
-      if (options.airMode) {
-        $notePopover.append(tplAirPopover());
-      }
-
-      return $notePopover;
-    };
-
-    var tplHandles = function (options) {
-      return '<div class="note-handle">' +
-               '<div class="note-control-selection">' +
-                 '<div class="note-control-selection-bg"></div>' +
-                 '<div class="note-control-holder note-control-nw"></div>' +
-                 '<div class="note-control-holder note-control-ne"></div>' +
-                 '<div class="note-control-holder note-control-sw"></div>' +
-                 '<div class="' +
-                 (options.disableResizeImage ? 'note-control-holder' : 'note-control-sizing') +
-                 ' note-control-se"></div>' +
-                 (options.disableResizeImage ? '' : '<div class="note-control-selection-info"></div>') +
-               '</div>' +
-             '</div>';
-    };
-
-    /**
-     * shortcut table template
-     * @param {String} title
-     * @param {String} body
-     */
-    var tplShortcut = function (title, keys) {
-      var keyClass = 'note-shortcut-col col-xs-6 note-shortcut-';
-      var body = [];
-
-      for (var i in keys) {
-        if (keys.hasOwnProperty(i)) {
-          body.push(
-            '<div class="' + keyClass + 'key">' + keys[i].kbd + '</div>' +
-            '<div class="' + keyClass + 'name">' + keys[i].text + '</div>'
-            );
-        }
-      }
-
-      return '<div class="note-shortcut-row row"><div class="' + keyClass + 'title col-xs-offset-6">' + title + '</div></div>' +
-             '<div class="note-shortcut-row row">' + body.join('</div><div class="note-shortcut-row row">') + '</div>';
-    };
-
-    var tplShortcutText = function (lang) {
-      var keys = [
-        { kbd: '⌘ + B', text: lang.font.bold },
-        { kbd: '⌘ + I', text: lang.font.italic },
-        { kbd: '⌘ + U', text: lang.font.underline },
-        { kbd: '⌘ + \\', text: lang.font.clear }
-      ];
-
-      return tplShortcut(lang.shortcut.textFormatting, keys);
-    };
-
-    var tplShortcutAction = function (lang) {
-      var keys = [
-        { kbd: '⌘ + Z', text: lang.history.undo },
-        { kbd: '⌘ + ⇧ + Z', text: lang.history.redo },
-        { kbd: '⌘ + ]', text: lang.paragraph.indent },
-        { kbd: '⌘ + [', text: lang.paragraph.outdent },
-        { kbd: '⌘ + ENTER', text: lang.hr.insert }
-      ];
-
-      return tplShortcut(lang.shortcut.action, keys);
-    };
-
-    var tplShortcutPara = function (lang) {
-      var keys = [
-        { kbd: '⌘ + ⇧ + L', text: lang.paragraph.left },
-        { kbd: '⌘ + ⇧ + E', text: lang.paragraph.center },
-        { kbd: '⌘ + ⇧ + R', text: lang.paragraph.right },
-        { kbd: '⌘ + ⇧ + J', text: lang.paragraph.justify },
-        { kbd: '⌘ + ⇧ + NUM7', text: lang.lists.ordered },
-        { kbd: '⌘ + ⇧ + NUM8', text: lang.lists.unordered }
-      ];
-
-      return tplShortcut(lang.shortcut.paragraphFormatting, keys);
-    };
-
-    var tplShortcutStyle = function (lang) {
-      var keys = [
-        { kbd: '⌘ + NUM0', text: lang.style.normal },
-        { kbd: '⌘ + NUM1', text: lang.style.h1 },
-        { kbd: '⌘ + NUM2', text: lang.style.h2 },
-        { kbd: '⌘ + NUM3', text: lang.style.h3 },
-        { kbd: '⌘ + NUM4', text: lang.style.h4 },
-        { kbd: '⌘ + NUM5', text: lang.style.h5 },
-        { kbd: '⌘ + NUM6', text: lang.style.h6 }
-      ];
-
-      return tplShortcut(lang.shortcut.documentStyle, keys);
-    };
-
-    var tplExtraShortcuts = function (lang, options) {
-      var extraKeys = options.extraKeys;
-      var keys = [];
-
-      for (var key in extraKeys) {
-        if (extraKeys.hasOwnProperty(key)) {
-          keys.push({ kbd: key, text: extraKeys[key] });
-        }
-      }
-
-      return tplShortcut(lang.shortcut.extraKeys, keys);
-    };
-
-    var tplShortcutTable = function (lang, options) {
-      var colClass = 'class="note-shortcut note-shortcut-col col-sm-6 col-xs-12"';
-      var template = [
-        '<div ' + colClass + '>' + tplShortcutAction(lang, options) + '</div>' +
-        '<div ' + colClass + '>' + tplShortcutText(lang, options) + '</div>',
-        '<div ' + colClass + '>' + tplShortcutStyle(lang, options) + '</div>' +
-        '<div ' + colClass + '>' + tplShortcutPara(lang, options) + '</div>'
-      ];
-
-      if (options.extraKeys) {
-        template.push('<div ' + colClass + '>' + tplExtraShortcuts(lang, options) + '</div>');
-      }
-
-      return '<div class="note-shortcut-row row">' +
-               template.join('</div><div class="note-shortcut-row row">') +
-             '</div>';
-    };
-
-    var replaceMacKeys = function (sHtml) {
-      return sHtml.replace(/⌘/g, 'Ctrl').replace(/⇧/g, 'Shift');
-    };
-
-    var tplDialogInfo = {
-      image: function (lang, options) {
-        var imageLimitation = '';
-        if (options.maximumImageFileSize) {
-          var unit = Math.floor(Math.log(options.maximumImageFileSize) / Math.log(1024));
-          var readableSize = (options.maximumImageFileSize / Math.pow(1024, unit)).toFixed(2) * 1 +
-                             ' ' + ' KMGTP'[unit] + 'B';
-          imageLimitation = '<small>' + lang.image.maximumFileSize + ' : ' + readableSize + '</small>';
-        }
-
-        var body = '<div class="form-group row note-group-select-from-files">' +
-                     '<label>' + lang.image.selectFromFiles + '</label>' +
-                     '<input class="note-image-input form-control" type="file" name="files" accept="image/*" multiple="multiple" />' +
-                     imageLimitation +
-                   '</div>' +
-                   '<div class="form-group row">' +
-                     '<label>' + lang.image.url + '</label>' +
-                     '<input class="note-image-url form-control col-md-12" type="text" />' +
-                   '</div>';
-        var footer = '<button href="#" class="btn btn-primary note-image-btn disabled" disabled>' + lang.image.insert + '</button>';
-        return tplDialog('note-image-dialog', lang.image.insert, body, footer);
-      },
-
-      link: function (lang, options) {
-        var body = '<div class="form-group row">' +
-                     '<label>' + lang.link.textToDisplay + '</label>' +
-                     '<input class="note-link-text form-control col-md-12" type="text" />' +
-                   '</div>' +
-                   '<div class="form-group row">' +
-                     '<label>' + lang.link.url + '</label>' +
-                     '<input class="note-link-url form-control col-md-12" type="text" value="http://" />' +
-                   '</div>' +
-                   (!options.disableLinkTarget ?
-                     '<div class="checkbox">' +
-                       '<label>' + '<input type="checkbox" checked> ' +
-                         lang.link.openInNewWindow +
-                       '</label>' +
-                     '</div>' : ''
-                   );
-        var footer = '<button href="#" class="btn btn-primary note-link-btn disabled" disabled>' + lang.link.insert + '</button>';
-        return tplDialog('note-link-dialog', lang.link.insert, body, footer);
-      },
-
-      help: function (lang, options) {
-        var body = '<a class="modal-close pull-right" aria-hidden="true" tabindex="-1">' + lang.shortcut.close + '</a>' +
-                   '<div class="title">' + lang.shortcut.shortcuts + '</div>' +
-                   (agent.isMac ? tplShortcutTable(lang, options) : replaceMacKeys(tplShortcutTable(lang, options))) +
-                   '<p class="text-center">' +
-                     '<a href="//summernote.org/" target="_blank">Summernote 0.6.16</a> · ' +
-                     '<a href="//github.com/summernote/summernote" target="_blank">Project</a> · ' +
-                     '<a href="//github.com/summernote/summernote/issues" target="_blank">Issues</a>' +
-                   '</p>';
-        return tplDialog('note-help-dialog', '', body, '');
-      }
-    };
-
-    var tplDialogs = function (lang, options) {
-      var dialogs = '';
-
-      $.each(tplDialogInfo, function (idx, tplDialog) {
-        dialogs += tplDialog(lang, options);
       });
-
-      return '<div class="note-dialog">' + dialogs + '</div>';
-    };
-
-    var tplStatusbar = function () {
-      return '<div class="note-resizebar">' +
-               '<div class="note-icon-bar"></div>' +
-               '<div class="note-icon-bar"></div>' +
-               '<div class="note-icon-bar"></div>' +
-             '</div>';
-    };
-
-    var representShortcut = function (str) {
-      if (agent.isMac) {
-        str = str.replace('CMD', '⌘').replace('SHIFT', '⇧');
-      }
-
-      return str.replace('BACKSLASH', '\\')
-                .replace('SLASH', '/')
-                .replace('LEFTBRACKET', '[')
-                .replace('RIGHTBRACKET', ']');
     };
 
     /**
-     * createTooltip
+     * Show link dialog and set event handlers on dialog controls.
      *
-     * @param {jQuery} $container
-     * @param {Object} keyMap
-     * @param {String} [sPlacement]
+     * @param {Object} linkInfo
+     * @return {Promise}
      */
-    var createTooltip = function ($container, keyMap, sPlacement) {
-      var invertedKeyMap = func.invertObject(keyMap);
-      var $buttons = $container.find('button');
+    this.showLinkDialog = function (linkInfo) {
+      return $.Deferred(function (deferred) {
+        var $linkText = self.$dialog.find('.note-link-text'),
+        $linkUrl = self.$dialog.find('.note-link-url'),
+        $linkBtn = self.$dialog.find('.note-link-btn'),
+        $openInNewWindow = self.$dialog.find('input[type=checkbox]');
 
-      $buttons.each(function (i, elBtn) {
-        var $btn = $(elBtn);
-        var sShortcut = invertedKeyMap[$btn.data('event')];
-        if (sShortcut) {
-          $btn.attr('title', function (i, v) {
-            return v + ' (' + representShortcut(sShortcut) + ')';
+        ui.onDialogShown(self.$dialog, function () {
+          context.triggerEvent('dialog.shown');
+
+          $linkText.val(linkInfo.text);
+
+          $linkText.on('input', function () {
+            ui.toggleBtn($linkBtn, $linkText.val() && $linkUrl.val());
+            // if linktext was modified by keyup,
+            // stop cloning text from linkUrl
+            linkInfo.text = $linkText.val();
           });
-        }
-      // bootstrap tooltip on btn-group bug
-      // https://github.com/twbs/bootstrap/issues/5687
-      }).tooltip({
-        container: 'body',
-        trigger: 'hover',
-        placement: sPlacement || 'top'
-      }).on('click', function () {
-        $(this).tooltip('hide');
-      });
-    };
 
-    // createPalette
-    var createPalette = function ($container, options) {
-      var colorInfo = options.colors;
-      $container.find('.note-color-palette').each(function () {
-        var $palette = $(this), eventName = $palette.attr('data-target-event');
-        var paletteContents = [];
-        for (var row = 0, lenRow = colorInfo.length; row < lenRow; row++) {
-          var colors = colorInfo[row];
-          var buttons = [];
-          for (var col = 0, lenCol = colors.length; col < lenCol; col++) {
-            var color = colors[col];
-            buttons.push(['<button type="button" class="note-color-btn" style="background-color:', color,
-                           ';" data-event="', eventName,
-                           '" data-value="', color,
-                           '" title="', color,
-                           '" data-toggle="button" tabindex="-1"></button>'].join(''));
+          // if no url was given, copy text to url
+          if (!linkInfo.url) {
+            linkInfo.url = linkInfo.text || 'http://';
+            ui.toggleBtn($linkBtn, linkInfo.text);
           }
-          paletteContents.push('<div class="note-color-row">' + buttons.join('') + '</div>');
+
+          $linkUrl.on('input', function () {
+            ui.toggleBtn($linkBtn, $linkText.val() && $linkUrl.val());
+            // display same link on `Text to display` input
+            // when create a new link
+            if (!linkInfo.text) {
+              $linkText.val($linkUrl.val());
+            }
+          }).val(linkInfo.url).trigger('focus');
+
+          self.bindEnterKey($linkUrl, $linkBtn);
+          self.bindEnterKey($linkText, $linkBtn);
+
+          $openInNewWindow.prop('checked', linkInfo.isNewWindow);
+
+          $linkBtn.one('click', function (event) {
+            event.preventDefault();
+
+            deferred.resolve({
+              range: linkInfo.range,
+              url: $linkUrl.val(),
+              text: $linkText.val(),
+              isNewWindow: $openInNewWindow.is(':checked')
+            });
+            self.$dialog.modal('hide');
+          });
+        });
+
+        ui.onDialogHidden(self.$dialog, function () {
+          // detach events
+          $linkText.off('input keypress');
+          $linkUrl.off('input keypress');
+          $linkBtn.off('click');
+
+          if (deferred.state() === 'pending') {
+            deferred.reject();
+          }
+        });
+
+        ui.showDialog(self.$dialog);
+      }).promise();
+    };
+
+    /**
+     * @param {Object} layoutInfo
+     */
+    this.show = function () {
+      var linkInfo = context.invoke('editor.getLinkInfo');
+
+      context.invoke('editor.saveRange');
+      this.showLinkDialog(linkInfo).then(function (linkInfo) {
+        context.invoke('editor.restoreRange');
+        context.invoke('editor.createLink', linkInfo);
+      }).fail(function () {
+        context.invoke('editor.restoreRange');
+      });
+    };
+    context.memo('help.linkDialog.show', options.langInfo.help['linkDialog.show']);
+  };
+
+  var LinkPopover = function (context) {
+    var self = this;
+    var ui = $.summernote.ui;
+
+    var options = context.options;
+
+    this.events = {
+      'summernote.keyup summernote.mouseup summernote.change summernote.scroll': function () {
+        self.update();
+      },
+      'summernote.dialog.shown': function () {
+        self.hide();
+      }
+    };
+
+    this.shouldInitialize = function () {
+      return !list.isEmpty(options.popover.link);
+    };
+
+    this.initialize = function () {
+      this.$popover = ui.popover({
+        className: 'note-link-popover',
+        callback: function ($node) {
+          var $content = $node.find('.popover-content');
+          $content.prepend('<span><a target="_blank"></a>&nbsp;</span>');
         }
-        $palette.html(paletteContents.join(''));
-      });
+      }).render().appendTo('body');
+      var $content = this.$popover.find('.popover-content');
+
+      context.invoke('buttons.build', $content, options.popover.link);
     };
 
-    /**
-     * create summernote layout (air mode)
-     *
-     * @param {jQuery} $holder
-     * @param {Object} options
-     */
-    this.createLayoutByAirMode = function ($holder, options) {
-      var langInfo = options.langInfo;
-      var keyMap = options.keyMap[agent.isMac ? 'mac' : 'pc'];
-      var id = func.uniqueId();
-
-      $holder.addClass('note-air-editor note-editable panel-body');
-      $holder.attr({
-        'id': 'note-editor-' + id,
-        'contentEditable': true
-      });
-
-      var body = document.body;
-
-      // create Popover
-      var $popover = $(tplPopovers(langInfo, options));
-      $popover.addClass('note-air-layout');
-      $popover.attr('id', 'note-popover-' + id);
-      $popover.appendTo(body);
-      createTooltip($popover, keyMap);
-      createPalette($popover, options);
-
-      // create Handle
-      var $handle = $(tplHandles(options));
-      $handle.addClass('note-air-layout');
-      $handle.attr('id', 'note-handle-' + id);
-      $handle.appendTo(body);
-
-      // create Dialog
-      var $dialog = $(tplDialogs(langInfo, options));
-      $dialog.addClass('note-air-layout');
-      $dialog.attr('id', 'note-dialog-' + id);
-      $dialog.find('button.close, a.modal-close').click(function () {
-        $(this).closest('.modal').modal('hide');
-      });
-      $dialog.appendTo(body);
+    this.destroy = function () {
+      this.$popover.remove();
     };
 
-    /**
-     * create summernote layout (normal mode)
-     *
-     * @param {jQuery} $holder
-     * @param {Object} options
-     */
-    this.createLayoutByFrame = function ($holder, options) {
-      var langInfo = options.langInfo;
-
-      //01. create Editor
-      var $editor = $('<div class="note-editor panel panel-default" />');
-      if (options.width) {
-        $editor.width(options.width);
-      }
-
-      //02. statusbar (resizebar)
-      if (options.height > 0) {
-        $('<div class="note-statusbar">' + (options.disableResizeEditor ? '' : tplStatusbar()) + '</div>').prependTo($editor);
-      }
-
-      //03 editing area
-      var $editingArea = $('<div class="note-editing-area" />');
-      //03. create editable
-      var isContentEditable = !$holder.is(':disabled');
-      var $editable = $('<div class="note-editable panel-body" contentEditable="' + isContentEditable + '"></div>').prependTo($editingArea);
-      
-      if (options.height) {
-        $editable.height(options.height);
-      }
-      if (options.direction) {
-        $editable.attr('dir', options.direction);
-      }
-      var placeholder = $holder.attr('placeholder') || options.placeholder;
-      if (placeholder) {
-        $editable.attr('data-placeholder', placeholder);
-      }
-
-      $editable.html(dom.html($holder) || dom.emptyPara);
-
-      //031. create codable
-      $('<textarea class="note-codable"></textarea>').prependTo($editingArea);
-
-      //04. create Popover
-      var $popover = $(tplPopovers(langInfo, options)).prependTo($editingArea);
-      createPalette($popover, options);
-      createTooltip($popover, keyMap);
-
-      //05. handle(control selection, ...)
-      $(tplHandles(options)).prependTo($editingArea);
-
-      $editingArea.prependTo($editor);
-
-      //06. create Toolbar
-      var $toolbar = $('<div class="note-toolbar panel-heading" />');
-      for (var idx = 0, len = options.toolbar.length; idx < len; idx ++) {
-        var groupName = options.toolbar[idx][0];
-        var groupButtons = options.toolbar[idx][1];
-
-        var $group = $('<div class="note-' + groupName + ' btn-group" />');
-        for (var i = 0, btnLength = groupButtons.length; i < btnLength; i++) {
-          var buttonInfo = tplButtonInfo[groupButtons[i]];
-          // continue creating toolbar even if a button doesn't exist
-          if (!$.isFunction(buttonInfo)) { continue; }
-
-          var $button = $(buttonInfo(langInfo, options));
-          $button.attr('data-name', groupButtons[i]);  // set button's alias, becuase to get button element from $toolbar
-          $group.append($button);
-        }
-        $toolbar.append($group);
-      }
-
-      var keyMap = options.keyMap[agent.isMac ? 'mac' : 'pc'];
-      createPalette($toolbar, options);
-      createTooltip($toolbar, keyMap, 'bottom');
-      $toolbar.prependTo($editor);
-
-      //07. create Dropzone
-      $('<div class="note-dropzone"><div class="note-dropzone-message"></div></div>').prependTo($editor);
-
-      //08. create Dialog
-      var $dialogContainer = options.dialogsInBody ? $(document.body) : $editor;
-      var $dialog = $(tplDialogs(langInfo, options)).prependTo($dialogContainer);
-      $dialog.find('button.close, a.modal-close').click(function () {
-        $(this).closest('.modal').modal('hide');
-      });
-
-      //09. Editor/Holder switch
-      $editor.insertAfter($holder);
-      $holder.hide();
-    };
-
-    this.hasNoteEditor = function ($holder) {
-      return this.noteEditorFromHolder($holder).length > 0;
-    };
-
-    this.noteEditorFromHolder = function ($holder) {
-      if ($holder.hasClass('note-air-editor')) {
-        return $holder;
-      } else if ($holder.next().hasClass('note-editor')) {
-        return $holder.next();
-      } else {
-        return $();
-      }
-    };
-
-    /**
-     * create summernote layout
-     *
-     * @param {jQuery} $holder
-     * @param {Object} options
-     */
-    this.createLayout = function ($holder, options) {
-      if (options.airMode) {
-        this.createLayoutByAirMode($holder, options);
-      } else {
-        this.createLayoutByFrame($holder, options);
-      }
-    };
-
-    /**
-     * returns layoutInfo from holder
-     *
-     * @param {jQuery} $holder - placeholder
-     * @return {Object}
-     */
-    this.layoutInfoFromHolder = function ($holder) {
-      var $editor = this.noteEditorFromHolder($holder);
-      if (!$editor.length) {
+    this.update = function () {
+      // Prevent focusing on editable when invoke('code') is executed
+      if (!context.invoke('editor.hasFocus')) {
+        this.hide();
         return;
       }
 
-      // connect $holder to $editor
-      $editor.data('holder', $holder);
+      var rng = context.invoke('editor.createRange');
+      if (rng.isCollapsed() && rng.isOnAnchor()) {
+        var anchor = dom.ancestor(rng.sc, dom.isAnchor);
+        var href = $(anchor).attr('href');
+        this.$popover.find('a').attr('href', href).html(href);
 
-      return dom.buildLayoutInfo($editor);
-    };
-
-    /**
-     * removeLayout
-     *
-     * @param {jQuery} $holder - placeholder
-     * @param {Object} layoutInfo
-     * @param {Object} options
-     *
-     */
-    this.removeLayout = function ($holder, layoutInfo, options) {
-      if (options.airMode) {
-        $holder.removeClass('note-air-editor note-editable')
-               .removeAttr('id contentEditable');
-
-        layoutInfo.popover().remove();
-        layoutInfo.handle().remove();
-        layoutInfo.dialog().remove();
+        var pos = dom.posFromPlaceholder(anchor);
+        this.$popover.css({
+          display: 'block',
+          left: pos.left,
+          top: pos.top
+        });
       } else {
-        $holder.html(layoutInfo.editable().html());
-
-        if (options.dialogsInBody) {
-          layoutInfo.dialog().remove();
-        }
-        layoutInfo.editor().remove();
-        $holder.show();
+        this.hide();
       }
     };
 
-    /**
-     *
-     * @return {Object}
-     * @return {function(label, options=):string} return.button {@link #tplButton function to make text button}
-     * @return {function(iconClass, options=):string} return.iconButton {@link #tplIconButton function to make icon button}
-     * @return {function(className, title=, body=, footer=):string} return.dialog {@link #tplDialog function to make dialog}
-     */
-    this.getTemplate = function () {
-      return {
-        button: tplButton,
-        iconButton: tplIconButton,
-        dialog: tplDialog
-      };
-    };
-
-    /**
-     * add button information
-     *
-     * @param {String} name button name
-     * @param {Function} buttonInfo function to make button, reference to {@link #tplButton},{@link #tplIconButton}
-     */
-    this.addButtonInfo = function (name, buttonInfo) {
-      tplButtonInfo[name] = buttonInfo;
-    };
-
-    /**
-     *
-     * @param {String} name
-     * @param {Function} dialogInfo function to make dialog, reference to {@link #tplDialog}
-     */
-    this.addDialogInfo = function (name, dialogInfo) {
-      tplDialogInfo[name] = dialogInfo;
+    this.hide = function () {
+      this.$popover.hide();
     };
   };
 
+  var ImageDialog = function (context) {
+    var self = this;
+    var ui = $.summernote.ui;
 
-  // jQuery namespace for summernote
-  /**
-   * @class $.summernote 
-   * 
-   * summernote attribute  
-   * 
-   * @mixin defaults
-   * @singleton  
-   * 
-   */
-  $.summernote = $.summernote || {};
+    var $editor = context.layoutInfo.editor;
+    var options = context.options;
+    var lang = options.langInfo;
 
-  // extends default settings
-  //  - $.summernote.version
-  //  - $.summernote.options
-  //  - $.summernote.lang
-  $.extend($.summernote, defaults);
+    this.initialize = function () {
+      var $container = options.dialogsInBody ? $(document.body) : $editor;
 
-  var renderer = new Renderer();
-  var eventHandler = new EventHandler();
+      var imageLimitation = '';
+      if (options.maximumImageFileSize) {
+        var unit = Math.floor(Math.log(options.maximumImageFileSize) / Math.log(1024));
+        var readableSize = (options.maximumImageFileSize / Math.pow(1024, unit)).toFixed(2) * 1 +
+                           ' ' + ' KMGTP'[unit] + 'B';
+        imageLimitation = '<small>' + lang.image.maximumFileSize + ' : ' + readableSize + '</small>';
+      }
 
-  $.extend($.summernote, {
-    /** @property {Renderer} */
-    renderer: renderer,
-    /** @property {EventHandler} */
-    eventHandler: eventHandler,
-    /** 
-     * @property {Object} core 
-     * @property {core.agent} core.agent 
-     * @property {core.dom} core.dom
-     * @property {core.range} core.range 
-     */
-    core: {
-      agent: agent,
-      list : list,
-      dom: dom,
-      range: range
-    },
-    /** 
-     * @property {Object} 
-     * pluginEvents event list for plugins
-     * event has name and callback function.
-     * 
-     * ``` 
-     * $.summernote.addPlugin({
-     *     events : {
-     *          'hello' : function(layoutInfo, value, $target) {
-     *              console.log('event name is hello, value is ' + value );
-     *          }
-     *     }     
-     * })
-     * ```
-     * 
-     * * event name is data-event property.
-     * * layoutInfo is a summernote layout information.
-     * * value is data-value property.
-     */
-    pluginEvents: {},
+      var body = '<div class="form-group note-group-select-from-files">' +
+                   '<label>' + lang.image.selectFromFiles + '</label>' +
+                   '<input class="note-image-input form-control" type="file" name="files" accept="image/*" multiple="multiple" />' +
+                   imageLimitation +
+                 '</div>' +
+                 '<div class="form-group" style="overflow:auto;">' +
+                   '<label>' + lang.image.url + '</label>' +
+                   '<input class="note-image-url form-control col-md-12" type="text" />' +
+                 '</div>';
+      var footer = '<button href="#" class="btn btn-primary note-image-btn disabled" disabled>' + lang.image.insert + '</button>';
 
-    plugins : []
-  });
+      this.$dialog = ui.dialog({
+        title: lang.image.insert,
+        fade: options.dialogsFade,
+        body: body,
+        footer: footer
+      }).render().appendTo($container);
+    };
 
-  /**
-   * @method addPlugin
-   *
-   * add Plugin in Summernote 
-   * 
-   * Summernote can make a own plugin.
-   *
-   * ### Define plugin
-   * ```
-   * // get template function  
-   * var tmpl = $.summernote.renderer.getTemplate();
-   * 
-   * // add a button   
-   * $.summernote.addPlugin({
-   *     buttons : {
-   *        // "hello"  is button's namespace.      
-   *        "hello" : function(lang, options) {
-   *            // make icon button by template function          
-   *            return tmpl.iconButton(options.iconPrefix + 'header', {
-   *                // callback function name when button clicked 
-   *                event : 'hello',
-   *                // set data-value property                 
-   *                value : 'hello',                
-   *                hide : true
-   *            });           
-   *        }
-   *     
-   *     }, 
-   *     
-   *     events : {
-   *        "hello" : function(layoutInfo, value) {
-   *            // here is event code 
-   *        }
-   *     }     
-   * });
-   * ``` 
-   * ### Use a plugin in toolbar
-   * 
-   * ``` 
-   *    $("#editor").summernote({
-   *    ...
-   *    toolbar : [
-   *        // display hello plugin in toolbar     
-   *        ['group', [ 'hello' ]]
-   *    ]
-   *    ...    
-   *    });
-   * ```
-   *  
-   *  
-   * @param {Object} plugin
-   * @param {Object} [plugin.buttons] define plugin button. for detail, see to Renderer.addButtonInfo
-   * @param {Object} [plugin.dialogs] define plugin dialog. for detail, see to Renderer.addDialogInfo
-   * @param {Object} [plugin.events] add event in $.summernote.pluginEvents 
-   * @param {Object} [plugin.langs] update $.summernote.lang
-   * @param {Object} [plugin.options] update $.summernote.options
-   */
-  $.summernote.addPlugin = function (plugin) {
+    this.destroy = function () {
+      ui.hideDialog(this.$dialog);
+      this.$dialog.remove();
+    };
 
-    // save plugin list
-    $.summernote.plugins.push(plugin);
-
-    if (plugin.buttons) {
-      $.each(plugin.buttons, function (name, button) {
-        renderer.addButtonInfo(name, button);
-      });
-    }
-
-    if (plugin.dialogs) {
-      $.each(plugin.dialogs, function (name, dialog) {
-        renderer.addDialogInfo(name, dialog);
-      });
-    }
-
-    if (plugin.events) {
-      $.each(plugin.events, function (name, event) {
-        $.summernote.pluginEvents[name] = event;
-      });
-    }
-
-    if (plugin.langs) {
-      $.each(plugin.langs, function (locale, lang) {
-        if ($.summernote.lang[locale]) {
-          $.extend($.summernote.lang[locale], lang);
+    this.bindEnterKey = function ($input, $btn) {
+      $input.on('keypress', function (event) {
+        if (event.keyCode === key.code.ENTER) {
+          $btn.trigger('click');
         }
       });
-    }
+    };
 
-    if (plugin.options) {
-      $.extend($.summernote.options, plugin.options);
-    }
+    this.show = function () {
+      context.invoke('editor.saveRange');
+      this.showImageDialog().then(function (data) {
+        // [workaround] hide dialog before restore range for IE range focus
+        ui.hideDialog(self.$dialog);
+        context.invoke('editor.restoreRange');
+
+        if (typeof data === 'string') { // image url
+          context.invoke('editor.insertImage', data);
+        } else { // array of files
+          context.invoke('editor.insertImagesOrCallback', data);
+        }
+      }).fail(function () {
+        context.invoke('editor.restoreRange');
+      });
+    };
+
+    /**
+     * show image dialog
+     *
+     * @param {jQuery} $dialog
+     * @return {Promise}
+     */
+    this.showImageDialog = function () {
+      return $.Deferred(function (deferred) {
+        var $imageInput = self.$dialog.find('.note-image-input'),
+            $imageUrl = self.$dialog.find('.note-image-url'),
+            $imageBtn = self.$dialog.find('.note-image-btn');
+
+        ui.onDialogShown(self.$dialog, function () {
+          context.triggerEvent('dialog.shown');
+
+          // Cloning imageInput to clear element.
+          $imageInput.replaceWith($imageInput.clone()
+            .on('change', function () {
+              deferred.resolve(this.files || this.value);
+            })
+            .val('')
+          );
+
+          $imageBtn.click(function (event) {
+            event.preventDefault();
+
+            deferred.resolve($imageUrl.val());
+          });
+
+          $imageUrl.on('keyup paste', function () {
+            var url = $imageUrl.val();
+            ui.toggleBtn($imageBtn, url);
+          }).val('').trigger('focus');
+          self.bindEnterKey($imageUrl, $imageBtn);
+        });
+
+        ui.onDialogHidden(self.$dialog, function () {
+          $imageInput.off('change');
+          $imageUrl.off('keyup paste keypress');
+          $imageBtn.off('click');
+
+          if (deferred.state() === 'pending') {
+            deferred.reject();
+          }
+        });
+
+        ui.showDialog(self.$dialog);
+      });
+    };
   };
 
-  /*
-   * extend $.fn
-   */
-  $.fn.extend({
+  var ImagePopover = function (context) {
+    var ui = $.summernote.ui;
+
+    var options = context.options;
+
+    this.shouldInitialize = function () {
+      return !list.isEmpty(options.popover.image);
+    };
+
+    this.initialize = function () {
+      this.$popover = ui.popover({
+        className: 'note-image-popover'
+      }).render().appendTo('body');
+      var $content = this.$popover.find('.popover-content');
+
+      context.invoke('buttons.build', $content, options.popover.image);
+    };
+
+    this.destroy = function () {
+      this.$popover.remove();
+    };
+
+    this.update = function (target) {
+      if (dom.isImg(target)) {
+        var pos = dom.posFromPlaceholder(target);
+        this.$popover.css({
+          display: 'block',
+          left: pos.left,
+          top: pos.top
+        });
+      } else {
+        this.hide();
+      }
+    };
+
+    this.hide = function () {
+      this.$popover.hide();
+    };
+  };
+
+  var VideoDialog = function (context) {
+    var self = this;
+    var ui = $.summernote.ui;
+
+    var $editor = context.layoutInfo.editor;
+    var options = context.options;
+    var lang = options.langInfo;
+
+    this.initialize = function () {
+      var $container = options.dialogsInBody ? $(document.body) : $editor;
+
+      var body = '<div class="form-group row-fluid">' +
+          '<label>' + lang.video.url + ' <small class="text-muted">' + lang.video.providers + '</small></label>' +
+          '<input class="note-video-url form-control span12" type="text" />' +
+          '</div>';
+      var footer = '<button href="#" class="btn btn-primary note-video-btn disabled" disabled>' + lang.video.insert + '</button>';
+
+      this.$dialog = ui.dialog({
+        title: lang.video.insert,
+        fade: options.dialogsFade,
+        body: body,
+        footer: footer
+      }).render().appendTo($container);
+    };
+
+    this.destroy = function () {
+      ui.hideDialog(this.$dialog);
+      this.$dialog.remove();
+    };
+
+    this.bindEnterKey = function ($input, $btn) {
+      $input.on('keypress', function (event) {
+        if (event.keyCode === key.code.ENTER) {
+          $btn.trigger('click');
+        }
+      });
+    };
+
+    this.createVideoNode = function (url) {
+      // video url patterns(youtube, instagram, vimeo, dailymotion, youku, mp4, ogg, webm)
+      var ytRegExp = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+      var ytMatch = url.match(ytRegExp);
+
+      var igRegExp = /\/\/instagram.com\/p\/(.[a-zA-Z0-9_-]*)/;
+      var igMatch = url.match(igRegExp);
+
+      var vRegExp = /\/\/vine.co\/v\/(.[a-zA-Z0-9]*)/;
+      var vMatch = url.match(vRegExp);
+
+      var vimRegExp = /\/\/(player.)?vimeo.com\/([a-z]*\/)*([0-9]{6,11})[?]?.*/;
+      var vimMatch = url.match(vimRegExp);
+
+      var dmRegExp = /.+dailymotion.com\/(video|hub)\/([^_]+)[^#]*(#video=([^_&]+))?/;
+      var dmMatch = url.match(dmRegExp);
+
+      var youkuRegExp = /\/\/v\.youku\.com\/v_show\/id_(\w+)=*\.html/;
+      var youkuMatch = url.match(youkuRegExp);
+
+      var mp4RegExp = /^.+.(mp4|m4v)$/;
+      var mp4Match = url.match(mp4RegExp);
+
+      var oggRegExp = /^.+.(ogg|ogv)$/;
+      var oggMatch = url.match(oggRegExp);
+
+      var webmRegExp = /^.+.(webm)$/;
+      var webmMatch = url.match(webmRegExp);
+
+      var $video;
+      if (ytMatch && ytMatch[1].length === 11) {
+        var youtubeId = ytMatch[1];
+        $video = $('<iframe>')
+            .attr('frameborder', 0)
+            .attr('src', '//www.youtube.com/embed/' + youtubeId)
+            .attr('width', '640').attr('height', '360');
+      } else if (igMatch && igMatch[0].length) {
+        $video = $('<iframe>')
+            .attr('frameborder', 0)
+            .attr('src', igMatch[0] + '/embed/')
+            .attr('width', '612').attr('height', '710')
+            .attr('scrolling', 'no')
+            .attr('allowtransparency', 'true');
+      } else if (vMatch && vMatch[0].length) {
+        $video = $('<iframe>')
+            .attr('frameborder', 0)
+            .attr('src', vMatch[0] + '/embed/simple')
+            .attr('width', '600').attr('height', '600')
+            .attr('class', 'vine-embed');
+      } else if (vimMatch && vimMatch[3].length) {
+        $video = $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen>')
+            .attr('frameborder', 0)
+            .attr('src', '//player.vimeo.com/video/' + vimMatch[3])
+            .attr('width', '640').attr('height', '360');
+      } else if (dmMatch && dmMatch[2].length) {
+        $video = $('<iframe>')
+            .attr('frameborder', 0)
+            .attr('src', '//www.dailymotion.com/embed/video/' + dmMatch[2])
+            .attr('width', '640').attr('height', '360');
+      } else if (youkuMatch && youkuMatch[1].length) {
+        $video = $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen>')
+            .attr('frameborder', 0)
+            .attr('height', '498')
+            .attr('width', '510')
+            .attr('src', '//player.youku.com/embed/' + youkuMatch[1]);
+      } else if (mp4Match || oggMatch || webmMatch) {
+        $video = $('<video controls>')
+            .attr('src', url)
+            .attr('width', '640').attr('height', '360');
+      } else {
+        // this is not a known video link. Now what, Cat? Now what?
+        return false;
+      }
+
+      $video.addClass('note-video-clip');
+
+      return $video[0];
+    };
+
+    this.show = function () {
+      var text = context.invoke('editor.getSelectedText');
+      context.invoke('editor.saveRange');
+      this.showVideoDialog(text).then(function (url) {
+        // [workaround] hide dialog before restore range for IE range focus
+        ui.hideDialog(self.$dialog);
+        context.invoke('editor.restoreRange');
+
+        // build node
+        var $node = self.createVideoNode(url);
+
+        if ($node) {
+          // insert video node
+          context.invoke('editor.insertNode', $node);
+        }
+      }).fail(function () {
+        context.invoke('editor.restoreRange');
+      });
+    };
+
     /**
-     * @method
-     * Initialize summernote
-     *  - create editor layout and attach Mouse and keyboard events.
-     * 
-     * ```
-     * $("#summernote").summernote( { options ..} );
-     * ```
-     *   
-     * @member $.fn
-     * @param {Object|String} options reference to $.summernote.options
-     * @return {this}
+     * show image dialog
+     *
+     * @param {jQuery} $dialog
+     * @return {Promise}
      */
-    summernote: function () {
-      // check first argument's type
-      //  - {String}: External API call {{module}}.{{method}}
-      //  - {Object}: init options
-      var type = $.type(list.head(arguments));
-      var isExternalAPICalled = type === 'string';
-      var hasInitOptions = type === 'object';
+    this.showVideoDialog = function (text) {
+      return $.Deferred(function (deferred) {
+        var $videoUrl = self.$dialog.find('.note-video-url'),
+            $videoBtn = self.$dialog.find('.note-video-btn');
 
-      // extend default options with custom user options
-      var options = hasInitOptions ? list.head(arguments) : {};
+        ui.onDialogShown(self.$dialog, function () {
+          context.triggerEvent('dialog.shown');
 
-      options = $.extend({}, $.summernote.options, options);
-      options.icons = $.extend({}, $.summernote.options.icons, options.icons);
+          $videoUrl.val(text).on('input', function () {
+            ui.toggleBtn($videoBtn, $videoUrl.val());
+          }).trigger('focus');
 
-      // Include langInfo in options for later use, e.g. for image drag-n-drop
-      // Setup language info with en-US as default
-      options.langInfo = $.extend(true, {}, $.summernote.lang['en-US'], $.summernote.lang[options.lang]);
+          $videoBtn.click(function (event) {
+            event.preventDefault();
 
-      // override plugin options
-      if (!isExternalAPICalled && hasInitOptions) {
-        for (var i = 0, len = $.summernote.plugins.length; i < len; i++) {
-          var plugin = $.summernote.plugins[i];
+            deferred.resolve($videoUrl.val());
+          });
 
-          if (options.plugin[plugin.name]) {
-            $.summernote.plugins[i] = $.extend(true, plugin, options.plugin[plugin.name]);
+          self.bindEnterKey($videoUrl, $videoBtn);
+        });
+
+        ui.onDialogHidden(self.$dialog, function () {
+          $videoUrl.off('input');
+          $videoBtn.off('click');
+
+          if (deferred.state() === 'pending') {
+            deferred.reject();
+          }
+        });
+
+        ui.showDialog(self.$dialog);
+      });
+    };
+  };
+
+  var HelpDialog = function (context) {
+    var self = this;
+    var ui = $.summernote.ui;
+
+    var $editor = context.layoutInfo.editor;
+    var options = context.options;
+    var lang = options.langInfo;
+
+    this.createShortCutList = function () {
+      var keyMap = options.keyMap[agent.isMac ? 'mac' : 'pc'];
+      return Object.keys(keyMap).map(function (key) {
+        var command = keyMap[key];
+        var $row = $('<div><div class="help-list-item"/></div>');
+        $row.append($('<label><kbd>' + key + '</kdb></label>').css({
+          'width': 180,
+          'margin-right': 10
+        })).append($('<span/>').html(context.memo('help.' + command) || command));
+        return $row.html();
+      }).join('');
+    };
+
+    this.initialize = function () {
+      var $container = options.dialogsInBody ? $(document.body) : $editor;
+
+      var body = [
+        '<p class="text-center">',
+        '<a href="//summernote.org/" target="_blank">Summernote 0.8.1</a> · ',
+        '<a href="//github.com/summernote/summernote" target="_blank">Project</a> · ',
+        '<a href="//github.com/summernote/summernote/issues" target="_blank">Issues</a>',
+        '</p>'
+      ].join('');
+
+      this.$dialog = ui.dialog({
+        title: lang.options.help,
+        fade: options.dialogsFade,
+        body: this.createShortCutList(),
+        footer: body,
+        callback: function ($node) {
+          $node.find('.modal-body').css({
+            'max-height': 300,
+            'overflow': 'scroll'
+          });
+        }
+      }).render().appendTo($container);
+    };
+
+    this.destroy = function () {
+      ui.hideDialog(this.$dialog);
+      this.$dialog.remove();
+    };
+
+    /**
+     * show help dialog
+     *
+     * @return {Promise}
+     */
+    this.showHelpDialog = function () {
+      return $.Deferred(function (deferred) {
+        ui.onDialogShown(self.$dialog, function () {
+          context.triggerEvent('dialog.shown');
+          deferred.resolve();
+        });
+        ui.showDialog(self.$dialog);
+      }).promise();
+    };
+
+    this.show = function () {
+      context.invoke('editor.saveRange');
+      this.showHelpDialog().then(function () {
+        context.invoke('editor.restoreRange');
+      });
+    };
+  };
+
+  var AirPopover = function (context) {
+    var self = this;
+    var ui = $.summernote.ui;
+
+    var options = context.options;
+
+    var AIR_MODE_POPOVER_X_OFFSET = 20;
+
+    this.events = {
+      'summernote.keyup summernote.mouseup summernote.scroll': function () {
+        self.update();
+      },
+      'summernote.change summernote.dialog.shown': function () {
+        self.hide();
+      },
+      'summernote.focusout': function (we, e) {
+        // [workaround] Firefox doesn't support relatedTarget on focusout
+        //  - Ignore hide action on focus out in FF.
+        if (agent.isFF) {
+          return;
+        }
+
+        if (!e.relatedTarget || !dom.ancestor(e.relatedTarget, func.eq(self.$popover[0]))) {
+          self.hide();
+        }
+      }
+    };
+
+    this.shouldInitialize = function () {
+      return options.airMode && !list.isEmpty(options.popover.air);
+    };
+
+    this.initialize = function () {
+      this.$popover = ui.popover({
+        className: 'note-air-popover'
+      }).render().appendTo('body');
+      var $content = this.$popover.find('.popover-content');
+
+      context.invoke('buttons.build', $content, options.popover.air);
+    };
+
+    this.destroy = function () {
+      this.$popover.remove();
+    };
+
+    this.update = function () {
+      var styleInfo = context.invoke('editor.currentStyle');
+      if (styleInfo.range && !styleInfo.range.isCollapsed()) {
+        var rect = list.last(styleInfo.range.getClientRects());
+        if (rect) {
+          var bnd = func.rect2bnd(rect);
+          this.$popover.css({
+            display: 'block',
+            left: Math.max(bnd.left + bnd.width / 2, 0) - AIR_MODE_POPOVER_X_OFFSET,
+            top: bnd.top + bnd.height
+          });
+        }
+      } else {
+        this.hide();
+      }
+    };
+
+    this.hide = function () {
+      this.$popover.hide();
+    };
+  };
+
+  var HintPopover = function (context) {
+    var self = this;
+    var ui = $.summernote.ui;
+
+    var POPOVER_DIST = 5;
+    var hint = context.options.hint || [];
+    var direction = context.options.hintDirection || 'bottom';
+    var hints = $.isArray(hint) ? hint : [hint];
+
+    this.events = {
+      'summernote.keyup': function (we, e) {
+        if (!e.isDefaultPrevented()) {
+          self.handleKeyup(e);
+        }
+      },
+      'summernote.keydown': function (we, e) {
+        self.handleKeydown(e);
+      },
+      'summernote.dialog.shown': function () {
+        self.hide();
+      }
+    };
+
+    this.shouldInitialize = function () {
+      return hints.length > 0;
+    };
+
+    this.initialize = function () {
+      this.lastWordRange = null;
+      this.$popover = ui.popover({
+        className: 'note-hint-popover',
+        hideArrow: true,
+        direction: ''
+      }).render().appendTo('body');
+
+      this.$popover.hide();
+
+      this.$content = this.$popover.find('.popover-content');
+
+      this.$content.on('click', '.note-hint-item', function () {
+        self.$content.find('.active').removeClass('active');
+        $(this).addClass('active');
+        self.replace();
+      });
+    };
+
+    this.destroy = function () {
+      this.$popover.remove();
+    };
+
+    this.selectItem = function ($item) {
+      this.$content.find('.active').removeClass('active');
+      $item.addClass('active');
+
+      this.$content[0].scrollTop = $item[0].offsetTop - (this.$content.innerHeight() / 2);
+    };
+
+    this.moveDown = function () {
+      var $current = this.$content.find('.note-hint-item.active');
+      var $next = $current.next();
+
+      if ($next.length) {
+        this.selectItem($next);
+      } else {
+        var $nextGroup = $current.parent().next();
+
+        if (!$nextGroup.length) {
+          $nextGroup = this.$content.find('.note-hint-group').first();
+        }
+
+        this.selectItem($nextGroup.find('.note-hint-item').first());
+      }
+    };
+
+    this.moveUp = function () {
+      var $current = this.$content.find('.note-hint-item.active');
+      var $prev = $current.prev();
+
+      if ($prev.length) {
+        this.selectItem($prev);
+      } else {
+        var $prevGroup = $current.parent().prev();
+
+        if (!$prevGroup.length) {
+          $prevGroup = this.$content.find('.note-hint-group').last();
+        }
+
+        this.selectItem($prevGroup.find('.note-hint-item').last());
+      }
+    };
+
+    this.replace = function () {
+      var $item = this.$content.find('.note-hint-item.active');
+
+      if ($item.length) {
+        var node = this.nodeFromItem($item);
+        this.lastWordRange.insertNode(node);
+        range.createFromNode(node).collapse().select();
+
+        this.lastWordRange = null;
+        this.hide();
+        context.invoke('editor.focus');
+      }
+
+    };
+
+    this.nodeFromItem = function ($item) {
+      var hint = hints[$item.data('index')];
+      var item = $item.data('item');
+      var node = hint.content ? hint.content(item) : item;
+      if (typeof node === 'string') {
+        node = dom.createText(node);
+      }
+      return node;
+    };
+
+    this.createItemTemplates = function (hintIdx, items) {
+      var hint = hints[hintIdx];
+      return items.map(function (item, idx) {
+        var $item = $('<div class="note-hint-item"/>');
+        $item.append(hint.template ? hint.template(item) : item + '');
+        $item.data({
+          'index': hintIdx,
+          'item': item
+        });
+
+        if (hintIdx === 0 && idx === 0) {
+          $item.addClass('active');
+        }
+        return $item;
+      });
+    };
+
+    this.handleKeydown = function (e) {
+      if (!this.$popover.is(':visible')) {
+        return;
+      }
+
+      if (e.keyCode === key.code.ENTER) {
+        e.preventDefault();
+        this.replace();
+      } else if (e.keyCode === key.code.UP) {
+        e.preventDefault();
+        this.moveUp();
+      } else if (e.keyCode === key.code.DOWN) {
+        e.preventDefault();
+        this.moveDown();
+      }
+    };
+
+    this.searchKeyword = function (index, keyword, callback) {
+      var hint = hints[index];
+      if (hint && hint.match.test(keyword) && hint.search) {
+        var matches = hint.match.exec(keyword);
+        hint.search(matches[1], callback);
+      } else {
+        callback();
+      }
+    };
+
+    this.createGroup = function (idx, keyword) {
+      var $group = $('<div class="note-hint-group note-hint-group-' + idx + '"/>');
+      this.searchKeyword(idx, keyword, function (items) {
+        items = items || [];
+        if (items.length) {
+          $group.html(self.createItemTemplates(idx, items));
+          self.show();
+        }
+      });
+
+      return $group;
+    };
+
+    this.handleKeyup = function (e) {
+      if (list.contains([key.code.ENTER, key.code.UP, key.code.DOWN], e.keyCode)) {
+        if (e.keyCode === key.code.ENTER) {
+          if (this.$popover.is(':visible')) {
+            return;
           }
         }
+      } else {
+        var wordRange = context.invoke('editor.createRange').getWordRange();
+        var keyword = wordRange.toString();
+        if (hints.length && keyword) {
+          this.$content.empty();
+
+          var bnd = func.rect2bnd(list.last(wordRange.getClientRects()));
+          if (bnd) {
+
+            this.$popover.hide();
+
+            this.lastWordRange = wordRange;
+
+            hints.forEach(function (hint, idx) {
+              if (hint.match.test(keyword)) {
+                self.createGroup(idx, keyword).appendTo(self.$content);
+              }
+            });
+
+            // set position for popover after group is created
+            if (direction === 'top') {
+              this.$popover.css({
+                left: bnd.left,
+                top: bnd.top - this.$popover.outerHeight() - POPOVER_DIST
+              });
+            } else {
+              this.$popover.css({
+                left: bnd.left,
+                top: bnd.top + bnd.height + POPOVER_DIST
+              });
+            }
+
+          }
+        } else {
+          this.hide();
+        }
       }
+    };
 
-      this.each(function (idx, holder) {
-        var $holder = $(holder);
+    this.show = function () {
+      this.$popover.show();
+    };
 
-        // if layout isn't created yet, createLayout and attach events
-        if (!renderer.hasNoteEditor($holder)) {
-          renderer.createLayout($holder, options);
+    this.hide = function () {
+      this.$popover.hide();
+    };
+  };
 
-          var layoutInfo = renderer.layoutInfoFromHolder($holder);
-          $holder.data('layoutInfo', layoutInfo);
 
-          eventHandler.attach(layoutInfo, options);
-          eventHandler.attachCustomEvent(layoutInfo, options);
+  $.summernote = $.extend($.summernote, {
+    version: '0.8.1',
+    ui: ui,
+
+    plugins: {},
+
+    options: {
+      modules: {
+        'editor': Editor,
+        'clipboard': Clipboard,
+        'dropzone': Dropzone,
+        'codeview': Codeview,
+        'statusbar': Statusbar,
+        'fullscreen': Fullscreen,
+        'handle': Handle,
+        // FIXME: HintPopover must be front of autolink
+        //  - Script error about range when Enter key is pressed on hint popover
+        'hintPopover': HintPopover,
+        'autoLink': AutoLink,
+        'autoSync': AutoSync,
+        'placeholder': Placeholder,
+        'buttons': Buttons,
+        'toolbar': Toolbar,
+        'linkDialog': LinkDialog,
+        'linkPopover': LinkPopover,
+        'imageDialog': ImageDialog,
+        'imagePopover': ImagePopover,
+        'videoDialog': VideoDialog,
+        'helpDialog': HelpDialog,
+        'airPopover': AirPopover
+      },
+
+      buttons: {},
+      
+      lang: 'en-US',
+
+      // toolbar
+      toolbar: [
+        ['style', ['style']],
+        ['font', ['bold', 'underline', 'clear']],
+        ['fontname', ['fontname']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture', 'video']],
+        ['view', ['fullscreen', 'codeview', 'help']]
+      ],
+
+      // popover
+      popover: {
+        image: [
+          ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
+          ['float', ['floatLeft', 'floatRight', 'floatNone']],
+          ['remove', ['removeMedia']]
+        ],
+        link: [
+          ['link', ['linkDialogShow', 'unlink']]
+        ],
+        air: [
+          ['color', ['color']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['para', ['ul', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['link', 'picture']]
+        ]
+      },
+
+      // air mode: inline editor
+      airMode: false,
+
+      width: null,
+      height: null,
+
+      focus: false,
+      tabSize: 4,
+      styleWithSpan: true,
+      shortcuts: true,
+      textareaAutoSync: true,
+      direction: null,
+
+      styleTags: ['p', 'blockquote', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+
+      fontNames: [
+        'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New',
+        'Helvetica Neue', 'Helvetica', 'Impact', 'Lucida Grande',
+        'Tahoma', 'Times New Roman', 'Verdana'
+      ],
+
+      fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36'],
+
+      // pallete colors(n x n)
+      colors: [
+        ['#000000', '#424242', '#636363', '#9C9C94', '#CEC6CE', '#EFEFEF', '#F7F7F7', '#FFFFFF'],
+        ['#FF0000', '#FF9C00', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#9C00FF', '#FF00FF'],
+        ['#F7C6CE', '#FFE7CE', '#FFEFC6', '#D6EFD6', '#CEDEE7', '#CEE7F7', '#D6D6E7', '#E7D6DE'],
+        ['#E79C9C', '#FFC69C', '#FFE79C', '#B5D6A5', '#A5C6CE', '#9CC6EF', '#B5A5D6', '#D6A5BD'],
+        ['#E76363', '#F7AD6B', '#FFD663', '#94BD7B', '#73A5AD', '#6BADDE', '#8C7BC6', '#C67BA5'],
+        ['#CE0000', '#E79439', '#EFC631', '#6BA54A', '#4A7B8C', '#3984C6', '#634AA5', '#A54A7B'],
+        ['#9C0000', '#B56308', '#BD9400', '#397B21', '#104A5A', '#085294', '#311873', '#731842'],
+        ['#630000', '#7B3900', '#846300', '#295218', '#083139', '#003163', '#21104A', '#4A1031']
+      ],
+
+      lineHeights: ['1.0', '1.2', '1.4', '1.5', '1.6', '1.8', '2.0', '3.0'],
+
+      tableClassName: 'table table-bordered',
+
+      insertTableMaxSize: {
+        col: 10,
+        row: 10
+      },
+
+      dialogsInBody: false,
+      dialogsFade: false,
+
+      maximumImageFileSize: null,
+
+      callbacks: {
+        onInit: null,
+        onFocus: null,
+        onBlur: null,
+        onEnter: null,
+        onKeyup: null,
+        onKeydown: null,
+        onSubmit: null,
+        onImageUpload: null,
+        onImageUploadError: null
+      },
+
+      codemirror: {
+        mode: 'text/html',
+        htmlMode: true,
+        lineNumbers: true
+      },
+
+      keyMap: {
+        pc: {
+          'ENTER': 'insertParagraph',
+          'CTRL+Z': 'undo',
+          'CTRL+Y': 'redo',
+          'TAB': 'tab',
+          'SHIFT+TAB': 'untab',
+          'CTRL+B': 'bold',
+          'CTRL+I': 'italic',
+          'CTRL+U': 'underline',
+          'CTRL+SHIFT+S': 'strikethrough',
+          'CTRL+BACKSLASH': 'removeFormat',
+          'CTRL+SHIFT+L': 'justifyLeft',
+          'CTRL+SHIFT+E': 'justifyCenter',
+          'CTRL+SHIFT+R': 'justifyRight',
+          'CTRL+SHIFT+J': 'justifyFull',
+          'CTRL+SHIFT+NUM7': 'insertUnorderedList',
+          'CTRL+SHIFT+NUM8': 'insertOrderedList',
+          'CTRL+LEFTBRACKET': 'outdent',
+          'CTRL+RIGHTBRACKET': 'indent',
+          'CTRL+NUM0': 'formatPara',
+          'CTRL+NUM1': 'formatH1',
+          'CTRL+NUM2': 'formatH2',
+          'CTRL+NUM3': 'formatH3',
+          'CTRL+NUM4': 'formatH4',
+          'CTRL+NUM5': 'formatH5',
+          'CTRL+NUM6': 'formatH6',
+          'CTRL+ENTER': 'insertHorizontalRule',
+          'CTRL+K': 'linkDialog.show'
+        },
+
+        mac: {
+          'ENTER': 'insertParagraph',
+          'CMD+Z': 'undo',
+          'CMD+SHIFT+Z': 'redo',
+          'TAB': 'tab',
+          'SHIFT+TAB': 'untab',
+          'CMD+B': 'bold',
+          'CMD+I': 'italic',
+          'CMD+U': 'underline',
+          'CMD+SHIFT+S': 'strikethrough',
+          'CMD+BACKSLASH': 'removeFormat',
+          'CMD+SHIFT+L': 'justifyLeft',
+          'CMD+SHIFT+E': 'justifyCenter',
+          'CMD+SHIFT+R': 'justifyRight',
+          'CMD+SHIFT+J': 'justifyFull',
+          'CMD+SHIFT+NUM7': 'insertUnorderedList',
+          'CMD+SHIFT+NUM8': 'insertOrderedList',
+          'CMD+LEFTBRACKET': 'outdent',
+          'CMD+RIGHTBRACKET': 'indent',
+          'CMD+NUM0': 'formatPara',
+          'CMD+NUM1': 'formatH1',
+          'CMD+NUM2': 'formatH2',
+          'CMD+NUM3': 'formatH3',
+          'CMD+NUM4': 'formatH4',
+          'CMD+NUM5': 'formatH5',
+          'CMD+NUM6': 'formatH6',
+          'CMD+ENTER': 'insertHorizontalRule',
+          'CMD+K': 'linkDialog.show'
         }
-      });
-
-      var $first = this.first();
-      if ($first.length) {
-        var layoutInfo = renderer.layoutInfoFromHolder($first);
-
-        // external API
-        if (isExternalAPICalled) {
-          var moduleAndMethod = list.head(list.from(arguments));
-          var args = list.tail(list.from(arguments));
-
-          // TODO now external API only works for editor
-          var params = [moduleAndMethod, layoutInfo.editable()].concat(args);
-          return eventHandler.invoke.apply(eventHandler, params);
-        } else if (options.focus) {
-          // focus on first editable element for initialize editor
-          layoutInfo.editable().focus();
-        }
+      },
+      icons: {
+        'align': 'note-icon-align',
+        'alignCenter': 'note-icon-align-center',
+        'alignJustify': 'note-icon-align-justify',
+        'alignLeft': 'note-icon-align-left',
+        'alignRight': 'note-icon-align-right',
+        'indent': 'note-icon-align-indent',
+        'outdent': 'note-icon-align-outdent',
+        'arrowsAlt': 'note-icon-arrows-alt',
+        'bold': 'note-icon-bold',
+        'caret': 'note-icon-caret',
+        'circle': 'note-icon-circle',
+        'close': 'note-icon-close',
+        'code': 'note-icon-code',
+        'eraser': 'note-icon-eraser',
+        'font': 'note-icon-font',
+        'frame': 'note-icon-frame',
+        'italic': 'note-icon-italic',
+        'link': 'note-icon-link',
+        'unlink': 'note-icon-chain-broken',
+        'magic': 'note-icon-magic',
+        'menuCheck': 'note-icon-check',
+        'minus': 'note-icon-minus',
+        'orderedlist': 'note-icon-orderedlist',
+        'pencil': 'note-icon-pencil',
+        'picture': 'note-icon-picture',
+        'question': 'note-icon-question',
+        'redo': 'note-icon-redo',
+        'square': 'note-icon-square',
+        'strikethrough': 'note-icon-strikethrough',
+        'subscript': 'note-icon-subscript',
+        'superscript': 'note-icon-superscript',
+        'table': 'note-icon-table',
+        'textHeight': 'note-icon-text-height',
+        'trash': 'note-icon-trash',
+        'underline': 'note-icon-underline',
+        'undo': 'note-icon-undo',
+        'unorderedlist': 'note-icon-unorderedlist',
+        'video': 'note-icon-video'
       }
-
-      return this;
-    },
-
-    /**
-     * @method 
-     * 
-     * get the HTML contents of note or set the HTML contents of note.
-     *
-     * * get contents 
-     * ```
-     * var content = $("#summernote").code();
-     * ```
-     * * set contents 
-     *
-     * ```
-     * $("#summernote").code(html);
-     * ```
-     *
-     * @member $.fn 
-     * @param {String} [html] - HTML contents(optional, set)
-     * @return {this|String} - context(set) or HTML contents of note(get).
-     */
-    code: function (html) {
-      // get the HTML contents of note
-      if (html === undefined) {
-        var $holder = this.first();
-        if (!$holder.length) {
-          return;
-        }
-
-        var layoutInfo = renderer.layoutInfoFromHolder($holder);
-        var $editable = layoutInfo && layoutInfo.editable();
-
-        if ($editable && $editable.length) {
-          var isCodeview = eventHandler.invoke('codeview.isActivated', layoutInfo);
-          eventHandler.invoke('codeview.sync', layoutInfo);
-          return isCodeview ? layoutInfo.codable().val() :
-                              layoutInfo.editable().html();
-        }
-        return dom.value($holder);
-      }
-
-      // set the HTML contents of note
-      this.each(function (i, holder) {
-        var layoutInfo = renderer.layoutInfoFromHolder($(holder));
-        var $editable = layoutInfo && layoutInfo.editable();
-        if ($editable) {
-          $editable.html(html);
-        }
-      });
-
-      return this;
-    },
-
-    /**
-     * @method
-     * 
-     * destroy Editor Layout and detach Key and Mouse Event
-     *
-     * @member $.fn
-     * @return {this}
-     */
-    destroy: function () {
-      this.each(function (idx, holder) {
-        var $holder = $(holder);
-
-        if (!renderer.hasNoteEditor($holder)) {
-          return;
-        }
-
-        var info = renderer.layoutInfoFromHolder($holder);
-        var options = info.editor().data('options');
-
-        eventHandler.detach(info, options);
-        renderer.removeLayout($holder, info, options);
-      });
-
-      return this;
     }
   });
+
 }));
 
 /*
@@ -49478,6 +49119,11283 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
 
 }));
 
+/*!
+ * Vue.js v1.0.16
+ * (c) 2016 Evan You
+ * Released under the MIT License.
+ */
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  global.Vue = factory();
+}(this, function () { 'use strict';
+
+  function set(obj, key, val) {
+    if (hasOwn(obj, key)) {
+      obj[key] = val;
+      return;
+    }
+    if (obj._isVue) {
+      set(obj._data, key, val);
+      return;
+    }
+    var ob = obj.__ob__;
+    if (!ob) {
+      obj[key] = val;
+      return;
+    }
+    ob.convert(key, val);
+    ob.dep.notify();
+    if (ob.vms) {
+      var i = ob.vms.length;
+      while (i--) {
+        var vm = ob.vms[i];
+        vm._proxy(key);
+        vm._digest();
+      }
+    }
+    return val;
+  }
+
+  /**
+   * Delete a property and trigger change if necessary.
+   *
+   * @param {Object} obj
+   * @param {String} key
+   */
+
+  function del(obj, key) {
+    if (!hasOwn(obj, key)) {
+      return;
+    }
+    delete obj[key];
+    var ob = obj.__ob__;
+    if (!ob) {
+      return;
+    }
+    ob.dep.notify();
+    if (ob.vms) {
+      var i = ob.vms.length;
+      while (i--) {
+        var vm = ob.vms[i];
+        vm._unproxy(key);
+        vm._digest();
+      }
+    }
+  }
+
+  var hasOwnProperty = Object.prototype.hasOwnProperty;
+  /**
+   * Check whether the object has the property.
+   *
+   * @param {Object} obj
+   * @param {String} key
+   * @return {Boolean}
+   */
+
+  function hasOwn(obj, key) {
+    return hasOwnProperty.call(obj, key);
+  }
+
+  /**
+   * Check if an expression is a literal value.
+   *
+   * @param {String} exp
+   * @return {Boolean}
+   */
+
+  var literalValueRE = /^\s?(true|false|-?[\d\.]+|'[^']*'|"[^"]*")\s?$/;
+
+  function isLiteral(exp) {
+    return literalValueRE.test(exp);
+  }
+
+  /**
+   * Check if a string starts with $ or _
+   *
+   * @param {String} str
+   * @return {Boolean}
+   */
+
+  function isReserved(str) {
+    var c = (str + '').charCodeAt(0);
+    return c === 0x24 || c === 0x5F;
+  }
+
+  /**
+   * Guard text output, make sure undefined outputs
+   * empty string
+   *
+   * @param {*} value
+   * @return {String}
+   */
+
+  function _toString(value) {
+    return value == null ? '' : value.toString();
+  }
+
+  /**
+   * Check and convert possible numeric strings to numbers
+   * before setting back to data
+   *
+   * @param {*} value
+   * @return {*|Number}
+   */
+
+  function toNumber(value) {
+    if (typeof value !== 'string') {
+      return value;
+    } else {
+      var parsed = Number(value);
+      return isNaN(parsed) ? value : parsed;
+    }
+  }
+
+  /**
+   * Convert string boolean literals into real booleans.
+   *
+   * @param {*} value
+   * @return {*|Boolean}
+   */
+
+  function toBoolean(value) {
+    return value === 'true' ? true : value === 'false' ? false : value;
+  }
+
+  /**
+   * Strip quotes from a string
+   *
+   * @param {String} str
+   * @return {String | false}
+   */
+
+  function stripQuotes(str) {
+    var a = str.charCodeAt(0);
+    var b = str.charCodeAt(str.length - 1);
+    return a === b && (a === 0x22 || a === 0x27) ? str.slice(1, -1) : str;
+  }
+
+  /**
+   * Camelize a hyphen-delmited string.
+   *
+   * @param {String} str
+   * @return {String}
+   */
+
+  var camelizeRE = /-(\w)/g;
+
+  function camelize(str) {
+    return str.replace(camelizeRE, toUpper);
+  }
+
+  function toUpper(_, c) {
+    return c ? c.toUpperCase() : '';
+  }
+
+  /**
+   * Hyphenate a camelCase string.
+   *
+   * @param {String} str
+   * @return {String}
+   */
+
+  var hyphenateRE = /([a-z\d])([A-Z])/g;
+
+  function hyphenate(str) {
+    return str.replace(hyphenateRE, '$1-$2').toLowerCase();
+  }
+
+  /**
+   * Converts hyphen/underscore/slash delimitered names into
+   * camelized classNames.
+   *
+   * e.g. my-component => MyComponent
+   *      some_else    => SomeElse
+   *      some/comp    => SomeComp
+   *
+   * @param {String} str
+   * @return {String}
+   */
+
+  var classifyRE = /(?:^|[-_\/])(\w)/g;
+
+  function classify(str) {
+    return str.replace(classifyRE, toUpper);
+  }
+
+  /**
+   * Simple bind, faster than native
+   *
+   * @param {Function} fn
+   * @param {Object} ctx
+   * @return {Function}
+   */
+
+  function bind$1(fn, ctx) {
+    return function (a) {
+      var l = arguments.length;
+      return l ? l > 1 ? fn.apply(ctx, arguments) : fn.call(ctx, a) : fn.call(ctx);
+    };
+  }
+
+  /**
+   * Convert an Array-like object to a real Array.
+   *
+   * @param {Array-like} list
+   * @param {Number} [start] - start index
+   * @return {Array}
+   */
+
+  function toArray(list, start) {
+    start = start || 0;
+    var i = list.length - start;
+    var ret = new Array(i);
+    while (i--) {
+      ret[i] = list[i + start];
+    }
+    return ret;
+  }
+
+  /**
+   * Mix properties into target object.
+   *
+   * @param {Object} to
+   * @param {Object} from
+   */
+
+  function extend(to, from) {
+    var keys = Object.keys(from);
+    var i = keys.length;
+    while (i--) {
+      to[keys[i]] = from[keys[i]];
+    }
+    return to;
+  }
+
+  /**
+   * Quick object check - this is primarily used to tell
+   * Objects from primitive values when we know the value
+   * is a JSON-compliant type.
+   *
+   * @param {*} obj
+   * @return {Boolean}
+   */
+
+  function isObject(obj) {
+    return obj !== null && typeof obj === 'object';
+  }
+
+  /**
+   * Strict object type check. Only returns true
+   * for plain JavaScript objects.
+   *
+   * @param {*} obj
+   * @return {Boolean}
+   */
+
+  var toString = Object.prototype.toString;
+  var OBJECT_STRING = '[object Object]';
+
+  function isPlainObject(obj) {
+    return toString.call(obj) === OBJECT_STRING;
+  }
+
+  /**
+   * Array type check.
+   *
+   * @param {*} obj
+   * @return {Boolean}
+   */
+
+  var isArray = Array.isArray;
+
+  /**
+   * Define a non-enumerable property
+   *
+   * @param {Object} obj
+   * @param {String} key
+   * @param {*} val
+   * @param {Boolean} [enumerable]
+   */
+
+  function def(obj, key, val, enumerable) {
+    Object.defineProperty(obj, key, {
+      value: val,
+      enumerable: !!enumerable,
+      writable: true,
+      configurable: true
+    });
+  }
+
+  /**
+   * Debounce a function so it only gets called after the
+   * input stops arriving after the given wait period.
+   *
+   * @param {Function} func
+   * @param {Number} wait
+   * @return {Function} - the debounced function
+   */
+
+  function _debounce(func, wait) {
+    var timeout, args, context, timestamp, result;
+    var later = function later() {
+      var last = Date.now() - timestamp;
+      if (last < wait && last >= 0) {
+        timeout = setTimeout(later, wait - last);
+      } else {
+        timeout = null;
+        result = func.apply(context, args);
+        if (!timeout) context = args = null;
+      }
+    };
+    return function () {
+      context = this;
+      args = arguments;
+      timestamp = Date.now();
+      if (!timeout) {
+        timeout = setTimeout(later, wait);
+      }
+      return result;
+    };
+  }
+
+  /**
+   * Manual indexOf because it's slightly faster than
+   * native.
+   *
+   * @param {Array} arr
+   * @param {*} obj
+   */
+
+  function indexOf(arr, obj) {
+    var i = arr.length;
+    while (i--) {
+      if (arr[i] === obj) return i;
+    }
+    return -1;
+  }
+
+  /**
+   * Make a cancellable version of an async callback.
+   *
+   * @param {Function} fn
+   * @return {Function}
+   */
+
+  function cancellable(fn) {
+    var cb = function cb() {
+      if (!cb.cancelled) {
+        return fn.apply(this, arguments);
+      }
+    };
+    cb.cancel = function () {
+      cb.cancelled = true;
+    };
+    return cb;
+  }
+
+  /**
+   * Check if two values are loosely equal - that is,
+   * if they are plain objects, do they have the same shape?
+   *
+   * @param {*} a
+   * @param {*} b
+   * @return {Boolean}
+   */
+
+  function looseEqual(a, b) {
+    /* eslint-disable eqeqeq */
+    return a == b || (isObject(a) && isObject(b) ? JSON.stringify(a) === JSON.stringify(b) : false);
+    /* eslint-enable eqeqeq */
+  }
+
+  var hasProto = ('__proto__' in {});
+
+  // Browser environment sniffing
+  var inBrowser = typeof window !== 'undefined' && Object.prototype.toString.call(window) !== '[object Object]';
+
+  var devtools = inBrowser && window.__VUE_DEVTOOLS_GLOBAL_HOOK__;
+
+  var isIE9 = inBrowser && navigator.userAgent.toLowerCase().indexOf('msie 9.0') > 0;
+
+  var isAndroid = inBrowser && navigator.userAgent.toLowerCase().indexOf('android') > 0;
+
+  var transitionProp = undefined;
+  var transitionEndEvent = undefined;
+  var animationProp = undefined;
+  var animationEndEvent = undefined;
+
+  // Transition property/event sniffing
+  if (inBrowser && !isIE9) {
+    var isWebkitTrans = window.ontransitionend === undefined && window.onwebkittransitionend !== undefined;
+    var isWebkitAnim = window.onanimationend === undefined && window.onwebkitanimationend !== undefined;
+    transitionProp = isWebkitTrans ? 'WebkitTransition' : 'transition';
+    transitionEndEvent = isWebkitTrans ? 'webkitTransitionEnd' : 'transitionend';
+    animationProp = isWebkitAnim ? 'WebkitAnimation' : 'animation';
+    animationEndEvent = isWebkitAnim ? 'webkitAnimationEnd' : 'animationend';
+  }
+
+  /**
+   * Defer a task to execute it asynchronously. Ideally this
+   * should be executed as a microtask, so we leverage
+   * MutationObserver if it's available, and fallback to
+   * setTimeout(0).
+   *
+   * @param {Function} cb
+   * @param {Object} ctx
+   */
+
+  var nextTick = (function () {
+    var callbacks = [];
+    var pending = false;
+    var timerFunc;
+    function nextTickHandler() {
+      pending = false;
+      var copies = callbacks.slice(0);
+      callbacks = [];
+      for (var i = 0; i < copies.length; i++) {
+        copies[i]();
+      }
+    }
+
+    /* istanbul ignore if */
+    if (typeof MutationObserver !== 'undefined') {
+      var counter = 1;
+      var observer = new MutationObserver(nextTickHandler);
+      var textNode = document.createTextNode(counter);
+      observer.observe(textNode, {
+        characterData: true
+      });
+      timerFunc = function () {
+        counter = (counter + 1) % 2;
+        textNode.data = counter;
+      };
+    } else {
+      // webpack attempts to inject a shim for setImmediate
+      // if it is used as a global, so we have to work around that to
+      // avoid bundling unnecessary code.
+      var context = inBrowser ? window : typeof global !== 'undefined' ? global : {};
+      timerFunc = context.setImmediate || setTimeout;
+    }
+    return function (cb, ctx) {
+      var func = ctx ? function () {
+        cb.call(ctx);
+      } : cb;
+      callbacks.push(func);
+      if (pending) return;
+      pending = true;
+      timerFunc(nextTickHandler, 0);
+    };
+  })();
+
+  function Cache(limit) {
+    this.size = 0;
+    this.limit = limit;
+    this.head = this.tail = undefined;
+    this._keymap = Object.create(null);
+  }
+
+  var p = Cache.prototype;
+
+  /**
+   * Put <value> into the cache associated with <key>.
+   * Returns the entry which was removed to make room for
+   * the new entry. Otherwise undefined is returned.
+   * (i.e. if there was enough room already).
+   *
+   * @param {String} key
+   * @param {*} value
+   * @return {Entry|undefined}
+   */
+
+  p.put = function (key, value) {
+    var removed;
+    if (this.size === this.limit) {
+      removed = this.shift();
+    }
+
+    var entry = this.get(key, true);
+    if (!entry) {
+      entry = {
+        key: key
+      };
+      this._keymap[key] = entry;
+      if (this.tail) {
+        this.tail.newer = entry;
+        entry.older = this.tail;
+      } else {
+        this.head = entry;
+      }
+      this.tail = entry;
+      this.size++;
+    }
+    entry.value = value;
+
+    return removed;
+  };
+
+  /**
+   * Purge the least recently used (oldest) entry from the
+   * cache. Returns the removed entry or undefined if the
+   * cache was empty.
+   */
+
+  p.shift = function () {
+    var entry = this.head;
+    if (entry) {
+      this.head = this.head.newer;
+      this.head.older = undefined;
+      entry.newer = entry.older = undefined;
+      this._keymap[entry.key] = undefined;
+      this.size--;
+    }
+    return entry;
+  };
+
+  /**
+   * Get and register recent use of <key>. Returns the value
+   * associated with <key> or undefined if not in cache.
+   *
+   * @param {String} key
+   * @param {Boolean} returnEntry
+   * @return {Entry|*}
+   */
+
+  p.get = function (key, returnEntry) {
+    var entry = this._keymap[key];
+    if (entry === undefined) return;
+    if (entry === this.tail) {
+      return returnEntry ? entry : entry.value;
+    }
+    // HEAD--------------TAIL
+    //   <.older   .newer>
+    //  <--- add direction --
+    //   A  B  C  <D>  E
+    if (entry.newer) {
+      if (entry === this.head) {
+        this.head = entry.newer;
+      }
+      entry.newer.older = entry.older; // C <-- E.
+    }
+    if (entry.older) {
+      entry.older.newer = entry.newer; // C. --> E
+    }
+    entry.newer = undefined; // D --x
+    entry.older = this.tail; // D. --> E
+    if (this.tail) {
+      this.tail.newer = entry; // E. <-- D
+    }
+    this.tail = entry;
+    return returnEntry ? entry : entry.value;
+  };
+
+  var cache$1 = new Cache(1000);
+  var filterTokenRE = /[^\s'"]+|'[^']*'|"[^"]*"/g;
+  var reservedArgRE = /^in$|^-?\d+/;
+
+  /**
+   * Parser state
+   */
+
+  var str;
+  var dir;
+  var c;
+  var prev;
+  var i;
+  var l;
+  var lastFilterIndex;
+  var inSingle;
+  var inDouble;
+  var curly;
+  var square;
+  var paren;
+  /**
+   * Push a filter to the current directive object
+   */
+
+  function pushFilter() {
+    var exp = str.slice(lastFilterIndex, i).trim();
+    var filter;
+    if (exp) {
+      filter = {};
+      var tokens = exp.match(filterTokenRE);
+      filter.name = tokens[0];
+      if (tokens.length > 1) {
+        filter.args = tokens.slice(1).map(processFilterArg);
+      }
+    }
+    if (filter) {
+      (dir.filters = dir.filters || []).push(filter);
+    }
+    lastFilterIndex = i + 1;
+  }
+
+  /**
+   * Check if an argument is dynamic and strip quotes.
+   *
+   * @param {String} arg
+   * @return {Object}
+   */
+
+  function processFilterArg(arg) {
+    if (reservedArgRE.test(arg)) {
+      return {
+        value: toNumber(arg),
+        dynamic: false
+      };
+    } else {
+      var stripped = stripQuotes(arg);
+      var dynamic = stripped === arg;
+      return {
+        value: dynamic ? arg : stripped,
+        dynamic: dynamic
+      };
+    }
+  }
+
+  /**
+   * Parse a directive value and extract the expression
+   * and its filters into a descriptor.
+   *
+   * Example:
+   *
+   * "a + 1 | uppercase" will yield:
+   * {
+   *   expression: 'a + 1',
+   *   filters: [
+   *     { name: 'uppercase', args: null }
+   *   ]
+   * }
+   *
+   * @param {String} str
+   * @return {Object}
+   */
+
+  function parseDirective(s) {
+
+    var hit = cache$1.get(s);
+    if (hit) {
+      return hit;
+    }
+
+    // reset parser state
+    str = s;
+    inSingle = inDouble = false;
+    curly = square = paren = 0;
+    lastFilterIndex = 0;
+    dir = {};
+
+    for (i = 0, l = str.length; i < l; i++) {
+      prev = c;
+      c = str.charCodeAt(i);
+      if (inSingle) {
+        // check single quote
+        if (c === 0x27 && prev !== 0x5C) inSingle = !inSingle;
+      } else if (inDouble) {
+        // check double quote
+        if (c === 0x22 && prev !== 0x5C) inDouble = !inDouble;
+      } else if (c === 0x7C && // pipe
+      str.charCodeAt(i + 1) !== 0x7C && str.charCodeAt(i - 1) !== 0x7C) {
+        if (dir.expression == null) {
+          // first filter, end of expression
+          lastFilterIndex = i + 1;
+          dir.expression = str.slice(0, i).trim();
+        } else {
+          // already has filter
+          pushFilter();
+        }
+      } else {
+        switch (c) {
+          case 0x22:
+            inDouble = true;break; // "
+          case 0x27:
+            inSingle = true;break; // '
+          case 0x28:
+            paren++;break; // (
+          case 0x29:
+            paren--;break; // )
+          case 0x5B:
+            square++;break; // [
+          case 0x5D:
+            square--;break; // ]
+          case 0x7B:
+            curly++;break; // {
+          case 0x7D:
+            curly--;break; // }
+        }
+      }
+    }
+
+    if (dir.expression == null) {
+      dir.expression = str.slice(0, i).trim();
+    } else if (lastFilterIndex !== 0) {
+      pushFilter();
+    }
+
+    cache$1.put(s, dir);
+    return dir;
+  }
+
+  var directive = Object.freeze({
+    parseDirective: parseDirective
+  });
+
+  var regexEscapeRE = /[-.*+?^${}()|[\]\/\\]/g;
+  var cache = undefined;
+  var tagRE = undefined;
+  var htmlRE = undefined;
+  /**
+   * Escape a string so it can be used in a RegExp
+   * constructor.
+   *
+   * @param {String} str
+   */
+
+  function escapeRegex(str) {
+    return str.replace(regexEscapeRE, '\\$&');
+  }
+
+  function compileRegex() {
+    var open = escapeRegex(config.delimiters[0]);
+    var close = escapeRegex(config.delimiters[1]);
+    var unsafeOpen = escapeRegex(config.unsafeDelimiters[0]);
+    var unsafeClose = escapeRegex(config.unsafeDelimiters[1]);
+    tagRE = new RegExp(unsafeOpen + '(.+?)' + unsafeClose + '|' + open + '(.+?)' + close, 'g');
+    htmlRE = new RegExp('^' + unsafeOpen + '.*' + unsafeClose + '$');
+    // reset cache
+    cache = new Cache(1000);
+  }
+
+  /**
+   * Parse a template text string into an array of tokens.
+   *
+   * @param {String} text
+   * @return {Array<Object> | null}
+   *               - {String} type
+   *               - {String} value
+   *               - {Boolean} [html]
+   *               - {Boolean} [oneTime]
+   */
+
+  function parseText(text) {
+    if (!cache) {
+      compileRegex();
+    }
+    var hit = cache.get(text);
+    if (hit) {
+      return hit;
+    }
+    text = text.replace(/\n/g, '');
+    if (!tagRE.test(text)) {
+      return null;
+    }
+    var tokens = [];
+    var lastIndex = tagRE.lastIndex = 0;
+    var match, index, html, value, first, oneTime;
+    /* eslint-disable no-cond-assign */
+    while (match = tagRE.exec(text)) {
+      /* eslint-enable no-cond-assign */
+      index = match.index;
+      // push text token
+      if (index > lastIndex) {
+        tokens.push({
+          value: text.slice(lastIndex, index)
+        });
+      }
+      // tag token
+      html = htmlRE.test(match[0]);
+      value = html ? match[1] : match[2];
+      first = value.charCodeAt(0);
+      oneTime = first === 42; // *
+      value = oneTime ? value.slice(1) : value;
+      tokens.push({
+        tag: true,
+        value: value.trim(),
+        html: html,
+        oneTime: oneTime
+      });
+      lastIndex = index + match[0].length;
+    }
+    if (lastIndex < text.length) {
+      tokens.push({
+        value: text.slice(lastIndex)
+      });
+    }
+    cache.put(text, tokens);
+    return tokens;
+  }
+
+  /**
+   * Format a list of tokens into an expression.
+   * e.g. tokens parsed from 'a {{b}} c' can be serialized
+   * into one single expression as '"a " + b + " c"'.
+   *
+   * @param {Array} tokens
+   * @param {Vue} [vm]
+   * @return {String}
+   */
+
+  function tokensToExp(tokens, vm) {
+    if (tokens.length > 1) {
+      return tokens.map(function (token) {
+        return formatToken(token, vm);
+      }).join('+');
+    } else {
+      return formatToken(tokens[0], vm, true);
+    }
+  }
+
+  /**
+   * Format a single token.
+   *
+   * @param {Object} token
+   * @param {Vue} [vm]
+   * @param {Boolean} [single]
+   * @return {String}
+   */
+
+  function formatToken(token, vm, single) {
+    return token.tag ? token.oneTime && vm ? '"' + vm.$eval(token.value) + '"' : inlineFilters(token.value, single) : '"' + token.value + '"';
+  }
+
+  /**
+   * For an attribute with multiple interpolation tags,
+   * e.g. attr="some-{{thing | filter}}", in order to combine
+   * the whole thing into a single watchable expression, we
+   * have to inline those filters. This function does exactly
+   * that. This is a bit hacky but it avoids heavy changes
+   * to directive parser and watcher mechanism.
+   *
+   * @param {String} exp
+   * @param {Boolean} single
+   * @return {String}
+   */
+
+  var filterRE$1 = /[^|]\|[^|]/;
+  function inlineFilters(exp, single) {
+    if (!filterRE$1.test(exp)) {
+      return single ? exp : '(' + exp + ')';
+    } else {
+      var dir = parseDirective(exp);
+      if (!dir.filters) {
+        return '(' + exp + ')';
+      } else {
+        return 'this._applyFilters(' + dir.expression + // value
+        ',null,' + // oldValue (null for read)
+        JSON.stringify(dir.filters) + // filter descriptors
+        ',false)'; // write?
+      }
+    }
+  }
+
+  var text$1 = Object.freeze({
+    compileRegex: compileRegex,
+    parseText: parseText,
+    tokensToExp: tokensToExp
+  });
+
+  var delimiters = ['{{', '}}'];
+  var unsafeDelimiters = ['{{{', '}}}'];
+
+  var config = Object.defineProperties({
+
+    /**
+     * Whether to print debug messages.
+     * Also enables stack trace for warnings.
+     *
+     * @type {Boolean}
+     */
+
+    debug: false,
+
+    /**
+     * Whether to suppress warnings.
+     *
+     * @type {Boolean}
+     */
+
+    silent: false,
+
+    /**
+     * Whether to use async rendering.
+     */
+
+    async: true,
+
+    /**
+     * Whether to warn against errors caught when evaluating
+     * expressions.
+     */
+
+    warnExpressionErrors: true,
+
+    /**
+     * Whether or not to handle fully object properties which
+     * are already backed by getters and seters. Depending on
+     * use case and environment, this might introduce non-neglible
+     * performance penalties.
+     */
+    convertAllProperties: false,
+
+    /**
+     * Internal flag to indicate the delimiters have been
+     * changed.
+     *
+     * @type {Boolean}
+     */
+
+    _delimitersChanged: true,
+
+    /**
+     * List of asset types that a component can own.
+     *
+     * @type {Array}
+     */
+
+    _assetTypes: ['component', 'directive', 'elementDirective', 'filter', 'transition', 'partial'],
+
+    /**
+     * prop binding modes
+     */
+
+    _propBindingModes: {
+      ONE_WAY: 0,
+      TWO_WAY: 1,
+      ONE_TIME: 2
+    },
+
+    /**
+     * Max circular updates allowed in a batcher flush cycle.
+     */
+
+    _maxUpdateCount: 100
+
+  }, {
+    delimiters: { /**
+                   * Interpolation delimiters. Changing these would trigger
+                   * the text parser to re-compile the regular expressions.
+                   *
+                   * @type {Array<String>}
+                   */
+
+      get: function get() {
+        return delimiters;
+      },
+      set: function set(val) {
+        delimiters = val;
+        compileRegex();
+      },
+      configurable: true,
+      enumerable: true
+    },
+    unsafeDelimiters: {
+      get: function get() {
+        return unsafeDelimiters;
+      },
+      set: function set(val) {
+        unsafeDelimiters = val;
+        compileRegex();
+      },
+      configurable: true,
+      enumerable: true
+    }
+  });
+
+  var warn = undefined;
+
+  if ('development' !== 'production') {
+    (function () {
+      var hasConsole = typeof console !== 'undefined';
+      warn = function (msg, e) {
+        if (hasConsole && (!config.silent || config.debug)) {
+          console.warn('[Vue warn]: ' + msg);
+          /* istanbul ignore if */
+          if (config.debug) {
+            if (e) {
+              throw e;
+            } else {
+              console.warn(new Error('Warning Stack Trace').stack);
+            }
+          }
+        }
+      };
+    })();
+  }
+
+  /**
+   * Append with transition.
+   *
+   * @param {Element} el
+   * @param {Element} target
+   * @param {Vue} vm
+   * @param {Function} [cb]
+   */
+
+  function appendWithTransition(el, target, vm, cb) {
+    applyTransition(el, 1, function () {
+      target.appendChild(el);
+    }, vm, cb);
+  }
+
+  /**
+   * InsertBefore with transition.
+   *
+   * @param {Element} el
+   * @param {Element} target
+   * @param {Vue} vm
+   * @param {Function} [cb]
+   */
+
+  function beforeWithTransition(el, target, vm, cb) {
+    applyTransition(el, 1, function () {
+      before(el, target);
+    }, vm, cb);
+  }
+
+  /**
+   * Remove with transition.
+   *
+   * @param {Element} el
+   * @param {Vue} vm
+   * @param {Function} [cb]
+   */
+
+  function removeWithTransition(el, vm, cb) {
+    applyTransition(el, -1, function () {
+      remove(el);
+    }, vm, cb);
+  }
+
+  /**
+   * Apply transitions with an operation callback.
+   *
+   * @param {Element} el
+   * @param {Number} direction
+   *                  1: enter
+   *                 -1: leave
+   * @param {Function} op - the actual DOM operation
+   * @param {Vue} vm
+   * @param {Function} [cb]
+   */
+
+  function applyTransition(el, direction, op, vm, cb) {
+    var transition = el.__v_trans;
+    if (!transition ||
+    // skip if there are no js hooks and CSS transition is
+    // not supported
+    !transition.hooks && !transitionEndEvent ||
+    // skip transitions for initial compile
+    !vm._isCompiled ||
+    // if the vm is being manipulated by a parent directive
+    // during the parent's compilation phase, skip the
+    // animation.
+    vm.$parent && !vm.$parent._isCompiled) {
+      op();
+      if (cb) cb();
+      return;
+    }
+    var action = direction > 0 ? 'enter' : 'leave';
+    transition[action](op, cb);
+  }
+
+  /**
+   * Query an element selector if it's not an element already.
+   *
+   * @param {String|Element} el
+   * @return {Element}
+   */
+
+  function query(el) {
+    if (typeof el === 'string') {
+      var selector = el;
+      el = document.querySelector(el);
+      if (!el) {
+        'development' !== 'production' && warn('Cannot find element: ' + selector);
+      }
+    }
+    return el;
+  }
+
+  /**
+   * Check if a node is in the document.
+   * Note: document.documentElement.contains should work here
+   * but always returns false for comment nodes in phantomjs,
+   * making unit tests difficult. This is fixed by doing the
+   * contains() check on the node's parentNode instead of
+   * the node itself.
+   *
+   * @param {Node} node
+   * @return {Boolean}
+   */
+
+  function inDoc(node) {
+    var doc = document.documentElement;
+    var parent = node && node.parentNode;
+    return doc === node || doc === parent || !!(parent && parent.nodeType === 1 && doc.contains(parent));
+  }
+
+  /**
+   * Get and remove an attribute from a node.
+   *
+   * @param {Node} node
+   * @param {String} _attr
+   */
+
+  function getAttr(node, _attr) {
+    var val = node.getAttribute(_attr);
+    if (val !== null) {
+      node.removeAttribute(_attr);
+    }
+    return val;
+  }
+
+  /**
+   * Get an attribute with colon or v-bind: prefix.
+   *
+   * @param {Node} node
+   * @param {String} name
+   * @return {String|null}
+   */
+
+  function getBindAttr(node, name) {
+    var val = getAttr(node, ':' + name);
+    if (val === null) {
+      val = getAttr(node, 'v-bind:' + name);
+    }
+    return val;
+  }
+
+  /**
+   * Check the presence of a bind attribute.
+   *
+   * @param {Node} node
+   * @param {String} name
+   * @return {Boolean}
+   */
+
+  function hasBindAttr(node, name) {
+    return node.hasAttribute(name) || node.hasAttribute(':' + name) || node.hasAttribute('v-bind:' + name);
+  }
+
+  /**
+   * Insert el before target
+   *
+   * @param {Element} el
+   * @param {Element} target
+   */
+
+  function before(el, target) {
+    target.parentNode.insertBefore(el, target);
+  }
+
+  /**
+   * Insert el after target
+   *
+   * @param {Element} el
+   * @param {Element} target
+   */
+
+  function after(el, target) {
+    if (target.nextSibling) {
+      before(el, target.nextSibling);
+    } else {
+      target.parentNode.appendChild(el);
+    }
+  }
+
+  /**
+   * Remove el from DOM
+   *
+   * @param {Element} el
+   */
+
+  function remove(el) {
+    el.parentNode.removeChild(el);
+  }
+
+  /**
+   * Prepend el to target
+   *
+   * @param {Element} el
+   * @param {Element} target
+   */
+
+  function prepend(el, target) {
+    if (target.firstChild) {
+      before(el, target.firstChild);
+    } else {
+      target.appendChild(el);
+    }
+  }
+
+  /**
+   * Replace target with el
+   *
+   * @param {Element} target
+   * @param {Element} el
+   */
+
+  function replace(target, el) {
+    var parent = target.parentNode;
+    if (parent) {
+      parent.replaceChild(el, target);
+    }
+  }
+
+  /**
+   * Add event listener shorthand.
+   *
+   * @param {Element} el
+   * @param {String} event
+   * @param {Function} cb
+   * @param {Boolean} [useCapture]
+   */
+
+  function on$1(el, event, cb, useCapture) {
+    el.addEventListener(event, cb, useCapture);
+  }
+
+  /**
+   * Remove event listener shorthand.
+   *
+   * @param {Element} el
+   * @param {String} event
+   * @param {Function} cb
+   */
+
+  function off(el, event, cb) {
+    el.removeEventListener(event, cb);
+  }
+
+  /**
+   * In IE9, setAttribute('class') will result in empty class
+   * if the element also has the :class attribute; However in
+   * PhantomJS, setting `className` does not work on SVG elements...
+   * So we have to do a conditional check here.
+   *
+   * @param {Element} el
+   * @param {String} cls
+   */
+
+  function setClass(el, cls) {
+    /* istanbul ignore if */
+    if (isIE9 && !(el instanceof SVGElement)) {
+      el.className = cls;
+    } else {
+      el.setAttribute('class', cls);
+    }
+  }
+
+  /**
+   * Add class with compatibility for IE & SVG
+   *
+   * @param {Element} el
+   * @param {String} cls
+   */
+
+  function addClass(el, cls) {
+    if (el.classList) {
+      el.classList.add(cls);
+    } else {
+      var cur = ' ' + (el.getAttribute('class') || '') + ' ';
+      if (cur.indexOf(' ' + cls + ' ') < 0) {
+        setClass(el, (cur + cls).trim());
+      }
+    }
+  }
+
+  /**
+   * Remove class with compatibility for IE & SVG
+   *
+   * @param {Element} el
+   * @param {String} cls
+   */
+
+  function removeClass(el, cls) {
+    if (el.classList) {
+      el.classList.remove(cls);
+    } else {
+      var cur = ' ' + (el.getAttribute('class') || '') + ' ';
+      var tar = ' ' + cls + ' ';
+      while (cur.indexOf(tar) >= 0) {
+        cur = cur.replace(tar, ' ');
+      }
+      setClass(el, cur.trim());
+    }
+    if (!el.className) {
+      el.removeAttribute('class');
+    }
+  }
+
+  /**
+   * Extract raw content inside an element into a temporary
+   * container div
+   *
+   * @param {Element} el
+   * @param {Boolean} asFragment
+   * @return {Element}
+   */
+
+  function extractContent(el, asFragment) {
+    var child;
+    var rawContent;
+    /* istanbul ignore if */
+    if (isTemplate(el) && el.content instanceof DocumentFragment) {
+      el = el.content;
+    }
+    if (el.hasChildNodes()) {
+      trimNode(el);
+      rawContent = asFragment ? document.createDocumentFragment() : document.createElement('div');
+      /* eslint-disable no-cond-assign */
+      while (child = el.firstChild) {
+        /* eslint-enable no-cond-assign */
+        rawContent.appendChild(child);
+      }
+    }
+    return rawContent;
+  }
+
+  /**
+   * Trim possible empty head/tail text and comment
+   * nodes inside a parent.
+   *
+   * @param {Node} node
+   */
+
+  function trimNode(node) {
+    var child;
+    /* eslint-disable no-sequences */
+    while ((child = node.firstChild, isTrimmable(child))) {
+      node.removeChild(child);
+    }
+    while ((child = node.lastChild, isTrimmable(child))) {
+      node.removeChild(child);
+    }
+    /* eslint-enable no-sequences */
+  }
+
+  function isTrimmable(node) {
+    return node && (node.nodeType === 3 && !node.data.trim() || node.nodeType === 8);
+  }
+
+  /**
+   * Check if an element is a template tag.
+   * Note if the template appears inside an SVG its tagName
+   * will be in lowercase.
+   *
+   * @param {Element} el
+   */
+
+  function isTemplate(el) {
+    return el.tagName && el.tagName.toLowerCase() === 'template';
+  }
+
+  /**
+   * Create an "anchor" for performing dom insertion/removals.
+   * This is used in a number of scenarios:
+   * - fragment instance
+   * - v-html
+   * - v-if
+   * - v-for
+   * - component
+   *
+   * @param {String} content
+   * @param {Boolean} persist - IE trashes empty textNodes on
+   *                            cloneNode(true), so in certain
+   *                            cases the anchor needs to be
+   *                            non-empty to be persisted in
+   *                            templates.
+   * @return {Comment|Text}
+   */
+
+  function createAnchor(content, persist) {
+    var anchor = config.debug ? document.createComment(content) : document.createTextNode(persist ? ' ' : '');
+    anchor.__vue_anchor = true;
+    return anchor;
+  }
+
+  /**
+   * Find a component ref attribute that starts with $.
+   *
+   * @param {Element} node
+   * @return {String|undefined}
+   */
+
+  var refRE = /^v-ref:/;
+
+  function findRef(node) {
+    if (node.hasAttributes()) {
+      var attrs = node.attributes;
+      for (var i = 0, l = attrs.length; i < l; i++) {
+        var name = attrs[i].name;
+        if (refRE.test(name)) {
+          return camelize(name.replace(refRE, ''));
+        }
+      }
+    }
+  }
+
+  /**
+   * Map a function to a range of nodes .
+   *
+   * @param {Node} node
+   * @param {Node} end
+   * @param {Function} op
+   */
+
+  function mapNodeRange(node, end, op) {
+    var next;
+    while (node !== end) {
+      next = node.nextSibling;
+      op(node);
+      node = next;
+    }
+    op(end);
+  }
+
+  /**
+   * Remove a range of nodes with transition, store
+   * the nodes in a fragment with correct ordering,
+   * and call callback when done.
+   *
+   * @param {Node} start
+   * @param {Node} end
+   * @param {Vue} vm
+   * @param {DocumentFragment} frag
+   * @param {Function} cb
+   */
+
+  function removeNodeRange(start, end, vm, frag, cb) {
+    var done = false;
+    var removed = 0;
+    var nodes = [];
+    mapNodeRange(start, end, function (node) {
+      if (node === end) done = true;
+      nodes.push(node);
+      removeWithTransition(node, vm, onRemoved);
+    });
+    function onRemoved() {
+      removed++;
+      if (done && removed >= nodes.length) {
+        for (var i = 0; i < nodes.length; i++) {
+          frag.appendChild(nodes[i]);
+        }
+        cb && cb();
+      }
+    }
+  }
+
+  var commonTagRE = /^(div|p|span|img|a|b|i|br|ul|ol|li|h1|h2|h3|h4|h5|h6|code|pre|table|th|td|tr|form|label|input|select|option|nav|article|section|header|footer)$/;
+  var reservedTagRE = /^(slot|partial|component)$/;
+
+  /**
+   * Check if an element is a component, if yes return its
+   * component id.
+   *
+   * @param {Element} el
+   * @param {Object} options
+   * @return {Object|undefined}
+   */
+
+  function checkComponentAttr(el, options) {
+    var tag = el.tagName.toLowerCase();
+    var hasAttrs = el.hasAttributes();
+    if (!commonTagRE.test(tag) && !reservedTagRE.test(tag)) {
+      if (resolveAsset(options, 'components', tag)) {
+        return { id: tag };
+      } else {
+        var is = hasAttrs && getIsBinding(el);
+        if (is) {
+          return is;
+        } else if ('development' !== 'production') {
+          if (tag.indexOf('-') > -1 || /HTMLUnknownElement/.test(el.toString()) &&
+          // Chrome returns unknown for several HTML5 elements.
+          // https://code.google.com/p/chromium/issues/detail?id=540526
+          !/^(data|time|rtc|rb)$/.test(tag)) {
+            warn('Unknown custom element: <' + tag + '> - did you ' + 'register the component correctly? For recursive components, ' + 'make sure to provide the "name" option.');
+          }
+        }
+      }
+    } else if (hasAttrs) {
+      return getIsBinding(el);
+    }
+  }
+
+  /**
+   * Get "is" binding from an element.
+   *
+   * @param {Element} el
+   * @return {Object|undefined}
+   */
+
+  function getIsBinding(el) {
+    // dynamic syntax
+    var exp = getAttr(el, 'is');
+    if (exp != null) {
+      return { id: exp };
+    } else {
+      exp = getBindAttr(el, 'is');
+      if (exp != null) {
+        return { id: exp, dynamic: true };
+      }
+    }
+  }
+
+  /**
+   * Set a prop's initial value on a vm and its data object.
+   *
+   * @param {Vue} vm
+   * @param {Object} prop
+   * @param {*} value
+   */
+
+  function initProp(vm, prop, value) {
+    var key = prop.path;
+    value = coerceProp(prop, value);
+    vm[key] = vm._data[key] = assertProp(prop, value) ? value : undefined;
+  }
+
+  /**
+   * Assert whether a prop is valid.
+   *
+   * @param {Object} prop
+   * @param {*} value
+   */
+
+  function assertProp(prop, value) {
+    // if a prop is not provided and is not required,
+    // skip the check.
+    if (prop.raw === null && !prop.required) {
+      return true;
+    }
+    var options = prop.options;
+    var type = options.type;
+    var valid = true;
+    var expectedType;
+    if (type) {
+      if (type === String) {
+        expectedType = 'string';
+        valid = typeof value === expectedType;
+      } else if (type === Number) {
+        expectedType = 'number';
+        valid = typeof value === 'number';
+      } else if (type === Boolean) {
+        expectedType = 'boolean';
+        valid = typeof value === 'boolean';
+      } else if (type === Function) {
+        expectedType = 'function';
+        valid = typeof value === 'function';
+      } else if (type === Object) {
+        expectedType = 'object';
+        valid = isPlainObject(value);
+      } else if (type === Array) {
+        expectedType = 'array';
+        valid = isArray(value);
+      } else {
+        valid = value instanceof type;
+      }
+    }
+    if (!valid) {
+      'development' !== 'production' && warn('Invalid prop: type check failed for ' + prop.path + '="' + prop.raw + '".' + ' Expected ' + formatType(expectedType) + ', got ' + formatValue(value) + '.');
+      return false;
+    }
+    var validator = options.validator;
+    if (validator) {
+      if (!validator.call(null, value)) {
+        'development' !== 'production' && warn('Invalid prop: custom validator check failed for ' + prop.path + '="' + prop.raw + '"');
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Force parsing value with coerce option.
+   *
+   * @param {*} value
+   * @param {Object} options
+   * @return {*}
+   */
+
+  function coerceProp(prop, value) {
+    var coerce = prop.options.coerce;
+    if (!coerce) {
+      return value;
+    }
+    // coerce is a function
+    return coerce(value);
+  }
+
+  function formatType(val) {
+    return val ? val.charAt(0).toUpperCase() + val.slice(1) : 'custom type';
+  }
+
+  function formatValue(val) {
+    return Object.prototype.toString.call(val).slice(8, -1);
+  }
+
+  /**
+   * Option overwriting strategies are functions that handle
+   * how to merge a parent option value and a child option
+   * value into the final value.
+   *
+   * All strategy functions follow the same signature:
+   *
+   * @param {*} parentVal
+   * @param {*} childVal
+   * @param {Vue} [vm]
+   */
+
+  var strats = config.optionMergeStrategies = Object.create(null);
+
+  /**
+   * Helper that recursively merges two data objects together.
+   */
+
+  function mergeData(to, from) {
+    var key, toVal, fromVal;
+    for (key in from) {
+      toVal = to[key];
+      fromVal = from[key];
+      if (!hasOwn(to, key)) {
+        set(to, key, fromVal);
+      } else if (isObject(toVal) && isObject(fromVal)) {
+        mergeData(toVal, fromVal);
+      }
+    }
+    return to;
+  }
+
+  /**
+   * Data
+   */
+
+  strats.data = function (parentVal, childVal, vm) {
+    if (!vm) {
+      // in a Vue.extend merge, both should be functions
+      if (!childVal) {
+        return parentVal;
+      }
+      if (typeof childVal !== 'function') {
+        'development' !== 'production' && warn('The "data" option should be a function ' + 'that returns a per-instance value in component ' + 'definitions.');
+        return parentVal;
+      }
+      if (!parentVal) {
+        return childVal;
+      }
+      // when parentVal & childVal are both present,
+      // we need to return a function that returns the
+      // merged result of both functions... no need to
+      // check if parentVal is a function here because
+      // it has to be a function to pass previous merges.
+      return function mergedDataFn() {
+        return mergeData(childVal.call(this), parentVal.call(this));
+      };
+    } else if (parentVal || childVal) {
+      return function mergedInstanceDataFn() {
+        // instance merge
+        var instanceData = typeof childVal === 'function' ? childVal.call(vm) : childVal;
+        var defaultData = typeof parentVal === 'function' ? parentVal.call(vm) : undefined;
+        if (instanceData) {
+          return mergeData(instanceData, defaultData);
+        } else {
+          return defaultData;
+        }
+      };
+    }
+  };
+
+  /**
+   * El
+   */
+
+  strats.el = function (parentVal, childVal, vm) {
+    if (!vm && childVal && typeof childVal !== 'function') {
+      'development' !== 'production' && warn('The "el" option should be a function ' + 'that returns a per-instance value in component ' + 'definitions.');
+      return;
+    }
+    var ret = childVal || parentVal;
+    // invoke the element factory if this is instance merge
+    return vm && typeof ret === 'function' ? ret.call(vm) : ret;
+  };
+
+  /**
+   * Hooks and param attributes are merged as arrays.
+   */
+
+  strats.init = strats.created = strats.ready = strats.attached = strats.detached = strats.beforeCompile = strats.compiled = strats.beforeDestroy = strats.destroyed = function (parentVal, childVal) {
+    return childVal ? parentVal ? parentVal.concat(childVal) : isArray(childVal) ? childVal : [childVal] : parentVal;
+  };
+
+  /**
+   * 0.11 deprecation warning
+   */
+
+  strats.paramAttributes = function () {
+    /* istanbul ignore next */
+    'development' !== 'production' && warn('"paramAttributes" option has been deprecated in 0.12. ' + 'Use "props" instead.');
+  };
+
+  /**
+   * Assets
+   *
+   * When a vm is present (instance creation), we need to do
+   * a three-way merge between constructor options, instance
+   * options and parent options.
+   */
+
+  function mergeAssets(parentVal, childVal) {
+    var res = Object.create(parentVal);
+    return childVal ? extend(res, guardArrayAssets(childVal)) : res;
+  }
+
+  config._assetTypes.forEach(function (type) {
+    strats[type + 's'] = mergeAssets;
+  });
+
+  /**
+   * Events & Watchers.
+   *
+   * Events & watchers hashes should not overwrite one
+   * another, so we merge them as arrays.
+   */
+
+  strats.watch = strats.events = function (parentVal, childVal) {
+    if (!childVal) return parentVal;
+    if (!parentVal) return childVal;
+    var ret = {};
+    extend(ret, parentVal);
+    for (var key in childVal) {
+      var parent = ret[key];
+      var child = childVal[key];
+      if (parent && !isArray(parent)) {
+        parent = [parent];
+      }
+      ret[key] = parent ? parent.concat(child) : [child];
+    }
+    return ret;
+  };
+
+  /**
+   * Other object hashes.
+   */
+
+  strats.props = strats.methods = strats.computed = function (parentVal, childVal) {
+    if (!childVal) return parentVal;
+    if (!parentVal) return childVal;
+    var ret = Object.create(null);
+    extend(ret, parentVal);
+    extend(ret, childVal);
+    return ret;
+  };
+
+  /**
+   * Default strategy.
+   */
+
+  var defaultStrat = function defaultStrat(parentVal, childVal) {
+    return childVal === undefined ? parentVal : childVal;
+  };
+
+  /**
+   * Make sure component options get converted to actual
+   * constructors.
+   *
+   * @param {Object} options
+   */
+
+  function guardComponents(options) {
+    if (options.components) {
+      var components = options.components = guardArrayAssets(options.components);
+      var def;
+      var ids = Object.keys(components);
+      for (var i = 0, l = ids.length; i < l; i++) {
+        var key = ids[i];
+        if (commonTagRE.test(key) || reservedTagRE.test(key)) {
+          'development' !== 'production' && warn('Do not use built-in or reserved HTML elements as component ' + 'id: ' + key);
+          continue;
+        }
+        def = components[key];
+        if (isPlainObject(def)) {
+          components[key] = Vue.extend(def);
+        }
+      }
+    }
+  }
+
+  /**
+   * Ensure all props option syntax are normalized into the
+   * Object-based format.
+   *
+   * @param {Object} options
+   */
+
+  function guardProps(options) {
+    var props = options.props;
+    var i, val;
+    if (isArray(props)) {
+      options.props = {};
+      i = props.length;
+      while (i--) {
+        val = props[i];
+        if (typeof val === 'string') {
+          options.props[val] = null;
+        } else if (val.name) {
+          options.props[val.name] = val;
+        }
+      }
+    } else if (isPlainObject(props)) {
+      var keys = Object.keys(props);
+      i = keys.length;
+      while (i--) {
+        val = props[keys[i]];
+        if (typeof val === 'function') {
+          props[keys[i]] = { type: val };
+        }
+      }
+    }
+  }
+
+  /**
+   * Guard an Array-format assets option and converted it
+   * into the key-value Object format.
+   *
+   * @param {Object|Array} assets
+   * @return {Object}
+   */
+
+  function guardArrayAssets(assets) {
+    if (isArray(assets)) {
+      var res = {};
+      var i = assets.length;
+      var asset;
+      while (i--) {
+        asset = assets[i];
+        var id = typeof asset === 'function' ? asset.options && asset.options.name || asset.id : asset.name || asset.id;
+        if (!id) {
+          'development' !== 'production' && warn('Array-syntax assets must provide a "name" or "id" field.');
+        } else {
+          res[id] = asset;
+        }
+      }
+      return res;
+    }
+    return assets;
+  }
+
+  /**
+   * Merge two option objects into a new one.
+   * Core utility used in both instantiation and inheritance.
+   *
+   * @param {Object} parent
+   * @param {Object} child
+   * @param {Vue} [vm] - if vm is present, indicates this is
+   *                     an instantiation merge.
+   */
+
+  function mergeOptions(parent, child, vm) {
+    guardComponents(child);
+    guardProps(child);
+    var options = {};
+    var key;
+    if (child.mixins) {
+      for (var i = 0, l = child.mixins.length; i < l; i++) {
+        parent = mergeOptions(parent, child.mixins[i], vm);
+      }
+    }
+    for (key in parent) {
+      mergeField(key);
+    }
+    for (key in child) {
+      if (!hasOwn(parent, key)) {
+        mergeField(key);
+      }
+    }
+    function mergeField(key) {
+      var strat = strats[key] || defaultStrat;
+      options[key] = strat(parent[key], child[key], vm, key);
+    }
+    return options;
+  }
+
+  /**
+   * Resolve an asset.
+   * This function is used because child instances need access
+   * to assets defined in its ancestor chain.
+   *
+   * @param {Object} options
+   * @param {String} type
+   * @param {String} id
+   * @return {Object|Function}
+   */
+
+  function resolveAsset(options, type, id) {
+    /* istanbul ignore if */
+    if (typeof id !== 'string') {
+      return;
+    }
+    var assets = options[type];
+    var camelizedId;
+    return assets[id] ||
+    // camelCase ID
+    assets[camelizedId = camelize(id)] ||
+    // Pascal Case ID
+    assets[camelizedId.charAt(0).toUpperCase() + camelizedId.slice(1)];
+  }
+
+  /**
+   * Assert asset exists
+   */
+
+  function assertAsset(val, type, id) {
+    if (!val) {
+      'development' !== 'production' && warn('Failed to resolve ' + type + ': ' + id);
+    }
+  }
+
+  var arrayProto = Array.prototype;
+  var arrayMethods = Object.create(arrayProto)
+
+  /**
+   * Intercept mutating methods and emit events
+   */
+
+  ;['push', 'pop', 'shift', 'unshift', 'splice', 'sort', 'reverse'].forEach(function (method) {
+    // cache original method
+    var original = arrayProto[method];
+    def(arrayMethods, method, function mutator() {
+      // avoid leaking arguments:
+      // http://jsperf.com/closure-with-arguments
+      var i = arguments.length;
+      var args = new Array(i);
+      while (i--) {
+        args[i] = arguments[i];
+      }
+      var result = original.apply(this, args);
+      var ob = this.__ob__;
+      var inserted;
+      switch (method) {
+        case 'push':
+          inserted = args;
+          break;
+        case 'unshift':
+          inserted = args;
+          break;
+        case 'splice':
+          inserted = args.slice(2);
+          break;
+      }
+      if (inserted) ob.observeArray(inserted);
+      // notify change
+      ob.dep.notify();
+      return result;
+    });
+  });
+
+  /**
+   * Swap the element at the given index with a new value
+   * and emits corresponding event.
+   *
+   * @param {Number} index
+   * @param {*} val
+   * @return {*} - replaced element
+   */
+
+  def(arrayProto, '$set', function $set(index, val) {
+    if (index >= this.length) {
+      this.length = Number(index) + 1;
+    }
+    return this.splice(index, 1, val)[0];
+  });
+
+  /**
+   * Convenience method to remove the element at given index.
+   *
+   * @param {Number} index
+   * @param {*} val
+   */
+
+  def(arrayProto, '$remove', function $remove(item) {
+    /* istanbul ignore if */
+    if (!this.length) return;
+    var index = indexOf(this, item);
+    if (index > -1) {
+      return this.splice(index, 1);
+    }
+  });
+
+  var uid$3 = 0;
+
+  /**
+   * A dep is an observable that can have multiple
+   * directives subscribing to it.
+   *
+   * @constructor
+   */
+  function Dep() {
+    this.id = uid$3++;
+    this.subs = [];
+  }
+
+  // the current target watcher being evaluated.
+  // this is globally unique because there could be only one
+  // watcher being evaluated at any time.
+  Dep.target = null;
+
+  /**
+   * Add a directive subscriber.
+   *
+   * @param {Directive} sub
+   */
+
+  Dep.prototype.addSub = function (sub) {
+    this.subs.push(sub);
+  };
+
+  /**
+   * Remove a directive subscriber.
+   *
+   * @param {Directive} sub
+   */
+
+  Dep.prototype.removeSub = function (sub) {
+    this.subs.$remove(sub);
+  };
+
+  /**
+   * Add self as a dependency to the target watcher.
+   */
+
+  Dep.prototype.depend = function () {
+    Dep.target.addDep(this);
+  };
+
+  /**
+   * Notify all subscribers of a new value.
+   */
+
+  Dep.prototype.notify = function () {
+    // stablize the subscriber list first
+    var subs = toArray(this.subs);
+    for (var i = 0, l = subs.length; i < l; i++) {
+      subs[i].update();
+    }
+  };
+
+  var arrayKeys = Object.getOwnPropertyNames(arrayMethods);
+
+  /**
+   * Observer class that are attached to each observed
+   * object. Once attached, the observer converts target
+   * object's property keys into getter/setters that
+   * collect dependencies and dispatches updates.
+   *
+   * @param {Array|Object} value
+   * @constructor
+   */
+
+  function Observer(value) {
+    this.value = value;
+    this.dep = new Dep();
+    def(value, '__ob__', this);
+    if (isArray(value)) {
+      var augment = hasProto ? protoAugment : copyAugment;
+      augment(value, arrayMethods, arrayKeys);
+      this.observeArray(value);
+    } else {
+      this.walk(value);
+    }
+  }
+
+  // Instance methods
+
+  /**
+   * Walk through each property and convert them into
+   * getter/setters. This method should only be called when
+   * value type is Object.
+   *
+   * @param {Object} obj
+   */
+
+  Observer.prototype.walk = function (obj) {
+    var keys = Object.keys(obj);
+    for (var i = 0, l = keys.length; i < l; i++) {
+      this.convert(keys[i], obj[keys[i]]);
+    }
+  };
+
+  /**
+   * Observe a list of Array items.
+   *
+   * @param {Array} items
+   */
+
+  Observer.prototype.observeArray = function (items) {
+    for (var i = 0, l = items.length; i < l; i++) {
+      observe(items[i]);
+    }
+  };
+
+  /**
+   * Convert a property into getter/setter so we can emit
+   * the events when the property is accessed/changed.
+   *
+   * @param {String} key
+   * @param {*} val
+   */
+
+  Observer.prototype.convert = function (key, val) {
+    defineReactive(this.value, key, val);
+  };
+
+  /**
+   * Add an owner vm, so that when $set/$delete mutations
+   * happen we can notify owner vms to proxy the keys and
+   * digest the watchers. This is only called when the object
+   * is observed as an instance's root $data.
+   *
+   * @param {Vue} vm
+   */
+
+  Observer.prototype.addVm = function (vm) {
+    (this.vms || (this.vms = [])).push(vm);
+  };
+
+  /**
+   * Remove an owner vm. This is called when the object is
+   * swapped out as an instance's $data object.
+   *
+   * @param {Vue} vm
+   */
+
+  Observer.prototype.removeVm = function (vm) {
+    this.vms.$remove(vm);
+  };
+
+  // helpers
+
+  /**
+   * Augment an target Object or Array by intercepting
+   * the prototype chain using __proto__
+   *
+   * @param {Object|Array} target
+   * @param {Object} proto
+   */
+
+  function protoAugment(target, src) {
+    target.__proto__ = src;
+  }
+
+  /**
+   * Augment an target Object or Array by defining
+   * hidden properties.
+   *
+   * @param {Object|Array} target
+   * @param {Object} proto
+   */
+
+  function copyAugment(target, src, keys) {
+    for (var i = 0, l = keys.length; i < l; i++) {
+      var key = keys[i];
+      def(target, key, src[key]);
+    }
+  }
+
+  /**
+   * Attempt to create an observer instance for a value,
+   * returns the new observer if successfully observed,
+   * or the existing observer if the value already has one.
+   *
+   * @param {*} value
+   * @param {Vue} [vm]
+   * @return {Observer|undefined}
+   * @static
+   */
+
+  function observe(value, vm) {
+    if (!value || typeof value !== 'object') {
+      return;
+    }
+    var ob;
+    if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
+      ob = value.__ob__;
+    } else if ((isArray(value) || isPlainObject(value)) && Object.isExtensible(value) && !value._isVue) {
+      ob = new Observer(value);
+    }
+    if (ob && vm) {
+      ob.addVm(vm);
+    }
+    return ob;
+  }
+
+  /**
+   * Define a reactive property on an Object.
+   *
+   * @param {Object} obj
+   * @param {String} key
+   * @param {*} val
+   */
+
+  function defineReactive(obj, key, val) {
+    var dep = new Dep();
+
+    // cater for pre-defined getter/setters
+    var getter, setter;
+    if (config.convertAllProperties) {
+      var property = Object.getOwnPropertyDescriptor(obj, key);
+      if (property && property.configurable === false) {
+        return;
+      }
+      getter = property && property.get;
+      setter = property && property.set;
+    }
+
+    var childOb = observe(val);
+    Object.defineProperty(obj, key, {
+      enumerable: true,
+      configurable: true,
+      get: function reactiveGetter() {
+        var value = getter ? getter.call(obj) : val;
+        if (Dep.target) {
+          dep.depend();
+          if (childOb) {
+            childOb.dep.depend();
+          }
+          if (isArray(value)) {
+            for (var e, i = 0, l = value.length; i < l; i++) {
+              e = value[i];
+              e && e.__ob__ && e.__ob__.dep.depend();
+            }
+          }
+        }
+        return value;
+      },
+      set: function reactiveSetter(newVal) {
+        var value = getter ? getter.call(obj) : val;
+        if (newVal === value) {
+          return;
+        }
+        if (setter) {
+          setter.call(obj, newVal);
+        } else {
+          val = newVal;
+        }
+        childOb = observe(newVal);
+        dep.notify();
+      }
+    });
+  }
+
+  var util = Object.freeze({
+  	defineReactive: defineReactive,
+  	set: set,
+  	del: del,
+  	hasOwn: hasOwn,
+  	isLiteral: isLiteral,
+  	isReserved: isReserved,
+  	_toString: _toString,
+  	toNumber: toNumber,
+  	toBoolean: toBoolean,
+  	stripQuotes: stripQuotes,
+  	camelize: camelize,
+  	hyphenate: hyphenate,
+  	classify: classify,
+  	bind: bind$1,
+  	toArray: toArray,
+  	extend: extend,
+  	isObject: isObject,
+  	isPlainObject: isPlainObject,
+  	def: def,
+  	debounce: _debounce,
+  	indexOf: indexOf,
+  	cancellable: cancellable,
+  	looseEqual: looseEqual,
+  	isArray: isArray,
+  	hasProto: hasProto,
+  	inBrowser: inBrowser,
+  	devtools: devtools,
+  	isIE9: isIE9,
+  	isAndroid: isAndroid,
+  	get transitionProp () { return transitionProp; },
+  	get transitionEndEvent () { return transitionEndEvent; },
+  	get animationProp () { return animationProp; },
+  	get animationEndEvent () { return animationEndEvent; },
+  	nextTick: nextTick,
+  	query: query,
+  	inDoc: inDoc,
+  	getAttr: getAttr,
+  	getBindAttr: getBindAttr,
+  	hasBindAttr: hasBindAttr,
+  	before: before,
+  	after: after,
+  	remove: remove,
+  	prepend: prepend,
+  	replace: replace,
+  	on: on$1,
+  	off: off,
+  	setClass: setClass,
+  	addClass: addClass,
+  	removeClass: removeClass,
+  	extractContent: extractContent,
+  	trimNode: trimNode,
+  	isTemplate: isTemplate,
+  	createAnchor: createAnchor,
+  	findRef: findRef,
+  	mapNodeRange: mapNodeRange,
+  	removeNodeRange: removeNodeRange,
+  	mergeOptions: mergeOptions,
+  	resolveAsset: resolveAsset,
+  	assertAsset: assertAsset,
+  	checkComponentAttr: checkComponentAttr,
+  	initProp: initProp,
+  	assertProp: assertProp,
+  	coerceProp: coerceProp,
+  	commonTagRE: commonTagRE,
+  	reservedTagRE: reservedTagRE,
+  	get warn () { return warn; }
+  });
+
+  var uid = 0;
+
+  function initMixin (Vue) {
+
+    /**
+     * The main init sequence. This is called for every
+     * instance, including ones that are created from extended
+     * constructors.
+     *
+     * @param {Object} options - this options object should be
+     *                           the result of merging class
+     *                           options and the options passed
+     *                           in to the constructor.
+     */
+
+    Vue.prototype._init = function (options) {
+
+      options = options || {};
+
+      this.$el = null;
+      this.$parent = options.parent;
+      this.$root = this.$parent ? this.$parent.$root : this;
+      this.$children = [];
+      this.$refs = {}; // child vm references
+      this.$els = {}; // element references
+      this._watchers = []; // all watchers as an array
+      this._directives = []; // all directives
+
+      // a uid
+      this._uid = uid++;
+
+      // a flag to avoid this being observed
+      this._isVue = true;
+
+      // events bookkeeping
+      this._events = {}; // registered callbacks
+      this._eventsCount = {}; // for $broadcast optimization
+
+      // fragment instance properties
+      this._isFragment = false;
+      this._fragment = // @type {DocumentFragment}
+      this._fragmentStart = // @type {Text|Comment}
+      this._fragmentEnd = null; // @type {Text|Comment}
+
+      // lifecycle state
+      this._isCompiled = this._isDestroyed = this._isReady = this._isAttached = this._isBeingDestroyed = this._vForRemoving = false;
+      this._unlinkFn = null;
+
+      // context:
+      // if this is a transcluded component, context
+      // will be the common parent vm of this instance
+      // and its host.
+      this._context = options._context || this.$parent;
+
+      // scope:
+      // if this is inside an inline v-for, the scope
+      // will be the intermediate scope created for this
+      // repeat fragment. this is used for linking props
+      // and container directives.
+      this._scope = options._scope;
+
+      // fragment:
+      // if this instance is compiled inside a Fragment, it
+      // needs to reigster itself as a child of that fragment
+      // for attach/detach to work properly.
+      this._frag = options._frag;
+      if (this._frag) {
+        this._frag.children.push(this);
+      }
+
+      // push self into parent / transclusion host
+      if (this.$parent) {
+        this.$parent.$children.push(this);
+      }
+
+      // save raw constructor data before merge
+      // so that we know which properties are provided at
+      // instantiation.
+      if ('development' !== 'production') {
+        this._runtimeData = options.data;
+      }
+
+      // merge options.
+      options = this.$options = mergeOptions(this.constructor.options, options, this);
+
+      // set ref
+      this._updateRef();
+
+      // initialize data as empty object.
+      // it will be filled up in _initScope().
+      this._data = {};
+
+      // call init hook
+      this._callHook('init');
+
+      // initialize data observation and scope inheritance.
+      this._initState();
+
+      // setup event system and option events.
+      this._initEvents();
+
+      // call created hook
+      this._callHook('created');
+
+      // if `el` option is passed, start compilation.
+      if (options.el) {
+        this.$mount(options.el);
+      }
+    };
+  }
+
+  var pathCache = new Cache(1000);
+
+  // actions
+  var APPEND = 0;
+  var PUSH = 1;
+  var INC_SUB_PATH_DEPTH = 2;
+  var PUSH_SUB_PATH = 3;
+
+  // states
+  var BEFORE_PATH = 0;
+  var IN_PATH = 1;
+  var BEFORE_IDENT = 2;
+  var IN_IDENT = 3;
+  var IN_SUB_PATH = 4;
+  var IN_SINGLE_QUOTE = 5;
+  var IN_DOUBLE_QUOTE = 6;
+  var AFTER_PATH = 7;
+  var ERROR = 8;
+
+  var pathStateMachine = [];
+
+  pathStateMachine[BEFORE_PATH] = {
+    'ws': [BEFORE_PATH],
+    'ident': [IN_IDENT, APPEND],
+    '[': [IN_SUB_PATH],
+    'eof': [AFTER_PATH]
+  };
+
+  pathStateMachine[IN_PATH] = {
+    'ws': [IN_PATH],
+    '.': [BEFORE_IDENT],
+    '[': [IN_SUB_PATH],
+    'eof': [AFTER_PATH]
+  };
+
+  pathStateMachine[BEFORE_IDENT] = {
+    'ws': [BEFORE_IDENT],
+    'ident': [IN_IDENT, APPEND]
+  };
+
+  pathStateMachine[IN_IDENT] = {
+    'ident': [IN_IDENT, APPEND],
+    '0': [IN_IDENT, APPEND],
+    'number': [IN_IDENT, APPEND],
+    'ws': [IN_PATH, PUSH],
+    '.': [BEFORE_IDENT, PUSH],
+    '[': [IN_SUB_PATH, PUSH],
+    'eof': [AFTER_PATH, PUSH]
+  };
+
+  pathStateMachine[IN_SUB_PATH] = {
+    "'": [IN_SINGLE_QUOTE, APPEND],
+    '"': [IN_DOUBLE_QUOTE, APPEND],
+    '[': [IN_SUB_PATH, INC_SUB_PATH_DEPTH],
+    ']': [IN_PATH, PUSH_SUB_PATH],
+    'eof': ERROR,
+    'else': [IN_SUB_PATH, APPEND]
+  };
+
+  pathStateMachine[IN_SINGLE_QUOTE] = {
+    "'": [IN_SUB_PATH, APPEND],
+    'eof': ERROR,
+    'else': [IN_SINGLE_QUOTE, APPEND]
+  };
+
+  pathStateMachine[IN_DOUBLE_QUOTE] = {
+    '"': [IN_SUB_PATH, APPEND],
+    'eof': ERROR,
+    'else': [IN_DOUBLE_QUOTE, APPEND]
+  };
+
+  /**
+   * Determine the type of a character in a keypath.
+   *
+   * @param {Char} ch
+   * @return {String} type
+   */
+
+  function getPathCharType(ch) {
+    if (ch === undefined) {
+      return 'eof';
+    }
+
+    var code = ch.charCodeAt(0);
+
+    switch (code) {
+      case 0x5B: // [
+      case 0x5D: // ]
+      case 0x2E: // .
+      case 0x22: // "
+      case 0x27: // '
+      case 0x30:
+        // 0
+        return ch;
+
+      case 0x5F: // _
+      case 0x24:
+        // $
+        return 'ident';
+
+      case 0x20: // Space
+      case 0x09: // Tab
+      case 0x0A: // Newline
+      case 0x0D: // Return
+      case 0xA0: // No-break space
+      case 0xFEFF: // Byte Order Mark
+      case 0x2028: // Line Separator
+      case 0x2029:
+        // Paragraph Separator
+        return 'ws';
+    }
+
+    // a-z, A-Z
+    if (code >= 0x61 && code <= 0x7A || code >= 0x41 && code <= 0x5A) {
+      return 'ident';
+    }
+
+    // 1-9
+    if (code >= 0x31 && code <= 0x39) {
+      return 'number';
+    }
+
+    return 'else';
+  }
+
+  /**
+   * Format a subPath, return its plain form if it is
+   * a literal string or number. Otherwise prepend the
+   * dynamic indicator (*).
+   *
+   * @param {String} path
+   * @return {String}
+   */
+
+  function formatSubPath(path) {
+    var trimmed = path.trim();
+    // invalid leading 0
+    if (path.charAt(0) === '0' && isNaN(path)) {
+      return false;
+    }
+    return isLiteral(trimmed) ? stripQuotes(trimmed) : '*' + trimmed;
+  }
+
+  /**
+   * Parse a string path into an array of segments
+   *
+   * @param {String} path
+   * @return {Array|undefined}
+   */
+
+  function parse(path) {
+    var keys = [];
+    var index = -1;
+    var mode = BEFORE_PATH;
+    var subPathDepth = 0;
+    var c, newChar, key, type, transition, action, typeMap;
+
+    var actions = [];
+
+    actions[PUSH] = function () {
+      if (key !== undefined) {
+        keys.push(key);
+        key = undefined;
+      }
+    };
+
+    actions[APPEND] = function () {
+      if (key === undefined) {
+        key = newChar;
+      } else {
+        key += newChar;
+      }
+    };
+
+    actions[INC_SUB_PATH_DEPTH] = function () {
+      actions[APPEND]();
+      subPathDepth++;
+    };
+
+    actions[PUSH_SUB_PATH] = function () {
+      if (subPathDepth > 0) {
+        subPathDepth--;
+        mode = IN_SUB_PATH;
+        actions[APPEND]();
+      } else {
+        subPathDepth = 0;
+        key = formatSubPath(key);
+        if (key === false) {
+          return false;
+        } else {
+          actions[PUSH]();
+        }
+      }
+    };
+
+    function maybeUnescapeQuote() {
+      var nextChar = path[index + 1];
+      if (mode === IN_SINGLE_QUOTE && nextChar === "'" || mode === IN_DOUBLE_QUOTE && nextChar === '"') {
+        index++;
+        newChar = '\\' + nextChar;
+        actions[APPEND]();
+        return true;
+      }
+    }
+
+    while (mode != null) {
+      index++;
+      c = path[index];
+
+      if (c === '\\' && maybeUnescapeQuote()) {
+        continue;
+      }
+
+      type = getPathCharType(c);
+      typeMap = pathStateMachine[mode];
+      transition = typeMap[type] || typeMap['else'] || ERROR;
+
+      if (transition === ERROR) {
+        return; // parse error
+      }
+
+      mode = transition[0];
+      action = actions[transition[1]];
+      if (action) {
+        newChar = transition[2];
+        newChar = newChar === undefined ? c : newChar;
+        if (action() === false) {
+          return;
+        }
+      }
+
+      if (mode === AFTER_PATH) {
+        keys.raw = path;
+        return keys;
+      }
+    }
+  }
+
+  /**
+   * External parse that check for a cache hit first
+   *
+   * @param {String} path
+   * @return {Array|undefined}
+   */
+
+  function parsePath(path) {
+    var hit = pathCache.get(path);
+    if (!hit) {
+      hit = parse(path);
+      if (hit) {
+        pathCache.put(path, hit);
+      }
+    }
+    return hit;
+  }
+
+  /**
+   * Get from an object from a path string
+   *
+   * @param {Object} obj
+   * @param {String} path
+   */
+
+  function getPath(obj, path) {
+    return parseExpression(path).get(obj);
+  }
+
+  /**
+   * Warn against setting non-existent root path on a vm.
+   */
+
+  var warnNonExistent;
+  if ('development' !== 'production') {
+    warnNonExistent = function (path) {
+      warn('You are setting a non-existent path "' + path.raw + '" ' + 'on a vm instance. Consider pre-initializing the property ' + 'with the "data" option for more reliable reactivity ' + 'and better performance.');
+    };
+  }
+
+  /**
+   * Set on an object from a path
+   *
+   * @param {Object} obj
+   * @param {String | Array} path
+   * @param {*} val
+   */
+
+  function setPath(obj, path, val) {
+    var original = obj;
+    if (typeof path === 'string') {
+      path = parse(path);
+    }
+    if (!path || !isObject(obj)) {
+      return false;
+    }
+    var last, key;
+    for (var i = 0, l = path.length; i < l; i++) {
+      last = obj;
+      key = path[i];
+      if (key.charAt(0) === '*') {
+        key = parseExpression(key.slice(1)).get.call(original, original);
+      }
+      if (i < l - 1) {
+        obj = obj[key];
+        if (!isObject(obj)) {
+          obj = {};
+          if ('development' !== 'production' && last._isVue) {
+            warnNonExistent(path);
+          }
+          set(last, key, obj);
+        }
+      } else {
+        if (isArray(obj)) {
+          obj.$set(key, val);
+        } else if (key in obj) {
+          obj[key] = val;
+        } else {
+          if ('development' !== 'production' && obj._isVue) {
+            warnNonExistent(path);
+          }
+          set(obj, key, val);
+        }
+      }
+    }
+    return true;
+  }
+
+  var path = Object.freeze({
+    parsePath: parsePath,
+    getPath: getPath,
+    setPath: setPath
+  });
+
+  var expressionCache = new Cache(1000);
+
+  var allowedKeywords = 'Math,Date,this,true,false,null,undefined,Infinity,NaN,' + 'isNaN,isFinite,decodeURI,decodeURIComponent,encodeURI,' + 'encodeURIComponent,parseInt,parseFloat';
+  var allowedKeywordsRE = new RegExp('^(' + allowedKeywords.replace(/,/g, '\\b|') + '\\b)');
+
+  // keywords that don't make sense inside expressions
+  var improperKeywords = 'break,case,class,catch,const,continue,debugger,default,' + 'delete,do,else,export,extends,finally,for,function,if,' + 'import,in,instanceof,let,return,super,switch,throw,try,' + 'var,while,with,yield,enum,await,implements,package,' + 'proctected,static,interface,private,public';
+  var improperKeywordsRE = new RegExp('^(' + improperKeywords.replace(/,/g, '\\b|') + '\\b)');
+
+  var wsRE = /\s/g;
+  var newlineRE = /\n/g;
+  var saveRE = /[\{,]\s*[\w\$_]+\s*:|('(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*")|new |typeof |void /g;
+  var restoreRE = /"(\d+)"/g;
+  var pathTestRE = /^[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*|\['.*?'\]|\[".*?"\]|\[\d+\]|\[[A-Za-z_$][\w$]*\])*$/;
+  var identRE = /[^\w$\.](?:[A-Za-z_$][\w$]*)/g;
+  var booleanLiteralRE = /^(?:true|false)$/;
+
+  /**
+   * Save / Rewrite / Restore
+   *
+   * When rewriting paths found in an expression, it is
+   * possible for the same letter sequences to be found in
+   * strings and Object literal property keys. Therefore we
+   * remove and store these parts in a temporary array, and
+   * restore them after the path rewrite.
+   */
+
+  var saved = [];
+
+  /**
+   * Save replacer
+   *
+   * The save regex can match two possible cases:
+   * 1. An opening object literal
+   * 2. A string
+   * If matched as a plain string, we need to escape its
+   * newlines, since the string needs to be preserved when
+   * generating the function body.
+   *
+   * @param {String} str
+   * @param {String} isString - str if matched as a string
+   * @return {String} - placeholder with index
+   */
+
+  function save(str, isString) {
+    var i = saved.length;
+    saved[i] = isString ? str.replace(newlineRE, '\\n') : str;
+    return '"' + i + '"';
+  }
+
+  /**
+   * Path rewrite replacer
+   *
+   * @param {String} raw
+   * @return {String}
+   */
+
+  function rewrite(raw) {
+    var c = raw.charAt(0);
+    var path = raw.slice(1);
+    if (allowedKeywordsRE.test(path)) {
+      return raw;
+    } else {
+      path = path.indexOf('"') > -1 ? path.replace(restoreRE, restore) : path;
+      return c + 'scope.' + path;
+    }
+  }
+
+  /**
+   * Restore replacer
+   *
+   * @param {String} str
+   * @param {String} i - matched save index
+   * @return {String}
+   */
+
+  function restore(str, i) {
+    return saved[i];
+  }
+
+  /**
+   * Rewrite an expression, prefixing all path accessors with
+   * `scope.` and generate getter/setter functions.
+   *
+   * @param {String} exp
+   * @return {Function}
+   */
+
+  function compileGetter(exp) {
+    if (improperKeywordsRE.test(exp)) {
+      'development' !== 'production' && warn('Avoid using reserved keywords in expression: ' + exp);
+    }
+    // reset state
+    saved.length = 0;
+    // save strings and object literal keys
+    var body = exp.replace(saveRE, save).replace(wsRE, '');
+    // rewrite all paths
+    // pad 1 space here becaue the regex matches 1 extra char
+    body = (' ' + body).replace(identRE, rewrite).replace(restoreRE, restore);
+    return makeGetterFn(body);
+  }
+
+  /**
+   * Build a getter function. Requires eval.
+   *
+   * We isolate the try/catch so it doesn't affect the
+   * optimization of the parse function when it is not called.
+   *
+   * @param {String} body
+   * @return {Function|undefined}
+   */
+
+  function makeGetterFn(body) {
+    try {
+      return new Function('scope', 'return ' + body + ';');
+    } catch (e) {
+      'development' !== 'production' && warn('Invalid expression. ' + 'Generated function body: ' + body);
+    }
+  }
+
+  /**
+   * Compile a setter function for the expression.
+   *
+   * @param {String} exp
+   * @return {Function|undefined}
+   */
+
+  function compileSetter(exp) {
+    var path = parsePath(exp);
+    if (path) {
+      return function (scope, val) {
+        setPath(scope, path, val);
+      };
+    } else {
+      'development' !== 'production' && warn('Invalid setter expression: ' + exp);
+    }
+  }
+
+  /**
+   * Parse an expression into re-written getter/setters.
+   *
+   * @param {String} exp
+   * @param {Boolean} needSet
+   * @return {Function}
+   */
+
+  function parseExpression(exp, needSet) {
+    exp = exp.trim();
+    // try cache
+    var hit = expressionCache.get(exp);
+    if (hit) {
+      if (needSet && !hit.set) {
+        hit.set = compileSetter(hit.exp);
+      }
+      return hit;
+    }
+    var res = { exp: exp };
+    res.get = isSimplePath(exp) && exp.indexOf('[') < 0
+    // optimized super simple getter
+    ? makeGetterFn('scope.' + exp)
+    // dynamic getter
+    : compileGetter(exp);
+    if (needSet) {
+      res.set = compileSetter(exp);
+    }
+    expressionCache.put(exp, res);
+    return res;
+  }
+
+  /**
+   * Check if an expression is a simple path.
+   *
+   * @param {String} exp
+   * @return {Boolean}
+   */
+
+  function isSimplePath(exp) {
+    return pathTestRE.test(exp) &&
+    // don't treat true/false as paths
+    !booleanLiteralRE.test(exp) &&
+    // Math constants e.g. Math.PI, Math.E etc.
+    exp.slice(0, 5) !== 'Math.';
+  }
+
+  var expression = Object.freeze({
+    parseExpression: parseExpression,
+    isSimplePath: isSimplePath
+  });
+
+  // we have two separate queues: one for directive updates
+  // and one for user watcher registered via $watch().
+  // we want to guarantee directive updates to be called
+  // before user watchers so that when user watchers are
+  // triggered, the DOM would have already been in updated
+  // state.
+  var queue = [];
+  var userQueue = [];
+  var has = {};
+  var circular = {};
+  var waiting = false;
+  var internalQueueDepleted = false;
+
+  /**
+   * Reset the batcher's state.
+   */
+
+  function resetBatcherState() {
+    queue = [];
+    userQueue = [];
+    has = {};
+    circular = {};
+    waiting = internalQueueDepleted = false;
+  }
+
+  /**
+   * Flush both queues and run the watchers.
+   */
+
+  function flushBatcherQueue() {
+    runBatcherQueue(queue);
+    internalQueueDepleted = true;
+    runBatcherQueue(userQueue);
+    // dev tool hook
+    /* istanbul ignore if */
+    if (devtools) {
+      devtools.emit('flush');
+    }
+    resetBatcherState();
+  }
+
+  /**
+   * Run the watchers in a single queue.
+   *
+   * @param {Array} queue
+   */
+
+  function runBatcherQueue(queue) {
+    // do not cache length because more watchers might be pushed
+    // as we run existing watchers
+    for (var i = 0; i < queue.length; i++) {
+      var watcher = queue[i];
+      var id = watcher.id;
+      has[id] = null;
+      watcher.run();
+      // in dev build, check and stop circular updates.
+      if ('development' !== 'production' && has[id] != null) {
+        circular[id] = (circular[id] || 0) + 1;
+        if (circular[id] > config._maxUpdateCount) {
+          queue.splice(has[id], 1);
+          warn('You may have an infinite update loop for watcher ' + 'with expression: ' + watcher.expression);
+        }
+      }
+    }
+  }
+
+  /**
+   * Push a watcher into the watcher queue.
+   * Jobs with duplicate IDs will be skipped unless it's
+   * pushed when the queue is being flushed.
+   *
+   * @param {Watcher} watcher
+   *   properties:
+   *   - {Number} id
+   *   - {Function} run
+   */
+
+  function pushWatcher(watcher) {
+    var id = watcher.id;
+    if (has[id] == null) {
+      // if an internal watcher is pushed, but the internal
+      // queue is already depleted, we run it immediately.
+      if (internalQueueDepleted && !watcher.user) {
+        watcher.run();
+        return;
+      }
+      // push watcher into appropriate queue
+      var q = watcher.user ? userQueue : queue;
+      has[id] = q.length;
+      q.push(watcher);
+      // queue the flush
+      if (!waiting) {
+        waiting = true;
+        nextTick(flushBatcherQueue);
+      }
+    }
+  }
+
+  var uid$2 = 0;
+
+  /**
+   * A watcher parses an expression, collects dependencies,
+   * and fires callback when the expression value changes.
+   * This is used for both the $watch() api and directives.
+   *
+   * @param {Vue} vm
+   * @param {String} expression
+   * @param {Function} cb
+   * @param {Object} options
+   *                 - {Array} filters
+   *                 - {Boolean} twoWay
+   *                 - {Boolean} deep
+   *                 - {Boolean} user
+   *                 - {Boolean} sync
+   *                 - {Boolean} lazy
+   *                 - {Function} [preProcess]
+   *                 - {Function} [postProcess]
+   * @constructor
+   */
+  function Watcher(vm, expOrFn, cb, options) {
+    // mix in options
+    if (options) {
+      extend(this, options);
+    }
+    var isFn = typeof expOrFn === 'function';
+    this.vm = vm;
+    vm._watchers.push(this);
+    this.expression = isFn ? expOrFn.toString() : expOrFn;
+    this.cb = cb;
+    this.id = ++uid$2; // uid for batching
+    this.active = true;
+    this.dirty = this.lazy; // for lazy watchers
+    this.deps = Object.create(null);
+    this.newDeps = null;
+    this.prevError = null; // for async error stacks
+    // parse expression for getter/setter
+    if (isFn) {
+      this.getter = expOrFn;
+      this.setter = undefined;
+    } else {
+      var res = parseExpression(expOrFn, this.twoWay);
+      this.getter = res.get;
+      this.setter = res.set;
+    }
+    this.value = this.lazy ? undefined : this.get();
+    // state for avoiding false triggers for deep and Array
+    // watchers during vm._digest()
+    this.queued = this.shallow = false;
+  }
+
+  /**
+   * Add a dependency to this directive.
+   *
+   * @param {Dep} dep
+   */
+
+  Watcher.prototype.addDep = function (dep) {
+    var id = dep.id;
+    if (!this.newDeps[id]) {
+      this.newDeps[id] = dep;
+      if (!this.deps[id]) {
+        this.deps[id] = dep;
+        dep.addSub(this);
+      }
+    }
+  };
+
+  /**
+   * Evaluate the getter, and re-collect dependencies.
+   */
+
+  Watcher.prototype.get = function () {
+    this.beforeGet();
+    var scope = this.scope || this.vm;
+    var value;
+    try {
+      value = this.getter.call(scope, scope);
+    } catch (e) {
+      if ('development' !== 'production' && config.warnExpressionErrors) {
+        warn('Error when evaluating expression "' + this.expression + '". ' + (config.debug ? '' : 'Turn on debug mode to see stack trace.'), e);
+      }
+    }
+    // "touch" every property so they are all tracked as
+    // dependencies for deep watching
+    if (this.deep) {
+      traverse(value);
+    }
+    if (this.preProcess) {
+      value = this.preProcess(value);
+    }
+    if (this.filters) {
+      value = scope._applyFilters(value, null, this.filters, false);
+    }
+    if (this.postProcess) {
+      value = this.postProcess(value);
+    }
+    this.afterGet();
+    return value;
+  };
+
+  /**
+   * Set the corresponding value with the setter.
+   *
+   * @param {*} value
+   */
+
+  Watcher.prototype.set = function (value) {
+    var scope = this.scope || this.vm;
+    if (this.filters) {
+      value = scope._applyFilters(value, this.value, this.filters, true);
+    }
+    try {
+      this.setter.call(scope, scope, value);
+    } catch (e) {
+      if ('development' !== 'production' && config.warnExpressionErrors) {
+        warn('Error when evaluating setter "' + this.expression + '"', e);
+      }
+    }
+    // two-way sync for v-for alias
+    var forContext = scope.$forContext;
+    if (forContext && forContext.alias === this.expression) {
+      if (forContext.filters) {
+        'development' !== 'production' && warn('It seems you are using two-way binding on ' + 'a v-for alias (' + this.expression + '), and the ' + 'v-for has filters. This will not work properly. ' + 'Either remove the filters or use an array of ' + 'objects and bind to object properties instead.');
+        return;
+      }
+      forContext._withLock(function () {
+        if (scope.$key) {
+          // original is an object
+          forContext.rawValue[scope.$key] = value;
+        } else {
+          forContext.rawValue.$set(scope.$index, value);
+        }
+      });
+    }
+  };
+
+  /**
+   * Prepare for dependency collection.
+   */
+
+  Watcher.prototype.beforeGet = function () {
+    Dep.target = this;
+    this.newDeps = Object.create(null);
+  };
+
+  /**
+   * Clean up for dependency collection.
+   */
+
+  Watcher.prototype.afterGet = function () {
+    Dep.target = null;
+    var ids = Object.keys(this.deps);
+    var i = ids.length;
+    while (i--) {
+      var id = ids[i];
+      if (!this.newDeps[id]) {
+        this.deps[id].removeSub(this);
+      }
+    }
+    this.deps = this.newDeps;
+  };
+
+  /**
+   * Subscriber interface.
+   * Will be called when a dependency changes.
+   *
+   * @param {Boolean} shallow
+   */
+
+  Watcher.prototype.update = function (shallow) {
+    if (this.lazy) {
+      this.dirty = true;
+    } else if (this.sync || !config.async) {
+      this.run();
+    } else {
+      // if queued, only overwrite shallow with non-shallow,
+      // but not the other way around.
+      this.shallow = this.queued ? shallow ? this.shallow : false : !!shallow;
+      this.queued = true;
+      // record before-push error stack in debug mode
+      /* istanbul ignore if */
+      if ('development' !== 'production' && config.debug) {
+        this.prevError = new Error('[vue] async stack trace');
+      }
+      pushWatcher(this);
+    }
+  };
+
+  /**
+   * Batcher job interface.
+   * Will be called by the batcher.
+   */
+
+  Watcher.prototype.run = function () {
+    if (this.active) {
+      var value = this.get();
+      if (value !== this.value ||
+      // Deep watchers and watchers on Object/Arrays should fire even
+      // when the value is the same, because the value may
+      // have mutated; but only do so if this is a
+      // non-shallow update (caused by a vm digest).
+      (isObject(value) || this.deep) && !this.shallow) {
+        // set new value
+        var oldValue = this.value;
+        this.value = value;
+        // in debug + async mode, when a watcher callbacks
+        // throws, we also throw the saved before-push error
+        // so the full cross-tick stack trace is available.
+        var prevError = this.prevError;
+        /* istanbul ignore if */
+        if ('development' !== 'production' && config.debug && prevError) {
+          this.prevError = null;
+          try {
+            this.cb.call(this.vm, value, oldValue);
+          } catch (e) {
+            nextTick(function () {
+              throw prevError;
+            }, 0);
+            throw e;
+          }
+        } else {
+          this.cb.call(this.vm, value, oldValue);
+        }
+      }
+      this.queued = this.shallow = false;
+    }
+  };
+
+  /**
+   * Evaluate the value of the watcher.
+   * This only gets called for lazy watchers.
+   */
+
+  Watcher.prototype.evaluate = function () {
+    // avoid overwriting another watcher that is being
+    // collected.
+    var current = Dep.target;
+    this.value = this.get();
+    this.dirty = false;
+    Dep.target = current;
+  };
+
+  /**
+   * Depend on all deps collected by this watcher.
+   */
+
+  Watcher.prototype.depend = function () {
+    var depIds = Object.keys(this.deps);
+    var i = depIds.length;
+    while (i--) {
+      this.deps[depIds[i]].depend();
+    }
+  };
+
+  /**
+   * Remove self from all dependencies' subcriber list.
+   */
+
+  Watcher.prototype.teardown = function () {
+    if (this.active) {
+      // remove self from vm's watcher list
+      // this is a somewhat expensive operation so we skip it
+      // if the vm is being destroyed or is performing a v-for
+      // re-render (the watcher list is then filtered by v-for).
+      if (!this.vm._isBeingDestroyed && !this.vm._vForRemoving) {
+        this.vm._watchers.$remove(this);
+      }
+      var depIds = Object.keys(this.deps);
+      var i = depIds.length;
+      while (i--) {
+        this.deps[depIds[i]].removeSub(this);
+      }
+      this.active = false;
+      this.vm = this.cb = this.value = null;
+    }
+  };
+
+  /**
+   * Recrusively traverse an object to evoke all converted
+   * getters, so that every nested property inside the object
+   * is collected as a "deep" dependency.
+   *
+   * @param {*} val
+   */
+
+  function traverse(val) {
+    var i, keys;
+    if (isArray(val)) {
+      i = val.length;
+      while (i--) traverse(val[i]);
+    } else if (isObject(val)) {
+      keys = Object.keys(val);
+      i = keys.length;
+      while (i--) traverse(val[keys[i]]);
+    }
+  }
+
+  var cloak = {
+    bind: function bind() {
+      var el = this.el;
+      this.vm.$once('pre-hook:compiled', function () {
+        el.removeAttribute('v-cloak');
+      });
+    }
+  };
+
+  var ref = {
+    bind: function bind() {
+      'development' !== 'production' && warn('v-ref:' + this.arg + ' must be used on a child ' + 'component. Found on <' + this.el.tagName.toLowerCase() + '>.');
+    }
+  };
+
+  var ON = 700;
+  var MODEL = 800;
+  var BIND = 850;
+  var TRANSITION = 1100;
+  var EL = 1500;
+  var COMPONENT = 1500;
+  var PARTIAL = 1750;
+  var FOR = 2000;
+  var IF = 2000;
+  var SLOT = 2100;
+
+  var el = {
+
+    priority: EL,
+
+    bind: function bind() {
+      /* istanbul ignore if */
+      if (!this.arg) {
+        return;
+      }
+      var id = this.id = camelize(this.arg);
+      var refs = (this._scope || this.vm).$els;
+      if (hasOwn(refs, id)) {
+        refs[id] = this.el;
+      } else {
+        defineReactive(refs, id, this.el);
+      }
+    },
+
+    unbind: function unbind() {
+      var refs = (this._scope || this.vm).$els;
+      if (refs[this.id] === this.el) {
+        refs[this.id] = null;
+      }
+    }
+  };
+
+  var prefixes = ['-webkit-', '-moz-', '-ms-'];
+  var camelPrefixes = ['Webkit', 'Moz', 'ms'];
+  var importantRE = /!important;?$/;
+  var propCache = Object.create(null);
+
+  var testEl = null;
+
+  var style = {
+
+    deep: true,
+
+    update: function update(value) {
+      if (typeof value === 'string') {
+        this.el.style.cssText = value;
+      } else if (isArray(value)) {
+        this.handleObject(value.reduce(extend, {}));
+      } else {
+        this.handleObject(value || {});
+      }
+    },
+
+    handleObject: function handleObject(value) {
+      // cache object styles so that only changed props
+      // are actually updated.
+      var cache = this.cache || (this.cache = {});
+      var name, val;
+      for (name in cache) {
+        if (!(name in value)) {
+          this.handleSingle(name, null);
+          delete cache[name];
+        }
+      }
+      for (name in value) {
+        val = value[name];
+        if (val !== cache[name]) {
+          cache[name] = val;
+          this.handleSingle(name, val);
+        }
+      }
+    },
+
+    handleSingle: function handleSingle(prop, value) {
+      prop = normalize(prop);
+      if (!prop) return; // unsupported prop
+      // cast possible numbers/booleans into strings
+      if (value != null) value += '';
+      if (value) {
+        var isImportant = importantRE.test(value) ? 'important' : '';
+        if (isImportant) {
+          value = value.replace(importantRE, '').trim();
+        }
+        this.el.style.setProperty(prop, value, isImportant);
+      } else {
+        this.el.style.removeProperty(prop);
+      }
+    }
+
+  };
+
+  /**
+   * Normalize a CSS property name.
+   * - cache result
+   * - auto prefix
+   * - camelCase -> dash-case
+   *
+   * @param {String} prop
+   * @return {String}
+   */
+
+  function normalize(prop) {
+    if (propCache[prop]) {
+      return propCache[prop];
+    }
+    var res = prefix(prop);
+    propCache[prop] = propCache[res] = res;
+    return res;
+  }
+
+  /**
+   * Auto detect the appropriate prefix for a CSS property.
+   * https://gist.github.com/paulirish/523692
+   *
+   * @param {String} prop
+   * @return {String}
+   */
+
+  function prefix(prop) {
+    prop = hyphenate(prop);
+    var camel = camelize(prop);
+    var upper = camel.charAt(0).toUpperCase() + camel.slice(1);
+    if (!testEl) {
+      testEl = document.createElement('div');
+    }
+    var i = prefixes.length;
+    var prefixed;
+    while (i--) {
+      prefixed = camelPrefixes[i] + upper;
+      if (prefixed in testEl.style) {
+        return prefixes[i] + prop;
+      }
+    }
+    if (camel in testEl.style) {
+      return prop;
+    }
+  }
+
+  // xlink
+  var xlinkNS = 'http://www.w3.org/1999/xlink';
+  var xlinkRE = /^xlink:/;
+
+  // check for attributes that prohibit interpolations
+  var disallowedInterpAttrRE = /^v-|^:|^@|^(?:is|transition|transition-mode|debounce|track-by|stagger|enter-stagger|leave-stagger)$/;
+  // these attributes should also set their corresponding properties
+  // because they only affect the initial state of the element
+  var attrWithPropsRE = /^(?:value|checked|selected|muted)$/;
+
+  // these attributes should set a hidden property for
+  // binding v-model to object values
+  var modelProps = {
+    value: '_value',
+    'true-value': '_trueValue',
+    'false-value': '_falseValue'
+  };
+
+  var bind = {
+
+    priority: BIND,
+
+    bind: function bind() {
+      var attr = this.arg;
+      var tag = this.el.tagName;
+      // should be deep watch on object mode
+      if (!attr) {
+        this.deep = true;
+      }
+      // handle interpolation bindings
+      var descriptor = this.descriptor;
+      var tokens = descriptor.interp;
+      if (tokens) {
+        // handle interpolations with one-time tokens
+        if (descriptor.hasOneTime) {
+          this.expression = tokensToExp(tokens, this._scope || this.vm);
+        }
+
+        // only allow binding on native attributes
+        if (disallowedInterpAttrRE.test(attr) || attr === 'name' && (tag === 'PARTIAL' || tag === 'SLOT')) {
+          'development' !== 'production' && warn(attr + '="' + descriptor.raw + '": ' + 'attribute interpolation is not allowed in Vue.js ' + 'directives and special attributes.');
+          this.el.removeAttribute(attr);
+          this.invalid = true;
+        }
+
+        /* istanbul ignore if */
+        if ('development' !== 'production') {
+          var raw = attr + '="' + descriptor.raw + '": ';
+          // warn src
+          if (attr === 'src') {
+            warn(raw + 'interpolation in "src" attribute will cause ' + 'a 404 request. Use v-bind:src instead.');
+          }
+
+          // warn style
+          if (attr === 'style') {
+            warn(raw + 'interpolation in "style" attribute will cause ' + 'the attribute to be discarded in Internet Explorer. ' + 'Use v-bind:style instead.');
+          }
+        }
+      }
+    },
+
+    update: function update(value) {
+      if (this.invalid) {
+        return;
+      }
+      var attr = this.arg;
+      if (this.arg) {
+        this.handleSingle(attr, value);
+      } else {
+        this.handleObject(value || {});
+      }
+    },
+
+    // share object handler with v-bind:class
+    handleObject: style.handleObject,
+
+    handleSingle: function handleSingle(attr, value) {
+      var el = this.el;
+      var interp = this.descriptor.interp;
+      if (this.modifiers.camel) {
+        attr = camelize(attr);
+      }
+      if (!interp && attrWithPropsRE.test(attr) && attr in el) {
+        el[attr] = attr === 'value' ? value == null // IE9 will set input.value to "null" for null...
+        ? '' : value : value;
+      }
+      // set model props
+      var modelProp = modelProps[attr];
+      if (!interp && modelProp) {
+        el[modelProp] = value;
+        // update v-model if present
+        var model = el.__v_model;
+        if (model) {
+          model.listener();
+        }
+      }
+      // do not set value attribute for textarea
+      if (attr === 'value' && el.tagName === 'TEXTAREA') {
+        el.removeAttribute(attr);
+        return;
+      }
+      // update attribute
+      if (value != null && value !== false) {
+        if (attr === 'class') {
+          // handle edge case #1960:
+          // class interpolation should not overwrite Vue transition class
+          if (el.__v_trans) {
+            value += ' ' + el.__v_trans.id + '-transition';
+          }
+          setClass(el, value);
+        } else if (xlinkRE.test(attr)) {
+          el.setAttributeNS(xlinkNS, attr, value === true ? '' : value);
+        } else {
+          el.setAttribute(attr, value === true ? '' : value);
+        }
+      } else {
+        el.removeAttribute(attr);
+      }
+    }
+  };
+
+  // keyCode aliases
+  var keyCodes = {
+    esc: 27,
+    tab: 9,
+    enter: 13,
+    space: 32,
+    'delete': [8, 46],
+    up: 38,
+    left: 37,
+    right: 39,
+    down: 40
+  };
+
+  function keyFilter(handler, keys) {
+    var codes = keys.map(function (key) {
+      var charCode = key.charCodeAt(0);
+      if (charCode > 47 && charCode < 58) {
+        return parseInt(key, 10);
+      }
+      if (key.length === 1) {
+        charCode = key.toUpperCase().charCodeAt(0);
+        if (charCode > 64 && charCode < 91) {
+          return charCode;
+        }
+      }
+      return keyCodes[key];
+    });
+    codes = [].concat.apply([], codes);
+    return function keyHandler(e) {
+      if (codes.indexOf(e.keyCode) > -1) {
+        return handler.call(this, e);
+      }
+    };
+  }
+
+  function stopFilter(handler) {
+    return function stopHandler(e) {
+      e.stopPropagation();
+      return handler.call(this, e);
+    };
+  }
+
+  function preventFilter(handler) {
+    return function preventHandler(e) {
+      e.preventDefault();
+      return handler.call(this, e);
+    };
+  }
+
+  function selfFilter(handler) {
+    return function selfHandler(e) {
+      if (e.target === e.currentTarget) {
+        return handler.call(this, e);
+      }
+    };
+  }
+
+  var on = {
+
+    acceptStatement: true,
+    priority: ON,
+
+    bind: function bind() {
+      // deal with iframes
+      if (this.el.tagName === 'IFRAME' && this.arg !== 'load') {
+        var self = this;
+        this.iframeBind = function () {
+          on$1(self.el.contentWindow, self.arg, self.handler, self.modifiers.capture);
+        };
+        this.on('load', this.iframeBind);
+      }
+    },
+
+    update: function update(handler) {
+      // stub a noop for v-on with no value,
+      // e.g. @mousedown.prevent
+      if (!this.descriptor.raw) {
+        handler = function () {};
+      }
+
+      if (typeof handler !== 'function') {
+        'development' !== 'production' && warn('v-on:' + this.arg + '="' + this.expression + '" expects a function value, ' + 'got ' + handler);
+        return;
+      }
+
+      // apply modifiers
+      if (this.modifiers.stop) {
+        handler = stopFilter(handler);
+      }
+      if (this.modifiers.prevent) {
+        handler = preventFilter(handler);
+      }
+      if (this.modifiers.self) {
+        handler = selfFilter(handler);
+      }
+      // key filter
+      var keys = Object.keys(this.modifiers).filter(function (key) {
+        return key !== 'stop' && key !== 'prevent';
+      });
+      if (keys.length) {
+        handler = keyFilter(handler, keys);
+      }
+
+      this.reset();
+      this.handler = handler;
+
+      if (this.iframeBind) {
+        this.iframeBind();
+      } else {
+        on$1(this.el, this.arg, this.handler, this.modifiers.capture);
+      }
+    },
+
+    reset: function reset() {
+      var el = this.iframeBind ? this.el.contentWindow : this.el;
+      if (this.handler) {
+        off(el, this.arg, this.handler);
+      }
+    },
+
+    unbind: function unbind() {
+      this.reset();
+    }
+  };
+
+  var checkbox = {
+
+    bind: function bind() {
+      var self = this;
+      var el = this.el;
+
+      this.getValue = function () {
+        return el.hasOwnProperty('_value') ? el._value : self.params.number ? toNumber(el.value) : el.value;
+      };
+
+      function getBooleanValue() {
+        var val = el.checked;
+        if (val && el.hasOwnProperty('_trueValue')) {
+          return el._trueValue;
+        }
+        if (!val && el.hasOwnProperty('_falseValue')) {
+          return el._falseValue;
+        }
+        return val;
+      }
+
+      this.listener = function () {
+        var model = self._watcher.value;
+        if (isArray(model)) {
+          var val = self.getValue();
+          if (el.checked) {
+            if (indexOf(model, val) < 0) {
+              model.push(val);
+            }
+          } else {
+            model.$remove(val);
+          }
+        } else {
+          self.set(getBooleanValue());
+        }
+      };
+
+      this.on('change', this.listener);
+      if (el.hasAttribute('checked')) {
+        this.afterBind = this.listener;
+      }
+    },
+
+    update: function update(value) {
+      var el = this.el;
+      if (isArray(value)) {
+        el.checked = indexOf(value, this.getValue()) > -1;
+      } else {
+        if (el.hasOwnProperty('_trueValue')) {
+          el.checked = looseEqual(value, el._trueValue);
+        } else {
+          el.checked = !!value;
+        }
+      }
+    }
+  };
+
+  var select = {
+
+    bind: function bind() {
+      var self = this;
+      var el = this.el;
+
+      // method to force update DOM using latest value.
+      this.forceUpdate = function () {
+        if (self._watcher) {
+          self.update(self._watcher.get());
+        }
+      };
+
+      // check if this is a multiple select
+      var multiple = this.multiple = el.hasAttribute('multiple');
+
+      // attach listener
+      this.listener = function () {
+        var value = getValue(el, multiple);
+        value = self.params.number ? isArray(value) ? value.map(toNumber) : toNumber(value) : value;
+        self.set(value);
+      };
+      this.on('change', this.listener);
+
+      // if has initial value, set afterBind
+      var initValue = getValue(el, multiple, true);
+      if (multiple && initValue.length || !multiple && initValue !== null) {
+        this.afterBind = this.listener;
+      }
+
+      // All major browsers except Firefox resets
+      // selectedIndex with value -1 to 0 when the element
+      // is appended to a new parent, therefore we have to
+      // force a DOM update whenever that happens...
+      this.vm.$on('hook:attached', this.forceUpdate);
+    },
+
+    update: function update(value) {
+      var el = this.el;
+      el.selectedIndex = -1;
+      var multi = this.multiple && isArray(value);
+      var options = el.options;
+      var i = options.length;
+      var op, val;
+      while (i--) {
+        op = options[i];
+        val = op.hasOwnProperty('_value') ? op._value : op.value;
+        /* eslint-disable eqeqeq */
+        op.selected = multi ? indexOf$1(value, val) > -1 : looseEqual(value, val);
+        /* eslint-enable eqeqeq */
+      }
+    },
+
+    unbind: function unbind() {
+      /* istanbul ignore next */
+      this.vm.$off('hook:attached', this.forceUpdate);
+    }
+  };
+
+  /**
+   * Get select value
+   *
+   * @param {SelectElement} el
+   * @param {Boolean} multi
+   * @param {Boolean} init
+   * @return {Array|*}
+   */
+
+  function getValue(el, multi, init) {
+    var res = multi ? [] : null;
+    var op, val, selected;
+    for (var i = 0, l = el.options.length; i < l; i++) {
+      op = el.options[i];
+      selected = init ? op.hasAttribute('selected') : op.selected;
+      if (selected) {
+        val = op.hasOwnProperty('_value') ? op._value : op.value;
+        if (multi) {
+          res.push(val);
+        } else {
+          return val;
+        }
+      }
+    }
+    return res;
+  }
+
+  /**
+   * Native Array.indexOf uses strict equal, but in this
+   * case we need to match string/numbers with custom equal.
+   *
+   * @param {Array} arr
+   * @param {*} val
+   */
+
+  function indexOf$1(arr, val) {
+    var i = arr.length;
+    while (i--) {
+      if (looseEqual(arr[i], val)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  var radio = {
+
+    bind: function bind() {
+      var self = this;
+      var el = this.el;
+
+      this.getValue = function () {
+        // value overwrite via v-bind:value
+        if (el.hasOwnProperty('_value')) {
+          return el._value;
+        }
+        var val = el.value;
+        if (self.params.number) {
+          val = toNumber(val);
+        }
+        return val;
+      };
+
+      this.listener = function () {
+        self.set(self.getValue());
+      };
+      this.on('change', this.listener);
+
+      if (el.hasAttribute('checked')) {
+        this.afterBind = this.listener;
+      }
+    },
+
+    update: function update(value) {
+      this.el.checked = looseEqual(value, this.getValue());
+    }
+  };
+
+  var text$2 = {
+
+    bind: function bind() {
+      var self = this;
+      var el = this.el;
+      var isRange = el.type === 'range';
+      var lazy = this.params.lazy;
+      var number = this.params.number;
+      var debounce = this.params.debounce;
+
+      // handle composition events.
+      //   http://blog.evanyou.me/2014/01/03/composition-event/
+      // skip this for Android because it handles composition
+      // events quite differently. Android doesn't trigger
+      // composition events for language input methods e.g.
+      // Chinese, but instead triggers them for spelling
+      // suggestions... (see Discussion/#162)
+      var composing = false;
+      if (!isAndroid && !isRange) {
+        this.on('compositionstart', function () {
+          composing = true;
+        });
+        this.on('compositionend', function () {
+          composing = false;
+          // in IE11 the "compositionend" event fires AFTER
+          // the "input" event, so the input handler is blocked
+          // at the end... have to call it here.
+          //
+          // #1327: in lazy mode this is unecessary.
+          if (!lazy) {
+            self.listener();
+          }
+        });
+      }
+
+      // prevent messing with the input when user is typing,
+      // and force update on blur.
+      this.focused = false;
+      if (!isRange && !lazy) {
+        this.on('focus', function () {
+          self.focused = true;
+        });
+        this.on('blur', function () {
+          self.focused = false;
+          // do not sync value after fragment removal (#2017)
+          if (!self._frag || self._frag.inserted) {
+            self.rawListener();
+          }
+        });
+      }
+
+      // Now attach the main listener
+      this.listener = this.rawListener = function () {
+        if (composing || !self._bound) {
+          return;
+        }
+        var val = number || isRange ? toNumber(el.value) : el.value;
+        self.set(val);
+        // force update on next tick to avoid lock & same value
+        // also only update when user is not typing
+        nextTick(function () {
+          if (self._bound && !self.focused) {
+            self.update(self._watcher.value);
+          }
+        });
+      };
+
+      // apply debounce
+      if (debounce) {
+        this.listener = _debounce(this.listener, debounce);
+      }
+
+      // Support jQuery events, since jQuery.trigger() doesn't
+      // trigger native events in some cases and some plugins
+      // rely on $.trigger()
+      //
+      // We want to make sure if a listener is attached using
+      // jQuery, it is also removed with jQuery, that's why
+      // we do the check for each directive instance and
+      // store that check result on itself. This also allows
+      // easier test coverage control by unsetting the global
+      // jQuery variable in tests.
+      this.hasjQuery = typeof jQuery === 'function';
+      if (this.hasjQuery) {
+        var method = jQuery.fn.on ? 'on' : 'bind';
+        jQuery(el)[method]('change', this.listener);
+        if (!lazy) {
+          jQuery(el)[method]('input', this.listener);
+        }
+      } else {
+        this.on('change', this.listener);
+        if (!lazy) {
+          this.on('input', this.listener);
+        }
+      }
+
+      // IE9 doesn't fire input event on backspace/del/cut
+      if (!lazy && isIE9) {
+        this.on('cut', function () {
+          nextTick(self.listener);
+        });
+        this.on('keyup', function (e) {
+          if (e.keyCode === 46 || e.keyCode === 8) {
+            self.listener();
+          }
+        });
+      }
+
+      // set initial value if present
+      if (el.hasAttribute('value') || el.tagName === 'TEXTAREA' && el.value.trim()) {
+        this.afterBind = this.listener;
+      }
+    },
+
+    update: function update(value) {
+      this.el.value = _toString(value);
+    },
+
+    unbind: function unbind() {
+      var el = this.el;
+      if (this.hasjQuery) {
+        var method = jQuery.fn.off ? 'off' : 'unbind';
+        jQuery(el)[method]('change', this.listener);
+        jQuery(el)[method]('input', this.listener);
+      }
+    }
+  };
+
+  var handlers = {
+    text: text$2,
+    radio: radio,
+    select: select,
+    checkbox: checkbox
+  };
+
+  var model = {
+
+    priority: MODEL,
+    twoWay: true,
+    handlers: handlers,
+    params: ['lazy', 'number', 'debounce'],
+
+    /**
+     * Possible elements:
+     *   <select>
+     *   <textarea>
+     *   <input type="*">
+     *     - text
+     *     - checkbox
+     *     - radio
+     *     - number
+     */
+
+    bind: function bind() {
+      // friendly warning...
+      this.checkFilters();
+      if (this.hasRead && !this.hasWrite) {
+        'development' !== 'production' && warn('It seems you are using a read-only filter with ' + 'v-model. You might want to use a two-way filter ' + 'to ensure correct behavior.');
+      }
+      var el = this.el;
+      var tag = el.tagName;
+      var handler;
+      if (tag === 'INPUT') {
+        handler = handlers[el.type] || handlers.text;
+      } else if (tag === 'SELECT') {
+        handler = handlers.select;
+      } else if (tag === 'TEXTAREA') {
+        handler = handlers.text;
+      } else {
+        'development' !== 'production' && warn('v-model does not support element type: ' + tag);
+        return;
+      }
+      el.__v_model = this;
+      handler.bind.call(this);
+      this.update = handler.update;
+      this._unbind = handler.unbind;
+    },
+
+    /**
+     * Check read/write filter stats.
+     */
+
+    checkFilters: function checkFilters() {
+      var filters = this.filters;
+      if (!filters) return;
+      var i = filters.length;
+      while (i--) {
+        var filter = resolveAsset(this.vm.$options, 'filters', filters[i].name);
+        if (typeof filter === 'function' || filter.read) {
+          this.hasRead = true;
+        }
+        if (filter.write) {
+          this.hasWrite = true;
+        }
+      }
+    },
+
+    unbind: function unbind() {
+      this.el.__v_model = null;
+      this._unbind && this._unbind();
+    }
+  };
+
+  var show = {
+
+    bind: function bind() {
+      // check else block
+      var next = this.el.nextElementSibling;
+      if (next && getAttr(next, 'v-else') !== null) {
+        this.elseEl = next;
+      }
+    },
+
+    update: function update(value) {
+      this.apply(this.el, value);
+      if (this.elseEl) {
+        this.apply(this.elseEl, !value);
+      }
+    },
+
+    apply: function apply(el, value) {
+      if (inDoc(el)) {
+        applyTransition(el, value ? 1 : -1, toggle, this.vm);
+      } else {
+        toggle();
+      }
+      function toggle() {
+        el.style.display = value ? '' : 'none';
+      }
+    }
+  };
+
+  var templateCache = new Cache(1000);
+  var idSelectorCache = new Cache(1000);
+
+  var map = {
+    efault: [0, '', ''],
+    legend: [1, '<fieldset>', '</fieldset>'],
+    tr: [2, '<table><tbody>', '</tbody></table>'],
+    col: [2, '<table><tbody></tbody><colgroup>', '</colgroup></table>']
+  };
+
+  map.td = map.th = [3, '<table><tbody><tr>', '</tr></tbody></table>'];
+
+  map.option = map.optgroup = [1, '<select multiple="multiple">', '</select>'];
+
+  map.thead = map.tbody = map.colgroup = map.caption = map.tfoot = [1, '<table>', '</table>'];
+
+  map.g = map.defs = map.symbol = map.use = map.image = map.text = map.circle = map.ellipse = map.line = map.path = map.polygon = map.polyline = map.rect = [1, '<svg ' + 'xmlns="http://www.w3.org/2000/svg" ' + 'xmlns:xlink="http://www.w3.org/1999/xlink" ' + 'xmlns:ev="http://www.w3.org/2001/xml-events"' + 'version="1.1">', '</svg>'];
+
+  /**
+   * Check if a node is a supported template node with a
+   * DocumentFragment content.
+   *
+   * @param {Node} node
+   * @return {Boolean}
+   */
+
+  function isRealTemplate(node) {
+    return isTemplate(node) && node.content instanceof DocumentFragment;
+  }
+
+  var tagRE$1 = /<([\w:]+)/;
+  var entityRE = /&#?\w+?;/;
+
+  /**
+   * Convert a string template to a DocumentFragment.
+   * Determines correct wrapping by tag types. Wrapping
+   * strategy found in jQuery & component/domify.
+   *
+   * @param {String} templateString
+   * @param {Boolean} raw
+   * @return {DocumentFragment}
+   */
+
+  function stringToFragment(templateString, raw) {
+    // try a cache hit first
+    var cacheKey = raw ? templateString : templateString.trim();
+    var hit = templateCache.get(cacheKey);
+    if (hit) {
+      return hit;
+    }
+
+    var frag = document.createDocumentFragment();
+    var tagMatch = templateString.match(tagRE$1);
+    var entityMatch = entityRE.test(templateString);
+
+    if (!tagMatch && !entityMatch) {
+      // text only, return a single text node.
+      frag.appendChild(document.createTextNode(templateString));
+    } else {
+
+      var tag = tagMatch && tagMatch[1];
+      var wrap = map[tag] || map.efault;
+      var depth = wrap[0];
+      var prefix = wrap[1];
+      var suffix = wrap[2];
+      var node = document.createElement('div');
+
+      node.innerHTML = prefix + templateString + suffix;
+      while (depth--) {
+        node = node.lastChild;
+      }
+
+      var child;
+      /* eslint-disable no-cond-assign */
+      while (child = node.firstChild) {
+        /* eslint-enable no-cond-assign */
+        frag.appendChild(child);
+      }
+    }
+    if (!raw) {
+      trimNode(frag);
+    }
+    templateCache.put(cacheKey, frag);
+    return frag;
+  }
+
+  /**
+   * Convert a template node to a DocumentFragment.
+   *
+   * @param {Node} node
+   * @return {DocumentFragment}
+   */
+
+  function nodeToFragment(node) {
+    // if its a template tag and the browser supports it,
+    // its content is already a document fragment.
+    if (isRealTemplate(node)) {
+      trimNode(node.content);
+      return node.content;
+    }
+    // script template
+    if (node.tagName === 'SCRIPT') {
+      return stringToFragment(node.textContent);
+    }
+    // normal node, clone it to avoid mutating the original
+    var clonedNode = cloneNode(node);
+    var frag = document.createDocumentFragment();
+    var child;
+    /* eslint-disable no-cond-assign */
+    while (child = clonedNode.firstChild) {
+      /* eslint-enable no-cond-assign */
+      frag.appendChild(child);
+    }
+    trimNode(frag);
+    return frag;
+  }
+
+  // Test for the presence of the Safari template cloning bug
+  // https://bugs.webkit.org/showug.cgi?id=137755
+  var hasBrokenTemplate = (function () {
+    /* istanbul ignore else */
+    if (inBrowser) {
+      var a = document.createElement('div');
+      a.innerHTML = '<template>1</template>';
+      return !a.cloneNode(true).firstChild.innerHTML;
+    } else {
+      return false;
+    }
+  })();
+
+  // Test for IE10/11 textarea placeholder clone bug
+  var hasTextareaCloneBug = (function () {
+    /* istanbul ignore else */
+    if (inBrowser) {
+      var t = document.createElement('textarea');
+      t.placeholder = 't';
+      return t.cloneNode(true).value === 't';
+    } else {
+      return false;
+    }
+  })();
+
+  /**
+   * 1. Deal with Safari cloning nested <template> bug by
+   *    manually cloning all template instances.
+   * 2. Deal with IE10/11 textarea placeholder bug by setting
+   *    the correct value after cloning.
+   *
+   * @param {Element|DocumentFragment} node
+   * @return {Element|DocumentFragment}
+   */
+
+  function cloneNode(node) {
+    if (!node.querySelectorAll) {
+      return node.cloneNode();
+    }
+    var res = node.cloneNode(true);
+    var i, original, cloned;
+    /* istanbul ignore if */
+    if (hasBrokenTemplate) {
+      var tempClone = res;
+      if (isRealTemplate(node)) {
+        node = node.content;
+        tempClone = res.content;
+      }
+      original = node.querySelectorAll('template');
+      if (original.length) {
+        cloned = tempClone.querySelectorAll('template');
+        i = cloned.length;
+        while (i--) {
+          cloned[i].parentNode.replaceChild(cloneNode(original[i]), cloned[i]);
+        }
+      }
+    }
+    /* istanbul ignore if */
+    if (hasTextareaCloneBug) {
+      if (node.tagName === 'TEXTAREA') {
+        res.value = node.value;
+      } else {
+        original = node.querySelectorAll('textarea');
+        if (original.length) {
+          cloned = res.querySelectorAll('textarea');
+          i = cloned.length;
+          while (i--) {
+            cloned[i].value = original[i].value;
+          }
+        }
+      }
+    }
+    return res;
+  }
+
+  /**
+   * Process the template option and normalizes it into a
+   * a DocumentFragment that can be used as a partial or a
+   * instance template.
+   *
+   * @param {*} template
+   *        Possible values include:
+   *        - DocumentFragment object
+   *        - Node object of type Template
+   *        - id selector: '#some-template-id'
+   *        - template string: '<div><span>{{msg}}</span></div>'
+   * @param {Boolean} shouldClone
+   * @param {Boolean} raw
+   *        inline HTML interpolation. Do not check for id
+   *        selector and keep whitespace in the string.
+   * @return {DocumentFragment|undefined}
+   */
+
+  function parseTemplate(template, shouldClone, raw) {
+    var node, frag;
+
+    // if the template is already a document fragment,
+    // do nothing
+    if (template instanceof DocumentFragment) {
+      trimNode(template);
+      return shouldClone ? cloneNode(template) : template;
+    }
+
+    if (typeof template === 'string') {
+      // id selector
+      if (!raw && template.charAt(0) === '#') {
+        // id selector can be cached too
+        frag = idSelectorCache.get(template);
+        if (!frag) {
+          node = document.getElementById(template.slice(1));
+          if (node) {
+            frag = nodeToFragment(node);
+            // save selector to cache
+            idSelectorCache.put(template, frag);
+          }
+        }
+      } else {
+        // normal string template
+        frag = stringToFragment(template, raw);
+      }
+    } else if (template.nodeType) {
+      // a direct node
+      frag = nodeToFragment(template);
+    }
+
+    return frag && shouldClone ? cloneNode(frag) : frag;
+  }
+
+  var template = Object.freeze({
+    cloneNode: cloneNode,
+    parseTemplate: parseTemplate
+  });
+
+  /**
+   * Abstraction for a partially-compiled fragment.
+   * Can optionally compile content with a child scope.
+   *
+   * @param {Function} linker
+   * @param {Vue} vm
+   * @param {DocumentFragment} frag
+   * @param {Vue} [host]
+   * @param {Object} [scope]
+   */
+  function Fragment(linker, vm, frag, host, scope, parentFrag) {
+    this.children = [];
+    this.childFrags = [];
+    this.vm = vm;
+    this.scope = scope;
+    this.inserted = false;
+    this.parentFrag = parentFrag;
+    if (parentFrag) {
+      parentFrag.childFrags.push(this);
+    }
+    this.unlink = linker(vm, frag, host, scope, this);
+    var single = this.single = frag.childNodes.length === 1 &&
+    // do not go single mode if the only node is an anchor
+    !frag.childNodes[0].__vue_anchor;
+    if (single) {
+      this.node = frag.childNodes[0];
+      this.before = singleBefore;
+      this.remove = singleRemove;
+    } else {
+      this.node = createAnchor('fragment-start');
+      this.end = createAnchor('fragment-end');
+      this.frag = frag;
+      prepend(this.node, frag);
+      frag.appendChild(this.end);
+      this.before = multiBefore;
+      this.remove = multiRemove;
+    }
+    this.node.__vfrag__ = this;
+  }
+
+  /**
+   * Call attach/detach for all components contained within
+   * this fragment. Also do so recursively for all child
+   * fragments.
+   *
+   * @param {Function} hook
+   */
+
+  Fragment.prototype.callHook = function (hook) {
+    var i, l;
+    for (i = 0, l = this.childFrags.length; i < l; i++) {
+      this.childFrags[i].callHook(hook);
+    }
+    for (i = 0, l = this.children.length; i < l; i++) {
+      hook(this.children[i]);
+    }
+  };
+
+  /**
+   * Insert fragment before target, single node version
+   *
+   * @param {Node} target
+   * @param {Boolean} withTransition
+   */
+
+  function singleBefore(target, withTransition) {
+    this.inserted = true;
+    var method = withTransition !== false ? beforeWithTransition : before;
+    method(this.node, target, this.vm);
+    if (inDoc(this.node)) {
+      this.callHook(attach);
+    }
+  }
+
+  /**
+   * Remove fragment, single node version
+   */
+
+  function singleRemove() {
+    this.inserted = false;
+    var shouldCallRemove = inDoc(this.node);
+    var self = this;
+    this.beforeRemove();
+    removeWithTransition(this.node, this.vm, function () {
+      if (shouldCallRemove) {
+        self.callHook(detach);
+      }
+      self.destroy();
+    });
+  }
+
+  /**
+   * Insert fragment before target, multi-nodes version
+   *
+   * @param {Node} target
+   * @param {Boolean} withTransition
+   */
+
+  function multiBefore(target, withTransition) {
+    this.inserted = true;
+    var vm = this.vm;
+    var method = withTransition !== false ? beforeWithTransition : before;
+    mapNodeRange(this.node, this.end, function (node) {
+      method(node, target, vm);
+    });
+    if (inDoc(this.node)) {
+      this.callHook(attach);
+    }
+  }
+
+  /**
+   * Remove fragment, multi-nodes version
+   */
+
+  function multiRemove() {
+    this.inserted = false;
+    var self = this;
+    var shouldCallRemove = inDoc(this.node);
+    this.beforeRemove();
+    removeNodeRange(this.node, this.end, this.vm, this.frag, function () {
+      if (shouldCallRemove) {
+        self.callHook(detach);
+      }
+      self.destroy();
+    });
+  }
+
+  /**
+   * Prepare the fragment for removal.
+   */
+
+  Fragment.prototype.beforeRemove = function () {
+    var i, l;
+    for (i = 0, l = this.childFrags.length; i < l; i++) {
+      // call the same method recursively on child
+      // fragments, depth-first
+      this.childFrags[i].beforeRemove(false);
+    }
+    for (i = 0, l = this.children.length; i < l; i++) {
+      // Call destroy for all contained instances,
+      // with remove:false and defer:true.
+      // Defer is necessary because we need to
+      // keep the children to call detach hooks
+      // on them.
+      this.children[i].$destroy(false, true);
+    }
+    var dirs = this.unlink.dirs;
+    for (i = 0, l = dirs.length; i < l; i++) {
+      // disable the watchers on all the directives
+      // so that the rendered content stays the same
+      // during removal.
+      dirs[i]._watcher && dirs[i]._watcher.teardown();
+    }
+  };
+
+  /**
+   * Destroy the fragment.
+   */
+
+  Fragment.prototype.destroy = function () {
+    if (this.parentFrag) {
+      this.parentFrag.childFrags.$remove(this);
+    }
+    this.node.__vfrag__ = null;
+    this.unlink();
+  };
+
+  /**
+   * Call attach hook for a Vue instance.
+   *
+   * @param {Vue} child
+   */
+
+  function attach(child) {
+    if (!child._isAttached) {
+      child._callHook('attached');
+    }
+  }
+
+  /**
+   * Call detach hook for a Vue instance.
+   *
+   * @param {Vue} child
+   */
+
+  function detach(child) {
+    if (child._isAttached) {
+      child._callHook('detached');
+    }
+  }
+
+  var linkerCache = new Cache(5000);
+
+  /**
+   * A factory that can be used to create instances of a
+   * fragment. Caches the compiled linker if possible.
+   *
+   * @param {Vue} vm
+   * @param {Element|String} el
+   */
+  function FragmentFactory(vm, el) {
+    this.vm = vm;
+    var template;
+    var isString = typeof el === 'string';
+    if (isString || isTemplate(el)) {
+      template = parseTemplate(el, true);
+    } else {
+      template = document.createDocumentFragment();
+      template.appendChild(el);
+    }
+    this.template = template;
+    // linker can be cached, but only for components
+    var linker;
+    var cid = vm.constructor.cid;
+    if (cid > 0) {
+      var cacheId = cid + (isString ? el : el.outerHTML);
+      linker = linkerCache.get(cacheId);
+      if (!linker) {
+        linker = compile(template, vm.$options, true);
+        linkerCache.put(cacheId, linker);
+      }
+    } else {
+      linker = compile(template, vm.$options, true);
+    }
+    this.linker = linker;
+  }
+
+  /**
+   * Create a fragment instance with given host and scope.
+   *
+   * @param {Vue} host
+   * @param {Object} scope
+   * @param {Fragment} parentFrag
+   */
+
+  FragmentFactory.prototype.create = function (host, scope, parentFrag) {
+    var frag = cloneNode(this.template);
+    return new Fragment(this.linker, this.vm, frag, host, scope, parentFrag);
+  };
+
+  var vIf = {
+
+    priority: IF,
+
+    bind: function bind() {
+      var el = this.el;
+      if (!el.__vue__) {
+        // check else block
+        var next = el.nextElementSibling;
+        if (next && getAttr(next, 'v-else') !== null) {
+          remove(next);
+          this.elseFactory = new FragmentFactory(this.vm, next);
+        }
+        // check main block
+        this.anchor = createAnchor('v-if');
+        replace(el, this.anchor);
+        this.factory = new FragmentFactory(this.vm, el);
+      } else {
+        'development' !== 'production' && warn('v-if="' + this.expression + '" cannot be ' + 'used on an instance root element.');
+        this.invalid = true;
+      }
+    },
+
+    update: function update(value) {
+      if (this.invalid) return;
+      if (value) {
+        if (!this.frag) {
+          this.insert();
+        }
+      } else {
+        this.remove();
+      }
+    },
+
+    insert: function insert() {
+      if (this.elseFrag) {
+        this.elseFrag.remove();
+        this.elseFrag = null;
+      }
+      this.frag = this.factory.create(this._host, this._scope, this._frag);
+      this.frag.before(this.anchor);
+    },
+
+    remove: function remove() {
+      if (this.frag) {
+        this.frag.remove();
+        this.frag = null;
+      }
+      if (this.elseFactory && !this.elseFrag) {
+        this.elseFrag = this.elseFactory.create(this._host, this._scope, this._frag);
+        this.elseFrag.before(this.anchor);
+      }
+    },
+
+    unbind: function unbind() {
+      if (this.frag) {
+        this.frag.destroy();
+      }
+      if (this.elseFrag) {
+        this.elseFrag.destroy();
+      }
+    }
+  };
+
+  var uid$1 = 0;
+
+  var vFor = {
+
+    priority: FOR,
+
+    params: ['track-by', 'stagger', 'enter-stagger', 'leave-stagger'],
+
+    bind: function bind() {
+      // support "item in items" syntax
+      var inMatch = this.expression.match(/(.*) in (.*)/);
+      if (inMatch) {
+        var itMatch = inMatch[1].match(/\((.*),(.*)\)/);
+        if (itMatch) {
+          this.iterator = itMatch[1].trim();
+          this.alias = itMatch[2].trim();
+        } else {
+          this.alias = inMatch[1].trim();
+        }
+        this.expression = inMatch[2];
+      }
+
+      if (!this.alias) {
+        'development' !== 'production' && warn('Alias is required in v-for.');
+        return;
+      }
+
+      // uid as a cache identifier
+      this.id = '__v-for__' + ++uid$1;
+
+      // check if this is an option list,
+      // so that we know if we need to update the <select>'s
+      // v-model when the option list has changed.
+      // because v-model has a lower priority than v-for,
+      // the v-model is not bound here yet, so we have to
+      // retrive it in the actual updateModel() function.
+      var tag = this.el.tagName;
+      this.isOption = (tag === 'OPTION' || tag === 'OPTGROUP') && this.el.parentNode.tagName === 'SELECT';
+
+      // setup anchor nodes
+      this.start = createAnchor('v-for-start');
+      this.end = createAnchor('v-for-end');
+      replace(this.el, this.end);
+      before(this.start, this.end);
+
+      // cache
+      this.cache = Object.create(null);
+
+      // fragment factory
+      this.factory = new FragmentFactory(this.vm, this.el);
+    },
+
+    update: function update(data) {
+      this.diff(data);
+      this.updateRef();
+      this.updateModel();
+    },
+
+    /**
+     * Diff, based on new data and old data, determine the
+     * minimum amount of DOM manipulations needed to make the
+     * DOM reflect the new data Array.
+     *
+     * The algorithm diffs the new data Array by storing a
+     * hidden reference to an owner vm instance on previously
+     * seen data. This allows us to achieve O(n) which is
+     * better than a levenshtein distance based algorithm,
+     * which is O(m * n).
+     *
+     * @param {Array} data
+     */
+
+    diff: function diff(data) {
+      // check if the Array was converted from an Object
+      var item = data[0];
+      var convertedFromObject = this.fromObject = isObject(item) && hasOwn(item, '$key') && hasOwn(item, '$value');
+
+      var trackByKey = this.params.trackBy;
+      var oldFrags = this.frags;
+      var frags = this.frags = new Array(data.length);
+      var alias = this.alias;
+      var iterator = this.iterator;
+      var start = this.start;
+      var end = this.end;
+      var inDocument = inDoc(start);
+      var init = !oldFrags;
+      var i, l, frag, key, value, primitive;
+
+      // First pass, go through the new Array and fill up
+      // the new frags array. If a piece of data has a cached
+      // instance for it, we reuse it. Otherwise build a new
+      // instance.
+      for (i = 0, l = data.length; i < l; i++) {
+        item = data[i];
+        key = convertedFromObject ? item.$key : null;
+        value = convertedFromObject ? item.$value : item;
+        primitive = !isObject(value);
+        frag = !init && this.getCachedFrag(value, i, key);
+        if (frag) {
+          // reusable fragment
+          frag.reused = true;
+          // update $index
+          frag.scope.$index = i;
+          // update $key
+          if (key) {
+            frag.scope.$key = key;
+          }
+          // update iterator
+          if (iterator) {
+            frag.scope[iterator] = key !== null ? key : i;
+          }
+          // update data for track-by, object repeat &
+          // primitive values.
+          if (trackByKey || convertedFromObject || primitive) {
+            frag.scope[alias] = value;
+          }
+        } else {
+          // new isntance
+          frag = this.create(value, alias, i, key);
+          frag.fresh = !init;
+        }
+        frags[i] = frag;
+        if (init) {
+          frag.before(end);
+        }
+      }
+
+      // we're done for the initial render.
+      if (init) {
+        return;
+      }
+
+      // Second pass, go through the old fragments and
+      // destroy those who are not reused (and remove them
+      // from cache)
+      var removalIndex = 0;
+      var totalRemoved = oldFrags.length - frags.length;
+      // when removing a large number of fragments, watcher removal
+      // turns out to be a perf bottleneck, so we batch the watcher
+      // removals into a single filter call!
+      this.vm._vForRemoving = true;
+      for (i = 0, l = oldFrags.length; i < l; i++) {
+        frag = oldFrags[i];
+        if (!frag.reused) {
+          this.deleteCachedFrag(frag);
+          this.remove(frag, removalIndex++, totalRemoved, inDocument);
+        }
+      }
+      this.vm._vForRemoving = false;
+      this.vm._watchers = this.vm._watchers.filter(function (w) {
+        return w.active;
+      });
+
+      // Final pass, move/insert new fragments into the
+      // right place.
+      var targetPrev, prevEl, currentPrev;
+      var insertionIndex = 0;
+      for (i = 0, l = frags.length; i < l; i++) {
+        frag = frags[i];
+        // this is the frag that we should be after
+        targetPrev = frags[i - 1];
+        prevEl = targetPrev ? targetPrev.staggerCb ? targetPrev.staggerAnchor : targetPrev.end || targetPrev.node : start;
+        if (frag.reused && !frag.staggerCb) {
+          currentPrev = findPrevFrag(frag, start, this.id);
+          if (currentPrev !== targetPrev && (!currentPrev ||
+          // optimization for moving a single item.
+          // thanks to suggestions by @livoras in #1807
+          findPrevFrag(currentPrev, start, this.id) !== targetPrev)) {
+            this.move(frag, prevEl);
+          }
+        } else {
+          // new instance, or still in stagger.
+          // insert with updated stagger index.
+          this.insert(frag, insertionIndex++, prevEl, inDocument);
+        }
+        frag.reused = frag.fresh = false;
+      }
+    },
+
+    /**
+     * Create a new fragment instance.
+     *
+     * @param {*} value
+     * @param {String} alias
+     * @param {Number} index
+     * @param {String} [key]
+     * @return {Fragment}
+     */
+
+    create: function create(value, alias, index, key) {
+      var host = this._host;
+      // create iteration scope
+      var parentScope = this._scope || this.vm;
+      var scope = Object.create(parentScope);
+      // ref holder for the scope
+      scope.$refs = Object.create(parentScope.$refs);
+      scope.$els = Object.create(parentScope.$els);
+      // make sure point $parent to parent scope
+      scope.$parent = parentScope;
+      // for two-way binding on alias
+      scope.$forContext = this;
+      // define scope properties
+      defineReactive(scope, alias, value);
+      defineReactive(scope, '$index', index);
+      if (key) {
+        defineReactive(scope, '$key', key);
+      } else if (scope.$key) {
+        // avoid accidental fallback
+        def(scope, '$key', null);
+      }
+      if (this.iterator) {
+        defineReactive(scope, this.iterator, key !== null ? key : index);
+      }
+      var frag = this.factory.create(host, scope, this._frag);
+      frag.forId = this.id;
+      this.cacheFrag(value, frag, index, key);
+      return frag;
+    },
+
+    /**
+     * Update the v-ref on owner vm.
+     */
+
+    updateRef: function updateRef() {
+      var ref = this.descriptor.ref;
+      if (!ref) return;
+      var hash = (this._scope || this.vm).$refs;
+      var refs;
+      if (!this.fromObject) {
+        refs = this.frags.map(findVmFromFrag);
+      } else {
+        refs = {};
+        this.frags.forEach(function (frag) {
+          refs[frag.scope.$key] = findVmFromFrag(frag);
+        });
+      }
+      hash[ref] = refs;
+    },
+
+    /**
+     * For option lists, update the containing v-model on
+     * parent <select>.
+     */
+
+    updateModel: function updateModel() {
+      if (this.isOption) {
+        var parent = this.start.parentNode;
+        var model = parent && parent.__v_model;
+        if (model) {
+          model.forceUpdate();
+        }
+      }
+    },
+
+    /**
+     * Insert a fragment. Handles staggering.
+     *
+     * @param {Fragment} frag
+     * @param {Number} index
+     * @param {Node} prevEl
+     * @param {Boolean} inDocument
+     */
+
+    insert: function insert(frag, index, prevEl, inDocument) {
+      if (frag.staggerCb) {
+        frag.staggerCb.cancel();
+        frag.staggerCb = null;
+      }
+      var staggerAmount = this.getStagger(frag, index, null, 'enter');
+      if (inDocument && staggerAmount) {
+        // create an anchor and insert it synchronously,
+        // so that we can resolve the correct order without
+        // worrying about some elements not inserted yet
+        var anchor = frag.staggerAnchor;
+        if (!anchor) {
+          anchor = frag.staggerAnchor = createAnchor('stagger-anchor');
+          anchor.__vfrag__ = frag;
+        }
+        after(anchor, prevEl);
+        var op = frag.staggerCb = cancellable(function () {
+          frag.staggerCb = null;
+          frag.before(anchor);
+          remove(anchor);
+        });
+        setTimeout(op, staggerAmount);
+      } else {
+        frag.before(prevEl.nextSibling);
+      }
+    },
+
+    /**
+     * Remove a fragment. Handles staggering.
+     *
+     * @param {Fragment} frag
+     * @param {Number} index
+     * @param {Number} total
+     * @param {Boolean} inDocument
+     */
+
+    remove: function remove(frag, index, total, inDocument) {
+      if (frag.staggerCb) {
+        frag.staggerCb.cancel();
+        frag.staggerCb = null;
+        // it's not possible for the same frag to be removed
+        // twice, so if we have a pending stagger callback,
+        // it means this frag is queued for enter but removed
+        // before its transition started. Since it is already
+        // destroyed, we can just leave it in detached state.
+        return;
+      }
+      var staggerAmount = this.getStagger(frag, index, total, 'leave');
+      if (inDocument && staggerAmount) {
+        var op = frag.staggerCb = cancellable(function () {
+          frag.staggerCb = null;
+          frag.remove();
+        });
+        setTimeout(op, staggerAmount);
+      } else {
+        frag.remove();
+      }
+    },
+
+    /**
+     * Move a fragment to a new position.
+     * Force no transition.
+     *
+     * @param {Fragment} frag
+     * @param {Node} prevEl
+     */
+
+    move: function move(frag, prevEl) {
+      // fix a common issue with Sortable:
+      // if prevEl doesn't have nextSibling, this means it's
+      // been dragged after the end anchor. Just re-position
+      // the end anchor to the end of the container.
+      /* istanbul ignore if */
+      if (!prevEl.nextSibling) {
+        this.end.parentNode.appendChild(this.end);
+      }
+      frag.before(prevEl.nextSibling, false);
+    },
+
+    /**
+     * Cache a fragment using track-by or the object key.
+     *
+     * @param {*} value
+     * @param {Fragment} frag
+     * @param {Number} index
+     * @param {String} [key]
+     */
+
+    cacheFrag: function cacheFrag(value, frag, index, key) {
+      var trackByKey = this.params.trackBy;
+      var cache = this.cache;
+      var primitive = !isObject(value);
+      var id;
+      if (key || trackByKey || primitive) {
+        id = trackByKey ? trackByKey === '$index' ? index : value[trackByKey] : key || value;
+        if (!cache[id]) {
+          cache[id] = frag;
+        } else if (trackByKey !== '$index') {
+          'development' !== 'production' && this.warnDuplicate(value);
+        }
+      } else {
+        id = this.id;
+        if (hasOwn(value, id)) {
+          if (value[id] === null) {
+            value[id] = frag;
+          } else {
+            'development' !== 'production' && this.warnDuplicate(value);
+          }
+        } else {
+          def(value, id, frag);
+        }
+      }
+      frag.raw = value;
+    },
+
+    /**
+     * Get a cached fragment from the value/index/key
+     *
+     * @param {*} value
+     * @param {Number} index
+     * @param {String} key
+     * @return {Fragment}
+     */
+
+    getCachedFrag: function getCachedFrag(value, index, key) {
+      var trackByKey = this.params.trackBy;
+      var primitive = !isObject(value);
+      var frag;
+      if (key || trackByKey || primitive) {
+        var id = trackByKey ? trackByKey === '$index' ? index : value[trackByKey] : key || value;
+        frag = this.cache[id];
+      } else {
+        frag = value[this.id];
+      }
+      if (frag && (frag.reused || frag.fresh)) {
+        'development' !== 'production' && this.warnDuplicate(value);
+      }
+      return frag;
+    },
+
+    /**
+     * Delete a fragment from cache.
+     *
+     * @param {Fragment} frag
+     */
+
+    deleteCachedFrag: function deleteCachedFrag(frag) {
+      var value = frag.raw;
+      var trackByKey = this.params.trackBy;
+      var scope = frag.scope;
+      var index = scope.$index;
+      // fix #948: avoid accidentally fall through to
+      // a parent repeater which happens to have $key.
+      var key = hasOwn(scope, '$key') && scope.$key;
+      var primitive = !isObject(value);
+      if (trackByKey || key || primitive) {
+        var id = trackByKey ? trackByKey === '$index' ? index : value[trackByKey] : key || value;
+        this.cache[id] = null;
+      } else {
+        value[this.id] = null;
+        frag.raw = null;
+      }
+    },
+
+    /**
+     * Get the stagger amount for an insertion/removal.
+     *
+     * @param {Fragment} frag
+     * @param {Number} index
+     * @param {Number} total
+     * @param {String} type
+     */
+
+    getStagger: function getStagger(frag, index, total, type) {
+      type = type + 'Stagger';
+      var trans = frag.node.__v_trans;
+      var hooks = trans && trans.hooks;
+      var hook = hooks && (hooks[type] || hooks.stagger);
+      return hook ? hook.call(frag, index, total) : index * parseInt(this.params[type] || this.params.stagger, 10);
+    },
+
+    /**
+     * Pre-process the value before piping it through the
+     * filters. This is passed to and called by the watcher.
+     */
+
+    _preProcess: function _preProcess(value) {
+      // regardless of type, store the un-filtered raw value.
+      this.rawValue = value;
+      return value;
+    },
+
+    /**
+     * Post-process the value after it has been piped through
+     * the filters. This is passed to and called by the watcher.
+     *
+     * It is necessary for this to be called during the
+     * wathcer's dependency collection phase because we want
+     * the v-for to update when the source Object is mutated.
+     */
+
+    _postProcess: function _postProcess(value) {
+      if (isArray(value)) {
+        return value;
+      } else if (isPlainObject(value)) {
+        // convert plain object to array.
+        var keys = Object.keys(value);
+        var i = keys.length;
+        var res = new Array(i);
+        var key;
+        while (i--) {
+          key = keys[i];
+          res[i] = {
+            $key: key,
+            $value: value[key]
+          };
+        }
+        return res;
+      } else {
+        if (typeof value === 'number' && !isNaN(value)) {
+          value = range(value);
+        }
+        return value || [];
+      }
+    },
+
+    unbind: function unbind() {
+      if (this.descriptor.ref) {
+        (this._scope || this.vm).$refs[this.descriptor.ref] = null;
+      }
+      if (this.frags) {
+        var i = this.frags.length;
+        var frag;
+        while (i--) {
+          frag = this.frags[i];
+          this.deleteCachedFrag(frag);
+          frag.destroy();
+        }
+      }
+    }
+  };
+
+  /**
+   * Helper to find the previous element that is a fragment
+   * anchor. This is necessary because a destroyed frag's
+   * element could still be lingering in the DOM before its
+   * leaving transition finishes, but its inserted flag
+   * should have been set to false so we can skip them.
+   *
+   * If this is a block repeat, we want to make sure we only
+   * return frag that is bound to this v-for. (see #929)
+   *
+   * @param {Fragment} frag
+   * @param {Comment|Text} anchor
+   * @param {String} id
+   * @return {Fragment}
+   */
+
+  function findPrevFrag(frag, anchor, id) {
+    var el = frag.node.previousSibling;
+    /* istanbul ignore if */
+    if (!el) return;
+    frag = el.__vfrag__;
+    while ((!frag || frag.forId !== id || !frag.inserted) && el !== anchor) {
+      el = el.previousSibling;
+      /* istanbul ignore if */
+      if (!el) return;
+      frag = el.__vfrag__;
+    }
+    return frag;
+  }
+
+  /**
+   * Find a vm from a fragment.
+   *
+   * @param {Fragment} frag
+   * @return {Vue|undefined}
+   */
+
+  function findVmFromFrag(frag) {
+    var node = frag.node;
+    // handle multi-node frag
+    if (frag.end) {
+      while (!node.__vue__ && node !== frag.end && node.nextSibling) {
+        node = node.nextSibling;
+      }
+    }
+    return node.__vue__;
+  }
+
+  /**
+   * Create a range array from given number.
+   *
+   * @param {Number} n
+   * @return {Array}
+   */
+
+  function range(n) {
+    var i = -1;
+    var ret = new Array(Math.floor(n));
+    while (++i < n) {
+      ret[i] = i;
+    }
+    return ret;
+  }
+
+  if ('development' !== 'production') {
+    vFor.warnDuplicate = function (value) {
+      warn('Duplicate value found in v-for="' + this.descriptor.raw + '": ' + JSON.stringify(value) + '. Use track-by="$index" if ' + 'you are expecting duplicate values.');
+    };
+  }
+
+  var html = {
+
+    bind: function bind() {
+      // a comment node means this is a binding for
+      // {{{ inline unescaped html }}}
+      if (this.el.nodeType === 8) {
+        // hold nodes
+        this.nodes = [];
+        // replace the placeholder with proper anchor
+        this.anchor = createAnchor('v-html');
+        replace(this.el, this.anchor);
+      }
+    },
+
+    update: function update(value) {
+      value = _toString(value);
+      if (this.nodes) {
+        this.swap(value);
+      } else {
+        this.el.innerHTML = value;
+      }
+    },
+
+    swap: function swap(value) {
+      // remove old nodes
+      var i = this.nodes.length;
+      while (i--) {
+        remove(this.nodes[i]);
+      }
+      // convert new value to a fragment
+      // do not attempt to retrieve from id selector
+      var frag = parseTemplate(value, true, true);
+      // save a reference to these nodes so we can remove later
+      this.nodes = toArray(frag.childNodes);
+      before(frag, this.anchor);
+    }
+  };
+
+  var text = {
+
+    bind: function bind() {
+      this.attr = this.el.nodeType === 3 ? 'data' : 'textContent';
+    },
+
+    update: function update(value) {
+      this.el[this.attr] = _toString(value);
+    }
+  };
+
+  // must export plain object
+  var publicDirectives = {
+    text: text,
+    html: html,
+    'for': vFor,
+    'if': vIf,
+    show: show,
+    model: model,
+    on: on,
+    bind: bind,
+    el: el,
+    ref: ref,
+    cloak: cloak
+  };
+
+  var queue$1 = [];
+  var queued = false;
+
+  /**
+   * Push a job into the queue.
+   *
+   * @param {Function} job
+   */
+
+  function pushJob(job) {
+    queue$1.push(job);
+    if (!queued) {
+      queued = true;
+      nextTick(flush);
+    }
+  }
+
+  /**
+   * Flush the queue, and do one forced reflow before
+   * triggering transitions.
+   */
+
+  function flush() {
+    // Force layout
+    var f = document.documentElement.offsetHeight;
+    for (var i = 0; i < queue$1.length; i++) {
+      queue$1[i]();
+    }
+    queue$1 = [];
+    queued = false;
+    // dummy return, so js linters don't complain about
+    // unused variable f
+    return f;
+  }
+
+  var TYPE_TRANSITION = 'transition';
+  var TYPE_ANIMATION = 'animation';
+  var transDurationProp = transitionProp + 'Duration';
+  var animDurationProp = animationProp + 'Duration';
+
+  /**
+   * A Transition object that encapsulates the state and logic
+   * of the transition.
+   *
+   * @param {Element} el
+   * @param {String} id
+   * @param {Object} hooks
+   * @param {Vue} vm
+   */
+  function Transition(el, id, hooks, vm) {
+    this.id = id;
+    this.el = el;
+    this.enterClass = hooks && hooks.enterClass || id + '-enter';
+    this.leaveClass = hooks && hooks.leaveClass || id + '-leave';
+    this.hooks = hooks;
+    this.vm = vm;
+    // async state
+    this.pendingCssEvent = this.pendingCssCb = this.cancel = this.pendingJsCb = this.op = this.cb = null;
+    this.justEntered = false;
+    this.entered = this.left = false;
+    this.typeCache = {};
+    // check css transition type
+    this.type = hooks && hooks.type;
+    /* istanbul ignore if */
+    if ('development' !== 'production') {
+      if (this.type && this.type !== TYPE_TRANSITION && this.type !== TYPE_ANIMATION) {
+        warn('invalid CSS transition type for transition="' + this.id + '": ' + this.type);
+      }
+    }
+    // bind
+    var self = this;['enterNextTick', 'enterDone', 'leaveNextTick', 'leaveDone'].forEach(function (m) {
+      self[m] = bind$1(self[m], self);
+    });
+  }
+
+  var p$1 = Transition.prototype;
+
+  /**
+   * Start an entering transition.
+   *
+   * 1. enter transition triggered
+   * 2. call beforeEnter hook
+   * 3. add enter class
+   * 4. insert/show element
+   * 5. call enter hook (with possible explicit js callback)
+   * 6. reflow
+   * 7. based on transition type:
+   *    - transition:
+   *        remove class now, wait for transitionend,
+   *        then done if there's no explicit js callback.
+   *    - animation:
+   *        wait for animationend, remove class,
+   *        then done if there's no explicit js callback.
+   *    - no css transition:
+   *        done now if there's no explicit js callback.
+   * 8. wait for either done or js callback, then call
+   *    afterEnter hook.
+   *
+   * @param {Function} op - insert/show the element
+   * @param {Function} [cb]
+   */
+
+  p$1.enter = function (op, cb) {
+    this.cancelPending();
+    this.callHook('beforeEnter');
+    this.cb = cb;
+    addClass(this.el, this.enterClass);
+    op();
+    this.entered = false;
+    this.callHookWithCb('enter');
+    if (this.entered) {
+      return; // user called done synchronously.
+    }
+    this.cancel = this.hooks && this.hooks.enterCancelled;
+    pushJob(this.enterNextTick);
+  };
+
+  /**
+   * The "nextTick" phase of an entering transition, which is
+   * to be pushed into a queue and executed after a reflow so
+   * that removing the class can trigger a CSS transition.
+   */
+
+  p$1.enterNextTick = function () {
+
+    // Important hack:
+    // in Chrome, if a just-entered element is applied the
+    // leave class while its interpolated property still has
+    // a very small value (within one frame), Chrome will
+    // skip the leave transition entirely and not firing the
+    // transtionend event. Therefore we need to protected
+    // against such cases using a one-frame timeout.
+    this.justEntered = true;
+    var self = this;
+    setTimeout(function () {
+      self.justEntered = false;
+    }, 17);
+
+    var enterDone = this.enterDone;
+    var type = this.getCssTransitionType(this.enterClass);
+    if (!this.pendingJsCb) {
+      if (type === TYPE_TRANSITION) {
+        // trigger transition by removing enter class now
+        removeClass(this.el, this.enterClass);
+        this.setupCssCb(transitionEndEvent, enterDone);
+      } else if (type === TYPE_ANIMATION) {
+        this.setupCssCb(animationEndEvent, enterDone);
+      } else {
+        enterDone();
+      }
+    } else if (type === TYPE_TRANSITION) {
+      removeClass(this.el, this.enterClass);
+    }
+  };
+
+  /**
+   * The "cleanup" phase of an entering transition.
+   */
+
+  p$1.enterDone = function () {
+    this.entered = true;
+    this.cancel = this.pendingJsCb = null;
+    removeClass(this.el, this.enterClass);
+    this.callHook('afterEnter');
+    if (this.cb) this.cb();
+  };
+
+  /**
+   * Start a leaving transition.
+   *
+   * 1. leave transition triggered.
+   * 2. call beforeLeave hook
+   * 3. add leave class (trigger css transition)
+   * 4. call leave hook (with possible explicit js callback)
+   * 5. reflow if no explicit js callback is provided
+   * 6. based on transition type:
+   *    - transition or animation:
+   *        wait for end event, remove class, then done if
+   *        there's no explicit js callback.
+   *    - no css transition:
+   *        done if there's no explicit js callback.
+   * 7. wait for either done or js callback, then call
+   *    afterLeave hook.
+   *
+   * @param {Function} op - remove/hide the element
+   * @param {Function} [cb]
+   */
+
+  p$1.leave = function (op, cb) {
+    this.cancelPending();
+    this.callHook('beforeLeave');
+    this.op = op;
+    this.cb = cb;
+    addClass(this.el, this.leaveClass);
+    this.left = false;
+    this.callHookWithCb('leave');
+    if (this.left) {
+      return; // user called done synchronously.
+    }
+    this.cancel = this.hooks && this.hooks.leaveCancelled;
+    // only need to handle leaveDone if
+    // 1. the transition is already done (synchronously called
+    //    by the user, which causes this.op set to null)
+    // 2. there's no explicit js callback
+    if (this.op && !this.pendingJsCb) {
+      // if a CSS transition leaves immediately after enter,
+      // the transitionend event never fires. therefore we
+      // detect such cases and end the leave immediately.
+      if (this.justEntered) {
+        this.leaveDone();
+      } else {
+        pushJob(this.leaveNextTick);
+      }
+    }
+  };
+
+  /**
+   * The "nextTick" phase of a leaving transition.
+   */
+
+  p$1.leaveNextTick = function () {
+    var type = this.getCssTransitionType(this.leaveClass);
+    if (type) {
+      var event = type === TYPE_TRANSITION ? transitionEndEvent : animationEndEvent;
+      this.setupCssCb(event, this.leaveDone);
+    } else {
+      this.leaveDone();
+    }
+  };
+
+  /**
+   * The "cleanup" phase of a leaving transition.
+   */
+
+  p$1.leaveDone = function () {
+    this.left = true;
+    this.cancel = this.pendingJsCb = null;
+    this.op();
+    removeClass(this.el, this.leaveClass);
+    this.callHook('afterLeave');
+    if (this.cb) this.cb();
+    this.op = null;
+  };
+
+  /**
+   * Cancel any pending callbacks from a previously running
+   * but not finished transition.
+   */
+
+  p$1.cancelPending = function () {
+    this.op = this.cb = null;
+    var hasPending = false;
+    if (this.pendingCssCb) {
+      hasPending = true;
+      off(this.el, this.pendingCssEvent, this.pendingCssCb);
+      this.pendingCssEvent = this.pendingCssCb = null;
+    }
+    if (this.pendingJsCb) {
+      hasPending = true;
+      this.pendingJsCb.cancel();
+      this.pendingJsCb = null;
+    }
+    if (hasPending) {
+      removeClass(this.el, this.enterClass);
+      removeClass(this.el, this.leaveClass);
+    }
+    if (this.cancel) {
+      this.cancel.call(this.vm, this.el);
+      this.cancel = null;
+    }
+  };
+
+  /**
+   * Call a user-provided synchronous hook function.
+   *
+   * @param {String} type
+   */
+
+  p$1.callHook = function (type) {
+    if (this.hooks && this.hooks[type]) {
+      this.hooks[type].call(this.vm, this.el);
+    }
+  };
+
+  /**
+   * Call a user-provided, potentially-async hook function.
+   * We check for the length of arguments to see if the hook
+   * expects a `done` callback. If true, the transition's end
+   * will be determined by when the user calls that callback;
+   * otherwise, the end is determined by the CSS transition or
+   * animation.
+   *
+   * @param {String} type
+   */
+
+  p$1.callHookWithCb = function (type) {
+    var hook = this.hooks && this.hooks[type];
+    if (hook) {
+      if (hook.length > 1) {
+        this.pendingJsCb = cancellable(this[type + 'Done']);
+      }
+      hook.call(this.vm, this.el, this.pendingJsCb);
+    }
+  };
+
+  /**
+   * Get an element's transition type based on the
+   * calculated styles.
+   *
+   * @param {String} className
+   * @return {Number}
+   */
+
+  p$1.getCssTransitionType = function (className) {
+    /* istanbul ignore if */
+    if (!transitionEndEvent ||
+    // skip CSS transitions if page is not visible -
+    // this solves the issue of transitionend events not
+    // firing until the page is visible again.
+    // pageVisibility API is supported in IE10+, same as
+    // CSS transitions.
+    document.hidden ||
+    // explicit js-only transition
+    this.hooks && this.hooks.css === false ||
+    // element is hidden
+    isHidden(this.el)) {
+      return;
+    }
+    var type = this.type || this.typeCache[className];
+    if (type) return type;
+    var inlineStyles = this.el.style;
+    var computedStyles = window.getComputedStyle(this.el);
+    var transDuration = inlineStyles[transDurationProp] || computedStyles[transDurationProp];
+    if (transDuration && transDuration !== '0s') {
+      type = TYPE_TRANSITION;
+    } else {
+      var animDuration = inlineStyles[animDurationProp] || computedStyles[animDurationProp];
+      if (animDuration && animDuration !== '0s') {
+        type = TYPE_ANIMATION;
+      }
+    }
+    if (type) {
+      this.typeCache[className] = type;
+    }
+    return type;
+  };
+
+  /**
+   * Setup a CSS transitionend/animationend callback.
+   *
+   * @param {String} event
+   * @param {Function} cb
+   */
+
+  p$1.setupCssCb = function (event, cb) {
+    this.pendingCssEvent = event;
+    var self = this;
+    var el = this.el;
+    var onEnd = this.pendingCssCb = function (e) {
+      if (e.target === el) {
+        off(el, event, onEnd);
+        self.pendingCssEvent = self.pendingCssCb = null;
+        if (!self.pendingJsCb && cb) {
+          cb();
+        }
+      }
+    };
+    on$1(el, event, onEnd);
+  };
+
+  /**
+   * Check if an element is hidden - in that case we can just
+   * skip the transition alltogether.
+   *
+   * @param {Element} el
+   * @return {Boolean}
+   */
+
+  function isHidden(el) {
+    return !(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+  }
+
+  var transition = {
+
+    priority: TRANSITION,
+
+    update: function update(id, oldId) {
+      var el = this.el;
+      // resolve on owner vm
+      var hooks = resolveAsset(this.vm.$options, 'transitions', id);
+      id = id || 'v';
+      // apply on closest vm
+      el.__v_trans = new Transition(el, id, hooks, this.el.__vue__ || this.vm);
+      if (oldId) {
+        removeClass(el, oldId + '-transition');
+      }
+      addClass(el, id + '-transition');
+    }
+  };
+
+  var bindingModes = config._propBindingModes;
+
+  var propDef = {
+
+    bind: function bind() {
+
+      var child = this.vm;
+      var parent = child._context;
+      // passed in from compiler directly
+      var prop = this.descriptor.prop;
+      var childKey = prop.path;
+      var parentKey = prop.parentPath;
+      var twoWay = prop.mode === bindingModes.TWO_WAY;
+
+      var parentWatcher = this.parentWatcher = new Watcher(parent, parentKey, function (val) {
+        val = coerceProp(prop, val);
+        if (assertProp(prop, val)) {
+          child[childKey] = val;
+        }
+      }, {
+        twoWay: twoWay,
+        filters: prop.filters,
+        // important: props need to be observed on the
+        // v-for scope if present
+        scope: this._scope
+      });
+
+      // set the child initial value.
+      initProp(child, prop, parentWatcher.value);
+
+      // setup two-way binding
+      if (twoWay) {
+        // important: defer the child watcher creation until
+        // the created hook (after data observation)
+        var self = this;
+        child.$once('pre-hook:created', function () {
+          self.childWatcher = new Watcher(child, childKey, function (val) {
+            parentWatcher.set(val);
+          }, {
+            // ensure sync upward before parent sync down.
+            // this is necessary in cases e.g. the child
+            // mutates a prop array, then replaces it. (#1683)
+            sync: true
+          });
+        });
+      }
+    },
+
+    unbind: function unbind() {
+      this.parentWatcher.teardown();
+      if (this.childWatcher) {
+        this.childWatcher.teardown();
+      }
+    }
+  };
+
+  var component = {
+
+    priority: COMPONENT,
+
+    params: ['keep-alive', 'transition-mode', 'inline-template'],
+
+    /**
+     * Setup. Two possible usages:
+     *
+     * - static:
+     *   <comp> or <div v-component="comp">
+     *
+     * - dynamic:
+     *   <component :is="view">
+     */
+
+    bind: function bind() {
+      if (!this.el.__vue__) {
+        // keep-alive cache
+        this.keepAlive = this.params.keepAlive;
+        if (this.keepAlive) {
+          this.cache = {};
+        }
+        // check inline-template
+        if (this.params.inlineTemplate) {
+          // extract inline template as a DocumentFragment
+          this.inlineTemplate = extractContent(this.el, true);
+        }
+        // component resolution related state
+        this.pendingComponentCb = this.Component = null;
+        // transition related state
+        this.pendingRemovals = 0;
+        this.pendingRemovalCb = null;
+        // create a ref anchor
+        this.anchor = createAnchor('v-component');
+        replace(this.el, this.anchor);
+        // remove is attribute.
+        // this is removed during compilation, but because compilation is
+        // cached, when the component is used elsewhere this attribute
+        // will remain at link time.
+        this.el.removeAttribute('is');
+        // remove ref, same as above
+        if (this.descriptor.ref) {
+          this.el.removeAttribute('v-ref:' + hyphenate(this.descriptor.ref));
+        }
+        // if static, build right now.
+        if (this.literal) {
+          this.setComponent(this.expression);
+        }
+      } else {
+        'development' !== 'production' && warn('cannot mount component "' + this.expression + '" ' + 'on already mounted element: ' + this.el);
+      }
+    },
+
+    /**
+     * Public update, called by the watcher in the dynamic
+     * literal scenario, e.g. <component :is="view">
+     */
+
+    update: function update(value) {
+      if (!this.literal) {
+        this.setComponent(value);
+      }
+    },
+
+    /**
+     * Switch dynamic components. May resolve the component
+     * asynchronously, and perform transition based on
+     * specified transition mode. Accepts a few additional
+     * arguments specifically for vue-router.
+     *
+     * The callback is called when the full transition is
+     * finished.
+     *
+     * @param {String} value
+     * @param {Function} [cb]
+     */
+
+    setComponent: function setComponent(value, cb) {
+      this.invalidatePending();
+      if (!value) {
+        // just remove current
+        this.unbuild(true);
+        this.remove(this.childVM, cb);
+        this.childVM = null;
+      } else {
+        var self = this;
+        this.resolveComponent(value, function () {
+          self.mountComponent(cb);
+        });
+      }
+    },
+
+    /**
+     * Resolve the component constructor to use when creating
+     * the child vm.
+     */
+
+    resolveComponent: function resolveComponent(id, cb) {
+      var self = this;
+      this.pendingComponentCb = cancellable(function (Component) {
+        self.ComponentName = Component.options.name || id;
+        self.Component = Component;
+        cb();
+      });
+      this.vm._resolveComponent(id, this.pendingComponentCb);
+    },
+
+    /**
+     * Create a new instance using the current constructor and
+     * replace the existing instance. This method doesn't care
+     * whether the new component and the old one are actually
+     * the same.
+     *
+     * @param {Function} [cb]
+     */
+
+    mountComponent: function mountComponent(cb) {
+      // actual mount
+      this.unbuild(true);
+      var self = this;
+      var activateHook = this.Component.options.activate;
+      var cached = this.getCached();
+      var newComponent = this.build();
+      if (activateHook && !cached) {
+        this.waitingFor = newComponent;
+        activateHook.call(newComponent, function () {
+          if (self.waitingFor !== newComponent) {
+            return;
+          }
+          self.waitingFor = null;
+          self.transition(newComponent, cb);
+        });
+      } else {
+        // update ref for kept-alive component
+        if (cached) {
+          newComponent._updateRef();
+        }
+        this.transition(newComponent, cb);
+      }
+    },
+
+    /**
+     * When the component changes or unbinds before an async
+     * constructor is resolved, we need to invalidate its
+     * pending callback.
+     */
+
+    invalidatePending: function invalidatePending() {
+      if (this.pendingComponentCb) {
+        this.pendingComponentCb.cancel();
+        this.pendingComponentCb = null;
+      }
+    },
+
+    /**
+     * Instantiate/insert a new child vm.
+     * If keep alive and has cached instance, insert that
+     * instance; otherwise build a new one and cache it.
+     *
+     * @param {Object} [extraOptions]
+     * @return {Vue} - the created instance
+     */
+
+    build: function build(extraOptions) {
+      var cached = this.getCached();
+      if (cached) {
+        return cached;
+      }
+      if (this.Component) {
+        // default options
+        var options = {
+          name: this.ComponentName,
+          el: cloneNode(this.el),
+          template: this.inlineTemplate,
+          // make sure to add the child with correct parent
+          // if this is a transcluded component, its parent
+          // should be the transclusion host.
+          parent: this._host || this.vm,
+          // if no inline-template, then the compiled
+          // linker can be cached for better performance.
+          _linkerCachable: !this.inlineTemplate,
+          _ref: this.descriptor.ref,
+          _asComponent: true,
+          _isRouterView: this._isRouterView,
+          // if this is a transcluded component, context
+          // will be the common parent vm of this instance
+          // and its host.
+          _context: this.vm,
+          // if this is inside an inline v-for, the scope
+          // will be the intermediate scope created for this
+          // repeat fragment. this is used for linking props
+          // and container directives.
+          _scope: this._scope,
+          // pass in the owner fragment of this component.
+          // this is necessary so that the fragment can keep
+          // track of its contained components in order to
+          // call attach/detach hooks for them.
+          _frag: this._frag
+        };
+        // extra options
+        // in 1.0.0 this is used by vue-router only
+        /* istanbul ignore if */
+        if (extraOptions) {
+          extend(options, extraOptions);
+        }
+        var child = new this.Component(options);
+        if (this.keepAlive) {
+          this.cache[this.Component.cid] = child;
+        }
+        /* istanbul ignore if */
+        if ('development' !== 'production' && this.el.hasAttribute('transition') && child._isFragment) {
+          warn('Transitions will not work on a fragment instance. ' + 'Template: ' + child.$options.template);
+        }
+        return child;
+      }
+    },
+
+    /**
+     * Try to get a cached instance of the current component.
+     *
+     * @return {Vue|undefined}
+     */
+
+    getCached: function getCached() {
+      return this.keepAlive && this.cache[this.Component.cid];
+    },
+
+    /**
+     * Teardown the current child, but defers cleanup so
+     * that we can separate the destroy and removal steps.
+     *
+     * @param {Boolean} defer
+     */
+
+    unbuild: function unbuild(defer) {
+      if (this.waitingFor) {
+        this.waitingFor.$destroy();
+        this.waitingFor = null;
+      }
+      var child = this.childVM;
+      if (!child || this.keepAlive) {
+        if (child) {
+          // remove ref
+          child._updateRef(true);
+        }
+        return;
+      }
+      // the sole purpose of `deferCleanup` is so that we can
+      // "deactivate" the vm right now and perform DOM removal
+      // later.
+      child.$destroy(false, defer);
+    },
+
+    /**
+     * Remove current destroyed child and manually do
+     * the cleanup after removal.
+     *
+     * @param {Function} cb
+     */
+
+    remove: function remove(child, cb) {
+      var keepAlive = this.keepAlive;
+      if (child) {
+        // we may have a component switch when a previous
+        // component is still being transitioned out.
+        // we want to trigger only one lastest insertion cb
+        // when the existing transition finishes. (#1119)
+        this.pendingRemovals++;
+        this.pendingRemovalCb = cb;
+        var self = this;
+        child.$remove(function () {
+          self.pendingRemovals--;
+          if (!keepAlive) child._cleanup();
+          if (!self.pendingRemovals && self.pendingRemovalCb) {
+            self.pendingRemovalCb();
+            self.pendingRemovalCb = null;
+          }
+        });
+      } else if (cb) {
+        cb();
+      }
+    },
+
+    /**
+     * Actually swap the components, depending on the
+     * transition mode. Defaults to simultaneous.
+     *
+     * @param {Vue} target
+     * @param {Function} [cb]
+     */
+
+    transition: function transition(target, cb) {
+      var self = this;
+      var current = this.childVM;
+      // for devtool inspection
+      if ('development' !== 'production') {
+        if (current) current._inactive = true;
+        target._inactive = false;
+      }
+      this.childVM = target;
+      switch (self.params.transitionMode) {
+        case 'in-out':
+          target.$before(self.anchor, function () {
+            self.remove(current, cb);
+          });
+          break;
+        case 'out-in':
+          self.remove(current, function () {
+            target.$before(self.anchor, cb);
+          });
+          break;
+        default:
+          self.remove(current);
+          target.$before(self.anchor, cb);
+      }
+    },
+
+    /**
+     * Unbind.
+     */
+
+    unbind: function unbind() {
+      this.invalidatePending();
+      // Do not defer cleanup when unbinding
+      this.unbuild();
+      // destroy all keep-alive cached instances
+      if (this.cache) {
+        for (var key in this.cache) {
+          this.cache[key].$destroy();
+        }
+        this.cache = null;
+      }
+    }
+  };
+
+  var vClass = {
+
+    deep: true,
+
+    update: function update(value) {
+      if (value && typeof value === 'string') {
+        this.handleObject(stringToObject(value));
+      } else if (isPlainObject(value)) {
+        this.handleObject(value);
+      } else if (isArray(value)) {
+        this.handleArray(value);
+      } else {
+        this.cleanup();
+      }
+    },
+
+    handleObject: function handleObject(value) {
+      this.cleanup(value);
+      var keys = this.prevKeys = Object.keys(value);
+      for (var i = 0, l = keys.length; i < l; i++) {
+        var key = keys[i];
+        if (value[key]) {
+          addClass(this.el, key);
+        } else {
+          removeClass(this.el, key);
+        }
+      }
+    },
+
+    handleArray: function handleArray(value) {
+      this.cleanup(value);
+      for (var i = 0, l = value.length; i < l; i++) {
+        if (value[i]) {
+          addClass(this.el, value[i]);
+        }
+      }
+      this.prevKeys = value.slice();
+    },
+
+    cleanup: function cleanup(value) {
+      if (this.prevKeys) {
+        var i = this.prevKeys.length;
+        while (i--) {
+          var key = this.prevKeys[i];
+          if (key && (!value || !contains$1(value, key))) {
+            removeClass(this.el, key);
+          }
+        }
+      }
+    }
+  };
+
+  function stringToObject(value) {
+    var res = {};
+    var keys = value.trim().split(/\s+/);
+    var i = keys.length;
+    while (i--) {
+      res[keys[i]] = true;
+    }
+    return res;
+  }
+
+  function contains$1(value, key) {
+    return isArray(value) ? value.indexOf(key) > -1 : hasOwn(value, key);
+  }
+
+  var internalDirectives = {
+    style: style,
+    'class': vClass,
+    component: component,
+    prop: propDef,
+    transition: transition
+  };
+
+  var propBindingModes = config._propBindingModes;
+  var empty = {};
+
+  // regexes
+  var identRE$1 = /^[$_a-zA-Z]+[\w$]*$/;
+  var settablePathRE = /^[A-Za-z_$][\w$]*(\.[A-Za-z_$][\w$]*|\[[^\[\]]+\])*$/;
+
+  /**
+   * Compile props on a root element and return
+   * a props link function.
+   *
+   * @param {Element|DocumentFragment} el
+   * @param {Array} propOptions
+   * @return {Function} propsLinkFn
+   */
+
+  function compileProps(el, propOptions) {
+    var props = [];
+    var names = Object.keys(propOptions);
+    var i = names.length;
+    var options, name, attr, value, path, parsed, prop;
+    while (i--) {
+      name = names[i];
+      options = propOptions[name] || empty;
+
+      if ('development' !== 'production' && name === '$data') {
+        warn('Do not use $data as prop.');
+        continue;
+      }
+
+      // props could contain dashes, which will be
+      // interpreted as minus calculations by the parser
+      // so we need to camelize the path here
+      path = camelize(name);
+      if (!identRE$1.test(path)) {
+        'development' !== 'production' && warn('Invalid prop key: "' + name + '". Prop keys ' + 'must be valid identifiers.');
+        continue;
+      }
+
+      prop = {
+        name: name,
+        path: path,
+        options: options,
+        mode: propBindingModes.ONE_WAY,
+        raw: null
+      };
+
+      attr = hyphenate(name);
+      // first check dynamic version
+      if ((value = getBindAttr(el, attr)) === null) {
+        if ((value = getBindAttr(el, attr + '.sync')) !== null) {
+          prop.mode = propBindingModes.TWO_WAY;
+        } else if ((value = getBindAttr(el, attr + '.once')) !== null) {
+          prop.mode = propBindingModes.ONE_TIME;
+        }
+      }
+      if (value !== null) {
+        // has dynamic binding!
+        prop.raw = value;
+        parsed = parseDirective(value);
+        value = parsed.expression;
+        prop.filters = parsed.filters;
+        // check binding type
+        if (isLiteral(value) && !parsed.filters) {
+          // for expressions containing literal numbers and
+          // booleans, there's no need to setup a prop binding,
+          // so we can optimize them as a one-time set.
+          prop.optimizedLiteral = true;
+        } else {
+          prop.dynamic = true;
+          // check non-settable path for two-way bindings
+          if ('development' !== 'production' && prop.mode === propBindingModes.TWO_WAY && !settablePathRE.test(value)) {
+            prop.mode = propBindingModes.ONE_WAY;
+            warn('Cannot bind two-way prop with non-settable ' + 'parent path: ' + value);
+          }
+        }
+        prop.parentPath = value;
+
+        // warn required two-way
+        if ('development' !== 'production' && options.twoWay && prop.mode !== propBindingModes.TWO_WAY) {
+          warn('Prop "' + name + '" expects a two-way binding type.');
+        }
+      } else if ((value = getAttr(el, attr)) !== null) {
+        // has literal binding!
+        prop.raw = value;
+      } else if (options.required) {
+        // warn missing required
+        'development' !== 'production' && warn('Missing required prop: ' + name);
+      }
+      // push prop
+      props.push(prop);
+    }
+    return makePropsLinkFn(props);
+  }
+
+  /**
+   * Build a function that applies props to a vm.
+   *
+   * @param {Array} props
+   * @return {Function} propsLinkFn
+   */
+
+  function makePropsLinkFn(props) {
+    return function propsLinkFn(vm, scope) {
+      // store resolved props info
+      vm._props = {};
+      var i = props.length;
+      var prop, path, options, value, raw;
+      while (i--) {
+        prop = props[i];
+        raw = prop.raw;
+        path = prop.path;
+        options = prop.options;
+        vm._props[path] = prop;
+        if (raw === null) {
+          // initialize absent prop
+          initProp(vm, prop, getDefault(vm, options));
+        } else if (prop.dynamic) {
+          // dynamic prop
+          if (vm._context) {
+            if (prop.mode === propBindingModes.ONE_TIME) {
+              // one time binding
+              value = (scope || vm._context).$get(prop.parentPath);
+              initProp(vm, prop, value);
+            } else {
+              // dynamic binding
+              vm._bindDir({
+                name: 'prop',
+                def: propDef,
+                prop: prop
+              }, null, null, scope); // el, host, scope
+            }
+          } else {
+              'development' !== 'production' && warn('Cannot bind dynamic prop on a root instance' + ' with no parent: ' + prop.name + '="' + raw + '"');
+            }
+        } else if (prop.optimizedLiteral) {
+          // optimized literal, cast it and just set once
+          var stripped = stripQuotes(raw);
+          value = stripped === raw ? toBoolean(toNumber(raw)) : stripped;
+          initProp(vm, prop, value);
+        } else {
+          // string literal, but we need to cater for
+          // Boolean props with no value
+          value = options.type === Boolean && raw === '' ? true : raw;
+          initProp(vm, prop, value);
+        }
+      }
+    };
+  }
+
+  /**
+   * Get the default value of a prop.
+   *
+   * @param {Vue} vm
+   * @param {Object} options
+   * @return {*}
+   */
+
+  function getDefault(vm, options) {
+    // no default, return undefined
+    if (!hasOwn(options, 'default')) {
+      // absent boolean value defaults to false
+      return options.type === Boolean ? false : undefined;
+    }
+    var def = options['default'];
+    // warn against non-factory defaults for Object & Array
+    if (isObject(def)) {
+      'development' !== 'production' && warn('Object/Array as default prop values will be shared ' + 'across multiple instances. Use a factory function ' + 'to return the default value instead.');
+    }
+    // call factory function for non-Function types
+    return typeof def === 'function' && options.type !== Function ? def.call(vm) : def;
+  }
+
+  // special binding prefixes
+  var bindRE = /^v-bind:|^:/;
+  var onRE = /^v-on:|^@/;
+  var dirAttrRE = /^v-([^:]+)(?:$|:(.*)$)/;
+  var modifierRE = /\.[^\.]+/g;
+  var transitionRE = /^(v-bind:|:)?transition$/;
+
+  // terminal directives
+  var terminalDirectives = ['for', 'if'];
+
+  // default directive priority
+  var DEFAULT_PRIORITY = 1000;
+
+  /**
+   * Compile a template and return a reusable composite link
+   * function, which recursively contains more link functions
+   * inside. This top level compile function would normally
+   * be called on instance root nodes, but can also be used
+   * for partial compilation if the partial argument is true.
+   *
+   * The returned composite link function, when called, will
+   * return an unlink function that tearsdown all directives
+   * created during the linking phase.
+   *
+   * @param {Element|DocumentFragment} el
+   * @param {Object} options
+   * @param {Boolean} partial
+   * @return {Function}
+   */
+
+  function compile(el, options, partial) {
+    // link function for the node itself.
+    var nodeLinkFn = partial || !options._asComponent ? compileNode(el, options) : null;
+    // link function for the childNodes
+    var childLinkFn = !(nodeLinkFn && nodeLinkFn.terminal) && el.tagName !== 'SCRIPT' && el.hasChildNodes() ? compileNodeList(el.childNodes, options) : null;
+
+    /**
+     * A composite linker function to be called on a already
+     * compiled piece of DOM, which instantiates all directive
+     * instances.
+     *
+     * @param {Vue} vm
+     * @param {Element|DocumentFragment} el
+     * @param {Vue} [host] - host vm of transcluded content
+     * @param {Object} [scope] - v-for scope
+     * @param {Fragment} [frag] - link context fragment
+     * @return {Function|undefined}
+     */
+
+    return function compositeLinkFn(vm, el, host, scope, frag) {
+      // cache childNodes before linking parent, fix #657
+      var childNodes = toArray(el.childNodes);
+      // link
+      var dirs = linkAndCapture(function compositeLinkCapturer() {
+        if (nodeLinkFn) nodeLinkFn(vm, el, host, scope, frag);
+        if (childLinkFn) childLinkFn(vm, childNodes, host, scope, frag);
+      }, vm);
+      return makeUnlinkFn(vm, dirs);
+    };
+  }
+
+  /**
+   * Apply a linker to a vm/element pair and capture the
+   * directives created during the process.
+   *
+   * @param {Function} linker
+   * @param {Vue} vm
+   */
+
+  function linkAndCapture(linker, vm) {
+    /* istanbul ignore if */
+    if ('development' === 'production') {}
+    var originalDirCount = vm._directives.length;
+    linker();
+    var dirs = vm._directives.slice(originalDirCount);
+    dirs.sort(directiveComparator);
+    for (var i = 0, l = dirs.length; i < l; i++) {
+      dirs[i]._bind();
+    }
+    return dirs;
+  }
+
+  /**
+   * Directive priority sort comparator
+   *
+   * @param {Object} a
+   * @param {Object} b
+   */
+
+  function directiveComparator(a, b) {
+    a = a.descriptor.def.priority || DEFAULT_PRIORITY;
+    b = b.descriptor.def.priority || DEFAULT_PRIORITY;
+    return a > b ? -1 : a === b ? 0 : 1;
+  }
+
+  /**
+   * Linker functions return an unlink function that
+   * tearsdown all directives instances generated during
+   * the process.
+   *
+   * We create unlink functions with only the necessary
+   * information to avoid retaining additional closures.
+   *
+   * @param {Vue} vm
+   * @param {Array} dirs
+   * @param {Vue} [context]
+   * @param {Array} [contextDirs]
+   * @return {Function}
+   */
+
+  function makeUnlinkFn(vm, dirs, context, contextDirs) {
+    function unlink(destroying) {
+      teardownDirs(vm, dirs, destroying);
+      if (context && contextDirs) {
+        teardownDirs(context, contextDirs);
+      }
+    }
+    // expose linked directives
+    unlink.dirs = dirs;
+    return unlink;
+  }
+
+  /**
+   * Teardown partial linked directives.
+   *
+   * @param {Vue} vm
+   * @param {Array} dirs
+   * @param {Boolean} destroying
+   */
+
+  function teardownDirs(vm, dirs, destroying) {
+    var i = dirs.length;
+    while (i--) {
+      dirs[i]._teardown();
+      if ('development' !== 'production' && !destroying) {
+        vm._directives.$remove(dirs[i]);
+      }
+    }
+  }
+
+  /**
+   * Compile link props on an instance.
+   *
+   * @param {Vue} vm
+   * @param {Element} el
+   * @param {Object} props
+   * @param {Object} [scope]
+   * @return {Function}
+   */
+
+  function compileAndLinkProps(vm, el, props, scope) {
+    var propsLinkFn = compileProps(el, props);
+    var propDirs = linkAndCapture(function () {
+      propsLinkFn(vm, scope);
+    }, vm);
+    return makeUnlinkFn(vm, propDirs);
+  }
+
+  /**
+   * Compile the root element of an instance.
+   *
+   * 1. attrs on context container (context scope)
+   * 2. attrs on the component template root node, if
+   *    replace:true (child scope)
+   *
+   * If this is a fragment instance, we only need to compile 1.
+   *
+   * @param {Element} el
+   * @param {Object} options
+   * @param {Object} contextOptions
+   * @return {Function}
+   */
+
+  function compileRoot(el, options, contextOptions) {
+    var containerAttrs = options._containerAttrs;
+    var replacerAttrs = options._replacerAttrs;
+    var contextLinkFn, replacerLinkFn;
+
+    // only need to compile other attributes for
+    // non-fragment instances
+    if (el.nodeType !== 11) {
+      // for components, container and replacer need to be
+      // compiled separately and linked in different scopes.
+      if (options._asComponent) {
+        // 2. container attributes
+        if (containerAttrs && contextOptions) {
+          contextLinkFn = compileDirectives(containerAttrs, contextOptions);
+        }
+        if (replacerAttrs) {
+          // 3. replacer attributes
+          replacerLinkFn = compileDirectives(replacerAttrs, options);
+        }
+      } else {
+        // non-component, just compile as a normal element.
+        replacerLinkFn = compileDirectives(el.attributes, options);
+      }
+    } else if ('development' !== 'production' && containerAttrs) {
+      // warn container directives for fragment instances
+      var names = containerAttrs.filter(function (attr) {
+        // allow vue-loader/vueify scoped css attributes
+        return attr.name.indexOf('_v-') < 0 &&
+        // allow event listeners
+        !onRE.test(attr.name) &&
+        // allow slots
+        attr.name !== 'slot';
+      }).map(function (attr) {
+        return '"' + attr.name + '"';
+      });
+      if (names.length) {
+        var plural = names.length > 1;
+        warn('Attribute' + (plural ? 's ' : ' ') + names.join(', ') + (plural ? ' are' : ' is') + ' ignored on component ' + '<' + options.el.tagName.toLowerCase() + '> because ' + 'the component is a fragment instance: ' + 'http://vuejs.org/guide/components.html#Fragment_Instance');
+      }
+    }
+
+    options._containerAttrs = options._replacerAttrs = null;
+    return function rootLinkFn(vm, el, scope) {
+      // link context scope dirs
+      var context = vm._context;
+      var contextDirs;
+      if (context && contextLinkFn) {
+        contextDirs = linkAndCapture(function () {
+          contextLinkFn(context, el, null, scope);
+        }, context);
+      }
+
+      // link self
+      var selfDirs = linkAndCapture(function () {
+        if (replacerLinkFn) replacerLinkFn(vm, el);
+      }, vm);
+
+      // return the unlink function that tearsdown context
+      // container directives.
+      return makeUnlinkFn(vm, selfDirs, context, contextDirs);
+    };
+  }
+
+  /**
+   * Compile a node and return a nodeLinkFn based on the
+   * node type.
+   *
+   * @param {Node} node
+   * @param {Object} options
+   * @return {Function|null}
+   */
+
+  function compileNode(node, options) {
+    var type = node.nodeType;
+    if (type === 1 && node.tagName !== 'SCRIPT') {
+      return compileElement(node, options);
+    } else if (type === 3 && node.data.trim()) {
+      return compileTextNode(node, options);
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * Compile an element and return a nodeLinkFn.
+   *
+   * @param {Element} el
+   * @param {Object} options
+   * @return {Function|null}
+   */
+
+  function compileElement(el, options) {
+    // preprocess textareas.
+    // textarea treats its text content as the initial value.
+    // just bind it as an attr directive for value.
+    if (el.tagName === 'TEXTAREA') {
+      var tokens = parseText(el.value);
+      if (tokens) {
+        el.setAttribute(':value', tokensToExp(tokens));
+        el.value = '';
+      }
+    }
+    var linkFn;
+    var hasAttrs = el.hasAttributes();
+    // check terminal directives (for & if)
+    if (hasAttrs) {
+      linkFn = checkTerminalDirectives(el, options);
+    }
+    // check element directives
+    if (!linkFn) {
+      linkFn = checkElementDirectives(el, options);
+    }
+    // check component
+    if (!linkFn) {
+      linkFn = checkComponent(el, options);
+    }
+    // normal directives
+    if (!linkFn && hasAttrs) {
+      linkFn = compileDirectives(el.attributes, options);
+    }
+    return linkFn;
+  }
+
+  /**
+   * Compile a textNode and return a nodeLinkFn.
+   *
+   * @param {TextNode} node
+   * @param {Object} options
+   * @return {Function|null} textNodeLinkFn
+   */
+
+  function compileTextNode(node, options) {
+    // skip marked text nodes
+    if (node._skip) {
+      return removeText;
+    }
+
+    var tokens = parseText(node.wholeText);
+    if (!tokens) {
+      return null;
+    }
+
+    // mark adjacent text nodes as skipped,
+    // because we are using node.wholeText to compile
+    // all adjacent text nodes together. This fixes
+    // issues in IE where sometimes it splits up a single
+    // text node into multiple ones.
+    var next = node.nextSibling;
+    while (next && next.nodeType === 3) {
+      next._skip = true;
+      next = next.nextSibling;
+    }
+
+    var frag = document.createDocumentFragment();
+    var el, token;
+    for (var i = 0, l = tokens.length; i < l; i++) {
+      token = tokens[i];
+      el = token.tag ? processTextToken(token, options) : document.createTextNode(token.value);
+      frag.appendChild(el);
+    }
+    return makeTextNodeLinkFn(tokens, frag, options);
+  }
+
+  /**
+   * Linker for an skipped text node.
+   *
+   * @param {Vue} vm
+   * @param {Text} node
+   */
+
+  function removeText(vm, node) {
+    remove(node);
+  }
+
+  /**
+   * Process a single text token.
+   *
+   * @param {Object} token
+   * @param {Object} options
+   * @return {Node}
+   */
+
+  function processTextToken(token, options) {
+    var el;
+    if (token.oneTime) {
+      el = document.createTextNode(token.value);
+    } else {
+      if (token.html) {
+        el = document.createComment('v-html');
+        setTokenType('html');
+      } else {
+        // IE will clean up empty textNodes during
+        // frag.cloneNode(true), so we have to give it
+        // something here...
+        el = document.createTextNode(' ');
+        setTokenType('text');
+      }
+    }
+    function setTokenType(type) {
+      if (token.descriptor) return;
+      var parsed = parseDirective(token.value);
+      token.descriptor = {
+        name: type,
+        def: publicDirectives[type],
+        expression: parsed.expression,
+        filters: parsed.filters
+      };
+    }
+    return el;
+  }
+
+  /**
+   * Build a function that processes a textNode.
+   *
+   * @param {Array<Object>} tokens
+   * @param {DocumentFragment} frag
+   */
+
+  function makeTextNodeLinkFn(tokens, frag) {
+    return function textNodeLinkFn(vm, el, host, scope) {
+      var fragClone = frag.cloneNode(true);
+      var childNodes = toArray(fragClone.childNodes);
+      var token, value, node;
+      for (var i = 0, l = tokens.length; i < l; i++) {
+        token = tokens[i];
+        value = token.value;
+        if (token.tag) {
+          node = childNodes[i];
+          if (token.oneTime) {
+            value = (scope || vm).$eval(value);
+            if (token.html) {
+              replace(node, parseTemplate(value, true));
+            } else {
+              node.data = value;
+            }
+          } else {
+            vm._bindDir(token.descriptor, node, host, scope);
+          }
+        }
+      }
+      replace(el, fragClone);
+    };
+  }
+
+  /**
+   * Compile a node list and return a childLinkFn.
+   *
+   * @param {NodeList} nodeList
+   * @param {Object} options
+   * @return {Function|undefined}
+   */
+
+  function compileNodeList(nodeList, options) {
+    var linkFns = [];
+    var nodeLinkFn, childLinkFn, node;
+    for (var i = 0, l = nodeList.length; i < l; i++) {
+      node = nodeList[i];
+      nodeLinkFn = compileNode(node, options);
+      childLinkFn = !(nodeLinkFn && nodeLinkFn.terminal) && node.tagName !== 'SCRIPT' && node.hasChildNodes() ? compileNodeList(node.childNodes, options) : null;
+      linkFns.push(nodeLinkFn, childLinkFn);
+    }
+    return linkFns.length ? makeChildLinkFn(linkFns) : null;
+  }
+
+  /**
+   * Make a child link function for a node's childNodes.
+   *
+   * @param {Array<Function>} linkFns
+   * @return {Function} childLinkFn
+   */
+
+  function makeChildLinkFn(linkFns) {
+    return function childLinkFn(vm, nodes, host, scope, frag) {
+      var node, nodeLinkFn, childrenLinkFn;
+      for (var i = 0, n = 0, l = linkFns.length; i < l; n++) {
+        node = nodes[n];
+        nodeLinkFn = linkFns[i++];
+        childrenLinkFn = linkFns[i++];
+        // cache childNodes before linking parent, fix #657
+        var childNodes = toArray(node.childNodes);
+        if (nodeLinkFn) {
+          nodeLinkFn(vm, node, host, scope, frag);
+        }
+        if (childrenLinkFn) {
+          childrenLinkFn(vm, childNodes, host, scope, frag);
+        }
+      }
+    };
+  }
+
+  /**
+   * Check for element directives (custom elements that should
+   * be resovled as terminal directives).
+   *
+   * @param {Element} el
+   * @param {Object} options
+   */
+
+  function checkElementDirectives(el, options) {
+    var tag = el.tagName.toLowerCase();
+    if (commonTagRE.test(tag)) return;
+    // special case: give named slot a higher priority
+    // than unnamed slots
+    if (tag === 'slot' && hasBindAttr(el, 'name')) {
+      tag = '_namedSlot';
+    }
+    var def = resolveAsset(options, 'elementDirectives', tag);
+    if (def) {
+      return makeTerminalNodeLinkFn(el, tag, '', options, def);
+    }
+  }
+
+  /**
+   * Check if an element is a component. If yes, return
+   * a component link function.
+   *
+   * @param {Element} el
+   * @param {Object} options
+   * @return {Function|undefined}
+   */
+
+  function checkComponent(el, options) {
+    var component = checkComponentAttr(el, options);
+    if (component) {
+      var ref = findRef(el);
+      var descriptor = {
+        name: 'component',
+        ref: ref,
+        expression: component.id,
+        def: internalDirectives.component,
+        modifiers: {
+          literal: !component.dynamic
+        }
+      };
+      var componentLinkFn = function componentLinkFn(vm, el, host, scope, frag) {
+        if (ref) {
+          defineReactive((scope || vm).$refs, ref, null);
+        }
+        vm._bindDir(descriptor, el, host, scope, frag);
+      };
+      componentLinkFn.terminal = true;
+      return componentLinkFn;
+    }
+  }
+
+  /**
+   * Check an element for terminal directives in fixed order.
+   * If it finds one, return a terminal link function.
+   *
+   * @param {Element} el
+   * @param {Object} options
+   * @return {Function} terminalLinkFn
+   */
+
+  function checkTerminalDirectives(el, options) {
+    // skip v-pre
+    if (getAttr(el, 'v-pre') !== null) {
+      return skip;
+    }
+    // skip v-else block, but only if following v-if
+    if (el.hasAttribute('v-else')) {
+      var prev = el.previousElementSibling;
+      if (prev && prev.hasAttribute('v-if')) {
+        return skip;
+      }
+    }
+    var value, dirName;
+    for (var i = 0, l = terminalDirectives.length; i < l; i++) {
+      dirName = terminalDirectives[i];
+      value = el.getAttribute('v-' + dirName);
+      if (value != null) {
+        return makeTerminalNodeLinkFn(el, dirName, value, options);
+      }
+    }
+  }
+
+  function skip() {}
+  skip.terminal = true;
+
+  /**
+   * Build a node link function for a terminal directive.
+   * A terminal link function terminates the current
+   * compilation recursion and handles compilation of the
+   * subtree in the directive.
+   *
+   * @param {Element} el
+   * @param {String} dirName
+   * @param {String} value
+   * @param {Object} options
+   * @param {Object} [def]
+   * @return {Function} terminalLinkFn
+   */
+
+  function makeTerminalNodeLinkFn(el, dirName, value, options, def) {
+    var parsed = parseDirective(value);
+    var descriptor = {
+      name: dirName,
+      expression: parsed.expression,
+      filters: parsed.filters,
+      raw: value,
+      // either an element directive, or if/for
+      def: def || publicDirectives[dirName]
+    };
+    // check ref for v-for and router-view
+    if (dirName === 'for' || dirName === 'router-view') {
+      descriptor.ref = findRef(el);
+    }
+    var fn = function terminalNodeLinkFn(vm, el, host, scope, frag) {
+      if (descriptor.ref) {
+        defineReactive((scope || vm).$refs, descriptor.ref, null);
+      }
+      vm._bindDir(descriptor, el, host, scope, frag);
+    };
+    fn.terminal = true;
+    return fn;
+  }
+
+  /**
+   * Compile the directives on an element and return a linker.
+   *
+   * @param {Array|NamedNodeMap} attrs
+   * @param {Object} options
+   * @return {Function}
+   */
+
+  function compileDirectives(attrs, options) {
+    var i = attrs.length;
+    var dirs = [];
+    var attr, name, value, rawName, rawValue, dirName, arg, modifiers, dirDef, tokens, matched;
+    while (i--) {
+      attr = attrs[i];
+      name = rawName = attr.name;
+      value = rawValue = attr.value;
+      tokens = parseText(value);
+      // reset arg
+      arg = null;
+      // check modifiers
+      modifiers = parseModifiers(name);
+      name = name.replace(modifierRE, '');
+
+      // attribute interpolations
+      if (tokens) {
+        value = tokensToExp(tokens);
+        arg = name;
+        pushDir('bind', publicDirectives.bind, tokens);
+        // warn against mixing mustaches with v-bind
+        if ('development' !== 'production') {
+          if (name === 'class' && Array.prototype.some.call(attrs, function (attr) {
+            return attr.name === ':class' || attr.name === 'v-bind:class';
+          })) {
+            warn('class="' + rawValue + '": Do not mix mustache interpolation ' + 'and v-bind for "class" on the same element. Use one or the other.');
+          }
+        }
+      } else
+
+        // special attribute: transition
+        if (transitionRE.test(name)) {
+          modifiers.literal = !bindRE.test(name);
+          pushDir('transition', internalDirectives.transition);
+        } else
+
+          // event handlers
+          if (onRE.test(name)) {
+            arg = name.replace(onRE, '');
+            pushDir('on', publicDirectives.on);
+          } else
+
+            // attribute bindings
+            if (bindRE.test(name)) {
+              dirName = name.replace(bindRE, '');
+              if (dirName === 'style' || dirName === 'class') {
+                pushDir(dirName, internalDirectives[dirName]);
+              } else {
+                arg = dirName;
+                pushDir('bind', publicDirectives.bind);
+              }
+            } else
+
+              // normal directives
+              if (matched = name.match(dirAttrRE)) {
+                dirName = matched[1];
+                arg = matched[2];
+
+                // skip v-else (when used with v-show)
+                if (dirName === 'else') {
+                  continue;
+                }
+
+                dirDef = resolveAsset(options, 'directives', dirName);
+
+                if ('development' !== 'production') {
+                  assertAsset(dirDef, 'directive', dirName);
+                }
+
+                if (dirDef) {
+                  pushDir(dirName, dirDef);
+                }
+              }
+    }
+
+    /**
+     * Push a directive.
+     *
+     * @param {String} dirName
+     * @param {Object|Function} def
+     * @param {Array} [interpTokens]
+     */
+
+    function pushDir(dirName, def, interpTokens) {
+      var hasOneTimeToken = interpTokens && hasOneTime(interpTokens);
+      var parsed = !hasOneTimeToken && parseDirective(value);
+      dirs.push({
+        name: dirName,
+        attr: rawName,
+        raw: rawValue,
+        def: def,
+        arg: arg,
+        modifiers: modifiers,
+        // conversion from interpolation strings with one-time token
+        // to expression is differed until directive bind time so that we
+        // have access to the actual vm context for one-time bindings.
+        expression: parsed && parsed.expression,
+        filters: parsed && parsed.filters,
+        interp: interpTokens,
+        hasOneTime: hasOneTimeToken
+      });
+    }
+
+    if (dirs.length) {
+      return makeNodeLinkFn(dirs);
+    }
+  }
+
+  /**
+   * Parse modifiers from directive attribute name.
+   *
+   * @param {String} name
+   * @return {Object}
+   */
+
+  function parseModifiers(name) {
+    var res = Object.create(null);
+    var match = name.match(modifierRE);
+    if (match) {
+      var i = match.length;
+      while (i--) {
+        res[match[i].slice(1)] = true;
+      }
+    }
+    return res;
+  }
+
+  /**
+   * Build a link function for all directives on a single node.
+   *
+   * @param {Array} directives
+   * @return {Function} directivesLinkFn
+   */
+
+  function makeNodeLinkFn(directives) {
+    return function nodeLinkFn(vm, el, host, scope, frag) {
+      // reverse apply because it's sorted low to high
+      var i = directives.length;
+      while (i--) {
+        vm._bindDir(directives[i], el, host, scope, frag);
+      }
+    };
+  }
+
+  /**
+   * Check if an interpolation string contains one-time tokens.
+   *
+   * @param {Array} tokens
+   * @return {Boolean}
+   */
+
+  function hasOneTime(tokens) {
+    var i = tokens.length;
+    while (i--) {
+      if (tokens[i].oneTime) return true;
+    }
+  }
+
+  var specialCharRE = /[^\w\-:\.]/;
+
+  /**
+   * Process an element or a DocumentFragment based on a
+   * instance option object. This allows us to transclude
+   * a template node/fragment before the instance is created,
+   * so the processed fragment can then be cloned and reused
+   * in v-for.
+   *
+   * @param {Element} el
+   * @param {Object} options
+   * @return {Element|DocumentFragment}
+   */
+
+  function transclude(el, options) {
+    // extract container attributes to pass them down
+    // to compiler, because they need to be compiled in
+    // parent scope. we are mutating the options object here
+    // assuming the same object will be used for compile
+    // right after this.
+    if (options) {
+      options._containerAttrs = extractAttrs(el);
+    }
+    // for template tags, what we want is its content as
+    // a documentFragment (for fragment instances)
+    if (isTemplate(el)) {
+      el = parseTemplate(el);
+    }
+    if (options) {
+      if (options._asComponent && !options.template) {
+        options.template = '<slot></slot>';
+      }
+      if (options.template) {
+        options._content = extractContent(el);
+        el = transcludeTemplate(el, options);
+      }
+    }
+    if (el instanceof DocumentFragment) {
+      // anchors for fragment instance
+      // passing in `persist: true` to avoid them being
+      // discarded by IE during template cloning
+      prepend(createAnchor('v-start', true), el);
+      el.appendChild(createAnchor('v-end', true));
+    }
+    return el;
+  }
+
+  /**
+   * Process the template option.
+   * If the replace option is true this will swap the $el.
+   *
+   * @param {Element} el
+   * @param {Object} options
+   * @return {Element|DocumentFragment}
+   */
+
+  function transcludeTemplate(el, options) {
+    var template = options.template;
+    var frag = parseTemplate(template, true);
+    if (frag) {
+      var replacer = frag.firstChild;
+      var tag = replacer.tagName && replacer.tagName.toLowerCase();
+      if (options.replace) {
+        /* istanbul ignore if */
+        if (el === document.body) {
+          'development' !== 'production' && warn('You are mounting an instance with a template to ' + '<body>. This will replace <body> entirely. You ' + 'should probably use `replace: false` here.');
+        }
+        // there are many cases where the instance must
+        // become a fragment instance: basically anything that
+        // can create more than 1 root nodes.
+        if (
+        // multi-children template
+        frag.childNodes.length > 1 ||
+        // non-element template
+        replacer.nodeType !== 1 ||
+        // single nested component
+        tag === 'component' || resolveAsset(options, 'components', tag) || hasBindAttr(replacer, 'is') ||
+        // element directive
+        resolveAsset(options, 'elementDirectives', tag) ||
+        // for block
+        replacer.hasAttribute('v-for') ||
+        // if block
+        replacer.hasAttribute('v-if')) {
+          return frag;
+        } else {
+          options._replacerAttrs = extractAttrs(replacer);
+          mergeAttrs(el, replacer);
+          return replacer;
+        }
+      } else {
+        el.appendChild(frag);
+        return el;
+      }
+    } else {
+      'development' !== 'production' && warn('Invalid template option: ' + template);
+    }
+  }
+
+  /**
+   * Helper to extract a component container's attributes
+   * into a plain object array.
+   *
+   * @param {Element} el
+   * @return {Array}
+   */
+
+  function extractAttrs(el) {
+    if (el.nodeType === 1 && el.hasAttributes()) {
+      return toArray(el.attributes);
+    }
+  }
+
+  /**
+   * Merge the attributes of two elements, and make sure
+   * the class names are merged properly.
+   *
+   * @param {Element} from
+   * @param {Element} to
+   */
+
+  function mergeAttrs(from, to) {
+    var attrs = from.attributes;
+    var i = attrs.length;
+    var name, value;
+    while (i--) {
+      name = attrs[i].name;
+      value = attrs[i].value;
+      if (!to.hasAttribute(name) && !specialCharRE.test(name)) {
+        to.setAttribute(name, value);
+      } else if (name === 'class' && !parseText(value)) {
+        value.split(/\s+/).forEach(function (cls) {
+          addClass(to, cls);
+        });
+      }
+    }
+  }
+
+  var compiler = Object.freeze({
+  	compile: compile,
+  	compileAndLinkProps: compileAndLinkProps,
+  	compileRoot: compileRoot,
+  	terminalDirectives: terminalDirectives,
+  	transclude: transclude
+  });
+
+  function stateMixin (Vue) {
+
+    /**
+     * Accessor for `$data` property, since setting $data
+     * requires observing the new object and updating
+     * proxied properties.
+     */
+
+    Object.defineProperty(Vue.prototype, '$data', {
+      get: function get() {
+        return this._data;
+      },
+      set: function set(newData) {
+        if (newData !== this._data) {
+          this._setData(newData);
+        }
+      }
+    });
+
+    /**
+     * Setup the scope of an instance, which contains:
+     * - observed data
+     * - computed properties
+     * - user methods
+     * - meta properties
+     */
+
+    Vue.prototype._initState = function () {
+      this._initProps();
+      this._initMeta();
+      this._initMethods();
+      this._initData();
+      this._initComputed();
+    };
+
+    /**
+     * Initialize props.
+     */
+
+    Vue.prototype._initProps = function () {
+      var options = this.$options;
+      var el = options.el;
+      var props = options.props;
+      if (props && !el) {
+        'development' !== 'production' && warn('Props will not be compiled if no `el` option is ' + 'provided at instantiation.');
+      }
+      // make sure to convert string selectors into element now
+      el = options.el = query(el);
+      this._propsUnlinkFn = el && el.nodeType === 1 && props
+      // props must be linked in proper scope if inside v-for
+      ? compileAndLinkProps(this, el, props, this._scope) : null;
+    };
+
+    /**
+     * Initialize the data.
+     */
+
+    Vue.prototype._initData = function () {
+      var propsData = this._data;
+      var optionsDataFn = this.$options.data;
+      var optionsData = optionsDataFn && optionsDataFn();
+      var runtimeData;
+      if ('development' !== 'production') {
+        runtimeData = (typeof this._runtimeData === 'function' ? this._runtimeData() : this._runtimeData) || {};
+        this._runtimeData = null;
+      }
+      if (optionsData) {
+        this._data = optionsData;
+        for (var prop in propsData) {
+          if ('development' !== 'production' && hasOwn(optionsData, prop) && !hasOwn(runtimeData, prop)) {
+            warn('Data field "' + prop + '" is already defined ' + 'as a prop. Use prop default value instead.');
+          }
+          if (this._props[prop].raw !== null || !hasOwn(optionsData, prop)) {
+            set(optionsData, prop, propsData[prop]);
+          }
+        }
+      }
+      var data = this._data;
+      // proxy data on instance
+      var keys = Object.keys(data);
+      var i, key;
+      i = keys.length;
+      while (i--) {
+        key = keys[i];
+        this._proxy(key);
+      }
+      // observe data
+      observe(data, this);
+    };
+
+    /**
+     * Swap the instance's $data. Called in $data's setter.
+     *
+     * @param {Object} newData
+     */
+
+    Vue.prototype._setData = function (newData) {
+      newData = newData || {};
+      var oldData = this._data;
+      this._data = newData;
+      var keys, key, i;
+      // unproxy keys not present in new data
+      keys = Object.keys(oldData);
+      i = keys.length;
+      while (i--) {
+        key = keys[i];
+        if (!(key in newData)) {
+          this._unproxy(key);
+        }
+      }
+      // proxy keys not already proxied,
+      // and trigger change for changed values
+      keys = Object.keys(newData);
+      i = keys.length;
+      while (i--) {
+        key = keys[i];
+        if (!hasOwn(this, key)) {
+          // new property
+          this._proxy(key);
+        }
+      }
+      oldData.__ob__.removeVm(this);
+      observe(newData, this);
+      this._digest();
+    };
+
+    /**
+     * Proxy a property, so that
+     * vm.prop === vm._data.prop
+     *
+     * @param {String} key
+     */
+
+    Vue.prototype._proxy = function (key) {
+      if (!isReserved(key)) {
+        // need to store ref to self here
+        // because these getter/setters might
+        // be called by child scopes via
+        // prototype inheritance.
+        var self = this;
+        Object.defineProperty(self, key, {
+          configurable: true,
+          enumerable: true,
+          get: function proxyGetter() {
+            return self._data[key];
+          },
+          set: function proxySetter(val) {
+            self._data[key] = val;
+          }
+        });
+      }
+    };
+
+    /**
+     * Unproxy a property.
+     *
+     * @param {String} key
+     */
+
+    Vue.prototype._unproxy = function (key) {
+      if (!isReserved(key)) {
+        delete this[key];
+      }
+    };
+
+    /**
+     * Force update on every watcher in scope.
+     */
+
+    Vue.prototype._digest = function () {
+      for (var i = 0, l = this._watchers.length; i < l; i++) {
+        this._watchers[i].update(true); // shallow updates
+      }
+    };
+
+    /**
+     * Setup computed properties. They are essentially
+     * special getter/setters
+     */
+
+    function noop() {}
+    Vue.prototype._initComputed = function () {
+      var computed = this.$options.computed;
+      if (computed) {
+        for (var key in computed) {
+          var userDef = computed[key];
+          var def = {
+            enumerable: true,
+            configurable: true
+          };
+          if (typeof userDef === 'function') {
+            def.get = makeComputedGetter(userDef, this);
+            def.set = noop;
+          } else {
+            def.get = userDef.get ? userDef.cache !== false ? makeComputedGetter(userDef.get, this) : bind$1(userDef.get, this) : noop;
+            def.set = userDef.set ? bind$1(userDef.set, this) : noop;
+          }
+          Object.defineProperty(this, key, def);
+        }
+      }
+    };
+
+    function makeComputedGetter(getter, owner) {
+      var watcher = new Watcher(owner, getter, null, {
+        lazy: true
+      });
+      return function computedGetter() {
+        if (watcher.dirty) {
+          watcher.evaluate();
+        }
+        if (Dep.target) {
+          watcher.depend();
+        }
+        return watcher.value;
+      };
+    }
+
+    /**
+     * Setup instance methods. Methods must be bound to the
+     * instance since they might be passed down as a prop to
+     * child components.
+     */
+
+    Vue.prototype._initMethods = function () {
+      var methods = this.$options.methods;
+      if (methods) {
+        for (var key in methods) {
+          this[key] = bind$1(methods[key], this);
+        }
+      }
+    };
+
+    /**
+     * Initialize meta information like $index, $key & $value.
+     */
+
+    Vue.prototype._initMeta = function () {
+      var metas = this.$options._meta;
+      if (metas) {
+        for (var key in metas) {
+          defineReactive(this, key, metas[key]);
+        }
+      }
+    };
+  }
+
+  var eventRE = /^v-on:|^@/;
+
+  function eventsMixin (Vue) {
+
+    /**
+     * Setup the instance's option events & watchers.
+     * If the value is a string, we pull it from the
+     * instance's methods by name.
+     */
+
+    Vue.prototype._initEvents = function () {
+      var options = this.$options;
+      if (options._asComponent) {
+        registerComponentEvents(this, options.el);
+      }
+      registerCallbacks(this, '$on', options.events);
+      registerCallbacks(this, '$watch', options.watch);
+    };
+
+    /**
+     * Register v-on events on a child component
+     *
+     * @param {Vue} vm
+     * @param {Element} el
+     */
+
+    function registerComponentEvents(vm, el) {
+      var attrs = el.attributes;
+      var name, handler;
+      for (var i = 0, l = attrs.length; i < l; i++) {
+        name = attrs[i].name;
+        if (eventRE.test(name)) {
+          name = name.replace(eventRE, '');
+          handler = (vm._scope || vm._context).$eval(attrs[i].value, true);
+          handler._fromParent = true;
+          vm.$on(name.replace(eventRE), handler);
+        }
+      }
+    }
+
+    /**
+     * Register callbacks for option events and watchers.
+     *
+     * @param {Vue} vm
+     * @param {String} action
+     * @param {Object} hash
+     */
+
+    function registerCallbacks(vm, action, hash) {
+      if (!hash) return;
+      var handlers, key, i, j;
+      for (key in hash) {
+        handlers = hash[key];
+        if (isArray(handlers)) {
+          for (i = 0, j = handlers.length; i < j; i++) {
+            register(vm, action, key, handlers[i]);
+          }
+        } else {
+          register(vm, action, key, handlers);
+        }
+      }
+    }
+
+    /**
+     * Helper to register an event/watch callback.
+     *
+     * @param {Vue} vm
+     * @param {String} action
+     * @param {String} key
+     * @param {Function|String|Object} handler
+     * @param {Object} [options]
+     */
+
+    function register(vm, action, key, handler, options) {
+      var type = typeof handler;
+      if (type === 'function') {
+        vm[action](key, handler, options);
+      } else if (type === 'string') {
+        var methods = vm.$options.methods;
+        var method = methods && methods[handler];
+        if (method) {
+          vm[action](key, method, options);
+        } else {
+          'development' !== 'production' && warn('Unknown method: "' + handler + '" when ' + 'registering callback for ' + action + ': "' + key + '".');
+        }
+      } else if (handler && type === 'object') {
+        register(vm, action, key, handler.handler, handler);
+      }
+    }
+
+    /**
+     * Setup recursive attached/detached calls
+     */
+
+    Vue.prototype._initDOMHooks = function () {
+      this.$on('hook:attached', onAttached);
+      this.$on('hook:detached', onDetached);
+    };
+
+    /**
+     * Callback to recursively call attached hook on children
+     */
+
+    function onAttached() {
+      if (!this._isAttached) {
+        this._isAttached = true;
+        this.$children.forEach(callAttach);
+      }
+    }
+
+    /**
+     * Iterator to call attached hook
+     *
+     * @param {Vue} child
+     */
+
+    function callAttach(child) {
+      if (!child._isAttached && inDoc(child.$el)) {
+        child._callHook('attached');
+      }
+    }
+
+    /**
+     * Callback to recursively call detached hook on children
+     */
+
+    function onDetached() {
+      if (this._isAttached) {
+        this._isAttached = false;
+        this.$children.forEach(callDetach);
+      }
+    }
+
+    /**
+     * Iterator to call detached hook
+     *
+     * @param {Vue} child
+     */
+
+    function callDetach(child) {
+      if (child._isAttached && !inDoc(child.$el)) {
+        child._callHook('detached');
+      }
+    }
+
+    /**
+     * Trigger all handlers for a hook
+     *
+     * @param {String} hook
+     */
+
+    Vue.prototype._callHook = function (hook) {
+      this.$emit('pre-hook:' + hook);
+      var handlers = this.$options[hook];
+      if (handlers) {
+        for (var i = 0, j = handlers.length; i < j; i++) {
+          handlers[i].call(this);
+        }
+      }
+      this.$emit('hook:' + hook);
+    };
+  }
+
+  function noop() {}
+
+  /**
+   * A directive links a DOM element with a piece of data,
+   * which is the result of evaluating an expression.
+   * It registers a watcher with the expression and calls
+   * the DOM update function when a change is triggered.
+   *
+   * @param {String} name
+   * @param {Node} el
+   * @param {Vue} vm
+   * @param {Object} descriptor
+   *                 - {String} name
+   *                 - {Object} def
+   *                 - {String} expression
+   *                 - {Array<Object>} [filters]
+   *                 - {Boolean} literal
+   *                 - {String} attr
+   *                 - {String} raw
+   * @param {Object} def - directive definition object
+   * @param {Vue} [host] - transclusion host component
+   * @param {Object} [scope] - v-for scope
+   * @param {Fragment} [frag] - owner fragment
+   * @constructor
+   */
+  function Directive(descriptor, vm, el, host, scope, frag) {
+    this.vm = vm;
+    this.el = el;
+    // copy descriptor properties
+    this.descriptor = descriptor;
+    this.name = descriptor.name;
+    this.expression = descriptor.expression;
+    this.arg = descriptor.arg;
+    this.modifiers = descriptor.modifiers;
+    this.filters = descriptor.filters;
+    this.literal = this.modifiers && this.modifiers.literal;
+    // private
+    this._locked = false;
+    this._bound = false;
+    this._listeners = null;
+    // link context
+    this._host = host;
+    this._scope = scope;
+    this._frag = frag;
+    // store directives on node in dev mode
+    if ('development' !== 'production' && this.el) {
+      this.el._vue_directives = this.el._vue_directives || [];
+      this.el._vue_directives.push(this);
+    }
+  }
+
+  /**
+   * Initialize the directive, mixin definition properties,
+   * setup the watcher, call definition bind() and update()
+   * if present.
+   *
+   * @param {Object} def
+   */
+
+  Directive.prototype._bind = function () {
+    var name = this.name;
+    var descriptor = this.descriptor;
+
+    // remove attribute
+    if ((name !== 'cloak' || this.vm._isCompiled) && this.el && this.el.removeAttribute) {
+      var attr = descriptor.attr || 'v-' + name;
+      this.el.removeAttribute(attr);
+    }
+
+    // copy def properties
+    var def = descriptor.def;
+    if (typeof def === 'function') {
+      this.update = def;
+    } else {
+      extend(this, def);
+    }
+
+    // setup directive params
+    this._setupParams();
+
+    // initial bind
+    if (this.bind) {
+      this.bind();
+    }
+    this._bound = true;
+
+    if (this.literal) {
+      this.update && this.update(descriptor.raw);
+    } else if ((this.expression || this.modifiers) && (this.update || this.twoWay) && !this._checkStatement()) {
+      // wrapped updater for context
+      var dir = this;
+      if (this.update) {
+        this._update = function (val, oldVal) {
+          if (!dir._locked) {
+            dir.update(val, oldVal);
+          }
+        };
+      } else {
+        this._update = noop;
+      }
+      var preProcess = this._preProcess ? bind$1(this._preProcess, this) : null;
+      var postProcess = this._postProcess ? bind$1(this._postProcess, this) : null;
+      var watcher = this._watcher = new Watcher(this.vm, this.expression, this._update, // callback
+      {
+        filters: this.filters,
+        twoWay: this.twoWay,
+        deep: this.deep,
+        preProcess: preProcess,
+        postProcess: postProcess,
+        scope: this._scope
+      });
+      // v-model with inital inline value need to sync back to
+      // model instead of update to DOM on init. They would
+      // set the afterBind hook to indicate that.
+      if (this.afterBind) {
+        this.afterBind();
+      } else if (this.update) {
+        this.update(watcher.value);
+      }
+    }
+  };
+
+  /**
+   * Setup all param attributes, e.g. track-by,
+   * transition-mode, etc...
+   */
+
+  Directive.prototype._setupParams = function () {
+    if (!this.params) {
+      return;
+    }
+    var params = this.params;
+    // swap the params array with a fresh object.
+    this.params = Object.create(null);
+    var i = params.length;
+    var key, val, mappedKey;
+    while (i--) {
+      key = params[i];
+      mappedKey = camelize(key);
+      val = getBindAttr(this.el, key);
+      if (val != null) {
+        // dynamic
+        this._setupParamWatcher(mappedKey, val);
+      } else {
+        // static
+        val = getAttr(this.el, key);
+        if (val != null) {
+          this.params[mappedKey] = val === '' ? true : val;
+        }
+      }
+    }
+  };
+
+  /**
+   * Setup a watcher for a dynamic param.
+   *
+   * @param {String} key
+   * @param {String} expression
+   */
+
+  Directive.prototype._setupParamWatcher = function (key, expression) {
+    var self = this;
+    var called = false;
+    var unwatch = (this._scope || this.vm).$watch(expression, function (val, oldVal) {
+      self.params[key] = val;
+      // since we are in immediate mode,
+      // only call the param change callbacks if this is not the first update.
+      if (called) {
+        var cb = self.paramWatchers && self.paramWatchers[key];
+        if (cb) {
+          cb.call(self, val, oldVal);
+        }
+      } else {
+        called = true;
+      }
+    }, {
+      immediate: true,
+      user: false
+    });(this._paramUnwatchFns || (this._paramUnwatchFns = [])).push(unwatch);
+  };
+
+  /**
+   * Check if the directive is a function caller
+   * and if the expression is a callable one. If both true,
+   * we wrap up the expression and use it as the event
+   * handler.
+   *
+   * e.g. on-click="a++"
+   *
+   * @return {Boolean}
+   */
+
+  Directive.prototype._checkStatement = function () {
+    var expression = this.expression;
+    if (expression && this.acceptStatement && !isSimplePath(expression)) {
+      var fn = parseExpression(expression).get;
+      var scope = this._scope || this.vm;
+      var handler = function handler(e) {
+        scope.$event = e;
+        fn.call(scope, scope);
+        scope.$event = null;
+      };
+      if (this.filters) {
+        handler = scope._applyFilters(handler, null, this.filters);
+      }
+      this.update(handler);
+      return true;
+    }
+  };
+
+  /**
+   * Set the corresponding value with the setter.
+   * This should only be used in two-way directives
+   * e.g. v-model.
+   *
+   * @param {*} value
+   * @public
+   */
+
+  Directive.prototype.set = function (value) {
+    /* istanbul ignore else */
+    if (this.twoWay) {
+      this._withLock(function () {
+        this._watcher.set(value);
+      });
+    } else if ('development' !== 'production') {
+      warn('Directive.set() can only be used inside twoWay' + 'directives.');
+    }
+  };
+
+  /**
+   * Execute a function while preventing that function from
+   * triggering updates on this directive instance.
+   *
+   * @param {Function} fn
+   */
+
+  Directive.prototype._withLock = function (fn) {
+    var self = this;
+    self._locked = true;
+    fn.call(self);
+    nextTick(function () {
+      self._locked = false;
+    });
+  };
+
+  /**
+   * Convenience method that attaches a DOM event listener
+   * to the directive element and autometically tears it down
+   * during unbind.
+   *
+   * @param {String} event
+   * @param {Function} handler
+   * @param {Boolean} [useCapture]
+   */
+
+  Directive.prototype.on = function (event, handler, useCapture) {
+    on$1(this.el, event, handler, useCapture);(this._listeners || (this._listeners = [])).push([event, handler]);
+  };
+
+  /**
+   * Teardown the watcher and call unbind.
+   */
+
+  Directive.prototype._teardown = function () {
+    if (this._bound) {
+      this._bound = false;
+      if (this.unbind) {
+        this.unbind();
+      }
+      if (this._watcher) {
+        this._watcher.teardown();
+      }
+      var listeners = this._listeners;
+      var i;
+      if (listeners) {
+        i = listeners.length;
+        while (i--) {
+          off(this.el, listeners[i][0], listeners[i][1]);
+        }
+      }
+      var unwatchFns = this._paramUnwatchFns;
+      if (unwatchFns) {
+        i = unwatchFns.length;
+        while (i--) {
+          unwatchFns[i]();
+        }
+      }
+      if ('development' !== 'production' && this.el) {
+        this.el._vue_directives.$remove(this);
+      }
+      this.vm = this.el = this._watcher = this._listeners = null;
+    }
+  };
+
+  function lifecycleMixin (Vue) {
+
+    /**
+     * Update v-ref for component.
+     *
+     * @param {Boolean} remove
+     */
+
+    Vue.prototype._updateRef = function (remove) {
+      var ref = this.$options._ref;
+      if (ref) {
+        var refs = (this._scope || this._context).$refs;
+        if (remove) {
+          if (refs[ref] === this) {
+            refs[ref] = null;
+          }
+        } else {
+          refs[ref] = this;
+        }
+      }
+    };
+
+    /**
+     * Transclude, compile and link element.
+     *
+     * If a pre-compiled linker is available, that means the
+     * passed in element will be pre-transcluded and compiled
+     * as well - all we need to do is to call the linker.
+     *
+     * Otherwise we need to call transclude/compile/link here.
+     *
+     * @param {Element} el
+     */
+
+    Vue.prototype._compile = function (el) {
+      var options = this.$options;
+
+      // transclude and init element
+      // transclude can potentially replace original
+      // so we need to keep reference; this step also injects
+      // the template and caches the original attributes
+      // on the container node and replacer node.
+      var original = el;
+      el = transclude(el, options);
+      this._initElement(el);
+
+      // handle v-pre on root node (#2026)
+      if (el.nodeType === 1 && getAttr(el, 'v-pre') !== null) {
+        return;
+      }
+
+      // root is always compiled per-instance, because
+      // container attrs and props can be different every time.
+      var contextOptions = this._context && this._context.$options;
+      var rootLinker = compileRoot(el, options, contextOptions);
+
+      // compile and link the rest
+      var contentLinkFn;
+      var ctor = this.constructor;
+      // component compilation can be cached
+      // as long as it's not using inline-template
+      if (options._linkerCachable) {
+        contentLinkFn = ctor.linker;
+        if (!contentLinkFn) {
+          contentLinkFn = ctor.linker = compile(el, options);
+        }
+      }
+
+      // link phase
+      // make sure to link root with prop scope!
+      var rootUnlinkFn = rootLinker(this, el, this._scope);
+      var contentUnlinkFn = contentLinkFn ? contentLinkFn(this, el) : compile(el, options)(this, el);
+
+      // register composite unlink function
+      // to be called during instance destruction
+      this._unlinkFn = function () {
+        rootUnlinkFn();
+        // passing destroying: true to avoid searching and
+        // splicing the directives
+        contentUnlinkFn(true);
+      };
+
+      // finally replace original
+      if (options.replace) {
+        replace(original, el);
+      }
+
+      this._isCompiled = true;
+      this._callHook('compiled');
+    };
+
+    /**
+     * Initialize instance element. Called in the public
+     * $mount() method.
+     *
+     * @param {Element} el
+     */
+
+    Vue.prototype._initElement = function (el) {
+      if (el instanceof DocumentFragment) {
+        this._isFragment = true;
+        this.$el = this._fragmentStart = el.firstChild;
+        this._fragmentEnd = el.lastChild;
+        // set persisted text anchors to empty
+        if (this._fragmentStart.nodeType === 3) {
+          this._fragmentStart.data = this._fragmentEnd.data = '';
+        }
+        this._fragment = el;
+      } else {
+        this.$el = el;
+      }
+      this.$el.__vue__ = this;
+      this._callHook('beforeCompile');
+    };
+
+    /**
+     * Create and bind a directive to an element.
+     *
+     * @param {String} name - directive name
+     * @param {Node} node   - target node
+     * @param {Object} desc - parsed directive descriptor
+     * @param {Object} def  - directive definition object
+     * @param {Vue} [host] - transclusion host component
+     * @param {Object} [scope] - v-for scope
+     * @param {Fragment} [frag] - owner fragment
+     */
+
+    Vue.prototype._bindDir = function (descriptor, node, host, scope, frag) {
+      this._directives.push(new Directive(descriptor, this, node, host, scope, frag));
+    };
+
+    /**
+     * Teardown an instance, unobserves the data, unbind all the
+     * directives, turn off all the event listeners, etc.
+     *
+     * @param {Boolean} remove - whether to remove the DOM node.
+     * @param {Boolean} deferCleanup - if true, defer cleanup to
+     *                                 be called later
+     */
+
+    Vue.prototype._destroy = function (remove, deferCleanup) {
+      if (this._isBeingDestroyed) {
+        if (!deferCleanup) {
+          this._cleanup();
+        }
+        return;
+      }
+
+      var destroyReady;
+      var pendingRemoval;
+
+      var self = this;
+      // Cleanup should be called either synchronously or asynchronoysly as
+      // callback of this.$remove(), or if remove and deferCleanup are false.
+      // In any case it should be called after all other removing, unbinding and
+      // turning of is done
+      var cleanupIfPossible = function cleanupIfPossible() {
+        if (destroyReady && !pendingRemoval && !deferCleanup) {
+          self._cleanup();
+        }
+      };
+
+      // remove DOM element
+      if (remove && this.$el) {
+        pendingRemoval = true;
+        this.$remove(function () {
+          pendingRemoval = false;
+          cleanupIfPossible();
+        });
+      }
+
+      this._callHook('beforeDestroy');
+      this._isBeingDestroyed = true;
+      var i;
+      // remove self from parent. only necessary
+      // if parent is not being destroyed as well.
+      var parent = this.$parent;
+      if (parent && !parent._isBeingDestroyed) {
+        parent.$children.$remove(this);
+        // unregister ref (remove: true)
+        this._updateRef(true);
+      }
+      // destroy all children.
+      i = this.$children.length;
+      while (i--) {
+        this.$children[i].$destroy();
+      }
+      // teardown props
+      if (this._propsUnlinkFn) {
+        this._propsUnlinkFn();
+      }
+      // teardown all directives. this also tearsdown all
+      // directive-owned watchers.
+      if (this._unlinkFn) {
+        this._unlinkFn();
+      }
+      i = this._watchers.length;
+      while (i--) {
+        this._watchers[i].teardown();
+      }
+      // remove reference to self on $el
+      if (this.$el) {
+        this.$el.__vue__ = null;
+      }
+
+      destroyReady = true;
+      cleanupIfPossible();
+    };
+
+    /**
+     * Clean up to ensure garbage collection.
+     * This is called after the leave transition if there
+     * is any.
+     */
+
+    Vue.prototype._cleanup = function () {
+      if (this._isDestroyed) {
+        return;
+      }
+      // remove self from owner fragment
+      // do it in cleanup so that we can call $destroy with
+      // defer right when a fragment is about to be removed.
+      if (this._frag) {
+        this._frag.children.$remove(this);
+      }
+      // remove reference from data ob
+      // frozen object may not have observer.
+      if (this._data.__ob__) {
+        this._data.__ob__.removeVm(this);
+      }
+      // Clean up references to private properties and other
+      // instances. preserve reference to _data so that proxy
+      // accessors still work. The only potential side effect
+      // here is that mutating the instance after it's destroyed
+      // may affect the state of other components that are still
+      // observing the same object, but that seems to be a
+      // reasonable responsibility for the user rather than
+      // always throwing an error on them.
+      this.$el = this.$parent = this.$root = this.$children = this._watchers = this._context = this._scope = this._directives = null;
+      // call the last hook...
+      this._isDestroyed = true;
+      this._callHook('destroyed');
+      // turn off all instance listeners.
+      this.$off();
+    };
+  }
+
+  function miscMixin (Vue) {
+
+    /**
+     * Apply a list of filter (descriptors) to a value.
+     * Using plain for loops here because this will be called in
+     * the getter of any watcher with filters so it is very
+     * performance sensitive.
+     *
+     * @param {*} value
+     * @param {*} [oldValue]
+     * @param {Array} filters
+     * @param {Boolean} write
+     * @return {*}
+     */
+
+    Vue.prototype._applyFilters = function (value, oldValue, filters, write) {
+      var filter, fn, args, arg, offset, i, l, j, k;
+      for (i = 0, l = filters.length; i < l; i++) {
+        filter = filters[i];
+        fn = resolveAsset(this.$options, 'filters', filter.name);
+        if ('development' !== 'production') {
+          assertAsset(fn, 'filter', filter.name);
+        }
+        if (!fn) continue;
+        fn = write ? fn.write : fn.read || fn;
+        if (typeof fn !== 'function') continue;
+        args = write ? [value, oldValue] : [value];
+        offset = write ? 2 : 1;
+        if (filter.args) {
+          for (j = 0, k = filter.args.length; j < k; j++) {
+            arg = filter.args[j];
+            args[j + offset] = arg.dynamic ? this.$get(arg.value) : arg.value;
+          }
+        }
+        value = fn.apply(this, args);
+      }
+      return value;
+    };
+
+    /**
+     * Resolve a component, depending on whether the component
+     * is defined normally or using an async factory function.
+     * Resolves synchronously if already resolved, otherwise
+     * resolves asynchronously and caches the resolved
+     * constructor on the factory.
+     *
+     * @param {String} id
+     * @param {Function} cb
+     */
+
+    Vue.prototype._resolveComponent = function (id, cb) {
+      var factory = resolveAsset(this.$options, 'components', id);
+      if ('development' !== 'production') {
+        assertAsset(factory, 'component', id);
+      }
+      if (!factory) {
+        return;
+      }
+      // async component factory
+      if (!factory.options) {
+        if (factory.resolved) {
+          // cached
+          cb(factory.resolved);
+        } else if (factory.requested) {
+          // pool callbacks
+          factory.pendingCallbacks.push(cb);
+        } else {
+          factory.requested = true;
+          var cbs = factory.pendingCallbacks = [cb];
+          factory(function resolve(res) {
+            if (isPlainObject(res)) {
+              res = Vue.extend(res);
+            }
+            // cache resolved
+            factory.resolved = res;
+            // invoke callbacks
+            for (var i = 0, l = cbs.length; i < l; i++) {
+              cbs[i](res);
+            }
+          }, function reject(reason) {
+            'development' !== 'production' && warn('Failed to resolve async component: ' + id + '. ' + (reason ? '\nReason: ' + reason : ''));
+          });
+        }
+      } else {
+        // normal component
+        cb(factory);
+      }
+    };
+  }
+
+  function globalAPI (Vue) {
+
+    /**
+     * Expose useful internals
+     */
+
+    Vue.util = util;
+    Vue.config = config;
+    Vue.set = set;
+    Vue['delete'] = del;
+    Vue.nextTick = nextTick;
+
+    /**
+     * The following are exposed for advanced usage / plugins
+     */
+
+    Vue.compiler = compiler;
+    Vue.FragmentFactory = FragmentFactory;
+    Vue.internalDirectives = internalDirectives;
+    Vue.parsers = {
+      path: path,
+      text: text$1,
+      template: template,
+      directive: directive,
+      expression: expression
+    };
+
+    /**
+     * Each instance constructor, including Vue, has a unique
+     * cid. This enables us to create wrapped "child
+     * constructors" for prototypal inheritance and cache them.
+     */
+
+    Vue.cid = 0;
+    var cid = 1;
+
+    /**
+     * Class inheritance
+     *
+     * @param {Object} extendOptions
+     */
+
+    Vue.extend = function (extendOptions) {
+      extendOptions = extendOptions || {};
+      var Super = this;
+      var isFirstExtend = Super.cid === 0;
+      if (isFirstExtend && extendOptions._Ctor) {
+        return extendOptions._Ctor;
+      }
+      var name = extendOptions.name || Super.options.name;
+      if ('development' !== 'production') {
+        if (!/^[a-zA-Z][\w-]*$/.test(name)) {
+          warn('Invalid component name: "' + name + '". Component names ' + 'can only contain alphanumeric characaters and the hyphen.');
+          name = null;
+        }
+      }
+      var Sub = createClass(name || 'VueComponent');
+      Sub.prototype = Object.create(Super.prototype);
+      Sub.prototype.constructor = Sub;
+      Sub.cid = cid++;
+      Sub.options = mergeOptions(Super.options, extendOptions);
+      Sub['super'] = Super;
+      // allow further extension
+      Sub.extend = Super.extend;
+      // create asset registers, so extended classes
+      // can have their private assets too.
+      config._assetTypes.forEach(function (type) {
+        Sub[type] = Super[type];
+      });
+      // enable recursive self-lookup
+      if (name) {
+        Sub.options.components[name] = Sub;
+      }
+      // cache constructor
+      if (isFirstExtend) {
+        extendOptions._Ctor = Sub;
+      }
+      return Sub;
+    };
+
+    /**
+     * A function that returns a sub-class constructor with the
+     * given name. This gives us much nicer output when
+     * logging instances in the console.
+     *
+     * @param {String} name
+     * @return {Function}
+     */
+
+    function createClass(name) {
+      return new Function('return function ' + classify(name) + ' (options) { this._init(options) }')();
+    }
+
+    /**
+     * Plugin system
+     *
+     * @param {Object} plugin
+     */
+
+    Vue.use = function (plugin) {
+      /* istanbul ignore if */
+      if (plugin.installed) {
+        return;
+      }
+      // additional parameters
+      var args = toArray(arguments, 1);
+      args.unshift(this);
+      if (typeof plugin.install === 'function') {
+        plugin.install.apply(plugin, args);
+      } else {
+        plugin.apply(null, args);
+      }
+      plugin.installed = true;
+      return this;
+    };
+
+    /**
+     * Apply a global mixin by merging it into the default
+     * options.
+     */
+
+    Vue.mixin = function (mixin) {
+      Vue.options = mergeOptions(Vue.options, mixin);
+    };
+
+    /**
+     * Create asset registration methods with the following
+     * signature:
+     *
+     * @param {String} id
+     * @param {*} definition
+     */
+
+    config._assetTypes.forEach(function (type) {
+      Vue[type] = function (id, definition) {
+        if (!definition) {
+          return this.options[type + 's'][id];
+        } else {
+          /* istanbul ignore if */
+          if ('development' !== 'production') {
+            if (type === 'component' && (commonTagRE.test(id) || reservedTagRE.test(id))) {
+              warn('Do not use built-in or reserved HTML elements as component ' + 'id: ' + id);
+            }
+          }
+          if (type === 'component' && isPlainObject(definition)) {
+            definition.name = id;
+            definition = Vue.extend(definition);
+          }
+          this.options[type + 's'][id] = definition;
+          return definition;
+        }
+      };
+    });
+  }
+
+  var filterRE = /[^|]\|[^|]/;
+
+  function dataAPI (Vue) {
+
+    /**
+     * Get the value from an expression on this vm.
+     *
+     * @param {String} exp
+     * @param {Boolean} [asStatement]
+     * @return {*}
+     */
+
+    Vue.prototype.$get = function (exp, asStatement) {
+      var res = parseExpression(exp);
+      if (res) {
+        if (asStatement && !isSimplePath(exp)) {
+          var self = this;
+          return function statementHandler() {
+            self.$arguments = toArray(arguments);
+            var result = res.get.call(self, self);
+            self.$arguments = null;
+            return result;
+          };
+        } else {
+          try {
+            return res.get.call(this, this);
+          } catch (e) {}
+        }
+      }
+    };
+
+    /**
+     * Set the value from an expression on this vm.
+     * The expression must be a valid left-hand
+     * expression in an assignment.
+     *
+     * @param {String} exp
+     * @param {*} val
+     */
+
+    Vue.prototype.$set = function (exp, val) {
+      var res = parseExpression(exp, true);
+      if (res && res.set) {
+        res.set.call(this, this, val);
+      }
+    };
+
+    /**
+     * Delete a property on the VM
+     *
+     * @param {String} key
+     */
+
+    Vue.prototype.$delete = function (key) {
+      del(this._data, key);
+    };
+
+    /**
+     * Watch an expression, trigger callback when its
+     * value changes.
+     *
+     * @param {String|Function} expOrFn
+     * @param {Function} cb
+     * @param {Object} [options]
+     *                 - {Boolean} deep
+     *                 - {Boolean} immediate
+     * @return {Function} - unwatchFn
+     */
+
+    Vue.prototype.$watch = function (expOrFn, cb, options) {
+      var vm = this;
+      var parsed;
+      if (typeof expOrFn === 'string') {
+        parsed = parseDirective(expOrFn);
+        expOrFn = parsed.expression;
+      }
+      var watcher = new Watcher(vm, expOrFn, cb, {
+        deep: options && options.deep,
+        sync: options && options.sync,
+        filters: parsed && parsed.filters,
+        user: !options || options.user !== false
+      });
+      if (options && options.immediate) {
+        cb.call(vm, watcher.value);
+      }
+      return function unwatchFn() {
+        watcher.teardown();
+      };
+    };
+
+    /**
+     * Evaluate a text directive, including filters.
+     *
+     * @param {String} text
+     * @param {Boolean} [asStatement]
+     * @return {String}
+     */
+
+    Vue.prototype.$eval = function (text, asStatement) {
+      // check for filters.
+      if (filterRE.test(text)) {
+        var dir = parseDirective(text);
+        // the filter regex check might give false positive
+        // for pipes inside strings, so it's possible that
+        // we don't get any filters here
+        var val = this.$get(dir.expression, asStatement);
+        return dir.filters ? this._applyFilters(val, null, dir.filters) : val;
+      } else {
+        // no filter
+        return this.$get(text, asStatement);
+      }
+    };
+
+    /**
+     * Interpolate a piece of template text.
+     *
+     * @param {String} text
+     * @return {String}
+     */
+
+    Vue.prototype.$interpolate = function (text) {
+      var tokens = parseText(text);
+      var vm = this;
+      if (tokens) {
+        if (tokens.length === 1) {
+          return vm.$eval(tokens[0].value) + '';
+        } else {
+          return tokens.map(function (token) {
+            return token.tag ? vm.$eval(token.value) : token.value;
+          }).join('');
+        }
+      } else {
+        return text;
+      }
+    };
+
+    /**
+     * Log instance data as a plain JS object
+     * so that it is easier to inspect in console.
+     * This method assumes console is available.
+     *
+     * @param {String} [path]
+     */
+
+    Vue.prototype.$log = function (path) {
+      var data = path ? getPath(this._data, path) : this._data;
+      if (data) {
+        data = clean(data);
+      }
+      // include computed fields
+      if (!path) {
+        for (var key in this.$options.computed) {
+          data[key] = clean(this[key]);
+        }
+      }
+      console.log(data);
+    };
+
+    /**
+     * "clean" a getter/setter converted object into a plain
+     * object copy.
+     *
+     * @param {Object} - obj
+     * @return {Object}
+     */
+
+    function clean(obj) {
+      return JSON.parse(JSON.stringify(obj));
+    }
+  }
+
+  function domAPI (Vue) {
+
+    /**
+     * Convenience on-instance nextTick. The callback is
+     * auto-bound to the instance, and this avoids component
+     * modules having to rely on the global Vue.
+     *
+     * @param {Function} fn
+     */
+
+    Vue.prototype.$nextTick = function (fn) {
+      nextTick(fn, this);
+    };
+
+    /**
+     * Append instance to target
+     *
+     * @param {Node} target
+     * @param {Function} [cb]
+     * @param {Boolean} [withTransition] - defaults to true
+     */
+
+    Vue.prototype.$appendTo = function (target, cb, withTransition) {
+      return insert(this, target, cb, withTransition, append, appendWithTransition);
+    };
+
+    /**
+     * Prepend instance to target
+     *
+     * @param {Node} target
+     * @param {Function} [cb]
+     * @param {Boolean} [withTransition] - defaults to true
+     */
+
+    Vue.prototype.$prependTo = function (target, cb, withTransition) {
+      target = query(target);
+      if (target.hasChildNodes()) {
+        this.$before(target.firstChild, cb, withTransition);
+      } else {
+        this.$appendTo(target, cb, withTransition);
+      }
+      return this;
+    };
+
+    /**
+     * Insert instance before target
+     *
+     * @param {Node} target
+     * @param {Function} [cb]
+     * @param {Boolean} [withTransition] - defaults to true
+     */
+
+    Vue.prototype.$before = function (target, cb, withTransition) {
+      return insert(this, target, cb, withTransition, beforeWithCb, beforeWithTransition);
+    };
+
+    /**
+     * Insert instance after target
+     *
+     * @param {Node} target
+     * @param {Function} [cb]
+     * @param {Boolean} [withTransition] - defaults to true
+     */
+
+    Vue.prototype.$after = function (target, cb, withTransition) {
+      target = query(target);
+      if (target.nextSibling) {
+        this.$before(target.nextSibling, cb, withTransition);
+      } else {
+        this.$appendTo(target.parentNode, cb, withTransition);
+      }
+      return this;
+    };
+
+    /**
+     * Remove instance from DOM
+     *
+     * @param {Function} [cb]
+     * @param {Boolean} [withTransition] - defaults to true
+     */
+
+    Vue.prototype.$remove = function (cb, withTransition) {
+      if (!this.$el.parentNode) {
+        return cb && cb();
+      }
+      var inDocument = this._isAttached && inDoc(this.$el);
+      // if we are not in document, no need to check
+      // for transitions
+      if (!inDocument) withTransition = false;
+      var self = this;
+      var realCb = function realCb() {
+        if (inDocument) self._callHook('detached');
+        if (cb) cb();
+      };
+      if (this._isFragment) {
+        removeNodeRange(this._fragmentStart, this._fragmentEnd, this, this._fragment, realCb);
+      } else {
+        var op = withTransition === false ? removeWithCb : removeWithTransition;
+        op(this.$el, this, realCb);
+      }
+      return this;
+    };
+
+    /**
+     * Shared DOM insertion function.
+     *
+     * @param {Vue} vm
+     * @param {Element} target
+     * @param {Function} [cb]
+     * @param {Boolean} [withTransition]
+     * @param {Function} op1 - op for non-transition insert
+     * @param {Function} op2 - op for transition insert
+     * @return vm
+     */
+
+    function insert(vm, target, cb, withTransition, op1, op2) {
+      target = query(target);
+      var targetIsDetached = !inDoc(target);
+      var op = withTransition === false || targetIsDetached ? op1 : op2;
+      var shouldCallHook = !targetIsDetached && !vm._isAttached && !inDoc(vm.$el);
+      if (vm._isFragment) {
+        mapNodeRange(vm._fragmentStart, vm._fragmentEnd, function (node) {
+          op(node, target, vm);
+        });
+        cb && cb();
+      } else {
+        op(vm.$el, target, vm, cb);
+      }
+      if (shouldCallHook) {
+        vm._callHook('attached');
+      }
+      return vm;
+    }
+
+    /**
+     * Check for selectors
+     *
+     * @param {String|Element} el
+     */
+
+    function query(el) {
+      return typeof el === 'string' ? document.querySelector(el) : el;
+    }
+
+    /**
+     * Append operation that takes a callback.
+     *
+     * @param {Node} el
+     * @param {Node} target
+     * @param {Vue} vm - unused
+     * @param {Function} [cb]
+     */
+
+    function append(el, target, vm, cb) {
+      target.appendChild(el);
+      if (cb) cb();
+    }
+
+    /**
+     * InsertBefore operation that takes a callback.
+     *
+     * @param {Node} el
+     * @param {Node} target
+     * @param {Vue} vm - unused
+     * @param {Function} [cb]
+     */
+
+    function beforeWithCb(el, target, vm, cb) {
+      before(el, target);
+      if (cb) cb();
+    }
+
+    /**
+     * Remove operation that takes a callback.
+     *
+     * @param {Node} el
+     * @param {Vue} vm - unused
+     * @param {Function} [cb]
+     */
+
+    function removeWithCb(el, vm, cb) {
+      remove(el);
+      if (cb) cb();
+    }
+  }
+
+  function eventsAPI (Vue) {
+
+    /**
+     * Listen on the given `event` with `fn`.
+     *
+     * @param {String} event
+     * @param {Function} fn
+     */
+
+    Vue.prototype.$on = function (event, fn) {
+      (this._events[event] || (this._events[event] = [])).push(fn);
+      modifyListenerCount(this, event, 1);
+      return this;
+    };
+
+    /**
+     * Adds an `event` listener that will be invoked a single
+     * time then automatically removed.
+     *
+     * @param {String} event
+     * @param {Function} fn
+     */
+
+    Vue.prototype.$once = function (event, fn) {
+      var self = this;
+      function on() {
+        self.$off(event, on);
+        fn.apply(this, arguments);
+      }
+      on.fn = fn;
+      this.$on(event, on);
+      return this;
+    };
+
+    /**
+     * Remove the given callback for `event` or all
+     * registered callbacks.
+     *
+     * @param {String} event
+     * @param {Function} fn
+     */
+
+    Vue.prototype.$off = function (event, fn) {
+      var cbs;
+      // all
+      if (!arguments.length) {
+        if (this.$parent) {
+          for (event in this._events) {
+            cbs = this._events[event];
+            if (cbs) {
+              modifyListenerCount(this, event, -cbs.length);
+            }
+          }
+        }
+        this._events = {};
+        return this;
+      }
+      // specific event
+      cbs = this._events[event];
+      if (!cbs) {
+        return this;
+      }
+      if (arguments.length === 1) {
+        modifyListenerCount(this, event, -cbs.length);
+        this._events[event] = null;
+        return this;
+      }
+      // specific handler
+      var cb;
+      var i = cbs.length;
+      while (i--) {
+        cb = cbs[i];
+        if (cb === fn || cb.fn === fn) {
+          modifyListenerCount(this, event, -1);
+          cbs.splice(i, 1);
+          break;
+        }
+      }
+      return this;
+    };
+
+    /**
+     * Trigger an event on self.
+     *
+     * @param {String|Object} event
+     * @return {Boolean} shouldPropagate
+     */
+
+    Vue.prototype.$emit = function (event) {
+      var isSource = typeof event === 'string';
+      event = isSource ? event : event.name;
+      var cbs = this._events[event];
+      var shouldPropagate = isSource || !cbs;
+      if (cbs) {
+        cbs = cbs.length > 1 ? toArray(cbs) : cbs;
+        // this is a somewhat hacky solution to the question raised
+        // in #2102: for an inline component listener like <comp @test="doThis">,
+        // the propagation handling is somewhat broken. Therefore we
+        // need to treat these inline callbacks differently.
+        var hasParentCbs = isSource && cbs.some(function (cb) {
+          return cb._fromParent;
+        });
+        if (hasParentCbs) {
+          shouldPropagate = false;
+        }
+        var args = toArray(arguments, 1);
+        for (var i = 0, l = cbs.length; i < l; i++) {
+          var cb = cbs[i];
+          var res = cb.apply(this, args);
+          if (res === true && (!hasParentCbs || cb._fromParent)) {
+            shouldPropagate = true;
+          }
+        }
+      }
+      return shouldPropagate;
+    };
+
+    /**
+     * Recursively broadcast an event to all children instances.
+     *
+     * @param {String|Object} event
+     * @param {...*} additional arguments
+     */
+
+    Vue.prototype.$broadcast = function (event) {
+      var isSource = typeof event === 'string';
+      event = isSource ? event : event.name;
+      // if no child has registered for this event,
+      // then there's no need to broadcast.
+      if (!this._eventsCount[event]) return;
+      var children = this.$children;
+      var args = toArray(arguments);
+      if (isSource) {
+        // use object event to indicate non-source emit
+        // on children
+        args[0] = { name: event, source: this };
+      }
+      for (var i = 0, l = children.length; i < l; i++) {
+        var child = children[i];
+        var shouldPropagate = child.$emit.apply(child, args);
+        if (shouldPropagate) {
+          child.$broadcast.apply(child, args);
+        }
+      }
+      return this;
+    };
+
+    /**
+     * Recursively propagate an event up the parent chain.
+     *
+     * @param {String} event
+     * @param {...*} additional arguments
+     */
+
+    Vue.prototype.$dispatch = function (event) {
+      var shouldPropagate = this.$emit.apply(this, arguments);
+      if (!shouldPropagate) return;
+      var parent = this.$parent;
+      var args = toArray(arguments);
+      // use object event to indicate non-source emit
+      // on parents
+      args[0] = { name: event, source: this };
+      while (parent) {
+        shouldPropagate = parent.$emit.apply(parent, args);
+        parent = shouldPropagate ? parent.$parent : null;
+      }
+      return this;
+    };
+
+    /**
+     * Modify the listener counts on all parents.
+     * This bookkeeping allows $broadcast to return early when
+     * no child has listened to a certain event.
+     *
+     * @param {Vue} vm
+     * @param {String} event
+     * @param {Number} count
+     */
+
+    var hookRE = /^hook:/;
+    function modifyListenerCount(vm, event, count) {
+      var parent = vm.$parent;
+      // hooks do not get broadcasted so no need
+      // to do bookkeeping for them
+      if (!parent || !count || hookRE.test(event)) return;
+      while (parent) {
+        parent._eventsCount[event] = (parent._eventsCount[event] || 0) + count;
+        parent = parent.$parent;
+      }
+    }
+  }
+
+  function lifecycleAPI (Vue) {
+
+    /**
+     * Set instance target element and kick off the compilation
+     * process. The passed in `el` can be a selector string, an
+     * existing Element, or a DocumentFragment (for block
+     * instances).
+     *
+     * @param {Element|DocumentFragment|string} el
+     * @public
+     */
+
+    Vue.prototype.$mount = function (el) {
+      if (this._isCompiled) {
+        'development' !== 'production' && warn('$mount() should be called only once.');
+        return;
+      }
+      el = query(el);
+      if (!el) {
+        el = document.createElement('div');
+      }
+      this._compile(el);
+      this._initDOMHooks();
+      if (inDoc(this.$el)) {
+        this._callHook('attached');
+        ready.call(this);
+      } else {
+        this.$once('hook:attached', ready);
+      }
+      return this;
+    };
+
+    /**
+     * Mark an instance as ready.
+     */
+
+    function ready() {
+      this._isAttached = true;
+      this._isReady = true;
+      this._callHook('ready');
+    }
+
+    /**
+     * Teardown the instance, simply delegate to the internal
+     * _destroy.
+     */
+
+    Vue.prototype.$destroy = function (remove, deferCleanup) {
+      this._destroy(remove, deferCleanup);
+    };
+
+    /**
+     * Partially compile a piece of DOM and return a
+     * decompile function.
+     *
+     * @param {Element|DocumentFragment} el
+     * @param {Vue} [host]
+     * @return {Function}
+     */
+
+    Vue.prototype.$compile = function (el, host, scope, frag) {
+      return compile(el, this.$options, true)(this, el, host, scope, frag);
+    };
+  }
+
+  /**
+   * The exposed Vue constructor.
+   *
+   * API conventions:
+   * - public API methods/properties are prefixed with `$`
+   * - internal methods/properties are prefixed with `_`
+   * - non-prefixed properties are assumed to be proxied user
+   *   data.
+   *
+   * @constructor
+   * @param {Object} [options]
+   * @public
+   */
+
+  function Vue(options) {
+    this._init(options);
+  }
+
+  // install internals
+  initMixin(Vue);
+  stateMixin(Vue);
+  eventsMixin(Vue);
+  lifecycleMixin(Vue);
+  miscMixin(Vue);
+
+  // install APIs
+  globalAPI(Vue);
+  dataAPI(Vue);
+  domAPI(Vue);
+  eventsAPI(Vue);
+  lifecycleAPI(Vue);
+
+  var convertArray = vFor._postProcess;
+
+  /**
+   * Limit filter for arrays
+   *
+   * @param {Number} n
+   * @param {Number} offset (Decimal expected)
+   */
+
+  function limitBy(arr, n, offset) {
+    offset = offset ? parseInt(offset, 10) : 0;
+    n = toNumber(n);
+    return typeof n === 'number' ? arr.slice(offset, offset + n) : arr;
+  }
+
+  /**
+   * Filter filter for arrays
+   *
+   * @param {String} search
+   * @param {String} [delimiter]
+   * @param {String} ...dataKeys
+   */
+
+  function filterBy(arr, search, delimiter) {
+    arr = convertArray(arr);
+    if (search == null) {
+      return arr;
+    }
+    if (typeof search === 'function') {
+      return arr.filter(search);
+    }
+    // cast to lowercase string
+    search = ('' + search).toLowerCase();
+    // allow optional `in` delimiter
+    // because why not
+    var n = delimiter === 'in' ? 3 : 2;
+    // extract and flatten keys
+    var keys = toArray(arguments, n).reduce(function (prev, cur) {
+      return prev.concat(cur);
+    }, []);
+    var res = [];
+    var item, key, val, j;
+    for (var i = 0, l = arr.length; i < l; i++) {
+      item = arr[i];
+      val = item && item.$value || item;
+      j = keys.length;
+      if (j) {
+        while (j--) {
+          key = keys[j];
+          if (key === '$key' && contains(item.$key, search) || contains(getPath(val, key), search)) {
+            res.push(item);
+            break;
+          }
+        }
+      } else if (contains(item, search)) {
+        res.push(item);
+      }
+    }
+    return res;
+  }
+
+  /**
+   * Filter filter for arrays
+   *
+   * @param {String} sortKey
+   * @param {String} reverse
+   */
+
+  function orderBy(arr, sortKey, reverse) {
+    arr = convertArray(arr);
+    if (!sortKey) {
+      return arr;
+    }
+    var order = reverse && reverse < 0 ? -1 : 1;
+    // sort on a copy to avoid mutating original array
+    return arr.slice().sort(function (a, b) {
+      if (sortKey !== '$key') {
+        if (isObject(a) && '$value' in a) a = a.$value;
+        if (isObject(b) && '$value' in b) b = b.$value;
+      }
+      a = isObject(a) ? getPath(a, sortKey) : a;
+      b = isObject(b) ? getPath(b, sortKey) : b;
+      return a === b ? 0 : a > b ? order : -order;
+    });
+  }
+
+  /**
+   * String contain helper
+   *
+   * @param {*} val
+   * @param {String} search
+   */
+
+  function contains(val, search) {
+    var i;
+    if (isPlainObject(val)) {
+      var keys = Object.keys(val);
+      i = keys.length;
+      while (i--) {
+        if (contains(val[keys[i]], search)) {
+          return true;
+        }
+      }
+    } else if (isArray(val)) {
+      i = val.length;
+      while (i--) {
+        if (contains(val[i], search)) {
+          return true;
+        }
+      }
+    } else if (val != null) {
+      return val.toString().toLowerCase().indexOf(search) > -1;
+    }
+  }
+
+  var digitsRE = /(\d{3})(?=\d)/g;
+
+  // asset collections must be a plain object.
+  var filters = {
+
+    orderBy: orderBy,
+    filterBy: filterBy,
+    limitBy: limitBy,
+
+    /**
+     * Stringify value.
+     *
+     * @param {Number} indent
+     */
+
+    json: {
+      read: function read(value, indent) {
+        return typeof value === 'string' ? value : JSON.stringify(value, null, Number(indent) || 2);
+      },
+      write: function write(value) {
+        try {
+          return JSON.parse(value);
+        } catch (e) {
+          return value;
+        }
+      }
+    },
+
+    /**
+     * 'abc' => 'Abc'
+     */
+
+    capitalize: function capitalize(value) {
+      if (!value && value !== 0) return '';
+      value = value.toString();
+      return value.charAt(0).toUpperCase() + value.slice(1);
+    },
+
+    /**
+     * 'abc' => 'ABC'
+     */
+
+    uppercase: function uppercase(value) {
+      return value || value === 0 ? value.toString().toUpperCase() : '';
+    },
+
+    /**
+     * 'AbC' => 'abc'
+     */
+
+    lowercase: function lowercase(value) {
+      return value || value === 0 ? value.toString().toLowerCase() : '';
+    },
+
+    /**
+     * 12345 => $12,345.00
+     *
+     * @param {String} sign
+     */
+
+    currency: function currency(value, _currency) {
+      value = parseFloat(value);
+      if (!isFinite(value) || !value && value !== 0) return '';
+      _currency = _currency != null ? _currency : '$';
+      var stringified = Math.abs(value).toFixed(2);
+      var _int = stringified.slice(0, -3);
+      var i = _int.length % 3;
+      var head = i > 0 ? _int.slice(0, i) + (_int.length > 3 ? ',' : '') : '';
+      var _float = stringified.slice(-3);
+      var sign = value < 0 ? '-' : '';
+      return _currency + sign + head + _int.slice(i).replace(digitsRE, '$1,') + _float;
+    },
+
+    /**
+     * 'item' => 'items'
+     *
+     * @params
+     *  an array of strings corresponding to
+     *  the single, double, triple ... forms of the word to
+     *  be pluralized. When the number to be pluralized
+     *  exceeds the length of the args, it will use the last
+     *  entry in the array.
+     *
+     *  e.g. ['single', 'double', 'triple', 'multiple']
+     */
+
+    pluralize: function pluralize(value) {
+      var args = toArray(arguments, 1);
+      return args.length > 1 ? args[value % 10 - 1] || args[args.length - 1] : args[0] + (value === 1 ? '' : 's');
+    },
+
+    /**
+     * Debounce a handler function.
+     *
+     * @param {Function} handler
+     * @param {Number} delay = 300
+     * @return {Function}
+     */
+
+    debounce: function debounce(handler, delay) {
+      if (!handler) return;
+      if (!delay) {
+        delay = 300;
+      }
+      return _debounce(handler, delay);
+    }
+  };
+
+  var partial = {
+
+    priority: PARTIAL,
+
+    params: ['name'],
+
+    // watch changes to name for dynamic partials
+    paramWatchers: {
+      name: function name(value) {
+        vIf.remove.call(this);
+        if (value) {
+          this.insert(value);
+        }
+      }
+    },
+
+    bind: function bind() {
+      this.anchor = createAnchor('v-partial');
+      replace(this.el, this.anchor);
+      this.insert(this.params.name);
+    },
+
+    insert: function insert(id) {
+      var partial = resolveAsset(this.vm.$options, 'partials', id);
+      if ('development' !== 'production') {
+        assertAsset(partial, 'partial', id);
+      }
+      if (partial) {
+        this.factory = new FragmentFactory(this.vm, partial);
+        vIf.insert.call(this);
+      }
+    },
+
+    unbind: function unbind() {
+      if (this.frag) {
+        this.frag.destroy();
+      }
+    }
+  };
+
+  // This is the elementDirective that handles <content>
+  // transclusions. It relies on the raw content of an
+  // instance being stored as `$options._content` during
+  // the transclude phase.
+
+  // We are exporting two versions, one for named and one
+  // for unnamed, because the unnamed slots must be compiled
+  // AFTER all named slots have selected their content. So
+  // we need to give them different priorities in the compilation
+  // process. (See #1965)
+
+  var slot = {
+
+    priority: SLOT,
+
+    bind: function bind() {
+      var host = this.vm;
+      var raw = host.$options._content;
+      if (!raw) {
+        this.fallback();
+        return;
+      }
+      var context = host._context;
+      var slotName = this.params && this.params.name;
+      if (!slotName) {
+        // Default slot
+        this.tryCompile(extractFragment(raw.childNodes, raw, true), context, host);
+      } else {
+        // Named slot
+        var selector = '[slot="' + slotName + '"]';
+        var nodes = raw.querySelectorAll(selector);
+        if (nodes.length) {
+          this.tryCompile(extractFragment(nodes, raw), context, host);
+        } else {
+          this.fallback();
+        }
+      }
+    },
+
+    tryCompile: function tryCompile(content, context, host) {
+      if (content.hasChildNodes()) {
+        this.compile(content, context, host);
+      } else {
+        this.fallback();
+      }
+    },
+
+    compile: function compile(content, context, host) {
+      if (content && context) {
+        if (this.el.hasChildNodes() && content.childNodes.length === 1 && content.childNodes[0].nodeType === 1 && content.childNodes[0].hasAttribute('v-if')) {
+          // if the inserted slot has v-if
+          // inject fallback content as the v-else
+          var elseBlock = document.createElement('template');
+          elseBlock.setAttribute('v-else', '');
+          elseBlock.innerHTML = this.el.innerHTML;
+          content.appendChild(elseBlock);
+        }
+        var scope = host ? host._scope : this._scope;
+        this.unlink = context.$compile(content, host, scope, this._frag);
+      }
+      if (content) {
+        replace(this.el, content);
+      } else {
+        remove(this.el);
+      }
+    },
+
+    fallback: function fallback() {
+      this.compile(extractContent(this.el, true), this.vm);
+    },
+
+    unbind: function unbind() {
+      if (this.unlink) {
+        this.unlink();
+      }
+    }
+  };
+
+  var namedSlot = extend(extend({}, slot), {
+    priority: slot.priority + 1,
+    params: ['name']
+  });
+
+  /**
+   * Extract qualified content nodes from a node list.
+   *
+   * @param {NodeList} nodes
+   * @param {Element} parent
+   * @param {Boolean} main
+   * @return {DocumentFragment}
+   */
+
+  function extractFragment(nodes, parent, main) {
+    var frag = document.createDocumentFragment();
+    for (var i = 0, l = nodes.length; i < l; i++) {
+      var node = nodes[i];
+      // if this is the main outlet, we want to skip all
+      // previously selected nodes;
+      // otherwise, we want to mark the node as selected.
+      // clone the node so the original raw content remains
+      // intact. this ensures proper re-compilation in cases
+      // where the outlet is inside a conditional block
+      if (main && !node.__v_selected) {
+        append(node);
+      } else if (!main && node.parentNode === parent) {
+        node.__v_selected = true;
+        append(node);
+      }
+    }
+    return frag;
+
+    function append(node) {
+      if (isTemplate(node) && !node.hasAttribute('v-if') && !node.hasAttribute('v-for')) {
+        node = parseTemplate(node);
+      }
+      node = cloneNode(node);
+      frag.appendChild(node);
+    }
+  }
+
+  var elementDirectives = {
+    slot: slot,
+    _namedSlot: namedSlot, // same as slot but with higher priority
+    partial: partial
+  };
+
+  Vue.version = '1.0.16';
+
+  /**
+   * Vue and every constructor that extends Vue has an
+   * associated options object, which can be accessed during
+   * compilation steps as `this.constructor.options`.
+   *
+   * These can be seen as the default options of every
+   * Vue instance.
+   */
+
+  Vue.options = {
+    directives: publicDirectives,
+    elementDirectives: elementDirectives,
+    filters: filters,
+    transitions: {},
+    components: {},
+    partials: {},
+    replace: true
+  };
+
+  // devtools global hook
+  /* istanbul ignore next */
+  if (devtools) {
+    devtools.emit('init', Vue);
+  } else if ('development' !== 'production' && inBrowser && /Chrome\/\d+/.test(navigator.userAgent)) {
+    console.log('Download the Vue Devtools for a better development experience:\n' + 'https://github.com/vuejs/vue-devtools');
+  }
+
+  return Vue;
+
+}));
+/**
+ * vue-resource v0.7.0
+ * https://github.com/vuejs/vue-resource
+ * Released under the MIT License.
+ */
+
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["VueResource"] = factory();
+	else
+		root["VueResource"] = factory();
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+
+
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Install plugin.
+	 */
+
+	function install(Vue) {
+
+	    var _ = __webpack_require__(1);
+
+	    _.config = Vue.config;
+	    _.warning = Vue.util.warn;
+	    _.nextTick = Vue.util.nextTick;
+
+	    Vue.url = __webpack_require__(2);
+	    Vue.http = __webpack_require__(8);
+	    Vue.resource = __webpack_require__(23);
+	    Vue.Promise = __webpack_require__(10);
+
+	    Object.defineProperties(Vue.prototype, {
+
+	        $url: {
+	            get: function () {
+	                return _.options(Vue.url, this, this.$options.url);
+	            }
+	        },
+
+	        $http: {
+	            get: function () {
+	                return _.options(Vue.http, this, this.$options.http);
+	            }
+	        },
+
+	        $resource: {
+	            get: function () {
+	                return Vue.resource.bind(this);
+	            }
+	        },
+
+	        $promise: {
+	            get: function () {
+	                return function (executor) {
+	                    return new Vue.Promise(executor, this);
+	                }.bind(this);
+	            }
+	        }
+
+	    });
+	}
+
+	if (window.Vue) {
+	    Vue.use(install);
+	}
+
+	module.exports = install;
+
+
+/***/ },
+/* 1 */
+/***/ function(module, exports) {
+
+	/**
+	 * Utility functions.
+	 */
+
+	var _ = exports, array = [], console = window.console;
+
+	_.warn = function (msg) {
+	    if (console && _.warning && (!_.config.silent || _.config.debug)) {
+	        console.warn('[VueResource warn]: ' + msg);
+	    }
+	};
+
+	_.error = function (msg) {
+	    if (console) {
+	        console.error(msg);
+	    }
+	};
+
+	_.trim = function (str) {
+	    return str.replace(/^\s*|\s*$/g, '');
+	};
+
+	_.toLower = function (str) {
+	    return str ? str.toLowerCase() : '';
+	};
+
+	_.isArray = Array.isArray;
+
+	_.isString = function (val) {
+	    return typeof val === 'string';
+	};
+
+	_.isFunction = function (val) {
+	    return typeof val === 'function';
+	};
+
+	_.isObject = function (obj) {
+	    return obj !== null && typeof obj === 'object';
+	};
+
+	_.isPlainObject = function (obj) {
+	    return _.isObject(obj) && Object.getPrototypeOf(obj) == Object.prototype;
+	};
+
+	_.options = function (fn, obj, options) {
+
+	    options = options || {};
+
+	    if (_.isFunction(options)) {
+	        options = options.call(obj);
+	    }
+
+	    return _.merge(fn.bind({$vm: obj, $options: options}), fn, {$options: options});
+	};
+
+	_.each = function (obj, iterator) {
+
+	    var i, key;
+
+	    if (typeof obj.length == 'number') {
+	        for (i = 0; i < obj.length; i++) {
+	            iterator.call(obj[i], obj[i], i);
+	        }
+	    } else if (_.isObject(obj)) {
+	        for (key in obj) {
+	            if (obj.hasOwnProperty(key)) {
+	                iterator.call(obj[key], obj[key], key);
+	            }
+	        }
+	    }
+
+	    return obj;
+	};
+
+	_.defaults = function (target, source) {
+
+	    for (var key in source) {
+	        if (target[key] === undefined) {
+	            target[key] = source[key];
+	        }
+	    }
+
+	    return target;
+	};
+
+	_.extend = function (target) {
+
+	    var args = array.slice.call(arguments, 1);
+
+	    args.forEach(function (arg) {
+	        merge(target, arg);
+	    });
+
+	    return target;
+	};
+
+	_.merge = function (target) {
+
+	    var args = array.slice.call(arguments, 1);
+
+	    args.forEach(function (arg) {
+	        merge(target, arg, true);
+	    });
+
+	    return target;
+	};
+
+	function merge(target, source, deep) {
+	    for (var key in source) {
+	        if (deep && (_.isPlainObject(source[key]) || _.isArray(source[key]))) {
+	            if (_.isPlainObject(source[key]) && !_.isPlainObject(target[key])) {
+	                target[key] = {};
+	            }
+	            if (_.isArray(source[key]) && !_.isArray(target[key])) {
+	                target[key] = [];
+	            }
+	            merge(target[key], source[key], deep);
+	        } else if (source[key] !== undefined) {
+	            target[key] = source[key];
+	        }
+	    }
+	}
+
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Service for URL templating.
+	 */
+
+	var _ = __webpack_require__(1);
+	var ie = document.documentMode;
+	var el = document.createElement('a');
+
+	function Url(url, params) {
+
+	    var options = url, transform;
+
+	    if (_.isString(url)) {
+	        options = {url: url, params: params};
+	    }
+
+	    options = _.merge({}, Url.options, this.$options, options);
+
+	    Url.transforms.forEach(function (handler) {
+	        transform = factory(handler, transform, this.$vm);
+	    }, this);
+
+	    return transform(options);
+	};
+
+	/**
+	 * Url options.
+	 */
+
+	Url.options = {
+	    url: '',
+	    root: null,
+	    params: {}
+	};
+
+	/**
+	 * Url transforms.
+	 */
+
+	Url.transforms = [
+	    __webpack_require__(3),
+	    __webpack_require__(5),
+	    __webpack_require__(6),
+	    __webpack_require__(7)
+	];
+
+	/**
+	 * Encodes a Url parameter string.
+	 *
+	 * @param {Object} obj
+	 */
+
+	Url.params = function (obj) {
+
+	    var params = [], escape = encodeURIComponent;
+
+	    params.add = function (key, value) {
+
+	        if (_.isFunction(value)) {
+	            value = value();
+	        }
+
+	        if (value === null) {
+	            value = '';
+	        }
+
+	        this.push(escape(key) + '=' + escape(value));
+	    };
+
+	    serialize(params, obj);
+
+	    return params.join('&').replace(/%20/g, '+');
+	};
+
+	/**
+	 * Parse a URL and return its components.
+	 *
+	 * @param {String} url
+	 */
+
+	Url.parse = function (url) {
+
+	    if (ie) {
+	        el.href = url;
+	        url = el.href;
+	    }
+
+	    el.href = url;
+
+	    return {
+	        href: el.href,
+	        protocol: el.protocol ? el.protocol.replace(/:$/, '') : '',
+	        port: el.port,
+	        host: el.host,
+	        hostname: el.hostname,
+	        pathname: el.pathname.charAt(0) === '/' ? el.pathname : '/' + el.pathname,
+	        search: el.search ? el.search.replace(/^\?/, '') : '',
+	        hash: el.hash ? el.hash.replace(/^#/, '') : ''
+	    };
+	};
+
+	function factory(handler, next, vm) {
+	    return function (options) {
+	        return handler.call(vm, options, next);
+	    };
+	}
+
+	function serialize(params, obj, scope) {
+
+	    var array = _.isArray(obj), plain = _.isPlainObject(obj), hash;
+
+	    _.each(obj, function (value, key) {
+
+	        hash = _.isObject(value) || _.isArray(value);
+
+	        if (scope) {
+	            key = scope + '[' + (plain || hash ? key : '') + ']';
+	        }
+
+	        if (!scope && array) {
+	            params.add(value.name, value.value);
+	        } else if (hash) {
+	            serialize(params, value, key);
+	        } else {
+	            params.add(key, value);
+	        }
+	    });
+	}
+
+	module.exports = _.url = Url;
+
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * URL Template (RFC 6570) Transform.
+	 */
+
+	var UrlTemplate = __webpack_require__(4);
+
+	module.exports = function (options) {
+
+	    var variables = [], url = UrlTemplate.expand(options.url, options.params, variables);
+
+	    variables.forEach(function (key) {
+	        delete options.params[key];
+	    });
+
+	    return url;
+	};
+
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	/**
+	 * URL Template v2.0.6 (https://github.com/bramstein/url-template)
+	 */
+
+	exports.expand = function (url, params, variables) {
+
+	    var tmpl = this.parse(url), expanded = tmpl.expand(params);
+
+	    if (variables) {
+	        variables.push.apply(variables, tmpl.vars);
+	    }
+
+	    return expanded;
+	};
+
+	exports.parse = function (template) {
+
+	    var operators = ['+', '#', '.', '/', ';', '?', '&'], variables = [];
+
+	    return {
+	        vars: variables,
+	        expand: function (context) {
+	            return template.replace(/\{([^\{\}]+)\}|([^\{\}]+)/g, function (_, expression, literal) {
+	                if (expression) {
+
+	                    var operator = null, values = [];
+
+	                    if (operators.indexOf(expression.charAt(0)) !== -1) {
+	                        operator = expression.charAt(0);
+	                        expression = expression.substr(1);
+	                    }
+
+	                    expression.split(/,/g).forEach(function (variable) {
+	                        var tmp = /([^:\*]*)(?::(\d+)|(\*))?/.exec(variable);
+	                        values.push.apply(values, exports.getValues(context, operator, tmp[1], tmp[2] || tmp[3]));
+	                        variables.push(tmp[1]);
+	                    });
+
+	                    if (operator && operator !== '+') {
+
+	                        var separator = ',';
+
+	                        if (operator === '?') {
+	                            separator = '&';
+	                        } else if (operator !== '#') {
+	                            separator = operator;
+	                        }
+
+	                        return (values.length !== 0 ? operator : '') + values.join(separator);
+	                    } else {
+	                        return values.join(',');
+	                    }
+
+	                } else {
+	                    return exports.encodeReserved(literal);
+	                }
+	            });
+	        }
+	    };
+	};
+
+	exports.getValues = function (context, operator, key, modifier) {
+
+	    var value = context[key], result = [];
+
+	    if (this.isDefined(value) && value !== '') {
+	        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+	            value = value.toString();
+
+	            if (modifier && modifier !== '*') {
+	                value = value.substring(0, parseInt(modifier, 10));
+	            }
+
+	            result.push(this.encodeValue(operator, value, this.isKeyOperator(operator) ? key : null));
+	        } else {
+	            if (modifier === '*') {
+	                if (Array.isArray(value)) {
+	                    value.filter(this.isDefined).forEach(function (value) {
+	                        result.push(this.encodeValue(operator, value, this.isKeyOperator(operator) ? key : null));
+	                    }, this);
+	                } else {
+	                    Object.keys(value).forEach(function (k) {
+	                        if (this.isDefined(value[k])) {
+	                            result.push(this.encodeValue(operator, value[k], k));
+	                        }
+	                    }, this);
+	                }
+	            } else {
+	                var tmp = [];
+
+	                if (Array.isArray(value)) {
+	                    value.filter(this.isDefined).forEach(function (value) {
+	                        tmp.push(this.encodeValue(operator, value));
+	                    }, this);
+	                } else {
+	                    Object.keys(value).forEach(function (k) {
+	                        if (this.isDefined(value[k])) {
+	                            tmp.push(encodeURIComponent(k));
+	                            tmp.push(this.encodeValue(operator, value[k].toString()));
+	                        }
+	                    }, this);
+	                }
+
+	                if (this.isKeyOperator(operator)) {
+	                    result.push(encodeURIComponent(key) + '=' + tmp.join(','));
+	                } else if (tmp.length !== 0) {
+	                    result.push(tmp.join(','));
+	                }
+	            }
+	        }
+	    } else {
+	        if (operator === ';') {
+	            result.push(encodeURIComponent(key));
+	        } else if (value === '' && (operator === '&' || operator === '?')) {
+	            result.push(encodeURIComponent(key) + '=');
+	        } else if (value === '') {
+	            result.push('');
+	        }
+	    }
+
+	    return result;
+	};
+
+	exports.isDefined = function (value) {
+	    return value !== undefined && value !== null;
+	};
+
+	exports.isKeyOperator = function (operator) {
+	    return operator === ';' || operator === '&' || operator === '?';
+	};
+
+	exports.encodeValue = function (operator, value, key) {
+
+	    value = (operator === '+' || operator === '#') ? this.encodeReserved(value) : encodeURIComponent(value);
+
+	    if (key) {
+	        return encodeURIComponent(key) + '=' + value;
+	    } else {
+	        return value;
+	    }
+	};
+
+	exports.encodeReserved = function (str) {
+	    return str.split(/(%[0-9A-Fa-f]{2})/g).map(function (part) {
+	        if (!/%[0-9A-Fa-f]/.test(part)) {
+	            part = encodeURI(part);
+	        }
+	        return part;
+	    }).join('');
+	};
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Legacy Transform.
+	 */
+
+	var _ = __webpack_require__(1);
+
+	module.exports = function (options, next) {
+
+	    var variables = [], url = next(options);
+
+	    url = url.replace(/(\/?):([a-z]\w*)/gi, function (match, slash, name) {
+
+	        _.warn('The `:' + name + '` parameter syntax has been deprecated. Use the `{' + name + '}` syntax instead.');
+
+	        if (options.params[name]) {
+	            variables.push(name);
+	            return slash + encodeUriSegment(options.params[name]);
+	        }
+
+	        return '';
+	    });
+
+	    variables.forEach(function (key) {
+	        delete options.params[key];
+	    });
+
+	    return url;
+	};
+
+	function encodeUriSegment(value) {
+
+	    return encodeUriQuery(value, true).
+	        replace(/%26/gi, '&').
+	        replace(/%3D/gi, '=').
+	        replace(/%2B/gi, '+');
+	}
+
+	function encodeUriQuery(value, spaces) {
+
+	    return encodeURIComponent(value).
+	        replace(/%40/gi, '@').
+	        replace(/%3A/gi, ':').
+	        replace(/%24/g, '$').
+	        replace(/%2C/gi, ',').
+	        replace(/%20/g, (spaces ? '%20' : '+'));
+	}
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Query Parameter Transform.
+	 */
+
+	var _ = __webpack_require__(1);
+
+	module.exports = function (options, next) {
+
+	    var urlParams = Object.keys(_.url.options.params), query = {}, url = next(options);
+
+	   _.each(options.params, function (value, key) {
+	        if (urlParams.indexOf(key) === -1) {
+	            query[key] = value;
+	        }
+	    });
+
+	    query = _.url.params(query);
+
+	    if (query) {
+	        url += (url.indexOf('?') == -1 ? '?' : '&') + query;
+	    }
+
+	    return url;
+	};
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Root Prefix Transform.
+	 */
+
+	var _ = __webpack_require__(1);
+
+	module.exports = function (options, next) {
+
+	    var url = next(options);
+
+	    if (_.isString(options.root) && !url.match(/^(https?:)?\//)) {
+	        url = options.root + '/' + url;
+	    }
+
+	    return url;
+	};
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Service for sending network requests.
+	 */
+
+	var _ = __webpack_require__(1);
+	var Client = __webpack_require__(9);
+	var Promise = __webpack_require__(10);
+	var interceptor = __webpack_require__(13);
+	var jsonType = {'Content-Type': 'application/json'};
+
+	function Http(url, options) {
+
+	    var client = Client, request, promise;
+
+	    Http.interceptors.forEach(function (handler) {
+	        client = interceptor(handler, this.$vm)(client);
+	    }, this);
+
+	    options = _.isObject(url) ? url : _.extend({url: url}, options);
+	    request = _.merge({}, Http.options, this.$options, options);
+	    promise = client(request).bind(this.$vm).then(function (response) {
+
+	        return response.ok ? response : Promise.reject(response);
+
+	    }, function (response) {
+
+	        if (response instanceof Error) {
+	            _.error(response);
+	        }
+
+	        return Promise.reject(response);
+	    });
+
+	    if (request.success) {
+	        promise.success(request.success);
+	    }
+
+	    if (request.error) {
+	        promise.error(request.error);
+	    }
+
+	    return promise;
+	}
+
+	Http.options = {
+	    method: 'get',
+	    data: '',
+	    params: {},
+	    headers: {},
+	    xhr: null,
+	    upload: null,
+	    jsonp: 'callback',
+	    beforeSend: null,
+	    crossOrigin: null,
+	    emulateHTTP: false,
+	    emulateJSON: false,
+	    timeout: 0
+	};
+
+	Http.interceptors = [
+	    __webpack_require__(14),
+	    __webpack_require__(15),
+	    __webpack_require__(16),
+	    __webpack_require__(18),
+	    __webpack_require__(19),
+	    __webpack_require__(20),
+	    __webpack_require__(21)
+	];
+
+	Http.headers = {
+	    put: jsonType,
+	    post: jsonType,
+	    patch: jsonType,
+	    delete: jsonType,
+	    common: {'Accept': 'application/json, text/plain, */*'},
+	    custom: {'X-Requested-With': 'XMLHttpRequest'}
+	};
+
+	['get', 'put', 'post', 'patch', 'delete', 'jsonp'].forEach(function (method) {
+
+	    Http[method] = function (url, data, success, options) {
+
+	        if (_.isFunction(data)) {
+	            options = success;
+	            success = data;
+	            data = undefined;
+	        }
+
+	        if (_.isObject(success)) {
+	            options = success;
+	            success = undefined;
+	        }
+
+	        return this(url, _.extend({method: method, data: data, success: success}, options));
+	    };
+	});
+
+	module.exports = _.http = Http;
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Base client.
+	 */
+
+	var _ = __webpack_require__(1);
+	var Promise = __webpack_require__(10);
+	var xhrClient = __webpack_require__(12);
+
+	module.exports = function (request) {
+
+	    var response = (request.client || xhrClient)(request);
+
+	    return Promise.resolve(response).then(function (response) {
+
+	        if (response.headers) {
+
+	            var headers = parseHeaders(response.headers);
+
+	            response.headers = function (name) {
+
+	                if (name) {
+	                    return headers[_.toLower(name)];
+	                }
+
+	                return headers;
+	            };
+
+	        }
+
+	        response.ok = response.status >= 200 && response.status < 300;
+
+	        return response;
+	    });
+
+	};
+
+	function parseHeaders(str) {
+
+	    var headers = {}, value, name, i;
+
+	    if (_.isString(str)) {
+	        _.each(str.split('\n'), function (row) {
+
+	            i = row.indexOf(':');
+	            name = _.trim(_.toLower(row.slice(0, i)));
+	            value = _.trim(row.slice(i + 1));
+
+	            if (headers[name]) {
+
+	                if (_.isArray(headers[name])) {
+	                    headers[name].push(value);
+	                } else {
+	                    headers[name] = [headers[name], value];
+	                }
+
+	            } else {
+
+	                headers[name] = value;
+	            }
+
+	        });
+	    }
+
+	    return headers;
+	}
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Promise adapter.
+	 */
+
+	var _ = __webpack_require__(1);
+	var PromiseObj = window.Promise || __webpack_require__(11);
+
+	function Promise(executor, context) {
+
+	    if (executor instanceof PromiseObj) {
+	        this.promise = executor;
+	    } else {
+	        this.promise = new PromiseObj(executor.bind(context));
+	    }
+
+	    this.context = context;
+	}
+
+	Promise.all = function (iterable, context) {
+	    return new Promise(PromiseObj.all(iterable), context);
+	};
+
+	Promise.resolve = function (value, context) {
+	    return new Promise(PromiseObj.resolve(value), context);
+	};
+
+	Promise.reject = function (reason, context) {
+	    return new Promise(PromiseObj.reject(reason), context);
+	};
+
+	Promise.race = function (iterable, context) {
+	    return new Promise(PromiseObj.race(iterable), context);
+	};
+
+	var p = Promise.prototype;
+
+	p.bind = function (context) {
+	    this.context = context;
+	    return this;
+	};
+
+	p.then = function (fulfilled, rejected) {
+
+	    if (fulfilled && fulfilled.bind && this.context) {
+	        fulfilled = fulfilled.bind(this.context);
+	    }
+
+	    if (rejected && rejected.bind && this.context) {
+	        rejected = rejected.bind(this.context);
+	    }
+
+	    this.promise = this.promise.then(fulfilled, rejected);
+
+	    return this;
+	};
+
+	p.catch = function (rejected) {
+
+	    if (rejected && rejected.bind && this.context) {
+	        rejected = rejected.bind(this.context);
+	    }
+
+	    this.promise = this.promise.catch(rejected);
+
+	    return this;
+	};
+
+	p.finally = function (callback) {
+
+	    return this.then(function (value) {
+	            callback.call(this);
+	            return value;
+	        }, function (reason) {
+	            callback.call(this);
+	            return PromiseObj.reject(reason);
+	        }
+	    );
+	};
+
+	p.success = function (callback) {
+
+	    _.warn('The `success` method has been deprecated. Use the `then` method instead.');
+
+	    return this.then(function (response) {
+	        return callback.call(this, response.data, response.status, response) || response;
+	    });
+	};
+
+	p.error = function (callback) {
+
+	    _.warn('The `error` method has been deprecated. Use the `catch` method instead.');
+
+	    return this.catch(function (response) {
+	        return callback.call(this, response.data, response.status, response) || response;
+	    });
+	};
+
+	p.always = function (callback) {
+
+	    _.warn('The `always` method has been deprecated. Use the `finally` method instead.');
+
+	    var cb = function (response) {
+	        return callback.call(this, response.data, response.status, response) || response;
+	    };
+
+	    return this.then(cb, cb);
+	};
+
+	module.exports = Promise;
+
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Promises/A+ polyfill v1.1.4 (https://github.com/bramstein/promis)
+	 */
+
+	var _ = __webpack_require__(1);
+
+	var RESOLVED = 0;
+	var REJECTED = 1;
+	var PENDING  = 2;
+
+	function Promise(executor) {
+
+	    this.state = PENDING;
+	    this.value = undefined;
+	    this.deferred = [];
+
+	    var promise = this;
+
+	    try {
+	        executor(function (x) {
+	            promise.resolve(x);
+	        }, function (r) {
+	            promise.reject(r);
+	        });
+	    } catch (e) {
+	        promise.reject(e);
+	    }
+	}
+
+	Promise.reject = function (r) {
+	    return new Promise(function (resolve, reject) {
+	        reject(r);
+	    });
+	};
+
+	Promise.resolve = function (x) {
+	    return new Promise(function (resolve, reject) {
+	        resolve(x);
+	    });
+	};
+
+	Promise.all = function all(iterable) {
+	    return new Promise(function (resolve, reject) {
+	        var count = 0, result = [];
+
+	        if (iterable.length === 0) {
+	            resolve(result);
+	        }
+
+	        function resolver(i) {
+	            return function (x) {
+	                result[i] = x;
+	                count += 1;
+
+	                if (count === iterable.length) {
+	                    resolve(result);
+	                }
+	            };
+	        }
+
+	        for (var i = 0; i < iterable.length; i += 1) {
+	            Promise.resolve(iterable[i]).then(resolver(i), reject);
+	        }
+	    });
+	};
+
+	Promise.race = function race(iterable) {
+	    return new Promise(function (resolve, reject) {
+	        for (var i = 0; i < iterable.length; i += 1) {
+	            Promise.resolve(iterable[i]).then(resolve, reject);
+	        }
+	    });
+	};
+
+	var p = Promise.prototype;
+
+	p.resolve = function resolve(x) {
+	    var promise = this;
+
+	    if (promise.state === PENDING) {
+	        if (x === promise) {
+	            throw new TypeError('Promise settled with itself.');
+	        }
+
+	        var called = false;
+
+	        try {
+	            var then = x && x['then'];
+
+	            if (x !== null && typeof x === 'object' && typeof then === 'function') {
+	                then.call(x, function (x) {
+	                    if (!called) {
+	                        promise.resolve(x);
+	                    }
+	                    called = true;
+
+	                }, function (r) {
+	                    if (!called) {
+	                        promise.reject(r);
+	                    }
+	                    called = true;
+	                });
+	                return;
+	            }
+	        } catch (e) {
+	            if (!called) {
+	                promise.reject(e);
+	            }
+	            return;
+	        }
+
+	        promise.state = RESOLVED;
+	        promise.value = x;
+	        promise.notify();
+	    }
+	};
+
+	p.reject = function reject(reason) {
+	    var promise = this;
+
+	    if (promise.state === PENDING) {
+	        if (reason === promise) {
+	            throw new TypeError('Promise settled with itself.');
+	        }
+
+	        promise.state = REJECTED;
+	        promise.value = reason;
+	        promise.notify();
+	    }
+	};
+
+	p.notify = function notify() {
+	    var promise = this;
+
+	    _.nextTick(function () {
+	        if (promise.state !== PENDING) {
+	            while (promise.deferred.length) {
+	                var deferred = promise.deferred.shift(),
+	                    onResolved = deferred[0],
+	                    onRejected = deferred[1],
+	                    resolve = deferred[2],
+	                    reject = deferred[3];
+
+	                try {
+	                    if (promise.state === RESOLVED) {
+	                        if (typeof onResolved === 'function') {
+	                            resolve(onResolved.call(undefined, promise.value));
+	                        } else {
+	                            resolve(promise.value);
+	                        }
+	                    } else if (promise.state === REJECTED) {
+	                        if (typeof onRejected === 'function') {
+	                            resolve(onRejected.call(undefined, promise.value));
+	                        } else {
+	                            reject(promise.value);
+	                        }
+	                    }
+	                } catch (e) {
+	                    reject(e);
+	                }
+	            }
+	        }
+	    });
+	};
+
+	p.then = function then(onResolved, onRejected) {
+	    var promise = this;
+
+	    return new Promise(function (resolve, reject) {
+	        promise.deferred.push([onResolved, onRejected, resolve, reject]);
+	        promise.notify();
+	    });
+	};
+
+	p.catch = function (onRejected) {
+	    return this.then(undefined, onRejected);
+	};
+
+	module.exports = Promise;
+
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * XMLHttp client.
+	 */
+
+	var _ = __webpack_require__(1);
+	var Promise = __webpack_require__(10);
+
+	module.exports = function (request) {
+	    return new Promise(function (resolve) {
+
+	        var xhr = new XMLHttpRequest(), response = {request: request}, handler;
+
+	        request.cancel = function () {
+	            xhr.abort();
+	        };
+
+	        xhr.open(request.method, _.url(request), true);
+
+	        handler = function (event) {
+
+	            response.data = xhr.responseText;
+	            response.status = xhr.status;
+	            response.statusText = xhr.statusText;
+	            response.headers = xhr.getAllResponseHeaders();
+
+	            resolve(response);
+	        };
+
+	        xhr.timeout = 0;
+	        xhr.onload = handler;
+	        xhr.onabort = handler;
+	        xhr.onerror = handler;
+	        xhr.ontimeout = function () {};
+	        xhr.onprogress = function () {};
+
+	        if (_.isPlainObject(request.xhr)) {
+	            _.extend(xhr, request.xhr);
+	        }
+
+	        if (_.isPlainObject(request.upload)) {
+	            _.extend(xhr.upload, request.upload);
+	        }
+
+	        _.each(request.headers || {}, function (value, header) {
+	            xhr.setRequestHeader(header, value);
+	        });
+
+	        xhr.send(request.data);
+	    });
+	};
+
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Interceptor factory.
+	 */
+
+	var _ = __webpack_require__(1);
+	var Promise = __webpack_require__(10);
+
+	module.exports = function (handler, vm) {
+
+	    return function (client) {
+
+	        if (_.isFunction(handler)) {
+	            handler = handler.call(vm, Promise);
+	        }
+
+	        return function (request) {
+
+	            if (_.isFunction(handler.request)) {
+	                request = handler.request.call(vm, request);
+	            }
+
+	            return when(request, function (request) {
+	                return when(client(request), function (response) {
+
+	                    if (_.isFunction(handler.response)) {
+	                        response = handler.response.call(vm, response);
+	                    }
+
+	                    return response;
+	                });
+	            });
+	        };
+	    };
+	};
+
+	function when(value, fulfilled, rejected) {
+
+	    var promise = Promise.resolve(value);
+
+	    if (arguments.length < 2) {
+	        return promise;
+	    }
+
+	    return promise.then(fulfilled, rejected);
+	}
+
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Before Interceptor.
+	 */
+
+	var _ = __webpack_require__(1);
+
+	module.exports = {
+
+	    request: function (request) {
+
+	        if (_.isFunction(request.beforeSend)) {
+	            request.beforeSend.call(this, request);
+	        }
+
+	        return request;
+	    }
+
+	};
+
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	/**
+	 * Timeout Interceptor.
+	 */
+
+	module.exports = function () {
+
+	    var timeout;
+
+	    return {
+
+	        request: function (request) {
+
+	            if (request.timeout) {
+	                timeout = setTimeout(function () {
+	                    request.cancel();
+	                }, request.timeout);
+	            }
+
+	            return request;
+	        },
+
+	        response: function (response) {
+
+	            clearTimeout(timeout);
+
+	            return response;
+	        }
+
+	    };
+	};
+
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * JSONP Interceptor.
+	 */
+
+	var jsonpClient = __webpack_require__(17);
+
+	module.exports = {
+
+	    request: function (request) {
+
+	        if (request.method == 'JSONP') {
+	            request.client = jsonpClient;
+	        }
+
+	        return request;
+	    }
+
+	};
+
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * JSONP client.
+	 */
+
+	var _ = __webpack_require__(1);
+	var Promise = __webpack_require__(10);
+
+	module.exports = function (request) {
+	    return new Promise(function (resolve) {
+
+	        var callback = '_jsonp' + Math.random().toString(36).substr(2), response = {request: request, data: null}, handler, script;
+
+	        request.params[request.jsonp] = callback;
+	        request.cancel = function () {
+	            handler({type: 'cancel'});
+	        };
+
+	        script = document.createElement('script');
+	        script.src = _.url(request);
+	        script.type = 'text/javascript';
+	        script.async = true;
+
+	        window[callback] = function (data) {
+	            response.data = data;
+	        };
+
+	        handler = function (event) {
+
+	            if (event.type === 'load' && response.data !== null) {
+	                response.status = 200;
+	            } else if (event.type === 'error') {
+	                response.status = 404;
+	            } else {
+	                response.status = 0;
+	            }
+
+	            resolve(response);
+
+	            delete window[callback];
+	            document.body.removeChild(script);
+	        };
+
+	        script.onload = handler;
+	        script.onerror = handler;
+
+	        document.body.appendChild(script);
+	    });
+	};
+
+
+/***/ },
+/* 18 */
+/***/ function(module, exports) {
+
+	/**
+	 * HTTP method override Interceptor.
+	 */
+
+	module.exports = {
+
+	    request: function (request) {
+
+	        if (request.emulateHTTP && /^(PUT|PATCH|DELETE)$/i.test(request.method)) {
+	            request.headers['X-HTTP-Method-Override'] = request.method;
+	            request.method = 'POST';
+	        }
+
+	        return request;
+	    }
+
+	};
+
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Mime Interceptor.
+	 */
+
+	var _ = __webpack_require__(1);
+
+	module.exports = {
+
+	    request: function (request) {
+
+	        if (request.emulateJSON && _.isPlainObject(request.data)) {
+	            request.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+	            request.data = _.url.params(request.data);
+	        }
+
+	        if (_.isObject(request.data) && /FormData/i.test(request.data.toString())) {
+	            delete request.headers['Content-Type'];
+	        }
+
+	        if (_.isPlainObject(request.data)) {
+	            request.data = JSON.stringify(request.data);
+	        }
+
+	        return request;
+	    },
+
+	    response: function (response) {
+
+	        try {
+	            response.data = JSON.parse(response.data);
+	        } catch (e) {}
+
+	        return response;
+	    }
+
+	};
+
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Header Interceptor.
+	 */
+
+	var _ = __webpack_require__(1);
+
+	module.exports = {
+
+	    request: function (request) {
+
+	        request.method = request.method.toUpperCase();
+	        request.headers = _.extend({}, _.http.headers.common,
+	            !request.crossOrigin ? _.http.headers.custom : {},
+	            _.http.headers[request.method.toLowerCase()],
+	            request.headers
+	        );
+
+	        if (_.isPlainObject(request.data) && /^(GET|JSONP)$/i.test(request.method)) {
+	            _.extend(request.params, request.data);
+	            delete request.data;
+	        }
+
+	        return request;
+	    }
+
+	};
+
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * CORS Interceptor.
+	 */
+
+	var _ = __webpack_require__(1);
+	var xdrClient = __webpack_require__(22);
+	var xhrCors = 'withCredentials' in new XMLHttpRequest();
+	var originUrl = _.url.parse(location.href);
+
+	module.exports = {
+
+	    request: function (request) {
+
+	        if (request.crossOrigin === null) {
+	            request.crossOrigin = crossOrigin(request);
+	        }
+
+	        if (request.crossOrigin) {
+
+	            if (!xhrCors) {
+	                request.client = xdrClient;
+	            }
+
+	            request.emulateHTTP = false;
+	        }
+
+	        return request;
+	    }
+
+	};
+
+	function crossOrigin(request) {
+
+	    var requestUrl = _.url.parse(_.url(request));
+
+	    return (requestUrl.protocol !== originUrl.protocol || requestUrl.host !== originUrl.host);
+	}
+
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * XDomain client (Internet Explorer).
+	 */
+
+	var _ = __webpack_require__(1);
+	var Promise = __webpack_require__(10);
+
+	module.exports = function (request) {
+	    return new Promise(function (resolve) {
+
+	        var xdr = new XDomainRequest(), response = {request: request}, handler;
+
+	        request.cancel = function () {
+	            xdr.abort();
+	        };
+
+	        xdr.open(request.method, _.url(request), true);
+
+	        handler = function (event) {
+
+	            response.data = xdr.responseText;
+	            response.status = xdr.status;
+	            response.statusText = xdr.statusText;
+
+	            resolve(response);
+	        };
+
+	        xdr.timeout = 0;
+	        xdr.onload = handler;
+	        xdr.onabort = handler;
+	        xdr.onerror = handler;
+	        xdr.ontimeout = function () {};
+	        xdr.onprogress = function () {};
+
+	        xdr.send(request.data);
+	    });
+	};
+
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Service for interacting with RESTful services.
+	 */
+
+	var _ = __webpack_require__(1);
+
+	function Resource(url, params, actions, options) {
+
+	    var self = this, resource = {};
+
+	    actions = _.extend({},
+	        Resource.actions,
+	        actions
+	    );
+
+	    _.each(actions, function (action, name) {
+
+	        action = _.merge({url: url, params: params || {}}, options, action);
+
+	        resource[name] = function () {
+	            return (self.$http || _.http)(opts(action, arguments));
+	        };
+	    });
+
+	    return resource;
+	}
+
+	function opts(action, args) {
+
+	    var options = _.extend({}, action), params = {}, data, success, error;
+
+	    switch (args.length) {
+
+	        case 4:
+
+	            error = args[3];
+	            success = args[2];
+
+	        case 3:
+	        case 2:
+
+	            if (_.isFunction(args[1])) {
+
+	                if (_.isFunction(args[0])) {
+
+	                    success = args[0];
+	                    error = args[1];
+
+	                    break;
+	                }
+
+	                success = args[1];
+	                error = args[2];
+
+	            } else {
+
+	                params = args[0];
+	                data = args[1];
+	                success = args[2];
+
+	                break;
+	            }
+
+	        case 1:
+
+	            if (_.isFunction(args[0])) {
+	                success = args[0];
+	            } else if (/^(POST|PUT|PATCH)$/i.test(options.method)) {
+	                data = args[0];
+	            } else {
+	                params = args[0];
+	            }
+
+	            break;
+
+	        case 0:
+
+	            break;
+
+	        default:
+
+	            throw 'Expected up to 4 arguments [params, data, success, error], got ' + args.length + ' arguments';
+	    }
+
+	    options.data = data;
+	    options.params = _.extend({}, options.params, params);
+
+	    if (success) {
+	        options.success = success;
+	    }
+
+	    if (error) {
+	        options.error = error;
+	    }
+
+	    return options;
+	}
+
+	Resource.actions = {
+
+	    get: {method: 'GET'},
+	    save: {method: 'POST'},
+	    query: {method: 'GET'},
+	    update: {method: 'PUT'},
+	    remove: {method: 'DELETE'},
+	    delete: {method: 'DELETE'}
+
+	};
+
+	module.exports = _.resource = Resource;
+
+
+/***/ }
+/******/ ])
+});
+;
 $(function() {
 
     $('#side-menu').metisMenu();

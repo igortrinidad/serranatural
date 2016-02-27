@@ -24,7 +24,10 @@
 		    <tbody>
 		    @foreach($produtos as $produto)
 		        <tr>
-		            <td>{{$produto->nome_produto}}</td>
+		            <td>
+		            	<a href="{{ route('produtos.produtos.show', $produto->id)}}">{{$produto->nome_produto}}
+		            	</a>
+		            </td>
 		            <td>{{$produto->descricao}}</td>
 		            <td>{{$produto->categoria['nome']}}</td>
 		            <td class="text-center">{{$produto->quantidadeEstoque}}</td>

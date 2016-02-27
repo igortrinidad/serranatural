@@ -15,6 +15,7 @@ use serranatural\Models\Cliente as Cliente;
 use serranatural\User as User;
 use serranatural\Models\Funcionario;
 use serranatural\Models\Pagamento;
+use serranatural\Models\Produto;
 
 use Image;
 use Input;
@@ -515,7 +516,23 @@ class FinanceiroController extends Controller
 
     public function despesaCreate()
     {
-        return view('adm.financeiro.pagamentoSimples');
+        //$result = array();
+        //
+        //foreach ($produtos as $key => $value) {
+        //    $result[$key]['nome'] = $value->nome_produto;
+        //    $result[$key]['id'] = $value->id;
+        //    $result[$key]['quantidade'] = '';
+        //}
+
+        $produtos = Produto::all();
+
+        $produtosForSelect = [];
+        foreach ($produtos as $key => $value) {
+            $produtosForSelect[$value->id] = $value->nome_produto;
+        }
+
+
+        return view('adm.financeiro.pagamentoSimples', compact('produtos', 'produtosForSelect'));
     }
 
     public function despesaStore(PagamentoRequest $request)
@@ -534,6 +551,8 @@ class FinanceiroController extends Controller
         }
 
         $pagamento->save();
+
+
 
         $dados = [
             'msg_retorno' => 'Pagamento cadastrado com sucesso.',

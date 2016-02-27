@@ -22,7 +22,7 @@ class conta_a_pagar extends Command implements SelfHandling
     {
         
         $pagamentos = Pagamento::where('is_liquidado', '=', '0')
-                                ->where('vencimento', '=', date('Y-m-d'))
+                                ->where('vencimento', '<=', date('Y-m-d'))
                                 ->get();
 
         if(!$pagamentos) {

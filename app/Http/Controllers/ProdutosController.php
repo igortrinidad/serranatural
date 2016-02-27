@@ -19,6 +19,7 @@ use serranatural\Models\Cliente;
 use serranatural\Models\Produto;
 use serranatural\Models\ReceitaPrato;
 use serranatural\Models\Preferencias;
+use serranatural\Models\Movimentacao;
 
 use QrCode;
 
@@ -594,6 +595,19 @@ class ProdutosController extends Controller
         return $result;
     }
 
+        public function produtosForSelectJson()
+        {
+            $produtos = Produto::all();
+            $result = array();
+
+            foreach ($produtos as $key => $value) {
+                $result[$key]['id'] = $value->id;
+                $result[$key]['nome'] = $value->nome_produto;
+            }
+
+            return json_encode($result);
+        }
+
     public function fornecedoresForSelect()
     {
         $fornecedores = \serranatural\Models\Fornecedor::all();
@@ -604,6 +618,43 @@ class ProdutosController extends Controller
         }
 
         return $result;
+    }
+
+    public function showProduto($id)
+    {
+        $produto = Produto::with('categoria')->find($id);
+
+        $movimentacoes = Movimentacao::with('usuario')->where('produto_id', '=', $id)->get();
+
+        return view('adm.produtos.produtos.show', compact('produto', 'movimentacoes'));
+    }
+
+    public function editProduto($id)
+    {
+        $produto = Produto::with(['categoria', 'fornecedores'])->find($id);
+
+        $fornecedoresForSelect = $this->fornecedoresForSelect();
+
+
+        foreach($produto->fornecedores as $key => $value) {
+            $fornecedores[] = $value->id;
+        }
+
+        return view('adm.produtos.produtos.edit', compact('produto', 'fornecedoresForSelect', 'fornecedores'));
+    }
+
+    public function updateProduto(Request $request, $id)
+    {
+        $produto = Produto::find($id);
+        $produto->update([
+            'nome_produto' => $request->nome_produto,
+            'descricao' => $request->descricao,
+            'preco' => $request->preco
+            ]);
+        $produto->fornecedores()->sync($request->fornecedor_id);
+        $produto->save();
+
+        return redirect(route('produtos.produtos.show', $id));
     }
 
     public function listaProdutos()
