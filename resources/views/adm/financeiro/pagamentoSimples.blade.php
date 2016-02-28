@@ -205,12 +205,12 @@
 					      var reader = new FileReader();
 					      var vm = this;
 
-					      reader.onload = (e) => {
+					      reader.onload = function(e) {
 					        vm.pagamento.comprovante = e.target.result;
 					      };
 					      reader.readAsDataURL(file);
 					    },
-					    removeImage: function (ev) {
+					    removeImage: function(ev) {
 					    	ev.preventDefault();
 					      	this.pagamento.comprovante = '';
 					    },
