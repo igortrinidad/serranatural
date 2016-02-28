@@ -453,7 +453,7 @@ class ClienteController extends Controller
 
         $id = $cliente['cliente_id'];
 
-        $timestamp = strtotime("+2 month");
+        $timestamp = strtotime("+3 month");
 
         $ponto = PontoColetado::create([
                 'cliente_id' => $id,

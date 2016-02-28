@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Sistema de administração Serra Natural">
     <meta name="author" content="Igor Trindade">
+    <input type="hidden" id="_tokenLaravel" value="{!! csrf_token() !!}" />
 
     <title>Serra Natural - Adiministrativo (2)</title>
 

@@ -606,4 +606,9 @@ class FinanceiroController extends Controller
 
         return view('adm.financeiro.retiradasList')->with($return);
     }
+
+    public function despesaStoreVue(Request $request)
+    {
+        return json_encode($request->all());
+    }
 }
