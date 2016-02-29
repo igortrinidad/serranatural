@@ -20,7 +20,7 @@
 						<div class="col-md-8">
 							<div class="form-group">
 								<label>Valor</label>
-								<input type="text" v-model="pagamento.valor" v-el="pagamento.valor" class="form-control moneySql" required/>
+								<input type="text" v-model="pagamento.valor" v-el="pagamentovalor" class="form-control moneySql" required/>
 							</div>
 						</div>
 
@@ -81,7 +81,7 @@
 					</div>
 					<div class="col-md-4">
 						<div class="form-group" >
-							<input type="text" class="form-control" v-model="produto.quantidade" v-el="produtos.produto.quantidade" placeholder="quantidade" >
+							<input type="text" class="form-control" v-model="produto.quantidade" v-el="produtoQuantidade" placeholder="quantidade" >
 						</div>
 					</div>
 				</div>
@@ -102,7 +102,7 @@
 					</div>
 					<div class="col-md-4">
 						<div class="form-group" >
-							<input type="text" class="form-control quantity" :disabled="! selected.nome" v-model="selected.quantidade" placeholder="quantidade">
+							<input type="text" class="form-control quantity" :disabled="! selected.nome" v-model="selected.quantidade" v-el="produtoquantidade" placeholder="quantidade">
 						</div>
 					</div>
 				</div>
@@ -174,8 +174,8 @@
 				    },
 				    attached: function()
     					{
-    						$('.moneySql').mask('000000.00', {reverse: true});
-    						$('.quantity').mask('000.000', {reverse: true});
+    						$(this.$els.pagamentovalor).mask('000000.00', {reverse: true});
+    						$(this.$els.produtoquantidade).mask('000.000', {reverse: true});
         					
     					},
 					    ready: function() {
