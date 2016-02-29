@@ -195,20 +195,20 @@
 				    		this.selected = {id: '', nome: '', quantidade: ''};
 				    	},
 				    	onFileChange(e) {
-					      var files = e.target.files || e.dataTransfer.files;
-					      if (!files.length)
-					        return;
-					      this.createImage(files[0]);
+					      	var files = e.target.files || e.dataTransfer.files;
+						    if (!files.length)
+						    	return;
+					      	this.createImage(files[0]);
 					    },
 					    createImage(file) {
-					      var image = new Image();
-					      var reader = new FileReader();
-					      var vm = this;
+					      	var image = new Image();
+					      	var reader = new FileReader();
+					      	var vm = this;
 
-					      reader.onload = function(e) {
-					        vm.pagamento.comprovante = e.target.result;
-					      };
-					      reader.readAsDataURL(file);
+					      	reader.onload = function(e) {
+					        	vm.pagamento.comprovante = e.target.result;
+					      	};
+					      	reader.readAsDataURL(file);
 					    },
 					    removeImage: function(ev) {
 					    	ev.preventDefault();
@@ -218,7 +218,7 @@
 					    	this.$http.post('/admin/financeiro/despesaStoreVue', this.pagamento).then(function (response) {
 					    	console.log(response.data);
 					      }, function (response) {
-					          console.log(response);
+					        console.log(response);
 					      });
 					    }
 				    },
