@@ -20,7 +20,7 @@
 						<div class="col-md-8">
 							<div class="form-group">
 								<label>Valor</label>
-								<input type="text" v-model="pagamento.valor" class="form-control moneySql" required/>
+								<input type="text" v-model="pagamento.valor" v-el="pagamento.valor" class="form-control" required/>
 							</div>
 						</div>
 
@@ -81,7 +81,7 @@
 					</div>
 					<div class="col-md-4">
 						<div class="form-group" >
-							<input type="text" class="form-control quantity" v-model="produto.quantidade" placeholder="quantidade" >
+							<input type="text" class="form-control" v-model="produto.quantidade" v-el="produto.quantidade" placeholder="quantidade" >
 						</div>
 					</div>
 				</div>
@@ -148,15 +148,13 @@
 	        <script src="{!! elixir('js/financeiro.js') !!}"></script>
 
 			<script type="text/javascript">
-				$('.moneySql').mask('000000.00', {reverse: true});
-				$('.quantity').mask('000.000', {reverse: true});
+				//$('.moneySql').mask('000000.00', {reverse: true});
+				//$('.quantity').mask('000.000', {reverse: true});
 			</script>
 
 			<script type="text/javascript">
-
 				Vue.config.debug = true;
 				Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#_tokenLaravel').getAttribute('value');
-
 				var vm = new Vue({
 				    el: '#contentProduto',
 				    data: {
@@ -173,21 +171,25 @@
 				    	produtosForSelect: [],
 				    	selected: {id: '', nome: '', quantidade: ''},
 				    },
-
+				    attached: function()
+    					{
+    						$(this.$$.pagamento.valor).mask('000000.00', {reverse: true});
+    						$(this.$$.produto.quantidade).mask('000.000', {reverse: true});
+        					
+    					},
 					    ready: function() {
-
+				 	      var self = this;	
 					      // GET request
 					      this.$http.get('/admin/produtos/produtosForSelectJson').then(function (response) {
-					          this.produtosForSelect = response.data;
+					          self.produtosForSelect = response.data;
 					      }, function (response) {
 					          console.log(response);
 					      });
-
 					    },
 				    methods: {
 				    	addProduto: function(ev, quantidade) {
 				    		ev.preventDefault();
-				    		if( ! this.selected.nome  | ! this.selected.quantidade ){
+				    		if( ! this.selected.nome  || ! this.selected.quantidade ){
 				    			return false;
 				    		}
 				    		Produto = {id: this.selected.id, nome: this.selected.nome, quantidade: this.selected.quantidade};
@@ -195,20 +197,19 @@
 				    		this.selected = {id: '', nome: '', quantidade: ''};
 				    	},
 				    	onFileChange(e) {
-					      	var files = e.target.files || e.dataTransfer.files;
-						    if (!files.length)
-						    	return;
-					      	this.createImage(files[0]);
+					      var files = e.target.files || e.dataTransfer.files;
+					      if (!files.length)
+					        return;
+					      this.createImage(files[0]);
 					    },
 					    createImage(file) {
-					      	var image = new Image();
-					      	var reader = new FileReader();
-					      	var vm = this;
-
-					      	reader.onload = function(e) {
-					        	vm.pagamento.comprovante = e.target.result;
-					      	};
-					      	reader.readAsDataURL(file);
+					      var image = new Image();
+					      var reader = new FileReader();
+					      var vm = this;
+					      reader.onload = function(e) {
+					        vm.pagamento.comprovante = e.target.result;
+					      };
+					      reader.readAsDataURL(file);
 					    },
 					    removeImage: function(ev) {
 					    	ev.preventDefault();
@@ -218,12 +219,11 @@
 					    	this.$http.post('/admin/financeiro/despesaStoreVue', this.pagamento).then(function (response) {
 					    	console.log(response.data);
 					      }, function (response) {
-					        console.log(response);
+					          console.log(response);
 					      });
 					    }
 				    },
 				})
-
 			</script>
 
 
