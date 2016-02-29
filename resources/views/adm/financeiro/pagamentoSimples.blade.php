@@ -20,7 +20,7 @@
 						<div class="col-md-8">
 							<div class="form-group">
 								<label>Valor</label>
-								<input type="text" v-model="pagamento.valor" v-el="pagamento.valor" class="form-control" required/>
+								<input type="text" v-model="pagamento.valor" v-el="pagamento.valor" class="form-control moneySql" required/>
 							</div>
 						</div>
 
@@ -81,7 +81,7 @@
 					</div>
 					<div class="col-md-4">
 						<div class="form-group" >
-							<input type="text" class="form-control" v-model="produto.quantidade" v-el="produto.quantidade" placeholder="quantidade" >
+							<input type="text" class="form-control" v-model="produto.quantidade" v-el="produtos.produto.quantidade" placeholder="quantidade" >
 						</div>
 					</div>
 				</div>
@@ -153,6 +153,7 @@
 			</script>
 
 			<script type="text/javascript">
+
 				Vue.config.debug = true;
 				Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#_tokenLaravel').getAttribute('value');
 				var vm = new Vue({
@@ -173,8 +174,8 @@
 				    },
 				    attached: function()
     					{
-    						$(this.$$.pagamento.valor).mask('000000.00', {reverse: true});
-    						$(this.$$.produto.quantidade).mask('000.000', {reverse: true});
+    						$('.moneySql').mask('000000.00', {reverse: true});
+    						$('.quantity').mask('000.000', {reverse: true});
         					
     					},
 					    ready: function() {
