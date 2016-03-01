@@ -23,10 +23,10 @@ class conta_a_pagar extends Command implements SelfHandling
         $timestamp = strtotime("-2 days");
         $pagamentos = Pagamento::where('is_liquidado', '=', '0')
                                 ->where('vencimento', '>=', date('Y-m-d', $timestamp))
-                                ->get();
+                                ->first();
 
-        if(!$pagamentos) {
-            return 'Não há pagamentos';
+        if(is_null($pagamentos) or empty($pagamento)) {
+            return 'Não há pagamentos.';
         }
 
         $dados = [

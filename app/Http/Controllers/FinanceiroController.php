@@ -324,6 +324,15 @@ class FinanceiroController extends Controller
 
     public function storePgto(PagamentoRequest $request)
     {
+        $confere = Pagamento::where('linha_digitavel', '=', $request->linha_digitavel)
+                            ->first();
+        
+        if (!is_null($confere) or !empty($confere)) {
+
+            flash()->error('Pagamento já cadastrado. Favor conferir!');
+            return redirect()->back()->withInput();
+
+        }
         $pagamento = Pagamento::create($request->all());
         $pagamento->user_id_cadastro = \Auth::user()->id;
 
@@ -342,12 +351,9 @@ class FinanceiroController extends Controller
         $pagamento->save();
 
 
-        $return = [
-            'msg_retorno' => 'Pagamento cadastrado com sucesso.',
-            'tipo_retorno' => 'success'
-            ];
+        flash()->success('Pagamento cadastrado com sucesso.');
 
-        return redirect()->back()->with($return);
+        return redirect()->back();
 
     }
 
@@ -609,6 +615,44 @@ class FinanceiroController extends Controller
 
     public function despesaStoreVue(Request $request)
     {
-        return json_encode($request->all());
+
+        $pagamento = Pagamento::create([
+                'valor' => $request->valor,
+                'data_pgto' => $request->data_pgto,
+                'descricao' => $request->descricao,
+                'fonte_pgto' => $request->fonte_pgto,
+                'observacoes' => $request->observacoes,
+            ]);
+
+        if ($request->comprovante != '') {
+            
+            $img = Image::make($request->comprovante);
+
+            $dataAlt = dataAnoMes($request->data_pgto);
+            $dataArquivo = dataPtBrParaArquivo($request->data_pgto);
+
+            $nomeArquivo = $dataAlt . '_ID_' . $dataArquivo . '.' . '.jpg';
+
+            $img->save(storage_path().'/app/financeiro/pagamentos/'.$nomeArquivo);
+
+            $pagamento->comprovante = $nomeArquivo;
+        }
+        $pagamento->save();
+
+        if (!is_null($request->produtos)) {
+            
+            foreach ($request->produtos as $p) {
+
+                $produto = Produto::find($p['id']);
+                $produto->quantidadeEstoque = $produto->quantidadeEstoque + $p['quantidade'];
+                $produto->save();
+            }
+        }
+
+        $return['status'] = 'true';
+        $return['message'] = 'Pagamento adicionado com sucesso.';
+
+        return json_encode($return);
+
     }
 }

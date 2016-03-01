@@ -55,7 +55,10 @@
 					
 
 					<div class="form-group">
-						<button class="btn btn-primary btn-block" v-on:click="saveComprovante">Cadastrar despesa</button>
+						<button class="btn btn-primary btn-block" 
+							v-on:click="saveComprovante"
+							:disabled="'true', ! pagamento.valor || ! pagamento.data_pgto || ! pagamento.descricao"
+						>Cadastrar despesa</button>
 					</div>
 
 					
@@ -159,7 +162,7 @@
 				var vm = new Vue({
 				    el: '#contentProduto',
 				    data: {
-				    	
+				    	return: '',
 				    	pagamento: {
 				    		valor: '',
 				    		data_pgto: '',
@@ -179,9 +182,9 @@
         					
     					},
 					    ready: function() {
-				 	      var self = this;	
-					      // GET request
-					      this.$http.get('/admin/produtos/produtosForSelectJson').then(function (response) {
+				 	      	var self = this;	
+					      	// GET request
+					      	this.$http.get('/admin/produtos/produtosForSelectJson').then(function (response) {
 					          self.produtosForSelect = response.data;
 					      }, function (response) {
 					          console.log(response);
@@ -217,11 +220,23 @@
 					      	this.pagamento.comprovante = '';
 					    },
 					    saveComprovante: function(ev) {
+					    	self = this;
 					    	this.$http.post('/admin/financeiro/despesaStoreVue', this.pagamento).then(function (response) {
-					    	console.log(response.data);
-					      }, function (response) {
-					          console.log(response);
-					      });
+
+						    	self.return = response.data;
+						    	$.notify(self.return.message, 'success');
+
+						    	self.pagamento.valor = '';
+					    		self.pagamento.data_pgto = '';
+					    		self.pagamento.descricao = '';
+					    		self.pagamento.fonte_pgto = '';
+					    		self.pagamento.observacoes = '';
+					    		self.pagamento.comprovante = '';
+					    		self.pagamento.produtos = [];
+
+					      	}, function (response) {
+					          	console.log(response);
+					      	});
 					    }
 				    },
 				})
