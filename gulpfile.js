@@ -32,6 +32,7 @@ elixir(function(mix) {
 		'/../bower_components/moment/moment.js',
 		'/../bower_components/bootstrap-daterangepicker/daterangepicker.js',
 		'/../bower_components/jquery-infinite-scroll/jquery.infinitescroll.js',
+		'/../bower_components/bootstrap-toggle/js/bootstrap-toggle.js',
 		'../../../node_modules/vue/dist/vue.js',
 		'../../../node_modules/vue-resource/dist/vue-resource.js',
 		'sb-admin-2.js',
@@ -73,6 +74,7 @@ elixir(function(mix) {
 		'/../bower_components/summernote/dist/summernote.css',
 		'/../bower_components/lightbox-rotate/lightbox-rotate.css',
 		'/../bower_components/bootstrap-daterangepicker/daterangepicker.css',
+		'/../bower_components/bootstrap-toggle/css/bootstrap-toggle.css',
 		'sb-admin-2.css',
 		], 'public/css/vendor.css');
 

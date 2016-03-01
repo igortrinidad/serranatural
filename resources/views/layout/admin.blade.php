@@ -381,6 +381,18 @@
                         </li>
 
                         <li>
+                            <a href="admin/estoque"><i class="fa fa-check-square"></i> Estoque<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#">Dar baixa</a>
+                                </li>
+                                <li>
+                                    <a href="#">Balanço</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
                             <a href="admin/marketing"><i class="fa fa-reply-all"></i> Marketing<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>

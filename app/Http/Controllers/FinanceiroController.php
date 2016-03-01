@@ -637,6 +637,8 @@ class FinanceiroController extends Controller
 
             $pagamento->comprovante = $nomeArquivo;
         }
+        $pagamento->is_liquidado = 1;
+        $pagamento->user_id_cadastro = \Auth::user()->id;
         $pagamento->save();
 
         if (!is_null($request->produtos)) {
@@ -649,7 +651,7 @@ class FinanceiroController extends Controller
             }
         }
 
-        $return['status'] = 'true';
+        $return['status'] = 'success';
         $return['message'] = 'Pagamento adicionado com sucesso.';
 
         return json_encode($return);
