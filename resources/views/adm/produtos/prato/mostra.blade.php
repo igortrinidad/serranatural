@@ -80,6 +80,7 @@
 			</div>
 		</div>
 
+		@if($prato->foto)
 		<div class="panel panel-default">
 			<div class="panel-heading"><h5>Foto</h5></div>
 			<div class="panel-body">
@@ -88,6 +89,7 @@
 				<img class="img-polaroid" src="{{ route('arquivos.produtos', $prato->foto)}}" style="max-width: 100%" />
 			</div>
 		</div>
+		@endif
 
 		<div class="panel panel-default">
 			<div class="panel-heading"><h5>Inserir ingredientes</h5></div>
