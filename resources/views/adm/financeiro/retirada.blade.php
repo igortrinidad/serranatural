@@ -45,7 +45,7 @@
 	                    		data-onstyle="danger" 
 	                    		data-on="Sim" 
 	                    		data-off="Não",
-	                    		
+
 		                    />
 		                  
 		                </div>
@@ -134,10 +134,10 @@
 					    	self.$http.post('/admin/financeiro/retiradaPost', self.retirada).then(function (response) 
 					    	{
 						    	console.log(response.data);
-						    	self.valor = '';
-						    	self.descricao = '';
-						    	self.retiradoCaixa = '';
-						    	self.funcionario_id = '';
+						    	self.retirada.valor = '';
+						    	self.retirada.descricao = '';
+						    	self.retirada.retiradoCaixa = '';
+						    	self.retirada.funcionario_id = '';
 						    	self.response.error.message = '';
 						    	self.response.error.status_code = '';
 
