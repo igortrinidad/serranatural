@@ -285,6 +285,7 @@ class FinanceiroController extends Controller
 
     public function retiradaPost(Request $request)
     {
+
         $retirada = new Retirada();
         $retirada->user_id = \Auth::user()->id;
         $retirada->valor = $request->valor;
@@ -297,24 +298,34 @@ class FinanceiroController extends Controller
 
         $retirada->save();
 
-        if ($request->retirado_caixa == 1) {
+        if ($request->retiradoCaixa == 1) {
             $caixa = Caixa::where('is_aberto', '=', 1)->first();
 
-            $retirada->retirado_caixa = $request->retirado_caixa;
-            $retirada->caixa_id = $caixa->id;
-            $retirada->save();
-            $totalRetirada = Retirada::where('caixa_id', '=', $caixa->id)->sum('valor');
-            $caixa->total_retirada = $totalRetirada;
-            $caixa->save();
+            if(!is_null($caixa) or !empty($caixa)) {
+                $retirada->retirado_caixa = $request->retiradoCaixa;
+                $retirada->caixa_id = $caixa->id;
+                $retirada->save();
+                $totalRetirada = Retirada::where('caixa_id', '=', $caixa->id)->sum('valor');
+                $caixa->total_retirada = $totalRetirada;
+                $caixa->save();
+            } else {
+                return response()->json([
+                'error' => [
+                    'message' => 'O caixa não esta aberto!',
+                    'status_code' => 404,
+                ],
+            ], 404);
+            }
+            
 
         }
 
-        $dados = [
-            'msg_retorno' => 'Retirada cadastrada com sucesso.',
-            'tipo_retorno' => 'success',
+        $return = [
+            'success' => '1',
+            'message' => 'Retirada cadastrada',
         ];
 
-        return back()->with($dados);
+        return $return;
     }
 
     public function cadastraPgto()

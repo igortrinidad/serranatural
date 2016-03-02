@@ -35,6 +35,7 @@ elixir(function(mix) {
 		'/../bower_components/bootstrap-toggle/js/bootstrap-toggle.js',
 		'../../../node_modules/vue/dist/vue.js',
 		'../../../node_modules/vue-resource/dist/vue-resource.js',
+		'../../../node_modules/sweetalert/dist/sweetalert.min.js',
 		'sb-admin-2.js',
 		'appGeral.js',
 		'notify.js',
@@ -75,6 +76,7 @@ elixir(function(mix) {
 		'/../bower_components/lightbox-rotate/lightbox-rotate.css',
 		'/../bower_components/bootstrap-daterangepicker/daterangepicker.css',
 		'/../bower_components/bootstrap-toggle/css/bootstrap-toggle.css',
+		'../../../node_modules/sweetalert/dist/sweetalert.css',
 		'sb-admin-2.css',
 		], 'public/css/vendor.css');
 

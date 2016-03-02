@@ -14,39 +14,59 @@
 				<div class="panel-heading">Detalhes retirada</div>
 				<div class="panel-body">
 
-				<form action="{{ route('admin.financeiro.retiradaPost')}}" method="POST">
+				<!-- <form action="'admin.financeiro.retiradaPost')" method="POST"> -->
 
 					{{ csrf_field() }}
 
 						<div class="form-group">
 							<label>Descrição</label>
-							<input type="text" name="descricao" class="form-control" />
+							<input type="text" 
+								name="descricao" 
+								class="form-control"
+								v-model="retirada.descricao" />
 						</div>
 
 						<div class="form-group">
 							<label>Valor</label>
-							<input type="text" name="valor" class="form-control maskValor" />
+							<input type="text" 
+								name="valor" 
+								class="form-control maskValor"
+								v-model="retirada.valor" />
 						</div>
 
-		                <div class="form-group">
+		                <div class="form-group" v-on:click="retiraCaixa">
 		                	<input type="hidden" name="retirado_caixa" value="0" />
-		                	<label>Valor retirado do caixa?</label><br>
-		                    <input type="checkbox" class="form-control" name="retirado_caixa" value="1" data-toggle="toggle" data-onstyle="danger" data-on="Sim" data-off="Não"/>
+		                	<label >Valor retirado do caixa?</label><br>
+		                    <input type="checkbox" 
+	                    		class="form-control" 
+	                    		name="retirado_caixa" 
+	                    		value="1" 
+	                    		data-toggle="toggle" 
+	                    		data-onstyle="danger" 
+	                    		data-on="Sim" 
+	                    		data-off="Não",
+	                    		
+		                    />
 		                  
 		                </div>
 					
 						<div class="form-group">
 							{!! Form::select('funcionario_id', $funcionarios, null, ['class' => 'form-control', 
-							'single' => 'single', 'id' => 'funcionarios', 'placeholder' => 'Selecione um funcionario'])   !!}
+							'single' => 'single', 
+							'id' => 'funcionarios', 
+							'placeholder' => 'Selecione um funcionario',
+							'v-model' => 'retirada.funcionario_id'])   !!}
 						</div>
 
-						<button type="submit" class="btn btn-block btn-primary">Dar retirada</button>
+						<button type="submit" v-on:click="confirmRetirada($event)" class="btn btn-block btn-primary">Dar retirada</button>
 
-				</form>
 		</div>
 	</div>
 
+	</div>
 </div>
+
+<pre>@{{$data | json}}
 
 
     @section('scripts')
@@ -57,8 +77,6 @@
 
 				var $funcionarios = $('#funcionarios')
 
-				$funcionarios.select2();
-
 				$('.maskValor').mask("0000.00", {reverse: true});
 
 				Vue.config.debug = true;
@@ -67,7 +85,69 @@
 				    el: '#elRetirada',
 				    data: 
 				    {
-				    	teste: 'Teste',
+				    	retirada: {
+				    		valor: '',
+					    	descricao: '',
+					    	retiradoCaixa: 0,
+					    	funcionario_id: ''
+					    },
+					    response: {
+					    	error: {
+						    	message: '',
+						    	status_code: ''
+					    	}
+					    }
+				  
+				    },
+				    methods:
+				    {
+				    	retiraCaixa: function() {
+				    		self = this;
+				    		if (self.retirada.retiradoCaixa == 0) {
+				    			self.retirada.retiradoCaixa = 1;
+				    		} else {
+				    			self.retirada.retiradoCaixa = 0;
+				    		}
+				    	},
+				    	confirmRetirada: function(ev) {
+				    		ev.preventDefault();
+				    		self = this;
+				    		swal({   
+				    				title: "Tem certeza?",
+				    				text: "Você não poderá alterar o valor da retirada novamente!",
+				    				type: "warning",
+				    				showCancelButton: true,
+				    				cancelButtonText: "Cancelar",
+				    				confirmButtonColor: "#DD6B55",
+				    				confirmButtonText: "Sim, tenho certeza!",
+				    				closeOnConfirm: true,
+				    				showLoaderOnConfirm: true
+				    			}, function(){
+
+				    				self.sendRetirada(); 				
+				    				
+				    		});
+				    	},
+				    	sendRetirada: function() {
+				    		self = this;
+				    		console.log('Retirada foi recebida até aqui zé!');
+					    	self.$http.post('/admin/financeiro/retiradaPost', self.retirada).then(function (response) 
+					    	{
+						    	console.log(response.data);
+						    	self.valor = '';
+						    	self.descricao = '';
+						    	self.retiradoCaixa = '';
+						    	self.funcionario_id = '';
+						    	self.response.error.message = '';
+						    	self.response.error.status_code = '';
+
+						    	swal("Ok!", "Sua Retirada foi cadastrada", "success"); 
+
+					      	}, function (response) {
+					          	self.response = response.data;
+					          	swal("ERRO!", self.response.error.message, "warning");
+					      	});
+				    	}
 				    },
 				});
 
