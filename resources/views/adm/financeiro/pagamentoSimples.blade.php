@@ -195,7 +195,7 @@
 				    methods: {
 				    	addProduto: function(ev, quantidade) {
 				    		ev.preventDefault();
-				    		if( ! this.selected.nome  || ! this.selected.quantidade ){
+				    		if( ! this.selected.nome  || ! this.selected.quantidade ) {
 				    			return false;
 				    		}
 				    		Produto = {id: this.selected.id, nome: this.selected.nome, quantidade: this.selected.quantidade};
@@ -203,10 +203,11 @@
 				    		this.selected = {id: '', nome: '', quantidade: ''};
 				    	},
 				    	onFileChange(e) {
-					      var files = e.target.files || e.dataTransfer.files;
-					      if (!files.length)
-					        return;
-					      this.createImage(files[0]);
+					      	var files = e.target.files || e.dataTransfer.files;
+					      	if (!files.length) {
+					        	return;
+					    	}
+					      	this.createImage(files[0]);
 					    },
 					    createImage(file) {
 					      var image = new Image();
