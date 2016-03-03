@@ -163,6 +163,10 @@ Route::group(['as' => 'produtos.'], function()
 		Route::get('/admin/produtos/edit/{id}', ['as' => 'edit', 'uses' => 'ProdutosController@editProduto']);
 		Route::post('/admin/produtos/update/{id}', ['as' => 'update', 'uses' => 'ProdutosController@updateProduto']);
 		Route::get('/admin/produtos/produtosForSelectJson', ['as' => 'select', 'uses' => 'ProdutosController@produtosForSelectJson']);
+		Route::get('/admin/produtos/baixaestoque', ['uses' => 'ProdutosController@baixaestoque']);
+		Route::post('/admin/produtos/baixaestoquePost', ['uses' => 'ProdutosController@baixaestoquePost']);
+		Route::get('/admin/produtos/balanco', ['uses' => 'ProdutosController@balanco']);
+		Route::post('/admin/produtos/balancoPost', ['uses' => 'ProdutosController@balancoPost']);
 	});
 
 });

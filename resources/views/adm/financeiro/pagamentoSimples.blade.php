@@ -153,11 +153,6 @@
 	        <script src="{!! elixir('js/financeiro.js') !!}"></script>
 
 			<script type="text/javascript">
-				//$('.moneySql').mask('000000.00', {reverse: true});
-				//$('.quantity').mask('000.000', {reverse: true});
-			</script>
-
-			<script type="text/javascript">
 
 				Vue.config.debug = true;
 				Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#_tokenLaravel').getAttribute('value');
@@ -205,7 +200,7 @@
 				    	onFileChange(e) {
 					      	var files = e.target.files || e.dataTransfer.files;
 					      	if (!files.length) {
-					        	return;
+					        	return false;
 					    	}
 					      	this.createImage(files[0]);
 					    },
@@ -227,7 +222,7 @@
 					    	this.$http.post('/admin/financeiro/despesaStoreVue', this.pagamento).then(function (response) {
 
 						    	self.return = response.data;
-						    	$.notify(self.return.message, 'success');
+						    	swal("Atenção!", self.return.message, "success");
 
 						    	self.pagamento.valor = '';
 					    		self.pagamento.data_pgto = '';

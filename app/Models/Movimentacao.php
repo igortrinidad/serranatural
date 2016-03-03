@@ -14,8 +14,11 @@ class Movimentacao extends Model
     	'id',
     	'produto_id',
     	'user_id',
-    	'type',
-    	'quantity'
+        'is_saida',
+        'is_entrada',
+    	'valor',
+    	'quantity',
+        'motivo'
     ];
 
     public function produto()

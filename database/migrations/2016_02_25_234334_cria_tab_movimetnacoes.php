@@ -16,8 +16,11 @@ class CriaTabMovimetnacoes extends Migration
             $table->increments('id');
             $table->integer('produto_id');
             $table->integer('user_id');
-            $table->string('type');
+            $table->boolean('is_saida');
+            $table->boolean('is_entrada');
+            $table->decimal('valor', 8, 2);
             $table->decimal('quantity', 6, 2);
+            $table->string('motivo');
             $table->timestamps();
         });
     }

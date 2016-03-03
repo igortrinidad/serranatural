@@ -16,5 +16,6 @@ class VerifyCsrfToken extends BaseVerifier
         'oauth/access_token',
         'api/*',
         'cors/*',
+        //'/admin/produtos/baixaestoquePost'
     ];
 }

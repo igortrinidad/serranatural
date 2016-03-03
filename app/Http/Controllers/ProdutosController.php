@@ -603,6 +603,9 @@ class ProdutosController extends Controller
             foreach ($produtos as $key => $value) {
                 $result[$key]['id'] = $value->id;
                 $result[$key]['nome'] = $value->nome_produto;
+                $result[$key]['quantidadeEstoque'] = $value->quantidadeEstoque;
+                $result[$key]['quantidadeReal'] = $value->quantidadeEstoque;
+                $result[$key]['diferenca'] = '0';
             }
 
             return json_encode($result);
@@ -624,7 +627,10 @@ class ProdutosController extends Controller
     {
         $produto = Produto::with('categoria')->find($id);
 
-        $movimentacoes = Movimentacao::with('usuario')->where('produto_id', '=', $id)->get();
+        $movimentacoes = Movimentacao::with('usuario')
+            ->where('produto_id', '=', $id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
 
         return view('adm.produtos.produtos.show', compact('produto', 'movimentacoes'));
     }
@@ -635,7 +641,7 @@ class ProdutosController extends Controller
 
         $fornecedoresForSelect = $this->fornecedoresForSelect();
 
-
+        $fornecedores = [];
         foreach($produto->fornecedores as $key => $value) {
             $fornecedores[] = $value->id;
         }
@@ -686,8 +692,93 @@ class ProdutosController extends Controller
         return redirect()->back()->with($dados);
     }
 
-    public function rangeData()
+    public function baixaestoque()
     {
-        
+        return view('adm.estoque.darbaixa');
+    }
+
+    public function baixaestoquePost(Request $request)
+    {
+
+        if(is_array($request->produtos)) {
+            
+            foreach ($request->produtos as $produto) {
+
+                Movimentacao::create([
+                        'is_saida' => 1,
+                        'motivo' => $produto['motivo'],
+                        'quantity' => $produto['quantidade'],
+                        'produto_id' => $produto['id'],
+                        'user_id' => \Auth::user()->id,
+                    ]);
+
+                $prod = Produto::find($produto['id']);
+                $prod->quantidadeEstoque = $prod->quantidadeEstoque - $produto['quantidade'];
+                $prod->save();
+
+            }
+
+            return response()->json([
+                'return' => [
+                    'type' => 'success',
+                    'message' => 'Baixa no estoque cadastrada',
+                    'status_code' => 200,
+                ],
+            ], 200);
+        } else {
+            return response()->json([
+                'return' => [
+                    'type' => 'error',
+                    'message' => 'Produtos não chegaram no local',
+                    'status_code' => 404,
+                ],
+            ], 404);
+        }
+    }
+
+    public function balanco()
+    {
+        return view('adm.estoque.balanco');
+    }
+
+    public function balancoPost(Request $request)
+    {
+        if (is_array($request->listaProdutos)) {
+            
+            foreach ($request->listaProdutos as $produto) {
+
+                if ($produto['diferenca'] != 0) {
+
+                    Movimentacao::create([
+                        'is_saida' => 1,
+                        'motivo' => 'Diferença no estoque',
+                        'quantity' => $produto['diferenca'],
+                        'produto_id' => $produto['id'],
+                        'user_id' => \Auth::user()->id,
+                    ]);
+                }
+
+                $prod = Produto::find($produto['id']);
+                $prod->quantidadeEstoque = $produto['quantidadeReal'];
+                $prod->save();
+
+            }
+
+            return response()->json([
+                'return' => [
+                    'type' => 'success',
+                    'message' => 'Balanço de estoque realizado.',
+                    'status_code' => 200,
+                ],
+            ], 200);
+        } else {
+            return response()->json([
+                'return' => [
+                    'type' => 'error',
+                    'message' => 'Produtos não chegaram no local',
+                    'status_code' => 404,
+                ],
+            ], 404);
+        }
     }
 }

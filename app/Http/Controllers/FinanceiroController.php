@@ -16,6 +16,7 @@ use serranatural\User as User;
 use serranatural\Models\Funcionario;
 use serranatural\Models\Pagamento;
 use serranatural\Models\Produto;
+use serranatural\Models\Movimentacao;
 
 use Image;
 use Input;
@@ -659,6 +660,13 @@ class FinanceiroController extends Controller
                 $produto = Produto::find($p['id']);
                 $produto->quantidadeEstoque = $produto->quantidadeEstoque + $p['quantidade'];
                 $produto->save();
+
+                Movimentacao::create([
+                        'produto_id' => $p['id'],
+                        'quantity' => $p['quantidade'],
+                        'is_saida' => 1,
+                        'user_id' => \Auth::user()->id,
+                    ]);
             }
         }
 

@@ -317,19 +317,6 @@
                                     </ul>
                                 </li>
 
-                                <li>
-                                    <a href="#"><i class="fa fa-list-ol"></i> Estoque<span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            <a href="/admin/produtos/create">Adiciona produto</a>
-                                        </li>
-
-                                        <li>
-                                            <a href="/admin/produtos/lista">Balanço</a>
-                                        </li>
-
-                                    </ul>
-                                </li>
                             
                             </ul>
                             
@@ -384,10 +371,10 @@
                             <a href="admin/estoque"><i class="fa fa-check-square"></i> Estoque<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">Dar baixa</a>
+                                    <a href="/admin/produtos/baixaestoque">Dar baixa</a>
                                 </li>
                                 <li>
-                                    <a href="#">Balanço</a>
+                                    <a href="/admin/produtos/balanco">Balanço</a>
                                 </li>
                             </ul>
                         </li>

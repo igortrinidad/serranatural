@@ -49,8 +49,10 @@
 				    <thead>
 				        <tr>
 				            <th>Data</th>
-				            <th>Tipo</th>
+				            <th>Saida/Entrada</th>
 				            <th>Quantidade</th>
+				            <th>Valor</th>
+				            <th>Motivo</th>
 				            <th>Usuario</th>
 				        </tr>
 				    </thead>
@@ -58,13 +60,17 @@
 				    	@foreach($movimentacoes as $movimentacao)
 				        <tr>
 				            <td>{{$movimentacao->created_at->format('d/m/Y')}}</td>
-				            <td>{{$movimentacao->type}}</td>
+				            <td>@if($movimentacao->is_saida == 1)Saida @else Entrada @endif</td>
 				            <td>{{$movimentacao->quantity}}</td>
+				            <td>{{$movimentacao->valor}}</td>
+				            <td>{{$movimentacao->motivo}}</td>
 				            <td>{{$movimentacao->usuario['name']}}</td>
 				        </tr>
 				        @endforeach
 				    </tbody>
 				</table>
+
+				{!! $movimentacoes->render() !!}
 
 
 
