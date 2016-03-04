@@ -631,6 +631,7 @@ class FinanceiroController extends Controller
         $pagamento = Pagamento::create([
                 'valor' => $request->valor,
                 'data_pgto' => $request->data_pgto,
+                'vencimento' => $request->data_pgto,
                 'descricao' => $request->descricao,
                 'fonte_pgto' => $request->fonte_pgto,
                 'observacoes' => $request->observacoes,
@@ -651,6 +652,7 @@ class FinanceiroController extends Controller
         }
         $pagamento->is_liquidado = 1;
         $pagamento->user_id_cadastro = \Auth::user()->id;
+        $pagamento->user_id_pagamento = \Auth::user()->id;
         $pagamento->save();
 
         if (!is_null($request->produtos)) {

@@ -673,8 +673,13 @@ class ProdutosController extends Controller
     public function createProdutos()
     {
         $fornecedoresForSelect = $this->fornecedoresForSelect();
+        $categorias = \serranatural\Models\Categoria::all();
 
-        return view('adm.produtos.produtos.create', compact('fornecedoresForSelect'));
+        foreach($categorias as $key => $value) {
+            $categorias[$key] = $value->nome;
+        }
+
+        return view('adm.produtos.produtos.create', compact('fornecedoresForSelect', 'categorias'));
     }
 
     public function storeProduto(Request $request)

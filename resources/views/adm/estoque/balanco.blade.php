@@ -105,7 +105,7 @@
 				    	calculaDiferenca: function(ev, produto) {
 				    		self = this;
 				    		ev.preventDefault;
-				    		produto.diferenca = parseFloat(produto.quantidadeEstoque) - parseFloat(produto.quantidadeReal);
+				    		produto.diferenca = parseFloat(produto.quantidadeReal) - parseFloat(produto.quantidadeEstoque);
 
 				    	},
 				    	confirmBalanco: function(ev) {
