@@ -673,10 +673,14 @@ class FinanceiroController extends Controller
             }
         }
 
-        $return['status'] = 'success';
-        $return['message'] = 'Pagamento adicionado com sucesso.';
-
-        return json_encode($return);
+            return response()->json([
+                'return' => [
+                    'type' => 'success',
+                    'message' => 'Pagamento cadastrado com sucesso',
+                    'title' => 'OK',
+                    'status_code' => 200,
+                ],
+            ], 200);
 
     }
 

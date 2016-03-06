@@ -217,9 +217,9 @@
 					    },
 					    saveComprovante: function(ev) {
 					    	self = this;
-					    	this.$http.post('/admin/financeiro/pagamentosPost', this.pagamento).then(function (response) {
+					    	this.$http.post('/admin/financeiro/despesaStoreVue', this.pagamento).then(function (response) {
 
-						    	self.return = response.data;
+						    	self.return = response.data.return;
 						    	swal(self.return.title, self.return.message, self.return.type);
 
 						    	self.pagamento.valor = '';
