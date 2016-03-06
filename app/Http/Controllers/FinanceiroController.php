@@ -334,38 +334,46 @@ class FinanceiroController extends Controller
         return view('adm.financeiro.cadastraBoleto');
     }
 
-    public function storePgto(PagamentoRequest $request)
+    public function storePgto(Request $request)
     {
         $confere = Pagamento::where('linha_digitavel', '=', $request->linha_digitavel)
                             ->first();
         
         if (!is_null($confere) or !empty($confere)) {
 
-            flash()->error('Pagamento já cadastrado. Favor conferir!');
-            return redirect()->back()->withInput();
+            return response()->json([
+                'return' => [
+                    'type' => 'warning',
+                    'message' => 'Pagamento já existe',
+                    'title' => 'Atenção',
+                    'status_code' => 404,
+                ],
+            ], 404);
 
         }
         $pagamento = Pagamento::create($request->all());
         $pagamento->user_id_cadastro = \Auth::user()->id;
 
-        if (!is_null($request->file('pagamento')) or !empty($request->file('pagamento'))) {
-        //Salva arquivo pagamento e seta o nome no banco.
-            $nomeArquivos = $this->salvaArquivosPagamento($request->file('pagamento'), '_ID_' . $pagamento->id . '_PGTO_', $request->vencimento);
-            $pagamento->pagamento = $nomeArquivos;
+        if ($request->arquivoPagamento != '') {
+
+            $this->gravaArquivoBase64($request->arquivoPagamento, $request->vencimento, 'BOLET_', $pagamento, 'pagamento');
         }
 
-        if (!is_null($request->file('notaFiscal')) or !empty($request->file('notaFiscal'))) {
-        //Salva arquivo pagamento e seta o nome no banco.
-            $nomeArquivos = $this->salvaArquivosPagamento($request->file('notaFiscal'), '_ID_' . $pagamento->id . '_NOTAF_', $request->vencimento);
-            $pagamento->notafiscal = $nomeArquivos;
+        if ($request->arquivoNota != '') {
+
+            $this->gravaArquivoBase64($request->arquivoNota, $request->vencimento, 'NOTA_', $pagamento, 'notaFiscal');
         }
 
         $pagamento->save();
 
-
-        flash()->success('Pagamento cadastrado com sucesso.');
-
-        return redirect()->back();
+        return response()->json([
+                'return' => [
+                    'type' => 'success',
+                    'message' => 'Pagamento cadastrado com sucesso',
+                    'title' => 'OK',
+                    'status_code' => 200,
+                ],
+            ], 200);
 
     }
 
@@ -638,18 +646,11 @@ class FinanceiroController extends Controller
             ]);
 
         if ($request->comprovante != '') {
-            
-            $img = Image::make($request->comprovante);
 
-            $dataAlt = dataAnoMes($request->data_pgto);
-            $dataArquivo = dataPtBrParaArquivo($request->data_pgto);
-
-            $nomeArquivo = $dataAlt . '_ID_' . $dataArquivo . '.' . '.jpg';
-
-            $img->save(storage_path().'/app/financeiro/pagamentos/'.$nomeArquivo);
-
-            $pagamento->comprovante = $nomeArquivo;
+            $this->gravaArquivoBase64($request->comprovante, $request->data_pgto, 'COMP_', $pagamento, 'comprovante');
         }
+
+
         $pagamento->is_liquidado = 1;
         $pagamento->user_id_cadastro = \Auth::user()->id;
         $pagamento->user_id_pagamento = \Auth::user()->id;
@@ -678,4 +679,14 @@ class FinanceiroController extends Controller
         return json_encode($return);
 
     }
+
+    public function gravaArquivoBase64($arquivo, $data, $prefixo, $objeto, $tipo) 
+            {
+                $img = Image::make($arquivo);
+                $dataAlt = dataAnoMes($data);
+                $dataArquivo = dataPtBrParaArquivo($data);
+                $nomeArquivo = $prefixo . '_ID_' . $objeto->id . '_' . $dataArquivo . '.' . '.jpg';
+                $img->save(storage_path().'/app/financeiro/pagamentos/'.$nomeArquivo);
+                $objeto->$tipo = $nomeArquivo;
+            }
 }

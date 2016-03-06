@@ -125,7 +125,7 @@
 					    ready: function() {
 				 	      	var self = this;	
 					      	// GET request
-					      	this.$http.get('/admin/produtos/produtosForSelectJson').then(function (response) {
+					      	this.$http.get('/admin/produtos/produtosForSelectJson/trackeds').then(function (response) {
 					          self.produtosForSelect = response.data;
 					      }, function (response) {
 					          console.log(response);

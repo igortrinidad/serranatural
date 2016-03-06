@@ -174,14 +174,12 @@
 				    },
 				    attached: function()
     					{
-    						$(this.$els.pagamentoValor).mask('000000.00', {reverse: true});
-    						$(this.$els.produtoQuantidade).mask('000.000', {reverse: true});
         					
     					},
 					    ready: function() {
 				 	      	var self = this;	
 					      	// GET request
-					      	this.$http.get('/admin/produtos/produtosForSelectJson').then(function (response) {
+					      	this.$http.get('/admin/produtos/produtosForSelectJson/anything').then(function (response) {
 					          self.produtosForSelect = response.data;
 					      }, function (response) {
 					          console.log(response);
@@ -219,25 +217,30 @@
 					    },
 					    saveComprovante: function(ev) {
 					    	self = this;
-					    	this.$http.post('/admin/financeiro/despesaStoreVue', this.pagamento).then(function (response) {
+					    	this.$http.post('/admin/financeiro/pagamentosPost', this.pagamento).then(function (response) {
 
 						    	self.return = response.data;
-						    	swal("Atenção!", self.return.message, "success");
+						    	swal(self.return.title, self.return.message, self.return.type);
 
-						    	self.pagamento.valor = '';
-					    		self.pagamento.data_pgto = '';
-					    		self.pagamento.descricao = '';
-					    		self.pagamento.fonte_pgto = '';
-					    		self.pagamento.observacoes = '';
-					    		self.pagamento.comprovante = '';
-					    		self.pagamento.produtos = [];
+						    	self.pagamento.valor: '',
+					    		self.pagamento.data_pgto: '',
+					    		self.pagamento.descricao: '',
+					    		self.pagamento.fonte_pgto: '',
+					    		self.pagamento.observacoes: '',
+					    		self.pagamento.comprovante: '',
+					    		self.pagamento.produtos: []
 
 					      	}, function (response) {
-					          	console.log(response);
+					          	swal(self.return.title, self.return.message, self.return.type);
 					      	});
 					    }
 				    },
 				})
+			</script>
+
+			<script type="text/javascript">
+		        $('.moneySql').mask('000000.00', {reverse: true});
+		        
 			</script>
 
 

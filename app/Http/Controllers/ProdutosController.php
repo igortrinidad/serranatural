@@ -595,9 +595,14 @@ class ProdutosController extends Controller
         return $result;
     }
 
-        public function produtosForSelectJson()
+        public function produtosForSelectJson($trackeds)
         {
-            $produtos = Produto::all();
+            if($trackeds == 'trackeds') {
+                $produtos = Produto::where('tracked', '=', '1')->get();
+            } else {
+                $produtos = Produto::all();
+            }
+            
             $result = array();
 
             foreach ($produtos as $key => $value) {
