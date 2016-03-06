@@ -13,7 +13,18 @@
 				<h4>Produtos</h4>
 			</div>
 			<div class="panel-body">
-				<h5>Lista de Produtos</h5><h5 class="pull-right">@{{produtos.finished}}%</h5>
+				<h5>Lista de Produtos</h5>
+
+				<h5 style="
+				position: fixed;
+				font-size: 20px;
+				color:#E12730;
+				font-weight: 800;
+				right:40px;
+				bottom:20px;
+
+				">
+				@{{produtos.finished}}%</h5>
 				
 				<div class="row"  v-for="produto in produtos.listaProdutos" >
 					<div class="col-md-5">
