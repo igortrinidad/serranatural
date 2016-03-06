@@ -222,13 +222,13 @@
 						    	self.return = response.data;
 						    	swal(self.return.title, self.return.message, self.return.type);
 
-						    	self.pagamento.valor: '',
-					    		self.pagamento.data_pgto: '',
-					    		self.pagamento.descricao: '',
-					    		self.pagamento.fonte_pgto: '',
-					    		self.pagamento.observacoes: '',
-					    		self.pagamento.comprovante: '',
-					    		self.pagamento.produtos: []
+						    	self.pagamento.valor = '';
+					    		self.pagamento.data_pgto = '';
+					    		self.pagamento.descricao = '';
+					    		self.pagamento.fonte_pgto = '';
+					    		self.pagamento.observacoes = '';
+					    		self.pagamento.comprovante = '';
+					    		self.pagamento.produtos = [];
 
 					      	}, function (response) {
 					          	swal(self.return.title, self.return.message, self.return.type);
