@@ -81,6 +81,7 @@
 				    data: {
 				    	produtos: {
 				    		listaProdutos: [],
+				    		finished: ''
 				    	},
 				    	return: '',
 				    },

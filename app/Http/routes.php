@@ -167,6 +167,8 @@ Route::group(['as' => 'produtos.'], function()
 		Route::post('/admin/produtos/baixaestoquePost', ['uses' => 'ProdutosController@baixaestoquePost']);
 		Route::get('/admin/produtos/balanco', ['uses' => 'ProdutosController@balanco']);
 		Route::post('/admin/produtos/balancoPost', ['uses' => 'ProdutosController@balancoPost']);
+		Route::get('/admin/produtos/historico/balanco', ['uses' => 'ProdutosController@historicoBalanco']);
+		Route::get('/admin/produtos/historico/balancosJson', ['uses' => 'ProdutosController@balancosJson']);
 	});
 
 });

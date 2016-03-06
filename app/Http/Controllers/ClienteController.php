@@ -18,6 +18,8 @@ use serranatural\Models\Pratos;
 use serranatural\Models\AgendaPratos;
 use serranatural\Models\PontoColetado;
 use serranatural\Models\Voucher;
+use serranatural\Models\Retirada;
+use serranatural\Models\Caixa;
 
 class ClienteController extends Controller
 {
@@ -537,39 +539,66 @@ class ClienteController extends Controller
                             ->first();
 
         $voucher = Voucher::where('id', '=', $request->voucher_id)
-                            ->where('is_valido', '=', '1')
-                            ->where('vencimento', '>', date('Y-m-d'))
                             ->first();
 
-        if (is_null($cliente) OR empty($cliente))
-        {
+        if (is_null($cliente) or empty($cliente)) {
             $dados = [
                 'msg_retorno' => 'Senha errada!',
                 'tipo_retorno' => 'error'
             ];
             return $dados;
 
-        } else if (is_null($voucher) OR empty($voucher))
-        {
+        } else if (is_null($request->valor) or empty($request->valor)) {
+            
             $dados = [
-                'msg_retorno' => 'Voucher utilizado ou vencido!',
+                'msg_retorno' => 'Valor não preenchido',
                 'tipo_retorno' => 'error'
             ];
             return $dados;
 
-        }
-            Voucher::where('id', '=', $request->voucher_id)
-                    ->update([
-                        'is_valido' => '0',
-                        'data_utilizado' => date('Y-m-d'),
-                        ]);
-
+        } else if (dataPtBrParaMysql($voucher->vencimento) < date('Y-m-d')) {
             $dados = [
-                'msg_retorno' => 'Voucher utilizado com sucesso.',
-                'tipo_retorno' => 'success'
+                'msg_retorno' => 'Voucher vencido!',
+                'tipo_retorno' => 'error'
             ];
-
             return $dados;
+
+        } else if ($voucher->is_valido == 0) {
+            $dados = [
+                'msg_retorno' => 'Voucher utilizado!',
+                'tipo_retorno' => 'error'
+            ];
+            return $dados;
+        }
+
+        $voucher->is_valido = 0;
+        $voucher->data_utilizado = date('Y-m-d');
+        $voucher->save();
+
+        $retirada = new Retirada();
+        $retirada->user_id = \Auth::user()->id;
+        $retirada->valor = $request->valor;
+        $retirada->descricao = 'VoucherID:' . $voucher->id . ' - ClienteID:' . $request->cliente_id . ' - ' . date('H:i:s');
+
+        $retirada->save();
+
+        $caixa = Caixa::where('is_aberto', '=', 1)->first();
+
+        if(!is_null($caixa) or !empty($caixa)) {
+            $retirada->retirado_caixa = 1;
+            $retirada->caixa_id = $caixa->id;
+            $retirada->save();
+            $totalRetirada = Retirada::where('caixa_id', '=', $caixa->id)->sum('valor');
+            $caixa->total_retirada = $totalRetirada;
+            $caixa->save();
+        }
+
+        $dados = [
+            'msg_retorno' => 'Voucher utilizado com sucesso.',
+            'tipo_retorno' => 'success'
+        ];
+
+        return $dados;
     }
 
     public function enviaEmailPontoColetado($id, $produtoAdiquirido)

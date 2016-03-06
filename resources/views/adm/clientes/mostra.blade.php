@@ -204,147 +204,121 @@
 	                            <!-- Modal editar atividade -->              
                             <div class="modal inmodal fade" id="modalVoucher" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
                                 <div class="modal-dialog modal-sm">
+                                <form id="formUsaVoucher" method="post" action="{{ route('admin.client.usesVoucher')}}"> 
+
+                                	<input type="hidden" name="cliente_id" value="{{$cliente->id}}" />
+                                	<input type="hidden" id="voucher_id" name="voucher_id" />
+                                	{!! csrf_field() !!}
+
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
                                             <h4 class="modal-title">Vouchers</h4>
                                         </div>
                                         <div class="modal-body text-center">
-										<div class="row">
+											<div class="row">
 
-											<div class="col-md-6">
-		                                        <label>Código voucher</label>
-		                                        <p id="voucher_codigo"></p>
-                                        	</div>
+												<div class="col-md-6">
+			                                        <label>Código voucher</label>
+			                                        <p id="voucher_codigo"></p>
+	                                        	</div>
 
-											<div class="col-md-6">
-		                                        <label>Produto</label>
-		                                        <p id="voucher_produto"></p>
-		                                    </div>
-		                                    
-                                        </div>
-	
-
-                                            <p>Insira a senha de resgate do cliente:</p>
+												<div class="col-md-6">
+			                                        <label>Produto</label>
+			                                        <p id="voucher_produto"></p>
+			                                    </div>
+			                                  
+	                                        </div>
+                                        	<br>
+	                                        <div class="row">
+	                                        	<div class="col-md-12">
+													<div class="form-group">
+														<label>Valor do voucher</label>
+		                                        		<input type="text" id="valor" name="valor" class="form-control"/>
+													</div>
+	                                        	</div>
+	                                        	<div class="col-md-12">
+	                                        	    <div class="form-group">
+		                                        	    <label>Senha de resgate</label>
+		                                        		<input type="password" id="senha" name="senha_resgate" class="form-control"/>
+													</div>                                 		
+	                                        	</div>                                       	
+	                                        </div>
                                            	
                                         </div>
                                         <div class="modal-footer inline">
-                                        	<form id="formUsaVoucher" method="post" action="{{ route('admin.client.usesVoucher')}}"> 
-                                        	<input type="hidden" name="cliente_id" value="{{$cliente->id}}" />
-                                        	<input type="hidden" id="voucher_id" name="voucher_id" />
-                                        	{!! csrf_field() !!}
-											
-											<div class="form-group">
-                                        		<input type="password" id="senha" name="senha_resgate" class="form-control"/>
-											</div>
-
-	                                            <button type="button" class="btn btn-white btn-sm" data-dismiss="modal">Cancela</button>
-	                                            
-	                                            <button type="submit" class="btn btn-danger btn-sm" data-toggle="confirmation" >Confirma</button>
-                                            </form>
+                                            <button type="button" class="btn btn-white btn-sm" data-dismiss="modal">Cancela</button>
+                                            
+                                            <button id="confirmVoucher" class="btn btn-danger btn-sm" data-toggle="confirmation" >Confirma</button>
                                         </div>
                                     </div>
+                                </form>
                                 </div>
-                            </div>
 
+                                
+                            </div>
 
 
     @section('scripts')
 	    @parent
 	        <script src="{!! elixir('js/clientes.js') !!}"></script>
 
-<script type="text/javascript">
-	function idVoucher (idDado, prod){
-	    var id = idDado;
-	    var produto = prod;
-	    //adiciona o valor do id recebido como parametro na funcao
-	    $('#voucher_id' ).val( id );
-	    $('#voucher_codigo' ).text( id );
-	    $('#voucher_produto' ).text( produto );
-	}
+			<script type="text/javascript">
 
-	$( ".btn_voucher" ).click(function() {
-	  setTimeout(function(){
-	  	$( "#senha" ).focus();
-	  	window.console.log('Foco on haha');
-	  }, 500);
-	});
+				$('#valor').mask('00.00', {reverse: true});
 
-AddTableRow = function() {
+				function idVoucher (idDado, prod){
+				    var id = idDado;
+				    var produto = prod;
+				    //adiciona o valor do id recebido como parametro na funcao
+				    $('#voucher_id' ).val( id );
+				    $('#voucher_codigo' ).text( id );
+				    $('#voucher_produto' ).text( produto );
+				}
 
-	var total = parseFloat($('#total').val());
-	var parcelas = parseInt($('#parcela').val());
-	var valorAtual = total / parcelas;
+				$( ".btn_voucher" ).click(function() {
+				  setTimeout(function(){
+				  	$( "#senha" ).focus();
+				  	window.console.log('Foco on haha');
+				  }, 500);
+				});
 
- 
+				$('#confirmVoucher').click(function(e){
+					    e.preventDefault();
 
-for (i=0 ; i < parcelas ; i++){
+					var form = $('#formUsaVoucher');
+					var dataString = form.serialize();
 
-	var newRow = $("<tr>");
-    var cols = "";
+					var formAction = form.attr('action');
 
-    cols += '<td  data-mask="#.##0,00" data-mask-reverse="true">R$ '+ valorAtual.toFixed(2) + '</td>';
-    cols += '<td>&nbsp;</td>';
-    cols += '<td>&nbsp;</td>';
-    cols += '<td>&nbsp;</td>';
-    cols += '<td>';
-    cols += '<button onclick="RemoveTableRow(this)" type="button">Remover</button>';
-    cols += '</td>';
-    cols += '</tr>';
+					$.ajax({
+					    type: "POST",
+					    url : formAction,
+					    data : dataString,
+					    success : function(data){
 
-    newRow.append(cols);
-    $("#products-table").append(newRow);
-}
-    return false;
-  };
+					    	var msg = data['msg_retorno'];
+					    	var tipo = data['tipo_retorno'];
 
-  RemoveTableRow = function(handler) {
-    var tr = $(handler).closest('tr');
+					        $.notify(msg, tipo);
+					        $('#formUsaVoucher')[0].reset();
+					        $('#modalVoucher').modal('hide');
 
-    tr.fadeOut(400, function(){ 
-      tr.remove(); 
-    }); 
+					    if(tipo == 'success')
+					    {
 
-    return false;
-  };
+						    setTimeout(function()
+						    {
+						    	location.reload();
+						    }, 1500);
+						}
 
+					    }
+					    },"json");
 
-	$('#formUsaVoucher button[type=submit]').click(function(e){
-		    e.preventDefault();
+				});
 
-		var form = jQuery(this).parents("form:first");
-		var dataString = form.serialize();
-
-		var formAction = form.attr('action');
-
-		$.ajax({
-		    type: "POST",
-		    url : formAction,
-		    data : dataString,
-		    success : function(data){
-
-		    	var msg = data['msg_retorno'];
-		    	var tipo = data['tipo_retorno'];
-
-		        $.notify(msg, tipo);
-		        $('#formUsaVoucher')[0].reset();
-		        $('#modalVoucher').modal('hide');
-
-		    if(tipo == 'success')
-		    {
-
-			    setTimeout(function()
-			    {
-			    	location.reload();
-			    }, 1500);
-			}
-
-		    }
-		    },"json");
-
-	});
-
-</script>
+			</script>
 
 	    @stop
 

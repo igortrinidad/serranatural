@@ -769,6 +769,13 @@ class ProdutosController extends Controller
 
             }
 
+            DB::table('balancos')->insert([
+                    'lista' => json_encode($request->listaProdutos),
+                    'user_id' => \Auth::user()->id,
+                    'finished' => '70',
+                    'created_at' => date('Y-m-d H:i:s'),
+                ]);
+
             return response()->json([
                 'return' => [
                     'type' => 'success',
@@ -785,5 +792,21 @@ class ProdutosController extends Controller
                 ],
             ], 404);
         }
+    }
+
+    public function historicoBalanco()
+    {
+        return view('adm.estoque.historico');
+    }
+
+    public function balancosJson()
+    {
+        $balancos = DB::table('balancos')->get();
+
+        foreach($balancos as $balanco) {
+            $balanco->lista = json_decode($balanco->lista);
+        }
+
+        return $balancos;
     }
 }
