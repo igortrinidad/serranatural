@@ -604,7 +604,7 @@ class ProdutosController extends Controller
                 $result[$key]['id'] = $value->id;
                 $result[$key]['nome'] = $value->nome_produto;
                 $result[$key]['quantidadeEstoque'] = $value->quantidadeEstoque;
-                $result[$key]['quantidadeReal'] = $value->quantidadeEstoque;
+                $result[$key]['quantidadeReal'] = '';
                 $result[$key]['diferenca'] = '0';
             }
 
@@ -772,7 +772,7 @@ class ProdutosController extends Controller
             DB::table('balancos')->insert([
                     'lista' => json_encode($request->listaProdutos),
                     'user_id' => \Auth::user()->id,
-                    'finished' => '70',
+                    'finished' => $request->finished,
                     'created_at' => date('Y-m-d H:i:s'),
                 ]);
 

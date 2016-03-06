@@ -13,7 +13,7 @@
 				<h4>Produtos</h4>
 			</div>
 			<div class="panel-body">
-				<h5>Lista de Produtos</h5>
+				<h5>Lista de Produtos</h5><h5 class="pull-right">@{{produtos.finished}}%</h5>
 				
 				<div class="row"  v-for="produto in produtos.listaProdutos" >
 					<div class="col-md-5">
@@ -55,7 +55,7 @@
 				>Salvar Balanço</a>
 				
 				<br><br>
-
+				<pre>@{{ $data | json }}</pre>
 			</div>
 
 		</div>
@@ -81,8 +81,9 @@
 				    data: {
 				    	produtos: {
 				    		listaProdutos: [],
-				    		finished: ''
+				    		finished: '',
 				    	},
+				    	arrayFinished: [],
 				    	return: '',
 				    },
 				    attached: function()
@@ -106,7 +107,28 @@
 				    	calculaDiferenca: function(ev, produto) {
 				    		self = this;
 				    		ev.preventDefault;
-				    		produto.diferenca = parseFloat(produto.quantidadeReal) - parseFloat(produto.quantidadeEstoque);
+				    		
+
+    		                index = self.arrayFinished.indexOf(produto.id);
+
+
+				            if(produto.quantidadeReal != '') {
+				            	if(index == -1) {
+				            		self.arrayFinished.push(produto.id);
+				            	}
+				            } else if(produto.quantidadeReal == '') {
+				            		self.arrayFinished.$remove(produto.id);
+			
+				            }
+
+				            self.produtos.finished = 100 / self.produtos.listaProdutos.length * self.arrayFinished.length;
+
+				            if(produto.quantidadeReal != '') {
+				            	produto.diferenca = parseFloat(produto.quantidadeReal) - parseFloat(produto.quantidadeEstoque);
+				            } else {
+				            	produto.diferenca = 0;
+				            }
+
 
 				    	},
 				    	confirmBalanco: function(ev) {
