@@ -52,7 +52,8 @@
 
 		                <div class="form-group" v-on:click="pagamentoFuncionario">
 		                	<input type="hidden" name="retirado_caixa" value="0" />
-		                	<label >O valor é algum tipo de adiantamento que deve descontar?</label><br>
+		                	<label >O valor é algum tipo de desconto na folha de pagamento?</label><br>
+		                	<label >Ex. Adiantamento / Mau uso / INSS</label><br>
 		                    <input type="checkbox" 
 	                    		class="form-control" 
 	                    		name="pagamento_funcionario" 
@@ -84,8 +85,26 @@
 
 						<button type="submit" v-on:click="confirmRetirada($event)" class="btn btn-block btn-primary">Dar retirada</button>
 
+				</div>
+			</div>
+
 		</div>
-	</div>
+
+		<div class="col-md-6">
+
+			<div class="panel panel-default">
+				<div class="panel-heading">Instruções</div>
+				<div class="panel-body">
+					<p>Atenção! As retiradas referente à funcionário constarão nos recibos de pagamento, portanto precisa ter padrão de preenchimento.</p>
+					<p><strong>Exemplos de preenchimento</strong></p>
+					<p>Vale transporte (10/10/2016 a 17/10/2016)</p>
+					<p>Adiantamento</p>
+					<p>Desconto mau uso de material (Açaí fora da geladeira)</p>
+					<p>Desconto mau uso de material (Quebras de copos e taças)</p>
+				</div>
+			
+			</div>
+		</div>
 
 	</div>
 </div>
