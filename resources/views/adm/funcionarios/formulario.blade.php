@@ -81,7 +81,7 @@
 
 							<div class="form-group">
 								<label>CPF</label>
-								<input type="text" name="cpf" value="{{isset($funcionario) ? $funcionario->cpf : ''}}" class="form-control" />
+								<input type="text" name="cpf" value="{{isset($funcionario) ? $funcionario->cpf : ''}}" class="form-control .cpf" />
 							</div>
 
 							<div class="form-group">

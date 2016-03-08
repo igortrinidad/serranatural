@@ -10,7 +10,9 @@
 
 		@yield('action')
 
-			<div class="panel panel-default">
+		<div class="row">
+			<div class="col-md-9">
+				<div class="panel panel-default">
 				<div class="panel-heading">Contato
 					<div class="pull-right">
 						<a href="{{route('admin.funcionarios.edit', $funcionario->id)}}"><i class="fa fa-pencil fa-2x"></i></a>
@@ -103,6 +105,43 @@
 				
 				</div>
 
+				</div>
+			</div>
+
+			<div class="col-md-3">
+				<div class="panel panel-default">
+					<div class="panel-heading">Açoes</div>
+					<div class="panel-body">
+						<a class="btn btn-default btn-block" href="{{route('admin.funcionarios.recibo', $funcionario->id)}}">Recibo</a>
+					</div>
+
+				</div>
+			</div>
+		</div>
+			
+
+			<div class="panel panel-default">
+				<div class="panel-heading">Imprimir recibo</div>
+				<div class="panel-body">
+
+					<form action="{{route('admin.funcionarios.recibo', $funcionario->id)}}" method="POST">
+
+					{!! csrf_field() !!}
+
+			    	@foreach($retiradas as $pagamento)
+				    	<div class="form-group">
+							<label><input type="checkbox" name="selected[]" value="{{$pagamento->id}}">
+								 {{substr($pagamento->descricao, 0, -10)}} | R$ {{$pagamento->valor}}</label>
+				    	</div>							  
+					@endforeach
+					
+					<button class="btn btn-primary" type="submit">Imprimir recibos selecionados</button>
+
+					<form>
+
+
+				</div>
+
 			</div>
 
 			<div class="panel panel-default">
@@ -119,14 +158,17 @@
 					        </tr>
 					    </thead>
 					    <tbody>
-					    	@foreach($funcionario->retirada as $pagamento)
+					    	@foreach($retiradas as $pagamento)
 					        <tr>
-								<th class="text-center" width="20%">{{$pagamento->created_at}}</th>
-								<th class="text-center" width="15%">{{$pagamento->valor}}</th>
-								<th width="35%">{{$pagamento->descricao}}</th>
-								<th>{{$pagamento->usuario->name}}</th>
+								<td class="text-center" width="20%">{{$pagamento->created_at}}</td>
+								<td class="text-center" width="15%">{{$pagamento->valor}}</td>
+								<td width="35%">{{$pagamento->descricao}}</td>
+								<td>{{$pagamento->usuario->name}}</td>
 					        </tr>
 					        @endforeach
+
+					        {!! $retiradas->render() !!}
+
 					    </tbody>
 					</table>
 

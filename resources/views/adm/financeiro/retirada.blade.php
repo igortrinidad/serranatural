@@ -49,6 +49,22 @@
 		                    />
 		                  
 		                </div>
+
+		                <div class="form-group" v-on:click="pagamentoFuncionario">
+		                	<input type="hidden" name="retirado_caixa" value="0" />
+		                	<label >O valor é algum tipo de adiantamento que deve descontar?</label><br>
+		                    <input type="checkbox" 
+	                    		class="form-control" 
+	                    		name="pagamento_funcionario" 
+	                    		value="1" 
+	                    		data-toggle="toggle" 
+	                    		data-onstyle="danger" 
+	                    		data-on="Sim" 
+	                    		data-off="Não",
+
+		                    />
+		                  
+		                </div>
 					
 						<div class="form-group">
 							{!! Form::select('funcionario_id', $funcionarios, null, ['class' => 'form-control', 
@@ -58,6 +74,14 @@
 							'v-model' => 'retirada.funcionario_id'])   !!}
 						</div>
 
+						<div class="form-group" v-show="retirada.funcionario_id">
+								<label>Periodo</label>
+								<input type="text" v-model="retirada.motivo" class="form-control dataMesAno" required/>
+						</div>
+						
+
+
+
 						<button type="submit" v-on:click="confirmRetirada($event)" class="btn btn-block btn-primary">Dar retirada</button>
 
 		</div>
@@ -65,8 +89,6 @@
 
 	</div>
 </div>
-
-<pre>@{{$data | json}}
 
 
     @section('scripts')
@@ -79,6 +101,7 @@
 
 				$('.maskValor').mask("0000.00", {reverse: true});
 
+
 				Vue.config.debug = true;
 				Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#_tokenLaravel').getAttribute('value');
 				var vm = new Vue({
@@ -89,7 +112,9 @@
 				    		valor: '',
 					    	descricao: '',
 					    	retiradoCaixa: 0,
-					    	funcionario_id: ''
+					    	funcionario_id: '',
+					    	pagamento_funcionario: '',
+					    	motivo: ''
 					    },
 					    response: {
 					    	error: {
@@ -107,6 +132,14 @@
 				    			self.retirada.retiradoCaixa = 1;
 				    		} else {
 				    			self.retirada.retiradoCaixa = 0;
+				    		}
+				    	},
+				    	pagamentoFuncionario: function() {
+				    		self = this;
+				    		if (self.retirada.pagamento_funcionario == 0) {
+				    			self.retirada.pagamento_funcionario = 1;
+				    		} else {
+				    			self.retirada.pagamento_funcionario = 0;
 				    		}
 				    	},
 				    	confirmRetirada: function(ev) {

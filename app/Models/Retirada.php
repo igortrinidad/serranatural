@@ -9,7 +9,7 @@ class Retirada extends Model
 {
     use SoftDeletes;
 
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at', 'created_at'];
 
     protected $table = 'retiradas';
 
@@ -23,10 +23,7 @@ class Retirada extends Model
     						'motivo',
     					];
 
-    public function getCreatedAtAttribute($value)
-    {
-        return date('d/m/Y H:i:s', strtotime($value));
-    }
+
 
     public function funcionario()
     {

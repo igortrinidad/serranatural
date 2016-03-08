@@ -7,6 +7,7 @@ use serranatural\Http\Requests;
 use serranatural\Http\Controllers\Controller;
 
 use serranatural\Models\Funcionario;
+use serranatural\Models\Retirada;
 
 class FuncionariosController extends Controller
 {
@@ -65,10 +66,13 @@ class FuncionariosController extends Controller
      */
     public function show($id)
     {
-        $funcionario = Funcionario::with(['retirada'])->find($id);
+        $funcionario = Funcionario::find($id);
+
+        $retiradas = Retirada::where('funcionario_id', '=', $id)->orderBy('created_at', 'desc')->paginate(12);
 
         $dados = [
             'funcionario' => $funcionario,
+            'retiradas' => $retiradas,
         ];
         return view('adm.funcionarios.detalhes')->with($dados);
     }
@@ -124,7 +128,7 @@ class FuncionariosController extends Controller
             'funcionario' => $funcionario
         ];
 
-        return back()->with($dados);
+        return redirect(route('admin.funcionarios.detalhes', $funcionario->id));
     }
 
     /**
@@ -159,5 +163,20 @@ class FuncionariosController extends Controller
         ];
 
         return view('adm.funcionarios.lista')->with($dados);
+    }
+
+    public function relatorio(Request $request, $id)
+    {
+
+        $funcionario = Funcionario::find($id);
+
+        $dataInicio = date('Y-m-d', strtotime("-20 days"));
+        $dataFim = date('Y-m-d', strtotime("+5 days"));
+
+        $pagamentos = Retirada::whereIn('id', $request->selected)->get();
+
+        $total = Retirada::whereIn('id', $request->selected)->sum('valor');
+
+        return view('adm.funcionarios.recibo', compact('funcionario', 'pagamentos', 'total'));
     }
 }

@@ -69,6 +69,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::get('funcioarios/{id}/detalhes', ['as' => 'detalhes', 'uses' => 'FuncionariosController@show']);
 		Route::get('funcioarios/{id}/edita', ['as' => 'edit', 'uses' => 'FuncionariosController@edit']);
 		Route::post('funcioarios/{id}/update', ['as' => 'update', 'uses' => 'FuncionariosController@update']);
+		Route::post('funcioarios/recibo/{id}', ['as' => 'recibo', 'uses' => 'FuncionariosController@relatorio']);
 
 	});
 
