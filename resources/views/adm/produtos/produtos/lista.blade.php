@@ -15,10 +15,11 @@
 		    <thead>
 		        <tr>
 		            <th width="30%">Nome</th>
-		            <th width="20%">Descrição</th>
-		            <th width="20%">Categoria</th>
-		            <th width="10%">Quantidade em estoque</th>
-		            <th width="10%">Fornecedores</th>
+		            <th width="10%">Categoria</th>
+		            <th width="8%">Quantidade em estoque</th>
+		            <th width="8%">Rastrear?</th>
+		            <th width="8%">Ativo?</th>
+		            <th width="35%">Fornecedores</th>
 		        </tr>
 		    </thead>
 		    <tbody>
@@ -28,9 +29,10 @@
 		            	<a href="{{ route('produtos.produtos.show', $produto->id)}}">{{$produto->nome_produto}}
 		            	</a>
 		            </td>
-		            <td>{{$produto->descricao}}</td>
 		            <td>{{$produto->categoria['nome']}}</td>
 		            <td class="text-center">{{$produto->quantidadeEstoque}}</td>
+		            <td class="text-center">@if($produto->tracked == 1) Sim @else @endif</td>
+		            <td class="text-center">@if($produto->is_ativo == 1) Sim @else @endif</td>
 		            <td>@foreach($produto->fornecedores as $fornecedor) {{$fornecedor->nome}} , @endforeach</td>
 		        </tr>
 		    @endforeach

@@ -14,10 +14,39 @@
 
 				<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 
-				<div class="form-group">
-					<label>Nome</label>
-					<input type="text" name="nome_produto" value="{{$produto->nome_produto}}" class="form-control">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Nome</label>
+							<input type="text" name="nome_produto" class="form-control" value="{{$produto->nome_produto}}">
+						</div>
+					</div>
+					<div class="col-md-3 text-center">
+						<label>Controlar estoque?</label><br>
+						<input type="checkbox" 
+	                    		class="form-control" 
+	                    		name="tracked" 
+	                    		value="1" 
+	                    		data-toggle="toggle" 
+	                    		data-onstyle="success" 
+	                    		data-on="Sim" 
+	                    		data-off="Não",
+		                />
+					</div>
+					<div class="col-md-3 text-center">
+						<label>Ativo?</label><br>
+						<input type="checkbox" 
+	                    		class="form-control" 
+	                    		name="is_ativo" 
+	                    		value="1" 
+	                    		data-toggle="toggle" 
+	                    		data-onstyle="success" 
+	                    		data-on="Sim" 
+	                    		data-off="Não",
+		                />
+					</div>
 				</div>
+				
 				<div class="row">
 					<div class="col-md-6">
 
@@ -34,13 +63,25 @@
 					</div>
 				</div>
 
-				<div class="form-group">
-						<label>Fornecedores</label>
-		              {!! Form::select('fornecedor_id[]', $fornecedoresForSelect, $fornecedores, ['class' => 'form-control', 
-		              'multiple' => 'multiple', 'id' => 'fornecedores'])   !!}
-		        </div>
+				
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Categoria</label>
+		              		{!! Form::select('categoria_id', $categorias, null, ['class' => 'form-control', 'single' => 'single', 'id' => 'categoria', 'placeholder' => 'Selecione uma categoria'])   !!}
+		        		</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Fornecedores</label>
+		              		{!! Form::select('fornecedor_id[]', $fornecedoresForSelect, null,  ['class' => 'form-control', 'multiple' => 'multiple', 'id' => 'fornecedores'])   !!}
+		        		</div>
+					</div>	
+				</div>
 
-				<button type="submit" class="btn btn-primary">Salvar produto</button>
+				
+
+				<button type="submit" class="btn btn-primary">Salvar Produto</button>
                                
 			</form>
 

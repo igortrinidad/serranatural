@@ -643,26 +643,30 @@ class ProdutosController extends Controller
     public function editProduto($id)
     {
         $produto = Produto::with(['categoria', 'fornecedores'])->find($id);
-
         $fornecedoresForSelect = $this->fornecedoresForSelect();
+        $categories = \serranatural\Models\Categoria::all();
 
-        $fornecedores = [];
-        foreach($produto->fornecedores as $key => $value) {
-            $fornecedores[] = $value->id;
+        foreach($categories as $key => $value) {
+            $categorias[$value->id] = $value->nome;
         }
 
-        return view('adm.produtos.produtos.edit', compact('produto', 'fornecedoresForSelect', 'fornecedores'));
+        return view('adm.produtos.produtos.edit', compact('produto', 'fornecedoresForSelect', 'categorias'));
     }
 
     public function updateProduto(Request $request, $id)
     {
         $produto = Produto::find($id);
-        $produto->update([
-            'nome_produto' => $request->nome_produto,
-            'descricao' => $request->descricao,
-            'preco' => $request->preco
-            ]);
-        $produto->fornecedores()->sync($request->fornecedor_id);
+
+        $produto->nome_produto = $request->nome_produto;
+        $produto->descricao = $request->descricao;
+        $produto->preco = $request->preco;
+        $produto->is_ativo = $request->is_ativo;
+        $produto->tracked = $request->tracked;
+        $produto->categoria_id = $request->categoria_id;
+
+        if($request->fornecedor_id) {
+            $produto->fornecedores()->sync($request->fornecedor_id);  
+        }
         $produto->save();
 
         return redirect(route('produtos.produtos.show', $id));
@@ -691,7 +695,10 @@ class ProdutosController extends Controller
     {
         $produto = Produto::create($request->all());
 
-        $produto->fornecedores()->sync($request->fornecedor_id);
+        if($request->fornecedor_id)
+        {
+            $produto->fornecedores()->sync($request->fornecedor_id);
+        }
 
         $dados =
         [
