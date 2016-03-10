@@ -359,6 +359,7 @@ class FinanceiroController extends Controller
         }
         $pagamento = Pagamento::create($request->all());
         $pagamento->user_id_cadastro = \Auth::user()->id;
+        $pagamento->save();
 
         if ($request->arquivoPagamento != '') {
 

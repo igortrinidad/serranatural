@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e10191838235635a4e89d4c351ac016b",
-    "content-hash": "128b86eee1ea6cc7b5459740e154c7a7",
+    "hash": "f3979fb0d3ee9db51ca7d16b723e8b24",
+    "content-hash": "9f9dc45263b1b7b569f29fc97a11e418",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -683,7 +683,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image/zipball/86dfe2f2a95aa9eed58faf1cc1dae6534a6ce931",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/e368d262887dbb2fdfaf710880571ede51e9c0e6",
                 "reference": "86dfe2f2a95aa9eed58faf1cc1dae6534a6ce931",
                 "shasum": ""
             },
@@ -1365,6 +1365,52 @@
                 "server"
             ],
             "time": "2015-11-02 12:24:52"
+        },
+        {
+            "name": "mashape/unirest-php",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Mashape/unirest-php.git",
+                "reference": "2bedcf05acf56a50d4d96a7fcd0a1856308095cb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Mashape/unirest-php/zipball/2bedcf05acf56a50d4d96a7fcd0a1856308095cb",
+                "reference": "2bedcf05acf56a50d4d96a7fcd0a1856308095cb",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "0.1.*",
+                "phpunit/phpunit": "~4.4"
+            },
+            "suggest": {
+                "ext-json": "Allows using JSON Bodies for sending and parsing requests"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Unirest": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Unirest PHP",
+            "homepage": "https://github.com/Mashape/unirest-php",
+            "keywords": [
+                "client",
+                "curl",
+                "http",
+                "https",
+                "rest"
+            ],
+            "time": "2016-02-25 04:27:05"
         },
         {
             "name": "maximebf/debugbar",

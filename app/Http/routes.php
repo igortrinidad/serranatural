@@ -251,7 +251,7 @@ Route::group(['as' => 'api.', 'middleware' => 'oauth', 'prefix' => 'api'], funct
 	Route::get('square/teste', ['as' => 'square.teste', 'uses' => 'ApiController@squareTeste']);
 });
 
-Route::get('connect/consultaPontos/{email}', ['as' => 'consultaPontos', 'uses' => 'ApiController@consultaPontos']);
+Route::get('connect/teste/{query}', ['as' => 'teste', 'uses' => 'ApiController@teste']);
 Route::get('connect/consultaPratoHoje', ['as' => 'consultaPratoHoje', 'uses' => 'ApiController@consultaPratoHoje']);
 
 

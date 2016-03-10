@@ -223,4 +223,38 @@ class ApiController extends Controller
     {
         //
     }
+
+    public function teste($query)
+    {
+        $token = '5bDwfv16l7I02iePbc2GcQ';
+
+        $begin = date_create_from_format('d/m/Y H:i:s', '9/03/2016 06:00:00');
+        $begin = $begin->getTimestamp();
+        $begin = 'begin_time='.date('Y-m-d\TH:i:s\Z', $begin);
+
+        $end = date_create_from_format('d/m/Y H:i:s', '9/03/2016 23:59:00');
+        $end = $end->getTimestamp();
+        $end = 'end_time='.date('Y-m-d\TH:i:s\Z', $end);
+
+        \Unirest\Request::defaultHeader("Authorization", "Bearer ".$token);
+        \Unirest\Request::defaultHeader("Content-Type", "application/json");
+
+        $response = \Unirest\Request::get("https://connect.squareup.com/v1/me/payments?".$begin.'&'.$end);
+
+        //dd($response);
+
+        $valor = 0;
+        foreach($response->body as $body) {
+            $valor = $valor + $body->net_total_money->amount;
+        }
+        $tax = 0;
+        foreach($response->body as $body) {
+            $tax = $tax + $body->tax_money->amount;
+        }
+        $return['venda_dia'] = $valor - $tax;
+        $return['taxa_dia'] = $tax;
+
+        dd($return);
+
+    }
 }

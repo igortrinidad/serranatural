@@ -323,47 +323,42 @@
                         </li>
 
                         <li>
-                            <a href="#"><i class="fa fa-money"></i> Financeiro<span class="fa arrow"></span></a>
+                            <a href="#"> Caixa <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#"> Caixa <span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            <a href="{{ route('admin.financeiro.fluxo')}}">Fluxo de caixa</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('admin.financeiro.retirada')}}">Retirada</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('admin.financeiro.retiradasList')}}">Histórico retiradas</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Entrada</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('admin.financeiro.historico')}}">Histórico de caixa</a>
-                                        </li>
-                                    </ul>
+                                    <a href="{{ route('admin.financeiro.fluxo')}}">Fluxo de caixa</a>
                                 </li>
                                 <li>
-                                    <a href="#"> Pagamentos<span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            <a href="{{route('admin.financeiro.pagamentos')}}"> Cadastrar pagamento</a>
-                                        </li>
-
-                                        <li>
-                                            <a href="{{route('admin.financeiro.despesa')}}"> Despesa simples</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{route('admin.financeiro.aPagar')}}"> A pagar</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{route('admin.financeiro.historicoPagamentos')}}"> Historico</a>
-                                        </li>
-                                    </ul>
+                                    <a href="{{ route('admin.financeiro.retirada')}}">Retirada</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.financeiro.retiradasList')}}">Histórico retiradas</a>
+                                </li>
+                                <li>
+                                    <a href="#">Entrada</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.financeiro.historico')}}">Histórico de caixa</a>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                        <li>
+                            <a href="#"> Financeiro<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="{{route('admin.financeiro.pagamentos')}}"> Cadastrar pagamento</a>
                                 </li>
 
+                                <li>
+                                    <a href="{{route('admin.financeiro.despesa')}}"> Despesa simples</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('admin.financeiro.aPagar')}}"> A pagar</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('admin.financeiro.historicoPagamentos')}}"> Historico</a>
+                                </li>
                             </ul>
                         </li>
 

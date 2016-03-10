@@ -50,7 +50,7 @@
 
 					<br>
 
-					<hr style="width: 80%; color: black; height: 1px; background-color:black;" />
+					<hr style="width: 80%; color: black; height: 2px; background-color:black;" />
 					<p class="text-center">Assinatura</p>
 
 		<br>
