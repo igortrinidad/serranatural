@@ -140,8 +140,10 @@
 	    			><i class="fa fa-close fa-2x"></i>
 	    			</a>
 					<img class="img" :src="pagamento.arquivoPagamento" style="max-width: 100%"/>
+
 	    			
     			</div>
+    			<br>
 
     			<div v-if="pagamento.arquivoNota" style="position: relative">
 					<a href="#" v-on:click="removeImage($event, 'arquivoNota')"
