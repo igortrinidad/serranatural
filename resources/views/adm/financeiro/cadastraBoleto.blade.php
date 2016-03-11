@@ -55,12 +55,12 @@
 
 						<div class="form-group" v-if="!pagamento.arquivoPagamento">
 							<label>Arquivo pagamento</label>
-							<input type="file" v-on:change="onFileChange($event, 'arquivoPagamento')" class="form-control"/>
+							<input type="file" v-on:change="onFileChange($event, 'arquivoPagamento')" class="form-control" accept=".jpg,.png,.jpeg" />
 						</div>
 
 						<div class="form-group" v-if="!pagamento.arquivoNota">
 							<label>Arquivo Nota fiscal</label>
-							<input type="file" v-on:change="onFileChange($event, 'arquivoNota')" class="form-control"/>
+							<input type="file" v-on:change="onFileChange($event, 'arquivoNota')" class="form-control" accept=".jpg,.png,.jpeg"/>
 						</div>
 						<div class="form-group">
 							<button class="btn btn-primary btn-block" 
@@ -158,6 +158,8 @@
     			</div>
 			</div>
 		</div>
+
+		<pre> @{{ $data | json}} </pre>
 
 		</div>
 
