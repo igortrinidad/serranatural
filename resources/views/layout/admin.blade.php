@@ -329,6 +329,9 @@
                                     <a href="{{ route('admin.financeiro.fluxo')}}">Fluxo de caixa</a>
                                 </li>
                                 <li>
+                                    <a href="{{ route('admin.financeiro.caixa')}}">Fluxo de caixa - NAO USAR</a>
+                                </li>
+                                <li>
                                     <a href="{{ route('admin.financeiro.retirada')}}">Retirada</a>
                                 </li>
                                 <li>

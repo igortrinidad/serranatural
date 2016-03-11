@@ -56,6 +56,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::post('financeiro/despesaStore', ['as' => 'despesaStore', 'uses' => 'FinanceiroController@despesaStore']);
 		Route::post('financeiro/consultaCaixaAjax', ['as' => 'consultaCaixaAjax', 'uses' => 'FinanceiroController@consultaCaixaAjax']);
 		Route::post('financeiro/despesaStoreVue', ['as' => 'despesaStoreVue', 'uses' => 'FinanceiroController@despesaStoreVue']);
+
+		Route::get('financeiro/caixa', ['as' => 'caixa', 'uses' => 'FinanceiroController@caixaIndex']);
 	});
 
 

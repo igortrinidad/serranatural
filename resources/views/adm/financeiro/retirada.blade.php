@@ -107,6 +107,8 @@
 		</div>
 
 	</div>
+
+	<pre> @{{ $data | json }}</pre>
 </div>
 
 
@@ -188,12 +190,13 @@
 						    	console.log(response.data);
 						    	self.retirada.valor = '';
 						    	self.retirada.descricao = '';
-						    	self.retirada.retiradoCaixa = '';
 						    	self.retirada.funcionario_id = '';
 						    	self.response.error.message = '';
 						    	self.response.error.status_code = '';
 
 						    	swal("Ok!", "Sua Retirada foi cadastrada", "success"); 
+
+
 
 					      	}, function (response) {
 					          	self.response = response.data;

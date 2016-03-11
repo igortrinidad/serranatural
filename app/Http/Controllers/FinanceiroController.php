@@ -700,4 +700,9 @@ class FinanceiroController extends Controller
                 $img->save(storage_path().'/app/financeiro/pagamentos/'.$nomeArquivo);
                 $objeto->$tipo = $nomeArquivo;
             }
+
+    public function caixaIndex()
+    {
+        return view('adm.financeiro.fluxocaixa');
+    }
 }
