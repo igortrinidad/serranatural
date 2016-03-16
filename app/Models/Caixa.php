@@ -17,6 +17,7 @@ class Caixa extends Model
                             'user_id_abertura',
                             'user_id_fechamento',
                             'vr_abertura',
+                            'vendas',
                             'vendas_cash',
                             'vendas_card',
                             'vendas_rede',
@@ -30,6 +31,8 @@ class Caixa extends Model
                             'dt_abertura',
                             'dt_fechamento',
                             'is_aberto',
+                            'turno',
+                            'vr_emCaixa'
                             ];
 
     public function getCreatedAtAttribute($value)
@@ -47,15 +50,15 @@ class Caixa extends Model
     //    return date('d/m/Y H:i:s', strtotime($value));
     //}
 
-    public function getVrEmCaixaAttribute($value)
-    {
-        return 'R$ ' . number_format($value, 2, ',', '.');
-    }
+    //public function getVrEmCaixaAttribute($value)
+    //{
+    //    return 'R$ ' . number_format($value, 2, ',', '.');
+    //}
 
-    public function getDiferencaFinalAttribute($value)
-    {
-        return 'R$ ' . number_format($value, 2, ',', '.');
-    }
+    //public function getDiferencaFinalAttribute($value)
+    //{
+    //    return 'R$ ' . number_format($value, 2, ',', '.');
+    //}
 
     public function retiradas()
     {

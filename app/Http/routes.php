@@ -57,7 +57,12 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::post('financeiro/consultaCaixaAjax', ['as' => 'consultaCaixaAjax', 'uses' => 'FinanceiroController@consultaCaixaAjax']);
 		Route::post('financeiro/despesaStoreVue', ['as' => 'despesaStoreVue', 'uses' => 'FinanceiroController@despesaStoreVue']);
 
-		Route::get('financeiro/caixa', ['as' => 'caixa', 'uses' => 'FinanceiroController@caixaIndex']);
+		Route::get('financeiro/caixa/fluxo', ['as' => 'caixa', 'uses' => 'CaixaController@index']);
+		Route::get('financeiro/caixa/consulta', ['uses' => 'CaixaController@consulta']);
+		Route::get('financeiro/caixa/consultaVendas', ['uses' => 'CaixaController@consultaVendas']);
+		Route::post('financeiro/caixa/abreCaixa', ['uses' => 'CaixaController@abreCaixa']);
+		Route::post('financeiro/caixa/update', ['uses' => 'CaixaController@update']);
+		Route::post('financeiro/caixa/fecha', ['uses' => 'CaixaController@fecha']);
 	});
 
 

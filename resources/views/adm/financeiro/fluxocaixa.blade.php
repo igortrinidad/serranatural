@@ -2,135 +2,187 @@
 
 @section('conteudo')
 
+<style>
+.success{
+	background-color: #CDDC39;
+}
+
+.warning{
+	background-color: #FF5722;
+}
+</style>
+
 <h2 class="text-right">Controle de caixa</h2><br>
 
-<div class="row" id="contentCaixa">
+<div id="contentCaixa">
 
-	<div class="col-md-8">
-		<div class="panel panel-default">
-			<div class="panel-heading">Caixa</div>
-			<div class="panel-body">
+	<div class="row">
 
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>Total de vendas sistema</label>
-						<input type="text" class="form-control" />
+		<div class="col-md-6" v-if="caixa_is_aberto == false">
+			<div class="panel panel-default">
+				<div class="panel-heading">Caixa - <strong><span v-if="abrir_caixa.turno == 1">Primeiro</span><span v-else>Segundo</span> turno</strong></div>
+				<div class="panel-body">
+
+					<div class="well text-center">
+						<p><strong>Fundo de caixa anterior</strong></p>
+						<p><strong>R$ @{{caixa_anterior.vr_emCaixa}} </strong></p>
 					</div>
 
 					<div class="form-group">
-						<label>Total de taxa recolhida periodo</label>
-						<input type="text" class="form-control" />
+						<label>Contagem do caixa atual</label>
+						<input class="form-control" type="text" v-model="abrir_caixa.valor"/>
 					</div>
+
+					<div class="form-group">
+						<label>Senha</label>
+						<input class="form-control" type="password" v-model="abrir_caixa.senha"/>
+					</div>
+
+					<button class="btn btn-primary btn-block" :disabled="! abrir_caixa.valor || ! abrir_caixa.senha" v-on:click="abreCaixa()">Abrir caixa</button>
+
+				</div>
+
+			</div>	
+		</div>
+	</div>
+
+	<div class="row">
+
+		<div v-if="caixa_is_aberto == true">
+
+			<div class="row">
+				<div class="col-md-3">
+					<div class="well text-center">
+						<h2>R$ @{{caixa_aberto.vr_abertura}}</h2>
+						<p>Valor de abertura</p>
+					</div>
+				</div>
+
+				<div class="col-md-3">
+					<div class="well text-center">
+						<h2>R$ @{{vendas.venda_dia}}</h2>
+						<p>Vendas sistema</p>
+					</div>
+				</div>
+
+				<div class="col-md-3">
+					<div class="well text-center">
+						<h2>R$ @{{caixa_aberto.total_retirada}}</h2>
+						<p>Total retiradas</p>
+					</div>
+				</div>
+
+				<div class="col-md-3">
+					<div class="well text-center" 
+						v-bind:class="{ 'warning': caixa_aberto.diferenca_final < 0, 'success': caixa_aberto.diferenca_final >= 0 }"
+					>
+						<h2>R$ @{{caixa_aberto.diferenca_final}}</h2>
+						<p>Diferença</p>
+					</div>
+				</div>	
+
+				<div class="col-md-3">
+					<div class="well text-center">
+						<h2>R$ @{{vendas.taxa_dia}}</h2>
+						<p>Taxa recolhida</p>
+					</div>
+				</div>	
+			</div>
+
+			<hr size="3px" style="margin-top: 2px"/>
+
+			<div class="row">
+				
+				<div class="col-md-8">
+					<div class="panel panel-default">
+						<div class="panel-heading">Caixa</div>
+						<div class="panel-body">
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Total de venda maquina REDE</label>
+									<input type="text" class="form-control moneyInteger" 
+										v-on:keyup="calcula($event)"
+										v-model="caixa_aberto.vendas_rede"
+
+									/>
+								</div>
+
+								<div class="form-group">
+									<label>Total de venda maquina CIELO</label>
+									<input type="text" class="form-control moneyInteger" 
+										v-model="caixa_aberto.vendas_cielo"
+										v-on:keyup="calcula($event)"
+									/>
+								</div>
+								
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Dinheiro em caixa</label>
+									<input type="text" class="form-control moneyInteger" 
+										v-model="caixa_aberto.vr_emCaixa"
+										v-on:keyup="calcula($event)"
+									/>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
 					
 				</div>
 
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>Total de vendas sistema</label>
-						<input type="text" class="form-control" />
+				<div class="col-md-4">
+					<div class="panel panel-default">
+						<div class="panel-heading">Ações</div>
+						<div class="panel-body">
+							<button class="btn btn-default btn-block" v-on:click="update($event)">Salvar</button>
+							<br>
+							<div class="form-group">
+								<label>Senha</label>
+								<input class="form-control" type="password" v-model="caixa_aberto.senha"/>
+							</div>
+							<button class="btn btn-primary btn-block" v-on:click="fecha($event)">Fechar caixa</button>
+
+						</div>
+
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">Retiradas</div>
+						<div class="panel-body">
+							<table class="table">
+							    <thead>
+							        <tr>
+							            <th>Descrição</th>
+							            <th>Valor</th>
+							        </tr>
+							    </thead>
+							    <tbody>
+							        <tr v-for="retirada in retiradas">
+							            <td>@{{retirada.descricao}}</td>
+							            <td>R$ @{{retirada.valor}}</td>
+							        </tr>
+							    </tbody>
+							</table>
+
+							<a href="/admin/financeiro/retirada" class="btn btn-primary btn-block">Fazer retirada</a>
+
+						</div>
+
 					</div>
 				</div>
-				
-
-			</div>
-		</div>
-
-		
-	</div>
-
-	<div class="col-md-4">
-		<div class="panel panel-default">
-			<div class="panel-heading">Ações</div>
-			<div class="panel-body">
-				<button class="btn btn-default btn-block">Salvar</button>
-				<button class="btn btn-primary btn-block">Fechar caixa</button>
-
 			</div>
 
 		</div>
+
 	</div>
-
-</div>
-<div class="row">
-
-	<div class="jumbotron">
-			<h3>Instruções</h3>
-			<h5>Total de vendas em dinheiro (sistema)</h5>
-			<p style="font-size: 14px;">Inserir o valor de acordo com o registrado no aplicativo de vendas. Caminho: Acessar o menu no ícone: <i class="fa fa-bars"></i> <b> / REPORTS / SALES / CASH SALES: ( VALOR )</p>
-
-			<h5>Total de vendas em cartão (sistema)</h5>
-			<p style="font-size: 14px;">Inserir o valor de acordo com o registrado no aplicativo de vendas. Caminho: Acessar o menu no ícone: <i class="fa fa-bars"></i> <b> / REPORTS / SALES / THIRD PARTY SALES: ( VALOR )</p>
-
-			<h5>Total de vendas maquina REDE</h5>
-			<p style="font-size: 14px;">Inserir o valor de acordo com valor informado na máquina de cartão REDE através do caminho: <b>ADMINISTRA / RESUMO DE VENDAS / escolha da data do dia (HOJE) / RESUMIDO / DESCARTAR IMPRESSÃO: NÃO</b>. Obs. o valor a ser preenchido é o total no final da impressão.</p>
-
-			<h5>Total de vendas maquina CIELO</h5>
-			<p style="font-size: 14px;">Somar o valor total das vendas realizadas através da máquina CIELO. Obs. a máquina CIELO não permite a consulta diretamente pela máquina, portanto todos os comprovantes de vendas da máquina deverão ser guardados para o fechamento do caixa.</p>
-
-			<h5>Total de retiradas</h5>
-			<p style="font-size: 14px;">Este valor é preenchido automaticamente conforme for cadastrado as retiradas.</p>
-
-			<h5>Valor em caixa</h5>
-			<p style="font-size: 14px;">Contar todo dinheiro no caixa, incluindo dinheiro guardado em baixo da gaveta e vouchers.</p>
-
-			<h5>Fechar caixa</h5>
-			<p style="font-size: 14px;">Clicar em <b>Calcular caixa</b> e conferir se o valor bate com o esperado (positivo ou negativo), clicar em <b>Gravar caixa</b> e <b>Fechar caixa</b> inserindo a senha de operação (pessoal).</p>
-
-		</div>
 
 
 </div>
-
-
-		<div class="jumbotron">
-			<h3>Instruções</h3>
-			<p style="font-size: 14px;">Contar todo dinheiro no caixa, incluindo dinheiro guardado em baixo da gaveta e vouchers. Inserir o valor e clicar em <b>"abrir caixa"</b>.</p>
-		</div>
-	</div>
 	
-
-<!-- Modal editar atividade -->              
-                            <div class="modal inmodal fade" id="modalSenha" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-                                <div class="modal-dialog modal-sm">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                                            <h4 class="modal-title" id="tituloModal">Confirma</h4>
-                                        </div>
-                                        <div class="modal-body text-center">
-											<h4>Valor em caixa:</h4>
-
-                                            <p style="font-size: 25px;font-weight:700" id="valor_confirmation">??</p>
-											<span >
-	                                            <h4>Diferença final:</h4>
-
-	                                            <p style="font-size: 25px;font-weight:700" id="diferenca_caixa"></p>
-                                            </span>
-                                    
-                                        </div>
-                                        <div class="modal-footer inline">
-
-											<form id="formAbreCaixa" method="POST">
-
-												<input type="hidden" name="_token" value="{{ csrf_token() }}">
-											
-											<div class="form-group">
-												<label>Insira sua senha</label>
-                                        		<input type="password" id="inputSenha" name="senha" class="form-control" value="" />
-											</div>
-
-	                                            <button type="button" class="btn btn-white btn-sm" data-dismiss="modal">Cancela</button>
-	                                            
-	                                            <button id="btnAbreCaixaDefinitivo" class="btn btn-danger btn-sm">Confirma abertura</button>
-
-	                                            <button id="btnFechaDefinitivo" class="btn btn-danger btn-sm" style="display:none">Confirma fechamento</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-<input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
 
 
     @section('scripts')
@@ -141,28 +193,26 @@
 
 			<script type="text/javascript">
 
+				//$('.maskValor').mask("0000.00", {reverse: true});
+
 				Vue.config.debug = true;
 				Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#_tokenLaravel').getAttribute('value');
 				var vm = new Vue({
 				    el: '#contentCaixa',
 				    data: {
-				    	return: '',
-				    	caixa_1: {
-				    		'fundo_caixa_anterior',
-				    		'abertura_caixa',
-				    		venda_total: '',
-				    		tax_total: '',
-				    		'venda_liquido',
-				    		'rede_total',
-				    		'cielo_total',
-				    		'fundo_caixa',
-
+				    	retorno: '',
+				    	caixa_aberto: {senha: ''},
+				    	caixa_anterior: '',
+				    	caixa_is_aberto: 'false',
+				    	vendas: {
+				    		venda_dia: '',
+				    		taxa_dia: ''
 				    	},
-				    	caixa_2: {
-
-				    	},
-				    	produtosForSelect: [],
-				    	selected: {id: '', nome: '', quantidade: ''},
+				    	abrir_caixa: {
+				    		valor: '',
+				    		senha: '',
+				    		turno: 'primeiro',
+				    	}
 				    },
 				    attached: function()
     					{
@@ -171,13 +221,107 @@
 					    ready: function() {
 				 	      	var self = this;	
 					      	// GET request
-					      	this.$http.get('/admin/produtos/produtosForSelectJson/anything').then(function (response) {
-					          self.produtosForSelect = response.data;
+					      	this.$http.get('/admin/financeiro/caixa/consulta').then(function (response) {
+
+					          if(response.data.caixa_aberto != null) {
+
+					          	self.caixa_aberto = response.data.caixa_aberto;
+					          	self.caixa_is_aberto = true;
+					          	self.retiradas = response.data.retiradas;
+
+					          	this.$http.get('/admin/financeiro/caixa/consultaVendas').then(function (response) {
+							        self.vendas.venda_dia = response.data.venda_dia;
+							        self.vendas.taxa_dia = response.data.taxa_dia;
+							        self.caixa_aberto.vendas = self.vendas.venda_dia;
+
+							    }, function (response) {
+							      	console.log('Erro ao tentar buscar vendas.');
+							    });
+
+					          } else if(response.data.caixa_anterior != null) {
+
+					          	self.caixa_anterior = response.data.caixa_anterior;
+					          	self.caixa_is_aberto = false;
+
+					          }
+
+					          self.abrir_caixa.turno = response.data.turno;
+
+					          
+
 					      }, function (response) {
-					          console.log(response);
+					      	console.log('Erro ao tentar buscar caixa.');
+					        console.log(response.data);
+					        self.caixa_ = response.data.retorno;
 					      });
+
+
+
 					    },
 				    methods: {
+				    	abreCaixa: function(ev) {
+				    		self = this;
+
+				    		this.$http.post('/admin/financeiro/caixa/abreCaixa', self.abrir_caixa).then(function (response) {
+
+				    				console.log('Caixa aberto com sucesso.');
+
+				    				swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
+
+				    				setTimeout(function()
+								    {
+								    	location.reload();
+								    }, 2200);
+
+							    }, function (response) {
+							      	console.log('Erro ao abrir o caixa');
+							      	console.log(response.data);
+
+							      	swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
+							    });
+
+				    	},
+				    	update: function(ev) {
+				    		ev.preventDefault();
+
+				    		this.$http.post('/admin/financeiro/caixa/update', this.caixa_aberto).then(function (response) {
+							       swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
+
+							    }, function (response) {
+							      	console.log('Erro ao tentar salvar.');
+							    });
+
+				    	},
+				    	fecha: function(ev) {
+				    		ev.preventDefault();
+
+				    		this.$http.post('/admin/financeiro/caixa/fecha', this.caixa_aberto).then(function (response) {
+							       swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
+
+							       setTimeout(function()
+								    {
+								    	location.reload();
+								    }, 2200);
+
+							    }, function (response) {
+
+							      	console.log('Erro ao tentar fechar o caixa.');
+
+							      	swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
+							    });
+
+				    	},
+				    	calcula: function(ev) {
+				    		
+				    		var conferencia1 = ( parseFloat(this.caixa_aberto.vr_emCaixa) + parseFloat(this.caixa_aberto.total_retirada) - (parseFloat(this.caixa_aberto.vr_abertura)));
+
+				    		var conferencia2 = (parseFloat(this.vendas.venda_dia) + parseFloat(this.vendas.taxa_dia)) -
+				    		(parseFloat(this.caixa_aberto.vendas_cielo) + parseFloat(this.caixa_aberto.vendas_rede)); 
+
+				    		var diferenca = (conferencia1) - (conferencia2);
+
+					    	this.caixa_aberto.diferenca_final = parseFloat(diferenca).toFixed(2);
+				    	},
 				    	addProduto: function(ev, quantidade) {
 				    		ev.preventDefault();
 				    		if( ! this.selected.nome  || ! this.selected.quantidade ) {
@@ -187,26 +331,6 @@
 				    		this.pagamento.produtos.push(Produto);
 				    		this.selected = {id: '', nome: '', quantidade: ''};
 				    	},
-				    	onFileChange(e) {
-					      	var files = e.target.files || e.dataTransfer.files;
-					      	if (!files.length) {
-					        	return false;
-					    	}
-					      	this.createImage(files[0]);
-					    },
-					    createImage(file) {
-					      var image = new Image();
-					      var reader = new FileReader();
-					      var vm = this;
-					      reader.onload = function(e) {
-					        vm.pagamento.comprovante = e.target.result;
-					      };
-					      reader.readAsDataURL(file);
-					    },
-					    removeImage: function(ev) {
-					    	ev.preventDefault();
-					      	this.pagamento.comprovante = '';
-					    },
 					    saveComprovante: function(ev) {
 					    	self = this;
 					    	this.$http.post('/admin/financeiro/despesaStoreVue', this.pagamento).then(function (response) {
@@ -231,7 +355,7 @@
 			</script>
 
 			<script type="text/javascript">
-		        $('.moneySql').mask('000000.00', {reverse: true});
+		        $('.moneyInteger').mask('000000', {reverse: true});
 		        
 			</script>
 
