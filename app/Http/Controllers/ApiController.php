@@ -224,24 +224,26 @@ class ApiController extends Controller
         //
     }
 
-    public function teste($query)
+    public function teste()
     {
         $token = '5bDwfv16l7I02iePbc2GcQ';
 
         $begin = date_create_from_format('d/m/Y H:i:s', '9/03/2016 06:00:00');
+        $begin->addHours(3);
         $begin = $begin->getTimestamp();
         $begin = 'begin_time='.date('Y-m-d\TH:i:s\Z', $begin);
 
         $end = date_create_from_format('d/m/Y H:i:s', '9/03/2016 23:59:00');
+        $end->addHours(3);
         $end = $end->getTimestamp();
         $end = 'end_time='.date('Y-m-d\TH:i:s\Z', $end);
 
         \Unirest\Request::defaultHeader("Authorization", "Bearer ".$token);
         \Unirest\Request::defaultHeader("Content-Type", "application/json");
 
-        $response = \Unirest\Request::get("https://connect.squareup.com/v1/me/payments?".$begin.'&'.$end);
+        $response = \Unirest\Request::get("https://connect.squareup.com/v1/me/payments?begin_time=2016-03-16T10:19:08Z&end_time=2016-03-16T19:45:06Z");
 
-        //dd($response);
+        dd($response);
 
         $valor = 0;
         foreach($response->body as $body) {

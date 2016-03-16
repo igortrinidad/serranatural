@@ -11,6 +11,7 @@ use serranatural\Models\Caixa;
 use serranatural\Models\Retirada;
 use serranatural\User;
 
+use Mail;
 use Carbon\Carbon;
 
 class CaixaController extends Controller
@@ -81,13 +82,15 @@ class CaixaController extends Controller
 
         $caixa = Caixa::where('is_aberto', '=', '1')->orderBy('created_at', 'DESC')->first();
 
-        $begin = date_create_from_format('d/m/Y H:i:s', $caixa['created_at']);
+        $begin = Carbon::createFromFormat('d/m/Y H:i:s', $caixa['created_at']);
+        $begin->addHours(3);
         $begin = $begin->getTimestamp();
         $begin = 'begin_time='.date('Y-m-d\TH:i:s\Z', $begin);
 
 
         $end = new Carbon('now');
-        $end = 'end_time'.$end->format('Y-m-d\TH:i:s\Z');
+        $end->addHours(3);
+        $end = 'end_time='.$end->format('Y-m-d\TH:i:s\Z');
 
         \Unirest\Request::defaultHeader("Authorization", "Bearer ".$token);
         \Unirest\Request::defaultHeader("Content-Type", "application/json");
@@ -108,6 +111,8 @@ class CaixaController extends Controller
 
         $return['venda_dia'] = number_format(($valor/100),2);
         $return['taxa_dia'] = number_format(($tax/100),2);
+        $return['begin_time'] = $begin;
+        $return['end_time'] = $end;
 
         return $venda_total = $return;
 
@@ -231,11 +236,38 @@ class CaixaController extends Controller
                 ]);
         }
 
+        //Array para view de email fechamentoCaixaNovo
+        $dados = [
+            'dt_abertura' => $caixa->dt_abertura->format('d/m/Y H:i:s'),
+            'dt_fechamento' => $caixa->dt_fechamento->format('d/m/Y H:i:s'),
+            'vendas' => $caixa->vendas,
+            'total_retirada' => $caixa->total_retirada,
+            'vendas_rede' => $caixa->vendas_rede,
+            'vendas_cielo' => $caixa->vendas_cielo,
+            'vr_emCaixa' => $caixa->vr_emCaixa,
+            'vr_abertura' => $caixa->vr_abertura,
+            'diferenca_final' => $caixa->diferenca_final,
+            'user_abertura' => $caixa->usuarioAbertura->name,
+            'user_fechamento' => $caixa->usuarioFechamento->name,
+            'retiradas' => $caixa->retiradas,
+            'turno' => $caixa->turno
+        ];
+
+        $email = Mail::queue('emails.admin.fechamentoCaixaNovo', $dados, function ($message) use ($dados, $caixa) {
+
+            $message->to('contato@maisbartenders.com.br', 'Igor Trindade');
+            $message->from('mkt@serranatural.com', 'Serra Natural');
+            $message->subject('Fechamento de caixa : ' . $caixa->dt_fechamento->format('d/m/Y H:i:s'));
+            $message->getSwiftMessage();
+
+        });
+
         return response()->json([
                 'retorno' => [
                     'type' => 'success',
                     'message' => 'Caixa fechado com sucesso.',
-                    'title' => 'Atenção!'
+                    'title' => 'Atenção!',
+                    'status_code' => 200,
                 ],
             ], 200);
 

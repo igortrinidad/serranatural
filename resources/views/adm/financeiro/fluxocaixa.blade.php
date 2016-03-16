@@ -18,7 +18,7 @@
 
 	<div class="row">
 
-		<div class="col-md-6" v-if="caixa_is_aberto == false">
+		<div class="col-md-6" v-if="!caixa_is_aberto">
 			<div class="panel panel-default">
 				<div class="panel-heading">Caixa - <strong><span v-if="abrir_caixa.turno == 1">Primeiro</span><span v-else>Segundo</span> turno</strong></div>
 				<div class="panel-body">
@@ -232,6 +232,8 @@
 					          	this.$http.get('/admin/financeiro/caixa/consultaVendas').then(function (response) {
 							        self.vendas.venda_dia = response.data.venda_dia;
 							        self.vendas.taxa_dia = response.data.taxa_dia;
+							        self.vendas.begin_time = response.data.begin_time;
+							        self.vendas.end_time = response.data.end_time;
 							        self.caixa_aberto.vendas = self.vendas.venda_dia;
 
 							    }, function (response) {
