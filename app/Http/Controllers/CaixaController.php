@@ -15,7 +15,10 @@ use Carbon\Carbon;
 
 class CaixaController extends Controller
 {
-
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => []]);
+    }
 
     public function index()
     {
