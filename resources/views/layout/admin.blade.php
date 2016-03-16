@@ -325,11 +325,9 @@
                         <li>
                             <a href="#"> Caixa <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
+                                
                                 <li>
-                                    <a href="{{ route('admin.financeiro.fluxo')}}">Fluxo de caixa</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('admin.financeiro.caixa')}}">Fluxo de caixa - NAO USAR</a>
+                                    <a href="{{ route('admin.financeiro.caixa')}}">Fluxo de caixa - NOVO</a>
                                 </li>
                                 <li>
                                     <a href="{{ route('admin.financeiro.retirada')}}">Retirada</a>
@@ -342,6 +340,9 @@
                                 </li>
                                 <li>
                                     <a href="{{ route('admin.financeiro.historico')}}">Histórico de caixa</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.financeiro.fluxo')}}">Fluxo de caixa - ANTIGO</a>
                                 </li>
                             </ul>
                         </li>
