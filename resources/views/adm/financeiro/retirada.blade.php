@@ -56,7 +56,7 @@
 		                	<label >Ex. Adiantamento / Mau uso / INSS</label><br>
 		                    <input type="checkbox" 
 	                    		class="form-control" 
-	                    		name="pagamento_funcionario" 
+	                    		name="is_debito" 
 	                    		value="1" 
 	                    		data-toggle="toggle" 
 	                    		data-onstyle="danger" 
@@ -134,7 +134,7 @@
 					    	descricao: '',
 					    	retiradoCaixa: 0,
 					    	funcionario_id: '',
-					    	pagamento_funcionario: '',
+					    	is_debito: '',
 					    	motivo: ''
 					    },
 					    response: {
@@ -157,10 +157,10 @@
 				    	},
 				    	pagamentoFuncionario: function() {
 				    		self = this;
-				    		if (self.retirada.pagamento_funcionario == 0) {
-				    			self.retirada.pagamento_funcionario = 1;
+				    		if (self.retirada.is_debito == 0) {
+				    			self.retirada.is_debito = 1;
 				    		} else {
-				    			self.retirada.pagamento_funcionario = 0;
+				    			self.retirada.is_debito = 0;
 				    		}
 				    	},
 				    	confirmRetirada: function(ev) {

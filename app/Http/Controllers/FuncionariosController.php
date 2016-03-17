@@ -175,7 +175,10 @@ class FuncionariosController extends Controller
 
         $pagamentos = Retirada::whereIn('id', $request->selected)->get();
 
-        $total = Retirada::whereIn('id', $request->selected)->sum('valor');
+        $credito = Retirada::whereIn('id', $request->selected)->where('is_debito', '=', 0)->sum('valor');
+        $debito = Retirada::whereIn('id', $request->selected)->where('is_debito', '=', 1)->sum('valor');
+
+        $total = $credito - $debito;
 
         return view('adm.funcionarios.recibo', compact('funcionario', 'pagamentos', 'total'));
     }

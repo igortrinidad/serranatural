@@ -296,12 +296,10 @@ class FinanceiroController extends Controller
 
         if (!is_null($request->funcionario_id) or !empty($request->funcionario_id)) {
             $retirada->funcionario_id = $request->funcionario_id;
-                if($request->pagamento_funcionario) {
-                $retirada->valor = $request->valor - ($request->valor * 2);
+                if ($request->is_debito) {
+                $retirada->is_debito = 1;
             }
         }
-
-
 
         $retirada->save();
 

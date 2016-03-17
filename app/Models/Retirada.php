@@ -20,7 +20,8 @@ class Retirada extends Model
     						'funcionario_id',
     						'descricao',
                             'valor',
-    						'motivo',
+                            'motivo',
+    						'is_debito',
     					];
 
 

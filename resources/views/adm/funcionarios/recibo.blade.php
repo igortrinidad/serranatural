@@ -28,8 +28,8 @@
 					        <tr>
 								<td class="text-center" widtd="20%">{{$pagamento->motivo}}</td>
 								<td class="text-center" widtd="15%">{{substr($pagamento->descricao, 0, -10)}}</td>
-								<td class="text-center" widtd="35%">@if($pagamento->valor > 0) R$ {{$pagamento->valor}} @endif</td>
-								<td class="text-center">@if($pagamento->valor < 0) R$ {{$pagamento->valor}} @endif</td>
+								<td class="text-center" widtd="35%">@if($pagamento->is_debito == 0) R$ {{$pagamento->valor}} @endif</td>
+								<td class="text-center">@if($pagamento->is_debito == 1) R$ {{$pagamento->valor}} @endif</td>
 					        </tr>
 					        @endforeach
 					        

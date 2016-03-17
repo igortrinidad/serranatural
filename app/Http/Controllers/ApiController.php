@@ -13,6 +13,8 @@ use serranatural\Models\Pratos;
 use serranatural\Models\AgendaPratos;
 use serranatural\Models\Voucher;
 
+use Carbon\Carbon;
+
 class ApiController extends Controller
 {
     /**
@@ -228,12 +230,12 @@ class ApiController extends Controller
     {
         $token = '5bDwfv16l7I02iePbc2GcQ';
 
-        $begin = date_create_from_format('d/m/Y H:i:s', '9/03/2016 06:00:00');
+        $begin = Carbon::createFromFormat('d/m/Y H:i:s', '9/03/2016 06:00:00');
         $begin->addHours(3);
         $begin = $begin->getTimestamp();
         $begin = 'begin_time='.date('Y-m-d\TH:i:s\Z', $begin);
 
-        $end = date_create_from_format('d/m/Y H:i:s', '9/03/2016 23:59:00');
+        $end = Carbon::createFromFormat('d/m/Y H:i:s', '9/03/2016 23:59:00');
         $end->addHours(3);
         $end = $end->getTimestamp();
         $end = 'end_time='.date('Y-m-d\TH:i:s\Z', $end);
