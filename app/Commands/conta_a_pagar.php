@@ -25,7 +25,9 @@ class conta_a_pagar extends Command implements SelfHandling
                                 ->where('vencimento', '<=', date('Y-m-d', $timestamp))
                                 ->get();
 
+
         if( count($pagamentos) >= 1 ) {
+
             
             $dados = [
                 'pagamentos' => $pagamentos
