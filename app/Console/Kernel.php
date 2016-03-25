@@ -36,7 +36,7 @@ class Kernel extends ConsoleKernel
 
             //nome do comando e não nome da classe - para evitar conflitos coloque tudo igual caralho
             $schedule->command('conta_a_pagar')
-                     ->dailyAt('10:40');
+                     ->dailyAt('10:00');
 
 
         }
