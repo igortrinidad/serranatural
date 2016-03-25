@@ -25,12 +25,10 @@ class conta_a_pagar extends Command implements SelfHandling
                                 ->where('vencimento', '<=', date('Y-m-d', $timestamp))
                                 ->get();
 
+        if(count($pagamentos) >= 1) {
 
-
-        if( !empty($pagamentos) ) {
-            
             $dados = [
-            'pagamentos' => $pagamentos
+                'pagamentos' => $pagamentos
             ];
 
             Mail::queue('emails.admin.contas', $dados, function ($message) use ($dados)
@@ -48,6 +46,7 @@ class conta_a_pagar extends Command implements SelfHandling
         }
 
 	return 'Nenhum pagamento à vencer';
-            
+
+        }
     }
 }
