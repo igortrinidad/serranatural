@@ -22,10 +22,12 @@ class conta_a_pagar extends Command implements SelfHandling
     {
         $timestamp = strtotime("+2 days");
         $pagamentos = Pagamento::where('is_liquidado', '=', '0')
-                                ->where('vencimento', '>=', date('Y-m-d', $timestamp))
+                                ->where('vencimento', '<=', date('Y-m-d', $timestamp))
                                 ->get();
 
-        if(!is_null($pagamentos) or !empty($pagamentos)) {
+
+
+        if( !empty($pagamentos) ) {
             
             $dados = [
             'pagamentos' => $pagamentos
@@ -41,9 +43,11 @@ class conta_a_pagar extends Command implements SelfHandling
                 $message->getSwiftMessage();
 
             });
+
+	    return 'Comando rodado com sucesso - email enviado';
         }
 
-
+	return 'Nenhum pagamento à vencer';
             
     }
 }
