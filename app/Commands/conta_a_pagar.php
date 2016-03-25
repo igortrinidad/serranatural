@@ -22,13 +22,13 @@ class conta_a_pagar extends Command implements SelfHandling
     {
         $timestamp = strtotime("+2 days");
         $pagamentos = Pagamento::where('is_liquidado', '=', '0')
-                                ->where('vencimento', '>=', date('Y-m-d', $timestamp))
+                                ->where('vencimento', '<=', date('Y-m-d', $timestamp))
                                 ->get();
 
-        if(!is_null($pagamentos) or !empty($pagamentos)) {
+        if( count($pagamentos) >= 1 ) {
             
             $dados = [
-            'pagamentos' => $pagamentos
+                'pagamentos' => $pagamentos
             ];
 
             Mail::queue('emails.admin.contas', $dados, function ($message) use ($dados)
