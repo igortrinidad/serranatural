@@ -245,7 +245,7 @@ class ApiController extends Controller
 
         $response = \Unirest\Request::get("https://connect.squareup.com/v1/me/payments?begin_time=2016-03-16T10:19:08Z&end_time=2016-03-16T19:45:06Z");
 
-        dd($response);
+        //dd($response);
 
         $valor = 0;
         foreach($response->body as $body) {
@@ -255,6 +255,13 @@ class ApiController extends Controller
         foreach($response->body as $body) {
             $tax = $tax + $body->tax_money->amount;
         }
+
+        foreach($response->body as $body) {
+            foreach($body->itemizations as $item) {
+                dd($item);
+            }
+        }
+
         $return['venda_dia'] = $valor - $tax;
         $return['taxa_dia'] = $tax;
 

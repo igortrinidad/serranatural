@@ -13,7 +13,7 @@ use serranatural\Models\Pagamento;
 class conta_a_pagar extends Command implements SelfHandling
 {
      
-        protected $signature = 'command_contas_a_pagar';
+        protected $signature = 'conta_a_pagar';
 
         protected $description = 'Envia e-mail quando há contas a pagar';
 
@@ -43,6 +43,8 @@ class conta_a_pagar extends Command implements SelfHandling
             $message->getSwiftMessage();
 
         });
+
+        return 'Comando executado com sucesso - email enviado.';
 
             
     }
