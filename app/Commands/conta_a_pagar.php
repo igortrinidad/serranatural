@@ -47,6 +47,6 @@ class conta_a_pagar extends Command implements SelfHandling
 
 	return 'Nenhum pagamento à vencer';
 
-        }
     }
 }
+
