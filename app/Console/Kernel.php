@@ -34,8 +34,9 @@ class Kernel extends ConsoleKernel
             $schedule->command('email_pratoDoDia')
                      ->dailyAt('09:09');
 
+            //nome do comando e não nome da classe - para evitar conflitos coloque tudo igual caralho
             $schedule->command('conta_a_pagar')
-                     ->dailyAt('11:09');
+                     ->dailyAt('10:40');
 
 
         }
