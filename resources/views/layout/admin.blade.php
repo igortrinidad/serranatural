@@ -341,9 +341,6 @@
                                 <li>
                                     <a href="{{ route('admin.financeiro.historico')}}">Histórico de caixa</a>
                                 </li>
-                                <li>
-                                    <a href="{{ route('admin.financeiro.fluxo')}}">Fluxo de caixa - ANTIGO</a>
-                                </li>
                             </ul>
                         </li>
                         
