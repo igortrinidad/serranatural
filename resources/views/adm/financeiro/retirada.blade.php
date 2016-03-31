@@ -50,6 +50,31 @@
 		                  
 		                </div>
 
+		                <div class="form-group" v-if="!retirada.retiradoCaixa">
+							<label>Fonte pagamento</label>
+							<input type="text" 
+								class="form-control"
+								v-model="retirada.fontePgto" />
+						</div>
+
+		                <div class="form-group" v-on:click="registraPagamento">
+		                	<input type="hidden" name="retirado_caixa" value="0" />
+		                	<label >Registrar pagamento no financeiro?</label><br>
+		                    <input type="checkbox" 
+	                    		class="form-control" 
+	                    		name="registra_pagamento" 
+	                    		value="1" 
+	                    		data-toggle="toggle" 
+	                    		data-onstyle="danger" 
+	                    		data-on="Sim" 
+	                    		data-off="Não",
+
+		                    />
+		                  
+		                </div>
+
+
+
 		                <div class="form-group" v-on:click="pagamentoFuncionario">
 		                	<input type="hidden" name="retirado_caixa" value="0" />
 		                	<label >O valor é algum tipo de desconto na folha de pagamento?</label><br>
@@ -135,7 +160,9 @@
 					    	retiradoCaixa: 0,
 					    	funcionario_id: '',
 					    	is_debito: '',
-					    	motivo: ''
+					    	motivo: '',
+					    	registraPagamento: '',
+					    	fontePgto: ''
 					    },
 					    response: {
 					    	error: {
@@ -153,6 +180,14 @@
 				    			self.retirada.retiradoCaixa = 1;
 				    		} else {
 				    			self.retirada.retiradoCaixa = 0;
+				    		}
+				    	},
+				    	registraPagamento: function() {
+				    		self = this;
+				    		if (self.retirada.registraPagamento == 0) {
+				    			self.retirada.registraPagamento = 1;
+				    		} else {
+				    			self.retirada.registraPagamento = 0;
 				    		}
 				    	},
 				    	pagamentoFuncionario: function() {

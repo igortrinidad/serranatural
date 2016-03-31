@@ -18,7 +18,7 @@ class Pagamento extends Model
 						'pagamento_mime', 
 						'notaFiscal', 
 						'notaFiscal_mime', 
-						'li_liquidado',
+						'is_liquidado',
 						'fonte_pgto',
 						'user_id_pagamento',
 						'user_id_cadastro',

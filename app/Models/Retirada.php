@@ -22,6 +22,7 @@ class Retirada extends Model
                             'valor',
                             'motivo',
     						'is_debito',
+                            'fonte_pgto'
     					];
 
 

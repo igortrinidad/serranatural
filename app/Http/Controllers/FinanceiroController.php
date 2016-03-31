@@ -292,6 +292,7 @@ class FinanceiroController extends Controller
         $retirada->valor = $request->valor;
         $retirada->descricao = $request->descricao . ' - ' . date('H:i:s');
         $retirada->motivo = $request->motivo;
+        $retirada->fonte_pgto = $request->fontePgto;
         
 
         if (!is_null($request->funcionario_id) or !empty($request->funcionario_id)) {
@@ -299,6 +300,21 @@ class FinanceiroController extends Controller
                 if ($request->is_debito) {
                 $retirada->is_debito = 1;
             }
+        }
+
+        if (!is_null($request->registraPagamento) or !empty($request->registraPagamento)) {
+            
+            Pagamento::create([
+                    'user_id_cadastro' => \Auth::user()->id,
+                    'descricao' => $request->descricao,
+                    'vencimento' => date('d/m/Y'),
+                    'data_pgto' => date('d/m/Y'),
+                    'valor' => $request->valor,
+                    'is_liquidado' => '1',
+                    'fonte_pgto' => $request->fontePgto,
+                    'user_id_pagamento' => \Auth::user()->id,
+                ]);
+            
         }
 
         $retirada->save();
