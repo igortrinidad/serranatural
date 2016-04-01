@@ -86,7 +86,23 @@
 						<h2>R$ @{{vendas.taxa_dia}}</h2>
 						<p>Taxa recolhida</p>
 					</div>
+				</div>
+
+				<div class="col-md-3" v-if="caixa_aberto.turno == 2">
+					<div class="well text-center">
+						<h2>R$ @{{caixa_anterior.vendas_rede}}</h2>
+						<p>Venda Rede Anterior</p>
+					</div>
 				</div>	
+
+				<div class="col-md-3" v-if="caixa_aberto.turno == 2">
+					<div class="well text-center">
+						<h2>R$ @{{caixa_anterior.vendas_cielo}}</h2>
+						<p>Venda Cielo Anterior</p>
+					</div>
+				</div>	
+
+
 			</div>
 
 			<hr size="3px" style="margin-top: 2px"/>
@@ -180,10 +196,10 @@
 
 	</div>
 
+<pre> @{{ $data | json }}</pre>
 
 </div>
 	
-
 
     @section('scripts')
 	    @parent
@@ -203,7 +219,7 @@
 				    	retorno: '',
 				    	caixa_aberto: {senha: ''},
 				    	caixa_anterior: '',
-				    	caixa_is_aberto: 'false',
+				    	caixa_is_aberto: false,
 				    	vendas: {
 				    		venda_dia: '',
 				    		taxa_dia: ''
@@ -226,6 +242,7 @@
 					          if(response.data.caixa_aberto != null) {
 
 					          	self.caixa_aberto = response.data.caixa_aberto;
+					          	self.caixa_anterior = response.data.caixa_anterior;
 					          	self.caixa_is_aberto = true;
 					          	self.retiradas = response.data.retiradas;
 

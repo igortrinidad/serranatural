@@ -31,14 +31,15 @@ class CaixaController extends Controller
 
         $caixa_aberto = Caixa::where('is_aberto', '=', '1')->first();
 
-
-
         if (!is_null($caixa_aberto) or !empty($caixa_aberto)) {
+
+            $caixa_anterior = Caixa::where('is_aberto', '=', '0')->orderBy('created_at', 'desc')->first();
 
             $retiradas = Retirada::where('caixa_id', '=', $caixa_aberto->id)->get();
 
             return response()->json([
                     'caixa_aberto' => $caixa_aberto,
+                    'caixa_anterior' => $caixa_anterior,
                     'retiradas' => $retiradas,
                     'caixa_is_aberto' => 'true'
                 ], 200);
