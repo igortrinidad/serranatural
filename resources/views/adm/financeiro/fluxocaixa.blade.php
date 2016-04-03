@@ -274,7 +274,10 @@
 					        self.caixa_ = response.data.retorno;
 					      });
 
-
+					      	setTimeout(function()
+								    {
+								    	location.reload();
+								    }, 180000);
 
 					    },
 				    methods: {
