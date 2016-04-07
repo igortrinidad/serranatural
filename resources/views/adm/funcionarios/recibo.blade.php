@@ -35,7 +35,7 @@
 					        
 					        <tr>
 					        	<td colspan="3" class="text-right"><strong>Total</strong></td>
-					        	<td colspan="1" class="text-center"><strong>R$ {{$total}}</strong></td>
+					        	<td colspan="1" class="text-center"><strong>R$ {{number_format($total, 2, ',', '.')}}</strong></td>
 					        </tr>
 					        
 					    </tbody>
