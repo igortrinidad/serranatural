@@ -131,7 +131,7 @@
 			    	@foreach($retiradas as $pagamento)
 				    	<div class="form-group">
 							<label><input type="checkbox" name="selected[]" value="{{$pagamento->id}}">
-								 {{substr($pagamento->descricao, 0, -10)}} | R$ {{$pagamento->valor}}</label>
+								 {{$pagamento->created_at->format('d/m/Y')}} | {{substr($pagamento->descricao, 0, -10)}} | R$ {{$pagamento->valor}}</label>
 				    	</div>							  
 					@endforeach
 					
