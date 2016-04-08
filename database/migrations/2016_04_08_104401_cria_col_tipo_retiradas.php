@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CriaColPeriodRetiradas extends Migration
+class CriaColTipoRetiradas extends Migration
 {
     /**
      * Run the migrations.
