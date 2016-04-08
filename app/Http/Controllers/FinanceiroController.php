@@ -21,6 +21,8 @@ use serranatural\Models\Movimentacao;
 use Image;
 use Input;
 
+use Carbon\Carbon;
+
 use serranatural\Http\Requests\PagamentoRequest as PagamentoRequest;
 
 class FinanceiroController extends Controller
@@ -291,7 +293,10 @@ class FinanceiroController extends Controller
         $retirada->user_id = \Auth::user()->id;
         $retirada->valor = $request->valor;
         $retirada->descricao = $request->descricao . ' - ' . date('H:i:s');
+        $retirada->tipo = $request->tipo;
         $retirada->motivo = $request->motivo;
+        $retirada->init = Carbon::createFromFormat('d/m/Y', $request->init)->format('Y-m-d');
+        $retirada->end = Carbon::createFromFormat('d/m/Y', $request->end)->format('Y-m-d');
         $retirada->fonte_pgto = $request->fontePgto;
         
 

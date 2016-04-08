@@ -19,7 +19,19 @@
 					{{ csrf_field() }}
 
 						<div class="form-group">
-							<label>Descrição</label>
+								<select class="form-control"v-model="retirada.tipo">
+									<option value="Sangria">Sangria</option>
+									<option value="Vale Transporte">Vale Transporte</option>
+									<option value="Bonificação">Bonificação</option>
+									<option value="Taxa de serviço">Taxa de serviço</option>
+									<option value="Adiantamento">Adiantamento</option>
+									<option value="Pagamento">Pagamento</option>
+									<option value="Outros">Outros</option>
+								</select>
+						</div>
+
+						<div class="form-group">
+							<label>Descrição adicional</label>
 							<input type="text" 
 								name="descricao" 
 								class="form-control"
@@ -50,16 +62,20 @@
 		                  
 		                </div>
 
-		                <div class="form-group" v-if="!retirada.retiradoCaixa">
-							<label>Fonte pagamento</label>
-							<input type="text" 
-								class="form-control"
-								v-model="retirada.fontePgto" />
+						<div class="form-group">
+								<select class="form-control"v-model="retirada.fontePgto">
+									<option value="Dinheiro Caixa">Dinheiro Caixa</option>
+									<option value="Dinheiro externo">Dinheiro externo</option>
+									<option value="Conta Loja">Conta Loja</option>
+									<option value="Conta MB">Conta MB</option>
+									<option value="Dinheiro Igor">Dinheiro Igor</option>
+									<option value="Outros">Outros</option>
+								</select>
 						</div>
 
 		                <div class="form-group" v-on:click="registraPagamento">
 		                	<input type="hidden" name="retirado_caixa" value="0" />
-		                	<label >Registrar pagamento no financeiro?</label><br>
+		                	<label >Registrar retirada no financeiro?</label><br>
 		                    <input type="checkbox" 
 	                    		class="form-control" 
 	                    		name="registra_pagamento" 
@@ -75,7 +91,17 @@
 
 
 
-		                <div class="form-group" v-on:click="pagamentoFuncionario">
+
+					
+						<div class="form-group">
+							{!! Form::select('funcionario_id', $funcionarios, null, ['class' => 'form-control', 
+							'single' => 'single', 
+							'id' => 'funcionarios', 
+							'placeholder' => 'Selecione um funcionario',
+							'v-model' => 'retirada.funcionario_id'])   !!}
+						</div>
+
+						<div class="form-group" v-on:click="pagamentoFuncionario" v-show="retirada.funcionario_id">
 		                	<input type="hidden" name="retirado_caixa" value="0" />
 		                	<label >O valor é algum tipo de desconto na folha de pagamento?</label><br>
 		                	<label >Ex. Adiantamento / Mau uso / INSS</label><br>
@@ -91,24 +117,21 @@
 		                    />
 		                  
 		                </div>
-					
-						<div class="form-group">
-							{!! Form::select('funcionario_id', $funcionarios, null, ['class' => 'form-control', 
-							'single' => 'single', 
-							'id' => 'funcionarios', 
-							'placeholder' => 'Selecione um funcionario',
-							'v-model' => 'retirada.funcionario_id'])   !!}
+
+						<div class="form-group" v-show="retirada.funcionario_id">
+								<label>Referência periodo - início</label>
+								<input type="text" v-model="retirada.init" class="form-control datepicker dataCompleta" required/>
 						</div>
 
 						<div class="form-group" v-show="retirada.funcionario_id">
-								<label>Periodo</label>
-								<input type="text" v-model="retirada.motivo" class="form-control dataMesAno" required/>
+								<label>Referência periodo - final</label>
+								<input type="text" v-model="retirada.end" class="form-control datepicker dataCompleta" required/>
 						</div>
 						
 
 
 
-						<button type="submit" v-on:click="confirmRetirada($event)" class="btn btn-block btn-primary">Dar retirada</button>
+						<button type="submit" v-on:click="confirmRetirada($event)" class="btn btn-block btn-primary">Fazer retirada</button>
 
 				</div>
 			</div>
@@ -155,12 +178,15 @@
 				    data: 
 				    {
 				    	retirada: {
+				    		tipo: '',
 				    		valor: '',
 					    	descricao: '',
 					    	retiradoCaixa: 0,
 					    	funcionario_id: '',
 					    	is_debito: '',
 					    	motivo: '',
+					    	init: '',
+					    	end: '',
 					    	registraPagamento: '',
 					    	fontePgto: ''
 					    },

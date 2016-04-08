@@ -9,7 +9,7 @@ class Retirada extends Model
 {
     use SoftDeletes;
 
-    protected $dates = ['deleted_at', 'created_at'];
+    protected $dates = ['init', 'end', 'deleted_at', 'created_at'];
 
     protected $table = 'retiradas';
 
@@ -22,7 +22,10 @@ class Retirada extends Model
                             'valor',
                             'motivo',
     						'is_debito',
-                            'fonte_pgto'
+                            'fonte_pgto',
+                            'init',
+                            'end',
+                            'tipo'
     					];
 
 

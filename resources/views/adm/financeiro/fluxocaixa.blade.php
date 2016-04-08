@@ -172,12 +172,14 @@
 							<table class="table">
 							    <thead>
 							        <tr>
+							            <th>Tipo</th>
 							            <th>Descrição</th>
 							            <th>Valor</th>
 							        </tr>
 							    </thead>
 							    <tbody>
 							        <tr v-for="retirada in retiradas">
+							            <td>@{{retirada.tipo}}</td>
 							            <td>@{{retirada.descricao}}</td>
 							            <td>R$ @{{retirada.valor}}</td>
 							        </tr>
@@ -228,7 +230,8 @@
 				    		valor: '',
 				    		senha: '',
 				    		turno: 'primeiro',
-				    	}
+				    	},
+				    	retiradas: [],
 				    },
 				    attached: function()
     					{

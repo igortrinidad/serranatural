@@ -18,6 +18,7 @@
 					    <thead>
 					        <tr>
 					            <th>Periodo</th>
+					            <th>Periodo</th>
 					            <th>Descrição</th>
 					            <th>Crédito</th>
 					            <th>Débito</th>
@@ -26,15 +27,20 @@
 					    <tbody>
 					    	@foreach($pagamentos as $pagamento)
 					        <tr>
-								<td class="text-center" widtd="20%">{{$pagamento->motivo}}</td>
-								<td class="text-center" widtd="15%">{{substr($pagamento->descricao, 0, -10)}}</td>
-								<td class="text-center" widtd="35%">@if($pagamento->is_debito == 0) R$ {{$pagamento->valor}} @endif</td>
-								<td class="text-center">@if($pagamento->is_debito == 1) R$ {{$pagamento->valor}} @endif</td>
+								<td class="text-center" widtd="15%">{{$pagamento->init->format('d/m/Y')}}</td>
+								<td class="text-center" widtd="15%">{{$pagamento->end->format('d/m/Y')}}</td>
+								<td class="text-center" widtd="40%">
+								@if(is_null($pagamento->tipo) or empty($pagamento->tipo)) {{substr($pagamento->descricao, 0, -10) }} 
+								@elseif($pagamento->tipo == 'Pagamento') Pagamento {{substr($pagamento->descricao, 0, -10)}} 
+								@else {{$pagamento->tipo}}
+								@endif</td>
+								<td class="text-center" widtd="15%">@if($pagamento->is_debito == 0) R$ {{$pagamento->valor}} @endif</td>
+								<td class="text-center" widtd="15%">@if($pagamento->is_debito == 1) R$ {{$pagamento->valor}} @endif</td>
 					        </tr>
 					        @endforeach
 					        
 					        <tr>
-					        	<td colspan="3" class="text-right"><strong>Total</strong></td>
+					        	<td colspan="4" class="text-right"><strong>Total</strong></td>
 					        	<td colspan="1" class="text-center"><strong>R$ {{number_format($total, 2, ',', '.')}}</strong></td>
 					        </tr>
 					        
