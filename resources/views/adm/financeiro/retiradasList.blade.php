@@ -49,7 +49,11 @@
 			    <tbody>
 			    @foreach($retiradas as $retirada)
 			        <tr>
-			            <td>{{$retirada->created_at}}</td>
+			            <td>
+			            <a href="{{
+			            	route('admin.financeiro.retiradaEdit', $retirada->id) }}" />{{$retirada->created_at->format('d/m/Y')}}
+			            </a>
+			            </td>
 			            <td>{{$retirada->valor}}</td>
 			            <td>{{$retirada->descricao}}</td>
 			            <td>{{$retirada->usuario->name}}</td>

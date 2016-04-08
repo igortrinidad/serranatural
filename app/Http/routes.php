@@ -39,6 +39,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::post('financeiro/gravarCaixa', ['as' => 'gravarCaixa', 'uses' => 'FinanceiroController@gravarCaixa']);
 		Route::post('financeiro/fecharCaixa', ['as' => 'fecharCaixa', 'uses' => 'FinanceiroController@fecharCaixa']);
 		Route::get('financeiro/retirada', ['as' => 'retirada', 'uses' => 'FinanceiroController@retirada']);
+		Route::get('financeiro/retiradaEdit/{id}', ['as' => 'retiradaEdit', 'uses' => 'FinanceiroController@retiradaEdit']);
 		Route::post('financeiro/retiradaPost', ['as' => 'retiradaPost', 'uses' => 'FinanceiroController@retiradaPost']);
 		Route::get('financeiro/retiradas', ['as' => 'retiradasList', 'uses' => 'FinanceiroController@retiradasList']);
 		Route::get('financeiro/pagamentos', ['as' => 'pagamentos', 'uses' => 'FinanceiroController@cadastraPgto']);

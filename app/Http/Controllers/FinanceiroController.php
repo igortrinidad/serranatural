@@ -295,8 +295,7 @@ class FinanceiroController extends Controller
         $retirada->descricao = $request->descricao . ' - ' . date('H:i:s');
         $retirada->tipo = $request->tipo;
         $retirada->motivo = $request->motivo;
-        $retirada->init = Carbon::createFromFormat('d/m/Y', $request->init)->format('Y-m-d');
-        $retirada->end = Carbon::createFromFormat('d/m/Y', $request->end)->format('Y-m-d');
+
         $retirada->fonte_pgto = $request->fontePgto;
         
 
@@ -305,6 +304,9 @@ class FinanceiroController extends Controller
                 if ($request->is_debito) {
                 $retirada->is_debito = 1;
             }
+
+            $retirada->init = Carbon::createFromFormat('d/m/Y', $request->init)->format('Y-m-d');
+            $retirada->end = Carbon::createFromFormat('d/m/Y', $request->end)->format('Y-m-d');
         }
 
         if (!is_null($request->registraPagamento) or !empty($request->registraPagamento)) {
@@ -352,6 +354,29 @@ class FinanceiroController extends Controller
         ];
 
         return $return;
+    }
+
+    public function retiradaEdit($id)
+    {
+        $retirada = Retirada::find($id);
+
+        $funcionarios = $this->funcionariosForSelect();
+
+        return view('adm.financeiro.retiradaEdit', compact('retirada', 'funcionarios'));
+    }
+
+    public function retiradaUpdate($id)
+    {
+        $retirada = Retirada::find($id);
+
+        $retirada->update([
+
+            ]);
+
+         flash()->success('Retirada alterada com sucesso');
+
+        return view('adm.financeiro.retiradasList')->with($return);
+
     }
 
     public function cadastraPgto()

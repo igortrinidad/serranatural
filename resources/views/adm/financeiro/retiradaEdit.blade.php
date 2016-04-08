@@ -56,14 +56,14 @@
 	                    		data-toggle="toggle" 
 	                    		data-onstyle="danger" 
 	                    		data-on="Sim" 
-	                    		data-off="Não",
+	                    		data-off="Não" @if($retirada->retirado_caixa == 1) checked @endif
 
 		                    />
 		                  
 		                </div>
 
 						<div class="form-group">
-								<select class="form-control"v-model="retirada.fontePgto">
+								<select class="form-control"v-model="retirada.fonte_pgto">
 									<option value="Dinheiro Caixa">Dinheiro Caixa</option>
 									<option value="Dinheiro externo">Dinheiro externo</option>
 									<option value="Conta Loja">Conta Loja</option>
@@ -73,26 +73,6 @@
 								</select>
 						</div>
 
-		                <div class="form-group" v-on:click="registraPagamento">
-		                	<input type="hidden" name="retirado_caixa" value="0" />
-		                	<label >Registrar retirada no financeiro?</label><br>
-		                    <input type="checkbox" 
-	                    		class="form-control" 
-	                    		name="registra_pagamento" 
-	                    		value="1" 
-	                    		data-toggle="toggle" 
-	                    		data-onstyle="danger" 
-	                    		data-on="Sim" 
-	                    		data-off="Não",
-
-		                    />
-		                  
-		                </div>
-
-
-
-
-					
 						<div class="form-group">
 							{!! Form::select('funcionario_id', $funcionarios, null, ['class' => 'form-control', 
 							'single' => 'single', 
@@ -112,7 +92,9 @@
 	                    		data-toggle="toggle" 
 	                    		data-onstyle="danger" 
 	                    		data-on="Sim" 
-	                    		data-off="Não",
+	                    		data-off="Não"
+
+	                    		@if($retirada->is_debito == 1) checked @endif
 
 		                    />
 		                  
@@ -132,9 +114,9 @@
 
 
 						<button type="submit" 
-							v-on:click="confirmRetirada($event)" 
-							:disabled="! retirada.tipo"
-							class="btn btn-block btn-primary">Fazer retirada</button>
+						v-on:click="confirmRetirada($event)" 
+						:disabled="! retirada.tipo"
+						v-on:click="confirmRetirada($event)" class="btn btn-block btn-primary">Salvar retirada</button>
 
 				</div>
 			</div>
@@ -191,7 +173,7 @@
 					    	init: '',
 					    	end: '',
 					    	registraPagamento: '',
-					    	fontePgto: ''
+					    	fonte_pgto: ''
 					    },
 					    response: {
 					    	error: {
@@ -200,6 +182,17 @@
 					    	}
 					    }
 				  
+				    },
+				    ready: function() {
+				    	this.retirada.tipo = {!! json_encode($retirada->tipo) !!};
+				    	this.retirada.valor = {!! json_encode($retirada->valor) !!};
+				    	this.retirada.descricao = {!! json_encode($retirada->descricao) !!};
+				    	this.retirada.funcionario_id = {!! json_encode($retirada->funcionario_id) !!};
+				    	this.retirada.is_debito = {!! json_encode($retirada->is_debito) !!};
+				    	this.retirada.fonte_pgto = {!! json_encode($retirada->fonte_pgto) !!};
+				    	this.retirada.retiradoCaixa = {!! json_encode($retirada->retirado_caixa) !!};
+				    	this.retirada.init = {!! json_encode($retirada->init->format('d/m/Y')) !!};
+				    	this.retirada.end = {!! json_encode($retirada->end->format('d/m/Y')) !!};
 				    },
 				    methods:
 				    {
