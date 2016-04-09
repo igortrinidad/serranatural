@@ -62,6 +62,21 @@
 		                  
 		                </div>
 
+		                <div class="form-group" v-on:click="registraPagamento">
+		                	<input type="hidden" name="retirado_caixa" value="0" />
+		                	<label >Registrar retirada no financeiro?</label><br>
+		                    <input type="checkbox" 
+	                    		class="form-control" 
+	                    		name="registra_pagamento" 
+	                    		value="1" 
+	                    		data-toggle="toggle" 
+	                    		data-onstyle="danger" 
+	                    		data-on="Sim" 
+	                    		data-off="Não",
+
+		                    />
+		                </div>
+
 						<div class="form-group">
 								<select class="form-control"v-model="retirada.fonte_pgto">
 									<option value="Dinheiro Caixa">Dinheiro Caixa</option>
@@ -163,6 +178,7 @@
 				    data: 
 				    {
 				    	retirada: {
+				    		id: {{$retirada->id}},
 				    		tipo: '',
 				    		valor: '',
 					    	descricao: '',
@@ -242,7 +258,7 @@
 				    	sendRetirada: function() {
 				    		self = this;
 				    		console.log('Retirada foi recebida até aqui zé!');
-					    	self.$http.post('/admin/financeiro/retiradaPost', self.retirada).then(function (response) 
+					    	self.$http.post('/admin/financeiro/retiradaUpdate', self.retirada).then(function (response) 
 					    	{
 						    	console.log(response.data);
 						    	self.retirada.valor = '';
@@ -252,6 +268,8 @@
 						    	self.response.error.status_code = '';
 
 						    	swal("Ok!", "Sua Retirada foi cadastrada", "success"); 
+
+						    	window.location = '/admin/financeiro/retiradas';
 
 
 

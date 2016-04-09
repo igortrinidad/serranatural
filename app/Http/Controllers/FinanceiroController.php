@@ -365,17 +365,28 @@ class FinanceiroController extends Controller
         return view('adm.financeiro.retiradaEdit', compact('retirada', 'funcionarios'));
     }
 
-    public function retiradaUpdate($id)
+    public function retiradaUpdate(Request $request)
     {
-        $retirada = Retirada::find($id);
+        $retirada = Retirada::find($request->id);
 
-        $retirada->update([
-
-            ]);
+        $retirada->tipo = $request->tipo;
+        $retirada->valor = $request->valor;
+        $retirada->descricao = $request->descricao;
+        $retirada->retirado_caixa = $request->retiradoCaixa;
+        
+        $retirada->is_debito = $request->is_debito;
+        $retirada->motivo = $request->motivo;
+        if($request->funcionario_id >= 1) {
+            $retirada->funcionario_id = $request->funcionario_id;
+            $retirada->init = Carbon::createFromFormat('d/m/Y', $request->init)->format('Y-m-d');
+            $retirada->end = Carbon::createFromFormat('d/m/Y', $request->end)->format('Y-m-d');
+        }
+        $retirada->fonte_pgto = $request->fonte_pgto;
+        $retirada->save();
 
          flash()->success('Retirada alterada com sucesso');
 
-        return view('adm.financeiro.retiradasList')->with($return);
+        return 'ok';
 
     }
 

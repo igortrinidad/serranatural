@@ -340,12 +340,16 @@
 				    		
 				    		var conferencia1 = ( parseFloat(this.caixa_aberto.vr_emCaixa) + parseFloat(this.caixa_aberto.total_retirada) - (parseFloat(this.caixa_aberto.vr_abertura)));
 
-				    		var conferencia2 = (parseFloat(this.vendas.venda_dia) + parseFloat(this.vendas.taxa_dia)) -
+				    		var conferencia2 = (parseFloat(this.vendas.venda_dia.replace(',', '')) + parseFloat(this.vendas.taxa_dia)) -
 				    		(parseFloat(this.caixa_aberto.vendas_cielo) + parseFloat(this.caixa_aberto.vendas_rede)); 
 
 				    		var diferenca = (conferencia1) - (conferencia2);
 
 					    	this.caixa_aberto.diferenca_final = parseFloat(diferenca).toFixed(2);
+
+					    	console.log('Conferencia 2: ' + conferencia1);
+					    	console.log('Conferencia 1: ' + conferencia2);
+					    	console.log('Diferença: ' + diferenca);
 				    	},
 				    	addProduto: function(ev, quantidade) {
 				    		ev.preventDefault();
