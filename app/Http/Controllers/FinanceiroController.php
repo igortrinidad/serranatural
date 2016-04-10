@@ -298,8 +298,9 @@ class FinanceiroController extends Controller
 
         $retirada->fonte_pgto = $request->fontePgto;
         
+        //dd($request->all());
 
-        if (!is_null($request->funcionario_id) or !empty($request->funcionario_id)) {
+        if ($request->funcionario_id >= 1) {
             $retirada->funcionario_id = $request->funcionario_id;
                 if ($request->is_debito) {
                 $retirada->is_debito = 1;

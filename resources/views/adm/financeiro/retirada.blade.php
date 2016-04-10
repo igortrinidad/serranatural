@@ -86,7 +86,6 @@
 	                    		data-off="Não",
 
 		                    />
-		                  
 		                </div>
 
 
@@ -196,7 +195,7 @@
 					    response: {
 					    	error: {
 						    	message: '',
-						    	status_code: ''
+						    	status_code: '',
 					    	}
 					    }
 				  
@@ -263,8 +262,8 @@
 
 
 					      	}, function (response) {
-					          	self.response = response.data;
-					          	swal("ERRO!", self.response.error.message, "warning");
+					          	console.log(response.data);
+					          	swal("ERRO!", "Erro ao cadastrar retirada, ligue para o Igor.", "warning");
 					      	});
 				    	}
 				    },
