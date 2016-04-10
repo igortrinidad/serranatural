@@ -327,6 +327,8 @@ class FinanceiroController extends Controller
 
         $retirada->save();
 
+        //dd($request->all());
+
         if ($request->retiradoCaixa == 1) {
             $caixa = Caixa::where('is_aberto', '=', 1)->first();
 
