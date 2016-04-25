@@ -91,10 +91,11 @@
 					  focus: true,
 					  toolbar: [
     // [groupName, [list of button]]
-					    ['style', ['bold', 'italic', 'underline', 'clear']],
-					    ['font', ['strikethrough', 'superscript', 'subscript']],
+					    ['fontname', ['fontname']],
 					    ['fontsize', ['fontsize']],
 					    ['color', ['color']],
+					    ['style', ['bold', 'italic', 'underline', 'clear']],
+					    ['font', ['strikethrough', 'superscript', 'subscript']],
 					    ['para', ['ul', 'ol', 'paragraph']],
 					    ['height', ['height']],
 					    ['picture', ['picture']],
