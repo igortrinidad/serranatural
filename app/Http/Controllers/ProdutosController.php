@@ -674,9 +674,11 @@ class ProdutosController extends Controller
 
     public function listaProdutos()
     {
-        $produtos = Produto::all();
+        $produtosRastreados = Produto::where('tracked', '=', '1')->orderBy('nome_produto', 'asc')->get();
 
-        return view('adm.produtos.produtos.lista', compact('produtos'));
+        $produtosNaoRastreados = Produto::where('tracked', '=', '0')->orderBy('nome_produto', 'asc')->get();
+
+        return view('adm.produtos.produtos.lista', compact('produtosRastreados', 'produtosNaoRastreados'));
     }
 
     public function createProdutos()
