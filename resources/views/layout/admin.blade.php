@@ -375,6 +375,9 @@
                                 <li>
                                     <a href="/admin/produtos/historico/balanco">Historico Balanço</a>
                                 </li>
+                                <li>
+                                    <a href="/admin/produtos/lista">Lista produtos</a>
+                                </li>
                             </ul>
                         </li>
 
