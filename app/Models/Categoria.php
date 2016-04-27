@@ -17,6 +17,6 @@ class Categoria extends Model
 
     public function produtos()
     {
-    	return $this->hasMany('serranatural\Models\Produto');
+    	return $this->hasMany('serranatural\Models\Produto', 'categoria_id', 'id');
     }
 }

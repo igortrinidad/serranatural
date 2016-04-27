@@ -674,9 +674,9 @@ class ProdutosController extends Controller
 
     public function listaProdutos()
     {
-        $produtosRastreados = Produto::where('tracked', '=', '1')->orderBy('nome_produto', 'asc')->get();
+        $produtosRastreados = Produto::with('categoria')->where('tracked', '=', '1')->orderBy('nome_produto', 'asc')->get();
 
-        $produtosNaoRastreados = Produto::where('tracked', '=', '0')->orderBy('nome_produto', 'asc')->get();
+        $produtosNaoRastreados = Produto::with('categoria')->where('tracked', '=', '0')->orderBy('nome_produto', 'asc')->get();
 
         return view('adm.produtos.produtos.lista', compact('produtosRastreados', 'produtosNaoRastreados'));
     }
