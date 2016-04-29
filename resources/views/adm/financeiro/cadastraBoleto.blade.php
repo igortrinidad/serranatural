@@ -216,6 +216,7 @@
 				    		}
 				    		Produto = {id: this.selected.id, nome: this.selected.nome, quantidade: this.selected.quantidade};
 				    		this.pagamento.produtos.push(Produto);
+				    		
 				    		this.selected = {id: '', nome: '', quantidade: ''};
 				    	},
 				    	onFileChange(e, tipo) {

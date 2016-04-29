@@ -653,38 +653,6 @@ class FinanceiroController extends Controller
         return view('adm.financeiro.pagamentoSimples')->with($dados);
     }
 
-    public function consultaCaixaAjax(Request $request)
-    {
-
-        $caixa = Caixa::find($request->id);
-
-        $retiradas = Retirada::where('caixa_id', '=', $request->id)->lists('valor', 'descricao');
-
-        $retiradasFora = Retirada::whereDate('created_at', '=', date('Y-m-d'))->where('retirado_caixa', '=', 0)->lists('valor', 'descricao');
-
-        $return = [
-        'id' => $caixa->id,
-        'dt_abertura' => $caixa->dt_abertura->format('d/m/Y H:i:s'),
-        'dt_fechamento' => $caixa->dt_fechamento->format('d/m/Y H:i:s'),
-        'vendas_cash' => $caixa->vendas_cash,
-        'vendas_card' => $caixa->vendas_card,
-        'total_vendas' => number_format($caixa->vendas_cash + $caixa->vendas_card, 2, ',', '.'),
-        'vendas_rede' => $caixa->vendas_rede,
-        'vendas_cielo' => $caixa->vendas_cielo,
-        'total_retirada' => $caixa->total_retirada,
-        'esperado_caixa' => $caixa->esperado_caixa,
-        'vr_emCaixa' => $caixa->vr_emCaixa,
-        'vr_abertura' => $caixa->vr_abertura,
-        'diferenca_cartoes' => $caixa->diferenca_cartoes,
-        'diferenca_caixa' => $caixa->diferenca_caixa,
-        'diferenca_final' => $caixa->diferenca_final,
-        'user_abertura' => $caixa->usuarioAbertura->name,
-        'user_fechamento' => $caixa->usuarioFechamento->name,
-        'retiradas' => $retiradas,
-        'retiradasFora' => $retiradasFora
-        ];
-        return $return;
-    }
 
     public function retiradasList()
     {

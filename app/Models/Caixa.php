@@ -32,33 +32,10 @@ class Caixa extends Model
                             'dt_fechamento',
                             'is_aberto',
                             'turno',
-                            'vr_emCaixa'
+                            'vr_emCaixa',
+                            'obs'
                             ];
 
-    public function getCreatedAtAttribute($value)
-    {
-        return date('d/m/Y H:i:s', strtotime($value));
-    }
-
-    //public function getDtFechamentoAttribute($value)
-    //{
-    //    return date('d/m/Y H:i:s', strtotime($value));
-    //}
-//
-    //public function getDtAberturaAttribute($value)
-    //{
-    //    return date('d/m/Y H:i:s', strtotime($value));
-    //}
-
-    //public function getVrEmCaixaAttribute($value)
-    //{
-    //    return 'R$ ' . number_format($value, 2, ',', '.');
-    //}
-
-    //public function getDiferencaFinalAttribute($value)
-    //{
-    //    return 'R$ ' . number_format($value, 2, ',', '.');
-    //}
 
     public function retiradas()
     {

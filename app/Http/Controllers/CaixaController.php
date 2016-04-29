@@ -45,48 +45,25 @@ class CaixaController extends Controller
                 ], 200);
         } 
 
-        $init = new Carbon('today');
-        $init = $init->format('Y-m-d H:i:s');
-        $end = new Carbon('tomorrow');
-        $end = $end->format('Y-m-d H:i:s');
-
-        $caixa_anterior = Caixa::whereBetween('created_at', [$init, $end])->orderBy('created_at', 'desc')->first();
-
-        if(!is_null($caixa_anterior) or !empty($caixa_anterior)) {
-            return response()->json([
-                    'caixa_anterior' => $caixa_anterior,
-                    'caixa_is_aberto' => 'false',
-                    'turno' => '2',
-                ], 200);
-        }
-
-        $init = new Carbon('yesterday');
-        $init = $init->format('Y-m-d H:i:s');
-        $end = new Carbon('today');
-        $end = $end->format('Y-m-d H:i:s');
-
-        $caixa_anterior = Caixa::whereBetween('created_at', [$init, $end])->orderBy('created_at', 'desc')->first();
+        $caixa_anterior = Caixa::where('is_aberto', '=', '0')->orderBy('created_at', 'desc')->first();
         
         return response()->json([
                 'caixa_anterior' => $caixa_anterior,
                 'caixa_is_aberto' => 'false',
-                'turno' => '1',
             ], 200);
-
-            
 
     }
 
     public function consultaVendas()
     {
+
         $token = '5bDwfv16l7I02iePbc2GcQ';
 
-        $caixa = Caixa::where('is_aberto', '=', '1')->orderBy('created_at', 'DESC')->first();
+        $caixa = Caixa::where('is_aberto', '=', '0')->orderBy('dt_fechamento', 'DESC')->first();
 
-        $begin = Carbon::createFromFormat('d/m/Y H:i:s', $caixa['created_at']);
+        $begin = Carbon::createFromFormat('Y-m-d H:i:s', $caixa['dt_fechamento']);
         $begin->addHours(3);
-        $begin = $begin->getTimestamp();
-        $begin = 'begin_time='.date('Y-m-d\TH:i:s\Z', $begin);
+        $begin = 'begin_time='.$begin->format('Y-m-d\TH:i:s\Z');
 
 
         $end = new Carbon('now');
@@ -114,6 +91,7 @@ class CaixaController extends Controller
         $return['taxa_dia'] = number_format(($tax/100),2);
         $return['begin_time'] = $begin;
         $return['end_time'] = $end;
+        $return['vendas_apartir'] = $caixa->dt_fechamento->format('d/m/Y H:i:s');
 
         return $venda_total = $return;
 
@@ -143,7 +121,7 @@ class CaixaController extends Controller
                     'user_id_abertura' => \Auth::user()->id,
                     'turno' => $request->turno,
                     'is_aberto' => 1,
-                    'dt_abertura' => date('Y-d-m H:i:s')
+                    'dt_abertura' => date('Y-m-d H:i:s')
                 ]);
 
             return response()->json([
@@ -181,7 +159,8 @@ class CaixaController extends Controller
                     'vr_emCaixa' => $request->vr_emCaixa,
                     'turno' => $request->turno,
                     'diferenca_final' => $request->diferenca_final,
-                    'is_aberto' => $request->is_aberto
+                    'is_aberto' => $request->is_aberto,
+                    'obs' => $request->obs
                 ]);
         }
 
@@ -232,7 +211,8 @@ class CaixaController extends Controller
                     'esperado_caixa' => $request->esperado_caixa,
                     'vr_emCaixa' => $request->vr_emCaixa,
                     'diferenca_final' => $request->diferenca_final,
-                    'dt_fechamento' => date('Y-d-m H:i:s'),
+                    'dt_fechamento' => date('Y-m-d H:i:s'),
+                    'obs' => $request->obs,
                     'is_aberto' => 0
                 ]);
         }
@@ -275,26 +255,4 @@ class CaixaController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

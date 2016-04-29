@@ -26,8 +26,15 @@
 					<div class="well text-center">
 						<p><strong>Fundo de caixa anterior</strong></p>
 						<p><strong>R$ @{{caixa_anterior.vr_emCaixa}} </strong></p>
+						<p><strong>Observações</strong></p>
+						<p>@{{caixa_anterior.obs}}</p>
 					</div>
-
+					<div class="form-group">
+						<select class="form-control" v-model="abrir_caixa.turno">
+							<option value="1" selected>Turno 1</option>
+							<option value="2">Turno 2</option>
+						</select>
+					</div>
 					<div class="form-group">
 						<label>Contagem do caixa atual</label>
 						<input class="form-control" type="text" v-model="abrir_caixa.valor"/>
@@ -38,7 +45,7 @@
 						<input class="form-control" type="password" v-model="abrir_caixa.senha"/>
 					</div>
 
-					<button class="btn btn-primary btn-block" :disabled="! abrir_caixa.valor || ! abrir_caixa.senha" v-on:click="abreCaixa()">Abrir caixa</button>
+					<button class="btn btn-primary btn-block" :disabled="! abrir_caixa.valor || ! abrir_caixa.senha || !abrir_caixa.turno" v-on:click="abreCaixa()">Abrir caixa</button>
 
 				</div>
 
@@ -51,6 +58,13 @@
 		<div v-if="caixa_is_aberto == true">
 
 			<div class="row">
+
+				<div class="col-md-3">
+					<div class="well text-center">
+						<h2>Turno: @{{caixa_aberto.turno}}</h2>
+						<p>Turno do caixa</p>
+					</div>
+				</div>
 				<div class="col-md-3">
 					<div class="well text-center">
 						<h2>R$ @{{caixa_aberto.vr_abertura}}</h2>
@@ -72,14 +86,6 @@
 					</div>
 				</div>
 
-				<div class="col-md-3">
-					<div class="well text-center" 
-						v-bind:class="{ 'warning': caixa_aberto.diferenca_final < 0, 'success': caixa_aberto.diferenca_final >= 0 }"
-					>
-						<h2>R$ @{{caixa_aberto.diferenca_final}}</h2>
-						<p>Diferença</p>
-					</div>
-				</div>	
 
 				<div class="col-md-3">
 					<div class="well text-center">
@@ -88,17 +94,26 @@
 					</div>
 				</div>
 
-				<div class="col-md-3" v-if="caixa_aberto.turno == 2">
+				<div class="col-md-3">
 					<div class="well text-center">
 						<h2>R$ @{{caixa_anterior.vendas_rede}}</h2>
 						<p>Venda Rede Anterior</p>
 					</div>
 				</div>	
 
-				<div class="col-md-3" v-if="caixa_aberto.turno == 2">
+				<div class="col-md-3">
 					<div class="well text-center">
 						<h2>R$ @{{caixa_anterior.vendas_cielo}}</h2>
 						<p>Venda Cielo Anterior</p>
+					</div>
+				</div>	
+
+				<div class="col-md-3">
+					<div class="well text-center" 
+						v-bind:class="{ 'warning': caixa_aberto.diferenca_final < 0, 'success': caixa_aberto.diferenca_final >= 0 }"
+					>
+						<h2>R$ @{{caixa_aberto.diferenca_final}}</h2>
+						<p>Diferença</p>
 					</div>
 				</div>	
 
@@ -141,6 +156,13 @@
 										v-model="caixa_aberto.vr_emCaixa"
 										v-on:keyup="calcula($event)"
 									/>
+								</div>
+							</div>
+
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Observações</label>
+									<textarea rows="7" class="form-control" v-model="caixa_aberto.obs"></textarea>
 								</div>
 							</div>
 
@@ -229,7 +251,7 @@
 				    	abrir_caixa: {
 				    		valor: '',
 				    		senha: '',
-				    		turno: 'primeiro',
+				    		turno: '',
 				    	},
 				    	retiradas: [],
 				    },
@@ -254,6 +276,7 @@
 							        self.vendas.taxa_dia = response.data.taxa_dia;
 							        self.vendas.begin_time = response.data.begin_time;
 							        self.vendas.end_time = response.data.end_time;
+							        self.vendas.vendas_apartir = response.data.vendas_apartir;
 							        self.caixa_aberto.vendas = self.vendas.venda_dia;
 
 							    }, function (response) {
