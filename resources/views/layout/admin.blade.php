@@ -323,11 +323,11 @@
                         </li>
 
                         <li>
-                            <a href="#"> Caixa <span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-money"></i> Caixa</a>
                             <ul class="nav nav-second-level">
                                 
                                 <li>
-                                    <a href="{{ route('admin.financeiro.caixa')}}">Fluxo de caixa - NOVO</a>
+                                    <a href="{{ route('admin.financeiro.caixa')}}">Fluxo de caixa</a>
                                 </li>
                                 <li>
                                     <a href="{{ route('admin.financeiro.retirada')}}">Retirada</a>
@@ -336,16 +336,13 @@
                                     <a href="{{ route('admin.financeiro.retiradasList')}}">Histórico retiradas</a>
                                 </li>
                                 <li>
-                                    <a href="#">Entrada</a>
-                                </li>
-                                <li>
                                     <a href="{{ route('admin.financeiro.historico')}}">Histórico de caixa</a>
                                 </li>
                             </ul>
                         </li>
                         
                         <li>
-                            <a href="#"> Financeiro<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-tasks"></i> Financeiro</a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="{{route('admin.financeiro.pagamentos')}}"> Cadastrar pagamento</a>
