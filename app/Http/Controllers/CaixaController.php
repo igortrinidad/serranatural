@@ -231,7 +231,8 @@ class CaixaController extends Controller
             'user_abertura' => $caixa->usuarioAbertura->name,
             'user_fechamento' => $caixa->usuarioFechamento->name,
             'retiradas' => $caixa->retiradas,
-            'turno' => $caixa->turno
+            'turno' => $caixa->turno,
+            'observacoes' => $caixa->obs
         ];
 
         $email = Mail::queue('emails.admin.fechamentoCaixaNovo', $dados, function ($message) use ($dados, $caixa) {
