@@ -20,6 +20,16 @@ class conta_a_pagar extends Command implements SelfHandling
 
     public function handle()
     {
+        if(date('d') == '6'){
+            $pagamento = Pagamento::create([
+                'user_id_cadastro' => 1,
+                'descricao' => 'Aluguel do mês: ' . date('m'),
+                'vencimento' => date('14/m/Y'),
+                'valor' => 0,
+                'is_liquidado' => 0
+                ]);
+        }
+
         $timestamp = strtotime("+2 days");
         $pagamentos = Pagamento::where('is_liquidado', '=', '0')
                                 ->where('vencimento', '<=', date('Y-m-d', $timestamp))
@@ -42,7 +52,9 @@ class conta_a_pagar extends Command implements SelfHandling
 
             });
 
-	    return 'Comando rodado com sucesso - email enviado';
+    	    return 'Comando rodado com sucesso - email enviado';
+
+        
         }
 
 	return 'Nenhum pagamento à vencer';

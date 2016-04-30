@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use serranatural\Http\Requests;
 use serranatural\Http\Controllers\Controller;
 
+use serranatural\Models\Pagamento;
 use View;
 
 class SystemController extends Controller
@@ -26,6 +27,7 @@ class SystemController extends Controller
 
     public function indexDashboard()
     {
+
         return view('adm.dashboard.index');
     }
 
