@@ -46,9 +46,6 @@
 								v-model="retirada.valor" />
 						</div>
 						
-						<div class="formGroup" v-on:click="retiraCaixa">
-							
-						</div>
 		                <div class="form-group" v-on:click="retiraCaixa">
 		                	<input type="hidden" name="retirado_caixa" value="0" />
 		                	<label >Valor retirado do caixa?</label><br>
