@@ -45,20 +45,15 @@
 								class="form-control maskValor"
 								v-model="retirada.valor" />
 						</div>
-
+						
+						<div class="formGroup" v-on:click="retiraCaixa">
+							
+						</div>
 		                <div class="form-group" v-on:click="retiraCaixa">
 		                	<input type="hidden" name="retirado_caixa" value="0" />
 		                	<label >Valor retirado do caixa?</label><br>
-		                    <input type="checkbox" 
-	                    		class="form-control" 
-	                    		name="retirado_caixa" 
-	                    		value="1" 
-	                    		data-toggle="toggle" 
-	                    		data-onstyle="danger" 
-	                    		data-on="Sim" 
-	                    		data-off="Não",
-
-		                    />
+		                    <button class="btn btn-danger" v-show="retirada.retiradoCaixa">Sim</button>
+							<button class="btn btn-default" v-show="!retirada.retiradoCaixa">Não</button>
 		                  
 		                </div>
 
@@ -76,16 +71,8 @@
 		                <div class="form-group" v-on:click="registraPagamento">
 		                	<input type="hidden" name="retirado_caixa" value="0" />
 		                	<label >Registrar retirada no financeiro?</label><br>
-		                    <input type="checkbox" 
-	                    		class="form-control" 
-	                    		name="registra_pagamento" 
-	                    		value="1" 
-	                    		data-toggle="toggle" 
-	                    		data-onstyle="danger" 
-	                    		data-on="Sim" 
-	                    		data-off="Não",
-
-		                    />
+		                    <button class="btn btn-danger" v-show="retirada.registraPagamento">Sim</button>
+							<button class="btn btn-default" v-show="!retirada.registraPagamento">Não</button>
 		                </div>
 
 
@@ -104,16 +91,8 @@
 		                	<input type="hidden" name="retirado_caixa" value="0" />
 		                	<label >O valor é algum tipo de desconto na folha de pagamento?</label><br>
 		                	<label >Ex. Adiantamento / Mau uso / INSS</label><br>
-		                    <input type="checkbox" 
-	                    		class="form-control" 
-	                    		name="is_debito" 
-	                    		value="1" 
-	                    		data-toggle="toggle" 
-	                    		data-onstyle="danger" 
-	                    		data-on="Sim" 
-	                    		data-off="Não",
-
-		                    />
+		                    <button class="btn btn-danger" v-show="retirada.is_debito">Sim</button>
+							<button class="btn btn-default" v-show="!retirada.is_debito">Não</button>
 		                  
 		                </div>
 
@@ -185,11 +164,11 @@
 					    	descricao: '',
 					    	retiradoCaixa: 0,
 					    	funcionario_id: '',
-					    	is_debito: '',
+					    	is_debito: 0,
 					    	motivo: '',
 					    	init: '',
 					    	end: '',
-					    	registraPagamento: '',
+					    	registraPagamento: 0,
 					    	fontePgto: ''
 					    },
 					    response: {
