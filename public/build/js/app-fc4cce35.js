@@ -17,7 +17,7 @@ $(function(){
 	});
 
 //configurações mascara
-$('.phone_with_ddd').mask('(00) 0000-0000');
+$('.phone_with_ddd').mask('(00) 00000-0000');
 $('.cpf').mask('000.000.000-00');
 $('.dataCompleta').mask('00/00/0000');
 $('.dataMesAno').mask('00/0000');

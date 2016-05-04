@@ -264,7 +264,7 @@
                                     <a href="{!! route('admin.client.lista') !!}">Lista</a>
                                 </li>
                                 <li>
-                                    <a href="{{url().'/cadastro'}}">Adiciona</a>
+                                    <a href="#modalAddCliente" data-toggle="modal" >Adiciona</a>
                                 </li>
                                 <li>
                                     <a href="{!! route('admin.client.fidelidade') !!}">Fidelidade</a>
@@ -452,7 +452,8 @@
 
     </div>
     <!-- /#wrapper -->
-
+    
+    @include('partials.modalAddCliente')
 
     @section('scripts')
 

@@ -100,6 +100,9 @@
 								<select name="produto" class="form-control">
 									<option value="Açaí">Açaí</option>
 									<option value="Almoço">Almoço</option>
+									<option value="Sandwich">Sandwich</option>
+									<option value="Salada">Salada</option>
+									<option value="Menu">Menu degustação</option>
 								</select>
 							</div>
 						</div>

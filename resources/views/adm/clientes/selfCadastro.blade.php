@@ -46,10 +46,12 @@
                                             <button id="votoCadastro" form="votoForm" type="submit" class="btn btn-primary botao">Cadastrar e votar!</button>
            
                                         </div>
+
+                                    </form>
                                 </div>
 
                                 
-                            </form>
+                            
                                     
                                     
                                 

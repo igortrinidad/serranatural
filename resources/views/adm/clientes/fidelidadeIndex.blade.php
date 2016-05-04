@@ -29,6 +29,8 @@
 						<select class="form-control input-sm" name="produto">
 							<option>Açaí</option>
 							<option>Almoço</option>
+							<option>Salada de frutas</option>
+							<option>Sandwich</option>
 						</select>
 					</div>
 					<div class="col-md-2">
