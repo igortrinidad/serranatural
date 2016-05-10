@@ -85,7 +85,7 @@ class CaixaController extends Controller
         $tax = 0;
         $vendas = [];
         $index = 0;
-        $valorLiquido = 0;
+        $vendaLiquida = 0;
         foreach($response->body as $body) {
             $valor = $valor + $body->net_total_money->amount;
             $tax = $tax + $body->tax_money->amount;
@@ -266,6 +266,27 @@ class CaixaController extends Controller
                 ],
             ], 200);
 
+
+    }
+
+    public function historico()
+    {
+        return view('adm.financeiro.historicoCaixa');
+    }
+
+    public function fetchAll()
+    {
+        $caixas = Caixa::with('usuarioAbertura', 'usuarioFechamento')->orderBy('created_at', 'DESC')->get();
+
+                return response()->json([
+                'retorno' => [
+                    'type' => 'success',
+                    'message' => 'Caixas encontrados.',
+                    'title' => 'Ok!',
+                    'status_code' => 200,
+                ],
+                'caixas' => $caixas,
+            ], 200);
 
     }
 

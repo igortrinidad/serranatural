@@ -578,7 +578,7 @@ class ClienteController extends Controller
         $retirada = new Retirada();
         $retirada->user_id = \Auth::user()->id;
         $retirada->valor = $request->valor;
-        $retirada->descricao = 'VoucherID:' . $voucher->id . ' - ClienteID:' . $request->cliente_id . ' - ' . date('H:i:s');
+        $retirada->descricao = 'ID Voucher: ' . $voucher->id . ' - ID Cliente: ' . $request->cliente_id;
 
         $retirada->save();
 

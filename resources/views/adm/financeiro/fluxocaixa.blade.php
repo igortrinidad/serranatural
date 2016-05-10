@@ -182,7 +182,7 @@
 								</thead>
 								<tbody>
 									<tr v-for="venda in vendas.vendas_resumo">
-										<td >R$ @{{(venda.valor/100).formatMoney(-2, ',', '.')}}</td>
+										<td >R$ @{{(venda.valor/100).formatMoney(2, ',', '.')}}</td>
 										<td>@{{venda.data}}</td>
 										<td><a href="@{{venda.url}}" target="_blank">Ver recibo</td>
 									</tr>
@@ -408,6 +408,7 @@ var n = this,
 				    		var diferenca = (conferencia1) - (conferencia2);
 
 					    	this.caixa_aberto.diferenca_final = parseFloat(diferenca).toFixed(2);
+					    	this.caixa_aberto.vendas = this.vendas.vendaBruta;
 
 					    	console.log('Conferencia 2: ' + conferencia1);
 					    	console.log('Conferencia 1: ' + conferencia2);

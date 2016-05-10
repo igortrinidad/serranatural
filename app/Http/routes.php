@@ -34,14 +34,14 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 
 	{
 		Route::get('financeiro/fluxo', ['as' => 'fluxo', 'uses' => 'FinanceiroController@indexFluxo']);
-		Route::get('financeiro/historico', ['as' => 'historico', 'uses' => 'FinanceiroController@indexHIstorico']);
+		//Route::get('financeiro/historico/caixa', ['as' => 'historico', 'uses' => 'FinanceiroController@indexHIstorico']);
 		Route::post('financeiro/abrirCaixa', ['as' => 'abreCaixa', 'uses' => 'FinanceiroController@abreCaixa']);
 		Route::post('financeiro/gravarCaixa', ['as' => 'gravarCaixa', 'uses' => 'FinanceiroController@gravarCaixa']);
 		Route::post('financeiro/fecharCaixa', ['as' => 'fecharCaixa', 'uses' => 'FinanceiroController@fecharCaixa']);
 		Route::get('financeiro/retirada', ['as' => 'retirada', 'uses' => 'FinanceiroController@retirada']);
 		Route::get('financeiro/retiradaEdit/{id}', ['as' => 'retiradaEdit', 'uses' => 'FinanceiroController@retiradaEdit']);
 		Route::post('financeiro/retiradaPost', ['as' => 'retiradaPost', 'uses' => 'FinanceiroController@retiradaPost']);
-		Route::get('financeiro/retiradas', ['as' => 'retiradasList', 'uses' => 'FinanceiroController@retiradasList']);
+		Route::get('financeiro/historico/retiradas', ['as' => 'retiradasList', 'uses' => 'FinanceiroController@retiradasList']);
 		Route::post('financeiro/retiradaUpdate', ['as' => 'retiradaUpdate', 'uses' => 'FinanceiroController@retiradaUpdate']);
 		Route::get('financeiro/pagamentos', ['as' => 'pagamentos', 'uses' => 'FinanceiroController@cadastraPgto']);
 		Route::post('financeiro/pagamentosPost', ['as' => 'pagamentosPost', 'uses' => 'FinanceiroController@storePgto']);
@@ -64,6 +64,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::post('financeiro/caixa/abreCaixa', ['uses' => 'CaixaController@abreCaixa']);
 		Route::post('financeiro/caixa/update', ['uses' => 'CaixaController@update']);
 		Route::post('financeiro/caixa/fecha', ['uses' => 'CaixaController@fecha']);
+		Route::get('financeiro/historico/caixa', ['as'=> 'caixa.historico','uses' => 'CaixaController@historico']);
+		Route::get('financeiro/historico/caixa/fetchAll', ['uses' => 'CaixaController@fetchAll']);
 	});
 
 

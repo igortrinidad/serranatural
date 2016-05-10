@@ -2,287 +2,109 @@
 
 @section('conteudo')
 
-<h2 class="text-right">Histórico de caixa</h2>
+<style>
+.success{
+	background-color: #CDDC39!important;
+	font-weight: 800;
+}
+
+.warning{
+	background-color: #FF5722!important;
+	font-weight: 800;
+}
+</style>
+
+<div id="elHistoricoCaixa">
+<h2 class="text-right">Retiradas</h2><br>
 
 	@include('errors.messages')
 
-<div class="row">
-	<div class="col-md-12">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<div class="row">
-					<div class="col-md-6">
-						<h4>Histórico</h4>
-					</div>
-					<div class="col-md-6">
-						<div class="inline text-right">
-							<ul class="pagination">
-								<li>
-									<a href="{!! $caixas->previousPageUrl() !!}" rel="prev">«</a>
-								</li>
-								<li>
-									<a href="{{ route('admin.financeiro.historico').'/?page=1' }}">1</a>
-								</li>
-								<li class="active">
-									<a href="#">{!! $caixas->currentPage() !!}</a>
-								</li>
-								<li>
-									<a href="{{ route('admin.financeiro.historico').'/?page='.$caixas->lastPage() }}" rel="prev">{!! $caixas->lastPage() !!}</a>
-								</li>
-								<li>
-									<a href="{!! $caixas->nextPageUrl() !!}" rel="prev">»</a>
-								</li>
-							</ul>	
-						</div>
 
-					</div>
+		<div class="col-md-12">
+
+			<div class="panel panel-default">
+				<div class="panel-heading">Caixas</div>
+				<div class="panel-body">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th class="text-center">Abertura</th>
+										<th class="text-center">Fechamento</th>
+										<th class="text-center">Venda total</th>
+										<th class="text-center">Valor abertura</th>
+										<th class="text-center">Usuario abertura</th>
+										<th class="text-center">Fundo de caixa</th>
+										<th class="text-center">Usuario fechamento</th>
+										<th class="text-center">Diferença total</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="caixa in caixas">
+										<td class="text-center">@{{caixa.dt_abertura}}</td>
+										<td class="text-center" v-if="caixa.dt_fechamento > '2010-10-10'">@{{caixa.dt_fechamento}}</td>
+
+										<td class="text-center">@{{caixa.vendas}}</td>
+										<td class="text-center">R$ @{{caixa.vr_abertura}}</td>
+										<td class="text-center">@{{caixa.usuario_abertura.name}}</td>
+										<td class="text-center">R$ @{{caixa.vr_emCaixa}}</td>
+										<td class="text-center" v-if="caixa.usuario_fechamento">@{{caixa.usuario_fechamento.name}}</td>
+										<td class="text-center" v-if="!caixa.usuario_fechamento">--</td>
+										<td class="text-center" 
+										v-bind:class="{ 'warning': caixa.diferenca_final < 0, 'success': caixa.diferenca_final >= 0 }">R$ @{{caixa.diferenca_final}}</td>
+									</tr>
+								</tbody>
+							</table>
 				</div>
+			
 			</div>
-			<div class="panel-body">
-
-				<table class="table table-bordered table-hover table-striped">
-				    <thead>
-				        <tr>
-				            <th width="10%">Data abertura</th>
-				            <th width="10%">Data fechamento</th>
-				            <th width="13%">Usuario abertura</th>
-				            <th width="13%">Usuario fechamento</th>
-				            <th width="10%">Vr Abertura</th>
-				            <th width="10%">Total retirada</th>
-				            <th width="10%">Diferença final</th>
-				            <th width="10%">Fundo de caixa</th>
-				            <th width="10%">Detalhes</th>
-				        </tr>
-				    </thead>
-				    <tbody>
-				    @foreach($caixas as $c)
-				        
-					        <tr>
-					            <td>{{$c->dt_abertura->format('d/m/Y H:i:s')}}</td>
-					            <td>{{ $c->dt_fechamento->format('d/m/Y H:i:s') }}</td>
-					            <td>{{$c->usuarioAbertura->name}}</td>
-					            <td>@if($c->is_aberto == 1) -- @else{{$c->usuarioFechamento->name}}@endif</td>
-					            <td>R$ {{ number_format($c->vr_abertura, 2, ',', '.') }}</td>
-					            <td>R$ {{ number_format($c->total_retirada, 2, ',', '.')}}</td>
-					            <td>{{$c->diferenca_final}}</td>
-					            <td>{{$c->vr_emCaixa}}</td>
-					            <td><button type="button" class="btn btn-default btn-xs btn_caixa_detalhes" data-toggle="modal" data-target="#modalCaixa" onclick="idCaixa({{$c->id}})">Detalhes</button></td>
-					        </tr>
-				        
-				      @endforeach
-				    </tbody>
-				</table>
-			</div>
-
 		</div>
-	</div>
+
 </div>
 
-
-
-<!-- INICIO MODAL PRATO -->
-
-    <div class="modal inmodal fade" id="modalCaixa" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="tituloModal">Caixa: <span id="id_caixa_titulo"></span></h4>
-                </div>
-                <div class="modal-body text-center">
-                  
-                  <div id="loader">
-                    <img src="/assets/loading-ring.gif" width="80px">
-                    <div style="background:url(/assets/loading-ring.gif) no-repeat center center;width:25px;height:25px;"></div>
-                  </div>
-
-                  <div id="div_caixa">
-
-                    <table class="table table-hover">
-                        
-                        <tbody>
-                        	<tr>
-                            	<td width="50%">Abertura</td>
-                                <td width="50%" id="dt_abertura"></td>
-                            </tr>
-                            <tr>
-                            	<td width="50%">Fechamento</td>
-                                <td width="50%" id="dt_fechamento"></td>
-                            </tr>
-                            <tr>
-                            	<td width="50%">Total de vendas</td>
-                                <td width="50%" id="total_vendas"></td>
-                            </tr>
-                            <tr>
-                            	<td>Resp. Abertura</td>
-                                <td id="user_abertura"></td>
-                            </tr>
-                            <tr>
-                            	<td>Resp. fechamento</td>
-                                <td id="user_fechamento"></td>
-                            </tr>
-                            <tr>
-                            	<td>Valor abertura</td>
-                                <td id="vr_abertura"></td>
-                            </tr>
-                            <tr>
-                            	<td>Vendas dinheiro (sist)</td>
-                                <td id="vendas_cash"></td>
-                            </tr>
-                            <tr>
-                            	<td>Vendas cartão (sist)</td>
-                                <td id="vendas_card"></td>
-                            </tr>
-                            <tr>
-                            	<td>Vendas REDE</td>
-                                <td id="vendas_rede"></td>
-                            </tr>
-                            <tr>
-                            	<td>Vendas Cielo</td>
-                                <td id="vendas_cielo"></td>
-                            </tr>
-                            <tr>
-                            	<td>Total retirada</td>
-                                <td id="total_retirada"></td>
-							</tr>
-							<tr>
-                                <td>Fundo caixa</td>
-                                <td id="vr_emCaixa"></td>
-                            </tr>
-                            <tr>
-                            	<td>Diferença final</td>
-                                <td id="diferenca_final"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-					<h5>Retiradas</h5>
-                    <table class="table table-hover" id="retiradas-table">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Descrição</th>
-                                <th class="text-center">Valor</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-
-					<h5>Retiradas fora do caixa</h5>
-                    <table class="table table-hover" id="retiradasFora-table">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Descrição</th>
-                                <th class="text-center">Valor</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-
-
-                  </div>
-
-                    
-                </div>
-            </div>
-        </div>
-    </div>
-
-<input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
 
     @section('scripts')
 	    @parent
 	        <script src="{!! elixir('js/financeiro.js') !!}"></script>
 
-<script type="text/javascript">
-
-$('#div_caixa').hide();
-
-function idCaixa( idDado )
-{
-	var id = idDado;
-	$('#loader').show();
-	consultaCaixa( id );
-}
-
-function consultaCaixa(id_parametro)
-{
-  formData = {
-    '_token' : $("#token").val(),
-    'id' : id_parametro,
-  };
-
-  var url = "/admin/financeiro/consultaCaixaAjax";
-
-  $.ajax(
-  {
-      type: "POST",
-      url : url,
-      data : formData,
-      success : function(data)
-      {
-
-        $('#loader').hide();
-        $('#div_caixa').fadeIn();
-
-        $('#dt_abertura').text(data['dt_abertura']);
-        $('#dt_fechamento').text(data['dt_fechamento']);
-        $('#total_vendas').text(data['total_vendas']);
-        $('#user_abertura').text(data['user_abertura']);
-        $('#user_fechamento').text(data['user_fechamento']);
-        $('#vr_abertura').text(data['vr_abertura']);
-        $('#vendas_cash').text(data['vendas_cash']);
-        $('#vendas_card').text(data['vendas_card']);
-        $('#vendas_rede').text(data['vendas_rede']);
-        $('#vendas_cielo').text(data['vendas_cielo']);
-        $('#total_retirada').text(data['total_retirada']);
-        $('#vr_emCaixa').text(data['vr_emCaixa']);
-        $('#diferenca_final').text(data['diferenca_final']);
-        $('#id_caixa_titulo').text(data['id']);
-
-        var retiradas = data['retiradas'];
-        var retiradasFora = data['retiradasFora'];
-
-        $.each(retiradas, function(index, value) {
-
-		    var newRow = $("<tr>");
-		    var cols = "";
-		    cols += '<td>' + index + '</td>';
-		    cols += '<td>' + value + '</td>';
-		    cols += '</tr>';
-
-		    newRow.append(cols);
-		    $("#retiradas-table").append(newRow);
-
-		}); 
-
-		$.each(retiradasFora, function(index, value) {
-
-		    var newRow = $("<tr>");
-		    var cols = "";
-		    cols += '<td>' + index + '</td>';
-		    cols += '<td>' + value + '</td>';
-		    cols += '</tr>';
-
-		    newRow.append(cols);
-		    $("#retiradasFora-table").append(newRow);
-
-		}); 
+			<script type="text/javascript">
 
 
-      }
-  },"json");
 
-};
+				$('.maskValor').mask("0000.00", {reverse: true});
 
-$('#modalCaixa').on('hidden.bs.modal', function () {
-	$('#loader').show();
-	$('#div_caixa').fadeOut();
-	$('#retiradas-table tr').remove();
-})
+				Vue.config.debug = true;
+				Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#_tokenLaravel').getAttribute('value');
 
-</script>
+				var vm = new Vue({
+				    el: '#elHistoricoCaixa',
+				    data: 
+				    {
+				    	caixas: [],
+				    	retorno: [],
+				    },
+				    ready: function(){
+				    	var self = this;	
+				      	// GET request
+				      	this.$http.get('/admin/financeiro/historico/caixa/fetchAll').then(function (response) {
+				          	self.caixas = response.data.caixas;
+				          	self.retorno = response.data.retorno;
+				          	console.log('Caixas carregados com sucesso.');
+
+						}, function (response) {
+
+					      	console.log('Erro ao tentar carregar caixas.');
+
+					    });
+				    },
+				    methods:
+				    {	
+				    	
+
+					},
+				});
+
+
+			</script>
 
 	    @stop
 
