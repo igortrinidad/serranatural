@@ -85,10 +85,11 @@ class CaixaController extends Controller
         $tax = 0;
         $vendas = [];
         $index = 0;
+        $valorLiquido = 0;
         foreach($response->body as $body) {
             $valor = $valor + $body->net_total_money->amount;
             $tax = $tax + $body->tax_money->amount;
-            $valor = $valor - $tax;
+            $vendaLiquida = $valor - $tax;
             $vendas[$index]['id'] = $body->id;
             $vendas[$index]['valor'] = $body->total_collected_money->amount;
             $vendas[$index]['data'] = $body->created_at;
@@ -97,8 +98,9 @@ class CaixaController extends Controller
         }
         
 
-        $return['venda_dia'] = number_format(($valor/100),2);
+        $return['vendaBruta'] = number_format(($valor/100),2);
         $return['taxa_dia'] = number_format(($tax/100),2);
+        $return['venda_liquida'] = number_format(($vendaLiquida/100),2);
         $return['begin_time'] = $begin;
         $return['end_time'] = $end;
         $return['vendas_apartir'] = $caixa->dt_fechamento->format('d/m/Y H:i:s');

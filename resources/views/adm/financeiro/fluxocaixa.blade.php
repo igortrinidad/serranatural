@@ -74,8 +74,8 @@
 
 				<div class="col-md-3">
 					<div class="well text-center">
-						<h2>R$ @{{vendas.venda_dia}}</h2>
-						<p>Vendas sistema</p>
+						<h2>R$ @{{vendas.vendaBruta}}</h2>
+						<p>Vendas total</p>
 					</div>
 				</div>
 
@@ -285,7 +285,7 @@ var n = this,
 				    	caixa_anterior: '',
 				    	caixa_is_aberto: false,
 				    	vendas: {
-				    		venda_dia: '',
+				    		vendaBruta: '',
 				    		taxa_dia: '',
 				    		vendas_resumo: [
 				    			{id: '', valor: '', url: '', data: ''},
@@ -316,7 +316,7 @@ var n = this,
 
 					          	this.$http.get('/admin/financeiro/caixa/consultaVendas').then(function (response) {
 							        self.vendas = response.data;
-							        self.caixa_aberto.vendas = self.vendas.venda_dia;
+							        self.caixa_aberto.vendas = self.vendas.vendaBruta;
 
 							    }, function (response) {
 							      	console.log('Erro ao tentar buscar vendas.');
@@ -402,7 +402,7 @@ var n = this,
 				    		
 				    		var conferencia1 = ( parseFloat(this.caixa_aberto.vr_emCaixa) + parseFloat(this.caixa_aberto.total_retirada) - (parseFloat(this.caixa_aberto.vr_abertura)));
 
-				    		var conferencia2 = (parseFloat(this.vendas.venda_dia.replace(',', '')) + parseFloat(this.vendas.taxa_dia)) -
+				    		var conferencia2 = (parseFloat(this.vendas.vendaBruta.replace(',', '')) ) -
 				    		(parseFloat(this.caixa_aberto.vendas_cielo) + parseFloat(this.caixa_aberto.vendas_rede)); 
 
 				    		var diferenca = (conferencia1) - (conferencia2);
