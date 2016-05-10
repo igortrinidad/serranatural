@@ -31,12 +31,16 @@ class CaixaController extends Controller
 
         $caixa_aberto = Caixa::where('is_aberto', '=', '1')->first();
 
-        if (!is_null($caixa_aberto) or !empty($caixa_aberto)) {
+        if ($caixa_aberto) {
 
             $caixa_anterior = Caixa::where('is_aberto', '=', '0')->orderBy('created_at', 'desc')->first();
 
             $retiradas = Retirada::where('caixa_id', '=', $caixa_aberto->id)->get();
 
+            $totalRetiradas = Retirada::where('caixa_id', '=', $caixa_aberto->id)->sum('valor');
+
+            $caixa_aberto->total_retirada = $totalRetiradas;
+            $caixa_aberto->save();
             return response()->json([
                     'caixa_aberto' => $caixa_aberto,
                     'caixa_anterior' => $caixa_anterior,
@@ -92,6 +96,7 @@ class CaixaController extends Controller
         $return['begin_time'] = $begin;
         $return['end_time'] = $end;
         $return['vendas_apartir'] = $caixa->dt_fechamento->format('d/m/Y H:i:s');
+        $return['response'] = $response;
 
         return $venda_total = $return;
 

@@ -19,7 +19,9 @@
 					{{ csrf_field() }}
 
 						<div class="form-group">
+							<label>Motivo retirada</label>
 								<select class="form-control"v-model="retirada.tipo">
+									<option value="" selected disabled>Selecione uma opção</option>
 									<option value="Sangria">Sangria</option>
 									<option value="Vale Transporte">Vale Transporte</option>
 									<option value="Bonificação">Bonificação</option>
@@ -30,13 +32,7 @@
 								</select>
 						</div>
 
-						<div class="form-group">
-							<label>Descrição adicional</label>
-							<input type="text" 
-								name="descricao" 
-								class="form-control"
-								v-model="retirada.descricao" />
-						</div>
+						
 
 						<div class="form-group">
 							<label>Valor</label>
@@ -46,16 +42,26 @@
 								v-model="retirada.valor" />
 						</div>
 						
-		                <div class="form-group" v-on:click="retiraCaixa">
+		                <div class="form-group" >
 		                	<input type="hidden" name="retirado_caixa" value="0" />
 		                	<label >Valor retirado do caixa?</label><br>
-		                    <button class="btn btn-danger" v-show="retirada.retiradoCaixa">Sim</button>
-							<button class="btn btn-default" v-show="!retirada.retiradoCaixa">Não</button>
+		                    <button class="btn btn-danger" v-show="retirada.retiradoCaixa" v-on:click="retiraCaixa">Sim</button>
+							<button class="btn btn-default" v-show="!retirada.retiradoCaixa" v-on:click="retiraCaixa">Não</button>
 		                  
 		                </div>
 
+		                <div class="form-group">
+							<label>Observações (se houver)</label>
+							<input type="text" 
+								name="descricao" 
+								class="form-control"
+								v-model="retirada.descricao" />
+						</div>
+
 						<div class="form-group">
+							<label>Origem retirada</label>
 								<select class="form-control"v-model="retirada.fontePgto">
+									<option value="" selected disabled>Selecione uma opção</option>
 									<option value="Dinheiro Caixa">Dinheiro Caixa</option>
 									<option value="Dinheiro externo">Dinheiro externo</option>
 									<option value="Conta Loja">Conta Loja</option>
@@ -65,11 +71,18 @@
 								</select>
 						</div>
 
-		                <div class="form-group" v-on:click="registraPagamento">
+		                <div class="form-group" >
 		                	<input type="hidden" name="retirado_caixa" value="0" />
 		                	<label >Registrar retirada no financeiro?</label><br>
-		                    <button class="btn btn-danger" v-show="retirada.registraPagamento">Sim</button>
-							<button class="btn btn-default" v-show="!retirada.registraPagamento">Não</button>
+		                	<small>Ex. vale-transporte, adiantamento, pagamentos de contas gas entre outras.</small><br>
+		                    <button class="btn btn-danger" 
+		                    	v-show="retirada.registraPagamento"
+		                    	v-on:click="registraPagamento"
+		                    >Sim</button>
+							<button class="btn btn-default" 
+								v-show="!retirada.registraPagamento"
+								v-on:click="registraPagamento"
+							>Não</button>
 		                </div>
 
 
@@ -84,12 +97,18 @@
 							'v-model' => 'retirada.funcionario_id'])   !!}
 						</div>
 
-						<div class="form-group" v-on:click="pagamentoFuncionario" v-show="retirada.funcionario_id">
+						<div class="form-group"  v-show="retirada.funcionario_id">
 		                	<input type="hidden" name="retirado_caixa" value="0" />
-		                	<label >O valor é algum tipo de desconto na folha de pagamento?</label><br>
-		                	<label >Ex. Adiantamento / Mau uso / INSS</label><br>
-		                    <button class="btn btn-danger" v-show="retirada.is_debito">Sim</button>
-							<button class="btn btn-default" v-show="!retirada.is_debito">Não</button>
+		                	<label >O valor é algum tipo de desconto do pagamento do funcionário?</label><br>
+		                	<small>Ex. Adiantamento / Mau uso / INSS</small><br>
+		                    <button class="btn btn-danger" 
+		                    	v-show="retirada.is_debito"
+		                    	v-on:click="pagamentoFuncionario"
+		                    >Sim</button>
+							<button class="btn btn-default" 
+								v-show="!retirada.is_debito"
+								v-on:click="pagamentoFuncionario"
+							>Não</button>
 		                  
 		                </div>
 
@@ -108,7 +127,7 @@
 
 						<button type="submit" 
 							v-on:click="confirmRetirada($event)" 
-							:disabled="! retirada.tipo"
+							:disabled=" !retirada.tipo || !retirada.valor || !retirada.fontePgto"
 							class="btn btn-block btn-primary">Fazer retirada</button>
 
 				</div>
@@ -177,7 +196,7 @@
 				  
 				    },
 				    methods:
-				    {
+				    {	
 				    	retiraCaixa: function() {
 				    		self = this;
 				    		if (self.retirada.retiradoCaixa == 0) {
@@ -197,6 +216,7 @@
 				    	pagamentoFuncionario: function() {
 				    		self = this;
 				    		if (self.retirada.is_debito == 0) {
+				    			swal("ATENÇÃO!", "O Pagamento será descontado do funcionário, ok?", "warning");
 				    			self.retirada.is_debito = 1;
 				    		} else {
 				    			self.retirada.is_debito = 0;

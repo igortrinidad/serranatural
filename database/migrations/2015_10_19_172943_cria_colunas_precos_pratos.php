@@ -31,7 +31,7 @@ class CriaColunasPrecosPratos extends Migration
         {
             $table->dropColumn('valor_pequeno');
             $table->dropColumn('valor_grande');
-            $table->dropClumn('foto');
+            $table->dropColumn('foto');
         });
     }
 }

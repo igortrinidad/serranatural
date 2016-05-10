@@ -169,8 +169,31 @@
 						</div>
 					</div>
 
-					
+					<div class="panel panel-default">
+						<div class="panel-heading">Vendas</div>
+						<div class="panel-body">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>Valor</th>
+										<th>Data</th>
+										<th>Ver conta</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="venda in vendas.response.body">
+										<td >R$ @{{(venda.total_collected_money.amount/100).formatMoney(-2, ',', '.')}}</td>
+										<td>@{{venda.created_at}}</td>
+										<td><a href="@{{venda.receipt_url}}" target="_blank">Ver recibo</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
 				</div>
+			
+			
 
 				<div class="col-md-4">
 					<div class="panel panel-default">
@@ -233,6 +256,22 @@
 
 			<script type="text/javascript">
 
+			Number.prototype.format = function(n, x) {
+    var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+    return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+};
+
+Number.prototype.formatMoney = function(c, d, t){
+var n = this, 
+    c = isNaN(c = Math.abs(c)) ? 2 : c, 
+    d = d == undefined ? "." : d, 
+    t = t == undefined ? "," : t, 
+    s = n < 0 ? "-" : "", 
+    i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", 
+    j = (j = i.length) > 3 ? j % 3 : 0;
+   return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+ };
+
 				//$('.maskValor').mask("0000.00", {reverse: true});
 
 				Vue.config.debug = true;
@@ -246,7 +285,13 @@
 				    	caixa_is_aberto: false,
 				    	vendas: {
 				    		venda_dia: '',
-				    		taxa_dia: ''
+				    		taxa_dia: '',
+				    		response: {
+				    			body: [{
+				    				total_collected_money : {amount: 0},
+				    				created_at: {},
+				    			}],
+				    		},
 				    	},
 				    	abrir_caixa: {
 				    		valor: '',
@@ -257,7 +302,7 @@
 				    },
 				    attached: function()
     					{
-        					
+    						$(this.$els.amount).mask("000.00");
     					},
 					    ready: function() {
 				 	      	var self = this;	
@@ -272,11 +317,7 @@
 					          	self.retiradas = response.data.retiradas;
 
 					          	this.$http.get('/admin/financeiro/caixa/consultaVendas').then(function (response) {
-							        self.vendas.venda_dia = response.data.venda_dia;
-							        self.vendas.taxa_dia = response.data.taxa_dia;
-							        self.vendas.begin_time = response.data.begin_time;
-							        self.vendas.end_time = response.data.end_time;
-							        self.vendas.vendas_apartir = response.data.vendas_apartir;
+							        self.vendas = response.data;
 							        self.caixa_aberto.vendas = self.vendas.venda_dia;
 
 							    }, function (response) {

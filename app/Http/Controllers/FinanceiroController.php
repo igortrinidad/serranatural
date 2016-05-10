@@ -292,7 +292,7 @@ class FinanceiroController extends Controller
         $retirada = new Retirada();
         $retirada->user_id = \Auth::user()->id;
         $retirada->valor = $request->valor;
-        $retirada->descricao = $request->descricao . ' - ' . date('H:i:s');
+        $retirada->descricao = $request->descricao;
         $retirada->tipo = $request->tipo;
         $retirada->motivo = $request->motivo;
 
@@ -310,11 +310,11 @@ class FinanceiroController extends Controller
             $retirada->end = Carbon::createFromFormat('d/m/Y', $request->end)->format('Y-m-d');
         }
 
-        if (!is_null($request->registraPagamento) or !empty($request->registraPagamento)) {
+        if ($request->registraPagamento) {
             
             Pagamento::create([
                     'user_id_cadastro' => \Auth::user()->id,
-                    'descricao' => $request->descricao,
+                    'descricao' => $request->tipo.' '.$request->descricao,
                     'vencimento' => date('d/m/Y'),
                     'data_pgto' => date('d/m/Y'),
                     'valor' => $request->valor,
