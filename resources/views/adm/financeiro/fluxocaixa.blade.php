@@ -181,7 +181,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr v-for="venda in vendas">
+									<tr v-for="venda in vendas.vendas_resumo">
 										<td >R$ @{{(venda.valor/100).formatMoney(-2, ',', '.')}}</td>
 										<td>@{{venda.data}}</td>
 										<td><a href="@{{venda.url}}" target="_blank">Ver recibo</td>
@@ -315,7 +315,7 @@ var n = this,
 					          	self.retiradas = response.data.retiradas;
 
 					          	this.$http.get('/admin/financeiro/caixa/consultaVendas').then(function (response) {
-							        self.vendas = response.data.vendas_resumo;
+							        self.vendas = response.data;
 							        self.caixa_aberto.vendas = self.vendas.venda_dia;
 
 							    }, function (response) {

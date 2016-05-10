@@ -84,7 +84,6 @@ class CaixaController extends Controller
         $valor = 0;
         $tax = 0;
         $vendas = [];
-        $vendas = [];
         $index = 0;
         foreach($response->body as $body) {
             $valor = $valor + $body->net_total_money->amount;
