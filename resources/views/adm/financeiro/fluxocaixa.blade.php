@@ -181,11 +181,12 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr v-for="venda in vendas.response.body">
-										<td >R$ @{{(venda.total_collected_money.amount/100).formatMoney(-2, ',', '.')}}</td>
-										<td>@{{venda.created_at}}</td>
-										<td><a href="@{{venda.receipt_url}}" target="_blank">Ver recibo</td>
+									<tr v-for="venda in vendas">
+										<td >R$ @{{(venda.valor/100).formatMoney(-2, ',', '.')}}</td>
+										<td>@{{venda.data}}</td>
+										<td><a href="@{{venda.url}}" target="_blank">Ver recibo</td>
 									</tr>
+
 								</tbody>
 							</table>
 						</div>
@@ -286,12 +287,9 @@ var n = this,
 				    	vendas: {
 				    		venda_dia: '',
 				    		taxa_dia: '',
-				    		response: {
-				    			body: [{
-				    				total_collected_money : {amount: 0},
-				    				created_at: {},
-				    			}],
-				    		},
+				    		vendas_resumo: [
+				    			{id: '', valor: '', url: '', data: ''},
+				    		]
 				    	},
 				    	abrir_caixa: {
 				    		valor: '',
@@ -317,7 +315,7 @@ var n = this,
 					          	self.retiradas = response.data.retiradas;
 
 					          	this.$http.get('/admin/financeiro/caixa/consultaVendas').then(function (response) {
-							        self.vendas = response.data;
+							        self.vendas = response.data.vendas_resumo;
 							        self.caixa_aberto.vendas = self.vendas.venda_dia;
 
 							    }, function (response) {

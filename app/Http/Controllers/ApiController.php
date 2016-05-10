@@ -248,19 +248,20 @@ class ApiController extends Controller
         //dd($response);
 
         $valor = 0;
+        $tax = 0;
+        $vendas = [];
+        $index = 0;
         foreach($response->body as $body) {
             $valor = $valor + $body->net_total_money->amount;
-        }
-        $tax = 0;
-        foreach($response->body as $body) {
             $tax = $tax + $body->tax_money->amount;
+            $vendas[$index]['id'] = $body->id;
+            $vendas[$index]['valor'] = $body->total_collected_money->amount;
+            $vendas[$index]['data'] = $body->created_at;
+            $vendas[$index]['url'] = $body->receipt_url;
+        $index++;
         }
 
-        foreach($response->body as $body) {
-            foreach($body->itemizations as $item) {
-                dd($item);
-            }
-        }
+        dd($vendas);
 
         $return['venda_dia'] = $valor - $tax;
         $return['taxa_dia'] = $tax;

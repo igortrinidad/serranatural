@@ -82,21 +82,28 @@ class CaixaController extends Controller
         //dd($response);
 
         $valor = 0;
+        $tax = 0;
+        $vendas = [];
+        $vendas = [];
+        $index = 0;
         foreach($response->body as $body) {
             $valor = $valor + $body->net_total_money->amount;
-        }
-        $tax = 0;
-        foreach($response->body as $body) {
             $tax = $tax + $body->tax_money->amount;
+            $valor = $valor - $tax;
+            $vendas[$index]['id'] = $body->id;
+            $vendas[$index]['valor'] = $body->total_collected_money->amount;
+            $vendas[$index]['data'] = $body->created_at;
+            $vendas[$index]['url'] = $body->receipt_url;
+        $index++;
         }
-        $valor = $valor - $tax;
+        
 
         $return['venda_dia'] = number_format(($valor/100),2);
         $return['taxa_dia'] = number_format(($tax/100),2);
         $return['begin_time'] = $begin;
         $return['end_time'] = $end;
         $return['vendas_apartir'] = $caixa->dt_fechamento->format('d/m/Y H:i:s');
-        $return['response'] = $response;
+        $return['vendas_resumo'] = $vendas;
 
         return $venda_total = $return;
 
