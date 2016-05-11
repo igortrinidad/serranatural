@@ -108,7 +108,7 @@ class ProdutosController extends Controller
     public function listaPrato()
     {
 
-        $listaPratos = Pratos::orderBy('ativo', 'DESC')->paginate(10);
+        $listaPratos = Pratos::orderBy('ativo', 'DESC')->paginate(40);
 
         $pratosForSelect = $this->pratosForSelect();
 
