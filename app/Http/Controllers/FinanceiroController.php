@@ -395,7 +395,7 @@ class FinanceiroController extends Controller
 
     public function deletaRetirada($id)
     {
-        if (\Auth::user()->user_type == 'super-adm') {
+        if (\Auth::user()->user_type == 'super_adm') {
             
             $retirada = Retirada::find($id);
 
