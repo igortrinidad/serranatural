@@ -330,14 +330,15 @@
                                     <a href="{{ route('admin.financeiro.caixa')}}">Fluxo de caixa</a>
                                 </li>
                                 <li>
+                                    <a href="{{ route('admin.financeiro.caixa.historico')}}">Histórico de caixa</a>
+                                </li>
+                                <li>
                                     <a href="{{ route('admin.financeiro.retirada')}}">Retirada</a>
                                 </li>
                                 <li>
                                     <a href="{{ route('admin.financeiro.retiradasList')}}">Histórico retiradas</a>
                                 </li>
-                                <li>
-                                    <a href="{{ route('admin.financeiro.caixa.historico')}}">Histórico de caixa</a>
-                                </li>
+
                             </ul>
                         </li>
                         
