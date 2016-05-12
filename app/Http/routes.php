@@ -43,6 +43,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::post('financeiro/retiradaPost', ['as' => 'retiradaPost', 'uses' => 'FinanceiroController@retiradaPost']);
 		Route::get('financeiro/historico/retiradas', ['as' => 'retiradasList', 'uses' => 'FinanceiroController@retiradasList']);
 		Route::post('financeiro/retiradaUpdate', ['as' => 'retiradaUpdate', 'uses' => 'FinanceiroController@retiradaUpdate']);
+		Route::get('financeiro/retirada/delete/{id}', ['as' => 'deletaRetirada', 'uses' => 'FinanceiroController@deletaRetirada']);
 		Route::get('financeiro/pagamentos', ['as' => 'pagamentos', 'uses' => 'FinanceiroController@cadastraPgto']);
 		Route::post('financeiro/pagamentosPost', ['as' => 'pagamentosPost', 'uses' => 'FinanceiroController@storePgto']);
 		Route::get('financeiro/Pagar', ['as' => 'aPagar', 'uses' => 'FinanceiroController@listaAPagar']);

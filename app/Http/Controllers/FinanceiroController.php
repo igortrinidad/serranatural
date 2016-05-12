@@ -393,6 +393,23 @@ class FinanceiroController extends Controller
 
     }
 
+    public function deletaRetirada($id)
+    {
+        if (\Auth::user()->user_type == 'super-adm') {
+            
+            $retirada = Retirada::find($id);
+
+            $retirada->delete();
+
+            flash()->success('Retirada deletada com sucesso.');
+
+        } else {
+            flash()->error('Você não tem permissão para fazer essa operação.');
+        }
+        
+        return redirect()->back();
+    }
+
     public function cadastraPgto()
     {
         return view('adm.financeiro.cadastraBoleto');

@@ -41,9 +41,10 @@
 			            <th width="15%" class="text-center">Data</th>
 			            <th width="10%" class="text-center">Valor</th>
 			            <th width="20%" class="text-center">Descrição</th>
-			            <th width="15%" class="text-center">Usuario</th>
+			            <th width="15%" class="text-center">Quem fez?</th>
 			            <th width="10%" class="text-center">Retirado caixa</th>
-			            <th width="15%" class="text-center">Funcionario</th>
+			            <th width="15%" class="text-center">Para quem?</th>
+			            <th width="10%" class="text-center">Deleta</th>
 			        </tr>
 			    </thead>
 			    <tbody>
@@ -59,6 +60,7 @@
 			            <td>{{$retirada->usuario->name}}</td>
 			            <td>@if($retirada->retirado_caixa == 1) Sim @else Não @endif</td>
 			            <td>@if($retirada->funcionario_id != 0) {{$retirada->funcionario->nome}} @else -- @endif</td>
+			            <td class="text-center"><a href="{{ route('admin.financeiro.deletaRetirada', $retirada->id)}}"<i class="fa fa-trash fa-2x"></i></a></td>
 			        </tr>
 			    @endforeach
 			    </tbody>
