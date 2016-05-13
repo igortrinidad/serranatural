@@ -130,6 +130,8 @@
 								<td>Vencimento</td>
 								<td>Data utilização</td>
 								<td>Valido</td>
+								<td>Uso autorizado por:</td>
+								<td>Valor autorizado</td>
 								<td>Usar</td>
 							</tr>
 						</thead>
@@ -140,8 +142,10 @@
 							<td style="width:20%;">{{$voucher->produto}}</td>
 							<td style="width:13%;">{{$voucher->vencimento}}</td>
 							<td style="width:13%;">{{$voucher->data_utilizado}}</td>
-							<td style="width:10%;">@if($voucher->is_valido == 1)Sim @else Não @endif</td>
-							<td style="width:10%;">@if($voucher->is_valido == 1)<button type="button" class="btn btn-default btn-xs btn_voucher" data-toggle="modal" data-target="#modalVoucher" onclick="idVoucher({{$voucher->id}}, '{{$voucher->produto}}')">Usar Voucher</button> @else -- @endif </td>
+							<td style="width:10%;">@if($voucher->is_valido)Sim @else Não @endif</td>
+							<td style="width:10%;">@if(!$voucher->user_id) -- @else {{$voucher->usuario->name}} @endif</td>
+							<td style="width:10%;">{{$voucher->valor}}</td>
+							<td style="width:10%;">@if($voucher->is_valido)<button type="button" class="btn btn-default btn-xs btn_voucher" data-toggle="modal" data-target="#modalVoucher" onclick="idVoucher({{$voucher->id}}, '{{$voucher->produto}}')">Usar Voucher</button> @else -- @endif </td>
 						</tr>	
 					@endforeach
 					</table>
