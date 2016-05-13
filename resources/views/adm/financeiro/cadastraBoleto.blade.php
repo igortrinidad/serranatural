@@ -161,8 +161,6 @@
 			</div>
 		</div>
 
-		<pre> @{{ $data | json}} </pre>
-
 		</div>
 
 </div>

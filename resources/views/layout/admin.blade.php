@@ -269,6 +269,9 @@
                                 <li>
                                     <a href="{!! route('admin.client.fidelidade') !!}">Fidelidade</a>
                                 </li>
+                                <li>
+                                    <a href="{!! route('admin.client.voucherList') !!}">Lista Vouchers</a>
+                                </li>
 
                             </ul>
                         </li>
@@ -460,6 +463,7 @@
 
     <script src="{!! asset('js/vendor.js') !!}"></script>
     <script src="{!! elixir('js/app.js') !!}"></script>
+    <script src="{!! asset('js/dropzone.js') !!}"></script>
 
     @show
 

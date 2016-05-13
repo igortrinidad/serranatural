@@ -9,7 +9,7 @@ class Voucher extends Model
 {
     use SoftDeletes;
 
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at', 'data_vencimento', 'data_voucher'];
 
     protected $table = 'vouchers';
 
@@ -22,6 +22,7 @@ class Voucher extends Model
     						'data_utilizado',
                             'is_valido',
     						'produto',
+                            'valor',
     						
     					];
 
@@ -42,5 +43,9 @@ class Voucher extends Model
 
     public function cliente(){
         return $this->belongsTo('serranatural\Models\Cliente', 'cliente_id', 'id');
+    }
+
+    public function usuario(){
+        return $this->belongsTo('serranatural\User', 'user_id', 'id');
     }
 }

@@ -37,4 +37,5 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         return $this->hasMany('serranatural\Models\Movimentacao');
     }
+
 }

@@ -27,6 +27,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::get('clientes/reenviaSenha/{id}', ['as' => 'reenviaSenha', 'uses' => 'ClienteController@reenviaSenha']);
 		Route::post('clientes/salvaPonto', ['as' => 'salvaPonto', 'uses' => 'ClienteController@salvaPonto']);
 		Route::post('clientes/fidelidade/usaVoucher/{voucher}', ['as' => 'usesVoucher', 'uses' => 'ClienteController@usesVoucher']);
+		Route::get('clientes/vouchers', ['as' => 'voucherList', 'uses' => 'ClienteController@voucherList']);
 	});
 
 		// Financeiro

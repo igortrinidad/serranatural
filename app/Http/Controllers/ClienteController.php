@@ -573,6 +573,8 @@ class ClienteController extends Controller
 
         $voucher->is_valido = 0;
         $voucher->data_utilizado = date('Y-m-d');
+        $voucher->valor = $request->valor;
+        $voucher->user_id = \Auth::user()->id;
         $voucher->save();
 
         $retirada = new Retirada();
@@ -711,6 +713,13 @@ class ClienteController extends Controller
         flash()->error('Senha errada.');
 
         return redirect()->back();
+    }
+
+    public function voucherList()
+    {
+        $vouchers = Voucher::with('cliente')->orderBy('data_utilizado', 'DESC')->paginate(20);
+
+        return view('adm.clientes.voucherList', compact('vouchers'));
     }
 
     public function reenviaSenha($id)
