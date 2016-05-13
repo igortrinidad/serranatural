@@ -40,7 +40,7 @@
 						<td class="text-center">@if($voucher->is_valido)Sim @else Não @endif</td>
 						<td class="text-center">{{$voucher->valor}}</td>
 						<td class="text-center">{{$voucher->produto}}</td>
-						<td class="text-center">{{$voucher->usuario->name}}</td>
+						<td class="text-center">@if(!$voucher->user_id) -- @else {{$voucher->usuario->name}} @endif</td>
 
 			        </tr>
 			    @endforeach
