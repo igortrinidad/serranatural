@@ -2,6 +2,19 @@
 
 @section('conteudo')
 
+<style>
+
+.success{
+	background-color: #CDDC39!important;
+	font-weight: 800;
+}
+
+.warning{
+	background-color: #FF5722!important;
+	font-weight: 800;
+}
+</style>
+
 <h2 class="text-right">Balanço semanal</h2><br>
 
 <div id="contentBaixa" class="row">
@@ -27,30 +40,72 @@
 				@{{produtos.finished}}%</h5>
 				
 				<div class="row"  v-for="produto in produtos.listaProdutos" >
-					<div class="col-md-5">
+					<div class="col-md-4">
 						<div class="form-group" >
 							<label>Produto</label>
-							<input type="text" class="form-control" v-model="produto.nome" placeholder="Produto" disabled>
-						</div>
-					</div>
-					<div class="col-md-2">
-						<div class="form-group" >
-							<label>Qtde esperada</label>
-							<input type="text" class="form-control" v-model="produto.quantidadeEstoque" v-el:produtoQtdeEstoque placeholder="00.00" disabled>
+							<input 
+								type="text" 
+								class="form-control" 
+								v-model="produto.nome" 
+								placeholder="Produto" 
+								disabled>
 						</div>
 					</div>
 
 					<div class="col-md-2">
 						<div class="form-group" >
-							<label>Qtde real</label>
-							<input type="text" class="form-control" v-on:keyup="calculaDiferenca($event, produto)" v-model="produto.quantidadeReal" v-el:produtoQtdeReal placeholder="00.00" >
+							<label>Qtde esperada</label>
+							<input 
+								type="text" 
+								class="form-control text-center" 
+								v-model="produto.quantidadeEstoque" 
+								v-el:produtoQtdes 
+								placeholder="00.00" 
+								disabled
+							>
 						</div>
 					</div>
+
+					<div class="col-md-2">
+						<div class="form-group" >
+							<label>Qtde venda</label>
+							<input 
+								type="text" 
+								class="form-control text-center" 
+								v-on:keyup="calculaDiferenca($event, produto)" 
+								v-model="produto.venda" 
+								v-el:produtoQtdes placeholder="00.00" 
+							>
+						</div>
+					</div>
+					
+					<div class="col-md-2">
+						<div class="form-group" >
+							<label>Qtde real</label>
+							<input 
+								type="text" 
+								class="form-control text-center" 
+								v-on:keyup="calculaDiferenca($event, produto)" 
+								v-model="produto.quantidadeReal" 
+								v-el:produtoQtdes placeholder="00.00" 
+							>
+						</div>
+					</div>
+
+
 
 					<div class="col-md-2">
 						<div class="form-group" >
 							<label>Diferença</label>
-							<input type="text" class="form-control"  v-el:produtoDiferenca v-model="produto.diferenca" placeholder="00.00" disabled >
+							<input 
+								type="text" 
+								class="form-control text-center"  
+								v-el:produtoQtdes 
+								v-model="produto.diferenca" 
+								placeholder="00.00" 
+								disabled
+								v-bind:class="{ 'warning': produto.diferenca < 0, 'success': produto.diferenca >= 0 }"
+							>
 						</div>
 					</div>
 				</div>
@@ -100,9 +155,7 @@
 				    attached: function()
     					{
 
-    						$(this.$els.produtoQtdeEstoque).mask('000.00', {reverse: true});
-    						$(this.$els.produtoQtdeReal).mask('000.00', {reverse: true});
-    						$(this.$els.produtoDiferenca).mask('000.00', {reverse: true});
+    						$(this.$els.produtoQtdes).mask('000.00', {reverse: true});
         					
     					},
 					    ready: function() {
@@ -135,7 +188,8 @@
 				            self.produtos.finished = 100 / self.produtos.listaProdutos.length * self.arrayFinished.length;
 
 				            if(produto.quantidadeReal != '') {
-				            	produto.diferenca = parseFloat(produto.quantidadeReal) - parseFloat(produto.quantidadeEstoque);
+				            	produto.diferenca = 
+				            		(parseFloat(produto.quantidadeReal) + parseFloat(produto.venda)) - parseFloat(produto.quantidadeEstoque);
 				            } else {
 				            	produto.diferenca = 0;
 				            }

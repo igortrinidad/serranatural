@@ -20,8 +20,7 @@ use serranatural\Models\Produto;
 use serranatural\Models\ReceitaPrato;
 use serranatural\Models\Preferencias;
 use serranatural\Models\Movimentacao;
-
-use QrCode;
+use serranatural\Models\Balanco;
 
 class ProdutosController extends Controller
 {
@@ -815,7 +814,7 @@ class ProdutosController extends Controller
 
     public function balancosJson()
     {
-        $balancos = DB::table('balancos')->get();
+        $balancos = Balanco::with('usuario')->get();
 
         foreach($balancos as $balanco) {
             $balanco->lista = json_decode($balanco->lista);

@@ -15,7 +15,7 @@
 </style>
 
 <div id="elHistoricoCaixa">
-<h2 class="text-right">Retiradas</h2><br>
+<h2 class="text-right">Histórico de caixas</h2><br>
 
 	@include('errors.messages')
 

@@ -2,6 +2,18 @@
 
 @section('conteudo')
 
+<style>
+.success{
+	background-color: #CDDC39!important;
+	font-weight: 800;
+}
+
+.warning{
+	background-color: #FF5722!important;
+	font-weight: 800;
+}
+</style>
+
 <h2 class="text-right">Balanço semanal</h2><br>
 
 <div id="contentBaixa" class="row">
@@ -17,9 +29,9 @@
 				<table class="table table-bordered table-hover table-striped">
 				    <thead>
 				        <tr>
-				            <th>ID</th>
+				            <th>ID balanço</th>
 				            <th>Data</th>
-				            <th>Usuario</th>
+				            <th colspan="2">Usuario</th>
 				            <th>Porcentagem</th>
 				        </tr>
 				    </thead>
@@ -27,20 +39,22 @@
 				        <tr>
 				        	<td>@{{balanco.id}}
 				        	<td>@{{balanco.created_at}}
-				            <td>@{{balanco.user_id}}</td>
+				            <td colspan="2">@{{balanco.usuario.name}}</td>
 				            <td>@{{balanco.finished}}%</td>
 				        </tr>
 				        <tr>
 				            <th>Nome Produto</th>
 				            <th>Quantidade esperada</th>
+				            <th>Quantidade venda</th>
 				            <th>Quantidade real</th>
 				            <th>Diferença</th>
 				        </tr>
 				        <tr v-for="produto in balanco['lista']" track-by="$index">
 							<td colspan="1"> @{{produto.nome}} </td>
 							<td colspan="1"> @{{produto.quantidadeEstoque}} </td>
+							<td colspan="1"> @{{produto.venda}} </td>
 							<td colspan="1"> @{{produto.quantidadeReal}} </td>
-							<td colspan="1"> @{{produto.diferenca}} </td>
+							<td colspan="1" v-bind:class="{ 'warning': produto.diferenca < 0, 'success': produto.diferenca >= 0 }"> @{{produto.diferenca}} </td>
 				        </tr>
 				        <tr>
 							<td></td>
