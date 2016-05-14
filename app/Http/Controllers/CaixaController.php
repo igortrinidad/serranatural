@@ -14,8 +14,12 @@ use serranatural\User;
 use Mail;
 use Carbon\Carbon;
 
+use serranatural\Http\Controllers\Square;
+
 class CaixaController extends Controller
 {
+    use Square;
+
     public function __construct()
     {
         $this->middleware('auth', ['except' => []]);
@@ -61,8 +65,6 @@ class CaixaController extends Controller
     public function consultaVendas()
     {
 
-        $token = '5bDwfv16l7I02iePbc2GcQ';
-
         $caixa = Caixa::where('is_aberto', '=', '0')->orderBy('dt_fechamento', 'DESC')->first();
 
         $begin = Carbon::createFromFormat('Y-m-d H:i:s', $caixa['dt_fechamento']);
@@ -74,10 +76,7 @@ class CaixaController extends Controller
         $end->addHours(3);
         $end = 'end_time='.$end->format('Y-m-d\TH:i:s\Z');
 
-        \Unirest\Request::defaultHeader("Authorization", "Bearer ".$token);
-        \Unirest\Request::defaultHeader("Content-Type", "application/json");
-
-        $response = \Unirest\Request::get("https://connect.squareup.com/v1/me/payments?".$begin.'&'.$end);
+        $response = $this->payments($begin, $end);
 
         //dd($response);
 

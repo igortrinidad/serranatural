@@ -79,6 +79,16 @@
 					</div>	
 				</div>
 
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Produto correspondente aplicativo de venda</label>
+		              		{!! Form::select('square_id', $squareItemsForSelect, null, ['class' => 'form-control', 'single' => 'single', 'id' => 'square', 'placeholder' => 'Selecione um produto'])   !!}
+		              		<input type="hidden" value="" name="square_name" />
+		        		</div>
+					</div>
+				</div>
+
 				
 
 				<button type="submit" class="btn btn-primary">Salvar Produto</button>
@@ -94,6 +104,12 @@
 
 			<script type="text/javascript">
 			$('#fornecedores').select2();
+			$('#square').select2();
+
+			$('#square').on('change', function(){
+				$('input[name="square_name"]').val($("#square option:selected").text());
+				console.log($('#square :selected').text());
+			});
 			</script>
 
 		@stop

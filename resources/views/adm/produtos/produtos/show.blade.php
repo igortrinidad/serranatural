@@ -38,6 +38,17 @@
 		
 	</div>
 
+	<div class="col-md-3">
+		<div class="panel panel-default">
+			<div class="panel-heading"><h5>Aplicativo</h5></div>
+			<div class="panel-body">
+				<label>Nome produto</label>
+				<p><strong>{{$produto->square_name}}</strong></p>
+			</div>
+		</div>
+		
+	</div>
+
 </div>
 
 <div class="row">

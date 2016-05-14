@@ -276,54 +276,44 @@
                             </ul>
                         </li>
 
+                        <li>
+                             <a href="#"><i class="fa fa-cutlery"></i> Pratos<span class="fa arrow"></span></a>
+                             <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="{{route('produtos.pratos.add')}}">Adiciona</a>
+                                </li>
 
+                                <li>
+                                    <a href="/admin/produtos/pratos/lista">Lista pratos</a>
+                                </li>
+                                <li>
+                                    <a href="/admin/produtos/pratosSemana">Agenda Pratos</a>
+                                </li>
+                                <li>
+                                    <a href="#">Relatórios</a>
+                                </li>
 
+                            </ul>
+                        </li>
 
                         <li>
-                             <a href="#"><i class="fa fa-th-list"></i> Produtos<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-th-list"></i> Produtos<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#"><i class="fa fa-cutlery"></i> Pratos<span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            <a href="{{route('produtos.pratos.add')}}">Adiciona</a>
-                                        </li>
-
-                                        <li>
-                                            <a href="/admin/produtos/pratos/lista">Lista pratos</a>
-                                        </li>
-                                        <li>
-                                            <a href="/admin/produtos/pratosSemana">Agenda Pratos</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Relatórios</a>
-                                        </li>
-
-                                    </ul>
+                                    <a href="/admin/produtos/create">Adiciona</a>
                                 </li>
 
                                 <li>
-                                    <a href="#"><i class="fa fa-th-list"></i> Produtos<span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            <a href="/admin/produtos/create">Adiciona</a>
-                                        </li>
-
-                                        <li>
-                                            <a href="/admin/produtos/lista">Lista</a>
-                                        </li>
-
-                                        <li>
-                                            <a href="/admin/produtos/calcular/index">Calcular</a>
-                                        </li>
-
-                                    </ul>
+                                    <a href="/admin/produtos/lista">Lista</a>
                                 </li>
 
-                            
+                                <li>
+                                    <a href="/admin/produtos/calcular/index">Calcular</a>
+                                </li>
+
                             </ul>
-                            
                         </li>
+                            
 
                         <li>
                             <a href="#"><i class="fa fa-money"></i> Caixa<span class="fa arrow"></span></a>
@@ -375,9 +365,6 @@
                                 </li>
                                 <li>
                                     <a href="/admin/produtos/historico/balanco">Historico Balanço</a>
-                                </li>
-                                <li>
-                                    <a href="/admin/produtos/lista">Lista produtos</a>
                                 </li>
                             </ul>
                         </li>

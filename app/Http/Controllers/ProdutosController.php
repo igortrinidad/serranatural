@@ -22,8 +22,12 @@ use serranatural\Models\Preferencias;
 use serranatural\Models\Movimentacao;
 use serranatural\Models\Balanco;
 
+use serranatural\Http\Controllers\Square;
+
 class ProdutosController extends Controller
 {
+
+    use Square;
     
     public function __construct()
     {
@@ -649,7 +653,14 @@ class ProdutosController extends Controller
             $categorias[$value->id] = $value->nome;
         }
 
-        return view('adm.produtos.produtos.edit', compact('produto', 'fornecedoresForSelect', 'categorias'));
+        $squareItemsForSelect = $this->squareItemsForSelect();
+
+        return view('adm.produtos.produtos.edit', compact(
+            'produto', 
+            'fornecedoresForSelect', 
+            'categorias',
+            'squareItemsForSelect'
+        ));
     }
 
     public function updateProduto(Request $request, $id)
@@ -662,6 +673,8 @@ class ProdutosController extends Controller
         $produto->is_ativo = $request->is_ativo;
         $produto->tracked = $request->tracked;
         $produto->categoria_id = $request->categoria_id;
+        $produto->square_id = $request->square_id;
+        $produto->square_name = $request->square_name;
 
         if($request->fornecedor_id) {
             $produto->fornecedores()->sync($request->fornecedor_id);  
@@ -677,7 +690,14 @@ class ProdutosController extends Controller
 
         $produtosNaoRastreados = Produto::with('categoria')->where('tracked', '=', '0')->orderBy('nome_produto', 'asc')->get();
 
-        return view('adm.produtos.produtos.lista', compact('produtosRastreados', 'produtosNaoRastreados'));
+        
+        $squareItemsForSelect = $this->squareItemsForSelect();
+
+        return view('adm.produtos.produtos.lista', compact(
+                'produtosRastreados', 
+                'produtosNaoRastreados',
+                'squareItemsForSelect'
+                ));
     }
 
     public function createProdutos()
@@ -689,11 +709,18 @@ class ProdutosController extends Controller
             $categorias[$key] = $value->nome;
         }
 
-        return view('adm.produtos.produtos.create', compact('fornecedoresForSelect', 'categorias'));
+        $squareItemsForSelect = $this->squareItemsForSelect();
+
+        return view('adm.produtos.produtos.create', compact(
+            'fornecedoresForSelect', 
+            'categorias',
+            'squareItemsForSelect'
+            ));
     }
 
     public function storeProduto(Request $request)
     {
+        dd($request->all());
         $produto = Produto::create($request->all());
 
         if($request->fornecedor_id)
@@ -822,4 +849,5 @@ class ProdutosController extends Controller
 
         return $balancos;
     }
+
 }

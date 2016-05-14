@@ -10,7 +10,17 @@ class Produto extends Model
 
     protected $table = 'produtos';
 
-    protected $fillable = array('id', 'nome_produto', 'quantidadeEstoque', 'descricao', 'is_ativo', 'preco', 'tracked');
+    protected $fillable = array(
+    		'id', 
+    		'nome_produto', 
+    		'quantidadeEstoque', 
+    		'descricao', 
+    		'is_ativo', 
+    		'preco', 
+    		'tracked',
+    		'square_id',
+    		'square_name'
+    		);
 
     public function pratododia()
     {
