@@ -737,6 +737,16 @@ class ProdutosController extends Controller
         return redirect()->back()->with($dados);
     }
 
+    public function destroyProduto($id)
+    {
+        $produto = Produto::find($id);
+        $produto->delete();
+
+        flash()->success('Produto deletado com sucesso.');
+
+        return redirect()->back();
+    }
+
     public function baixaestoque()
     {
         return view('adm.estoque.darbaixa');

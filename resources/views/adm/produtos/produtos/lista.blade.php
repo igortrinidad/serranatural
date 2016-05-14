@@ -21,6 +21,7 @@
 		            <th width="8%">Ativo?</th>
 		            <th width="15%">Produto referente</th>
 		            <th width="20%">Fornecedores</th>
+		            <th width="8%">Deletar</th>
 		        </tr>
 		    </thead>
 		    <tbody>
@@ -36,6 +37,7 @@
 		            <td class="text-center">@if($produto->is_ativo == 1) Sim @else @endif</td>
 		            <td class="text-center">{{$produto->square_name}}</td>
 		            <td>@foreach($produto->fornecedores as $fornecedor) {{$fornecedor->nome}} , @endforeach</td>
+		            <td><a href="{{route('produtos.produtos.destroy', $produto->id)}}"><i class="fa fa-trash"></i></td>
 		        </tr>
 		    @endforeach
 		    </tbody>
