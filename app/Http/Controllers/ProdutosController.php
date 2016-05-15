@@ -727,7 +727,6 @@ class ProdutosController extends Controller
 
     public function storeProduto(Request $request)
     {
-        dd($request->all());
         $produto = Produto::create($request->all());
 
         if($request->fornecedor_id)

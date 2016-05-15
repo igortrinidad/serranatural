@@ -19,7 +19,8 @@ class Produto extends Model
     		'preco', 
     		'tracked',
     		'square_id',
-    		'square_name'
+    		'square_name',
+            'calc'
     		);
 
     public function pratododia()

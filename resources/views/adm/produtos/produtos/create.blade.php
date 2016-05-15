@@ -35,7 +35,26 @@
 					
 					<div class="row">
 						<div class="col-md-6">
+							<div class="form-group">
+								<label>Descrição</label>
+								<input type="text" name="descricao" class="form-control">
+							</div>
+						</div>
 
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Fornecedores</label>
+			              		{!! Form::select('fornecedor_id[]', $fornecedoresForSelect, null, ['class' => 'form-control', 'multiple' => 'multiple', 'id' => 'fornecedores'])   !!}
+			        		</div>
+						</div>
+
+						
+					</div>
+
+					
+					<div class="row">
+
+						<div class="col-md-6">
 							<div class="form-group">
 								<label>Preço médio</label>
 								<input type="text" name="preco" class="form-control"/>
@@ -43,13 +62,13 @@
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>Descrição</label>
-								<input type="text" name="descricao" class="form-control">
+								<label>Quantidade por porção de venda (grama, kilo, unidade, caixa)</label>
+								<input type="text" name="calc" value="1" id="calc" class="form-control"/>
 							</div>
 						</div>
+	
 					</div>
 
-					
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
@@ -57,16 +76,7 @@
 			              		{!! Form::select('categoria_id', $categorias, null, ['class' => 'form-control', 'single' => 'single', 'id' => 'categoria'])   !!}
 			        		</div>
 						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Fornecedores</label>
-			              		{!! Form::select('fornecedor_id[]', $fornecedoresForSelect, null, ['class' => 'form-control', 'multiple' => 'multiple', 'id' => 'fornecedores'])   !!}
-			        		</div>
 
-						</div>	
-					</div>
-
-					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Produto correspondente aplicativo de venda</label>
@@ -93,7 +103,8 @@
 			<script type="text/javascript">
 			$('#fornecedores').select2();
 			$('#square').select2();
-			
+			$('#calc').mask("000000", {reverse: true});
+		
 			$('#square').on('change', function(){
 				$('input[name="square_name"]').val($("#square option:selected").text());
 				console.log($('#square :selected').text());
