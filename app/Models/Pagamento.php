@@ -61,5 +61,10 @@ class Pagamento extends Model
         return $this->belongsTo('serranatural\User', 'user_id_pagamento', 'id');
     }
 
+    public function produtos()
+    {
+    	return $this->hasMany('serranatural\Models\Movimentacao', 'pagamento_id', 'id');
+    }
+
 
 }

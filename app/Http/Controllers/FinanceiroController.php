@@ -449,6 +449,24 @@ class FinanceiroController extends Controller
 
         $pagamento->save();
 
+        if ($request->produtos) {
+            
+            foreach ($request->produtos as $p) {
+
+                $produto = Produto::find($p['id']);
+                $produto->quantidadeEstoque = $produto->quantidadeEstoque + $p['quantidade'];
+                $produto->save();
+
+                Movimentacao::create([
+                        'produto_id' => $p['id'],
+                        'quantity' => $p['quantidade'],
+                        'is_entrada' => 1,
+                        'user_id' => \Auth::user()->id,
+                        'pagamento_id' => $pagamento->id
+                    ]);
+            }
+        }
+
         return response()->json([
                 'return' => [
                     'type' => 'success',
@@ -504,7 +522,7 @@ class FinanceiroController extends Controller
 
     public function detalhesPagamento($id)
     {
-        $pagamento = Pagamento::with(['usuarioPagamento'])->where('id', '=', $id)->first();
+        $pagamento = Pagamento::with(['usuarioPagamento', 'produtos.produto'])->where('id', '=', $id)->first();
 
         $dados = [
             'pagamento' => $pagamento
@@ -707,7 +725,7 @@ class FinanceiroController extends Controller
         $pagamento->user_id_pagamento = \Auth::user()->id;
         $pagamento->save();
 
-        if (!is_null($request->produtos)) {
+        if ($request->produtos) {
             
             foreach ($request->produtos as $p) {
 
@@ -718,8 +736,9 @@ class FinanceiroController extends Controller
                 Movimentacao::create([
                         'produto_id' => $p['id'],
                         'quantity' => $p['quantidade'],
-                        'is_saida' => 1,
+                        'is_entrada' => 1,
                         'user_id' => \Auth::user()->id,
+                        'pagamento_id' => $pagamento->id
                     ]);
             }
         }

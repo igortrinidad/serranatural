@@ -75,7 +75,7 @@
 				    	@foreach($movimentacoes as $movimentacao)
 				        <tr>
 				            <td>{{$movimentacao->created_at->format('d/m/Y')}}</td>
-				            <td>@if($movimentacao->is_saida == 1)Saida @else Entrada @endif</td>
+				            <td>@if($movimentacao->is_saida == 1)Saida @else <a href="{{route('admin.financeiro.detalhes', $movimentacao->pagamento_id)}}"> Entrada</a> @endif</td>
 				            <td>{{$movimentacao->quantity}}</td>
 				            <td>{{$movimentacao->valor}}</td>
 				            <td>{{$movimentacao->motivo}}</td>

@@ -18,7 +18,9 @@ class Movimentacao extends Model
         'is_entrada',
     	'valor',
     	'quantity',
-        'motivo'
+        'obs',
+        'type',
+        'pagamento_id'
     ];
 
     public function produto()
