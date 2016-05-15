@@ -421,7 +421,7 @@ class FinanceiroController extends Controller
         $confere = Pagamento::where('linha_digitavel', '=', $request->linha_digitavel)
                             ->first();
         
-        if (!is_null($confere) or !empty($confere)) {
+        if ($confere) {
 
             return response()->json([
                 'return' => [
