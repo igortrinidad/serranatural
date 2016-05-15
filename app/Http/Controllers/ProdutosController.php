@@ -21,6 +21,7 @@ use serranatural\Models\ReceitaPrato;
 use serranatural\Models\Preferencias;
 use serranatural\Models\Movimentacao;
 use serranatural\Models\Balanco;
+use serranatural\Models\Fornecedor;
 
 use serranatural\Http\Controllers\Square;
 
@@ -653,20 +654,26 @@ class ProdutosController extends Controller
             $categorias[$value->id] = $value->nome;
         }
 
+        $fornecedores = DB::table('fornecedor_produto')->where('produto_id', '=', $produto->id)->get();
+        $fornecedoresSelecionados = [];
+        foreach($fornecedores as $f){
+             $fornecedoresSelecionados[] = $f->fornecedor_id;
+        }
+
         $squareItemsForSelect = $this->squareItemsForSelect();
 
         return view('adm.produtos.produtos.edit', compact(
             'produto', 
             'fornecedoresForSelect', 
             'categorias',
-            'squareItemsForSelect'
+            'squareItemsForSelect',
+            'fornecedoresSelecionados'
         ));
     }
 
     public function updateProduto(Request $request, $id)
     {
         $produto = Produto::find($id);
-
         $produto->nome_produto = $request->nome_produto;
         $produto->descricao = $request->descricao;
         $produto->preco = $request->preco;

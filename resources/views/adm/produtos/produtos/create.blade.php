@@ -25,27 +25,11 @@
 						</div>
 						<div class="col-md-3 text-center">
 							<label>Controlar estoque?</label><br>
-							<input type="checkbox" 
-		                    		class="form-control" 
-		                    		name="tracked" 
-		                    		value="1" 
-		                    		data-toggle="toggle" 
-		                    		data-onstyle="success" 
-		                    		data-on="Sim" 
-		                    		data-off="Não",
-			                />
+							{!! Form::checkbox('tracked', 1) !!}
 						</div>
 						<div class="col-md-3 text-center">
 							<label>Ativo?</label><br>
-							<input type="checkbox" 
-		                    		class="form-control" 
-		                    		name="is_ativo" 
-		                    		value="1" 
-		                    		data-toggle="toggle" 
-		                    		data-onstyle="success" 
-		                    		data-on="Sim" 
-		                    		data-off="Não",
-			                />
+							{!! Form::checkbox('is_ativo', 1) !!}
 						</div>
 					</div>
 					

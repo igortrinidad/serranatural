@@ -417,7 +417,6 @@ class FinanceiroController extends Controller
 
     public function storePgto(Request $request)
     {
-        dd($request);
         
         $confere = Pagamento::where('linha_digitavel', '=', $request->linha_digitavel)
                             ->first();

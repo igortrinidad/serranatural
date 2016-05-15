@@ -2,6 +2,11 @@
 
 @section('conteudo')
 
+<style>
+
+
+</style>
+
 <h1 class="text-right">Produtos</h1>
 
 	@include('errors.messages')
@@ -23,27 +28,12 @@
 					</div>
 					<div class="col-md-3 text-center">
 						<label>Controlar estoque?</label><br>
-						<input type="checkbox" 
-	                    		class="form-control" 
-	                    		name="tracked" 
-	                    		value="1" 
-	                    		data-toggle="toggle" 
-	                    		data-onstyle="success" 
-	                    		data-on="Sim" 
-	                    		data-off="Não",
-		                />
+		                    {!! Form::checkbox('tracked', 1, $produto->tracked) !!}
+						
 					</div>
 					<div class="col-md-3 text-center">
 						<label>Ativo?</label><br>
-						<input type="checkbox" 
-	                    		class="form-control" 
-	                    		name="is_ativo" 
-	                    		value="1" 
-	                    		data-toggle="toggle" 
-	                    		data-onstyle="success" 
-	                    		data-on="Sim" 
-	                    		data-off="Não",
-		                />
+						{!! Form::checkbox('is_ativo', 1, $produto->is_ativo) !!}
 					</div>
 				</div>
 				
@@ -68,13 +58,13 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Categoria</label>
-		              		{!! Form::select('categoria_id', $categorias, null, ['class' => 'form-control', 'single' => 'single', 'id' => 'categoria', 'placeholder' => 'Selecione uma categoria'])   !!}
+		              		{!! Form::select('categoria_id', $categorias, $produto->categoria_id, ['class' => 'form-control', 'single' => 'single', 'id' => 'categoria', 'placeholder' => 'Selecione uma categoria'])   !!}
 		        		</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Fornecedores</label>
-		              		{!! Form::select('fornecedor_id[]', $fornecedoresForSelect, null,  ['class' => 'form-control', 'multiple' => 'multiple', 'id' => 'fornecedores'])   !!}
+		              		{!! Form::select('fornecedor_id[]', $fornecedoresForSelect, $fornecedoresSelecionados,  ['class' => 'form-control', 'multiple' => 'multiple', 'id' => 'fornecedores'])   !!}
 		        		</div>
 					</div>	
 				</div>
@@ -83,7 +73,7 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Produto correspondente aplicativo de venda</label>
-		              		{!! Form::select('square_id', $squareItemsForSelect, null, ['class' => 'form-control', 'single' => 'single', 'id' => 'square', 'placeholder' => 'Selecione um produto'])   !!}
+		              		{!! Form::select('square_id', $squareItemsForSelect, $produto->square_id, ['class' => 'form-control', 'single' => 'single', 'id' => 'square', 'placeholder' => 'Selecione um produto'])   !!}
 		              		<input type="hidden" value="" name="square_name" />
 		        		</div>
 					</div>

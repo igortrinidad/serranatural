@@ -9,20 +9,33 @@
 		<div class="panel panel-default">
 			<div class="panel-heading"><h5>{{$produto->nome_produto}}</h5></div>
 			<div class="panel-body">
-				<p>Produto</p>
-				<p><strong>{{$produto->nome_produto}}</strong></p>
-				<p>Quantidae em estoque</p>
-				<p><strong>{{$produto->quantidadeEstoque}}</strong></p>
-				<p>Descrição</p>
-				<p><strong>{{$produto->descricao}}</strong></p>
-				<p>Categoria</p>
-				<p><strong>{{$produto->categoria['nome']}}</strong></p>
-				<p>Fornecedores</p>
-				<p><strong>
-					@foreach($produto->fornecedores as $fornecedor)
-						{{$fornecedor->nome}}, 
-					@endforeach
-				</strong></p>
+				<div class="col-md-6">
+					<p>Produto</p>
+					<p><strong>{{$produto->nome_produto}}</strong></p>
+					<p>Descrição</p>
+					<p><strong>{{$produto->descricao}}</strong></p>
+					<p>Categoria</p>
+					<p><strong>{{$produto->categoria['nome']}}</strong></p>
+					<p>Produto está ativo?</p>
+					<p><strong>@if($produto->is_ativo) Sim @else Não @endif</strong></p>
+					<p>Produto está ativo?</p>
+					<p><strong>@if($produto->tracked) Sim @else Não @endif</strong></p>
+				</div>
+				<div class="col-md-6">
+					<p>Nome produto correspondente no aplicativo</p>
+					<p><strong>{{$produto->square_name}}</strong></p>
+					<p>Quantidae em estoque</p>
+					<p><strong>{{$produto->quantidadeEstoque}}</strong></p>					
+					<p>Fornecedores</p>
+					<p><strong>
+						@foreach($produto->fornecedores as $fornecedor)
+							{{$fornecedor->nome}}, 
+						@endforeach
+					</strong></p>
+				</div>
+				
+
+				
 
 			</div>
 		</div>
@@ -33,17 +46,6 @@
 			<div class="panel-body">
 				<a href="{{route('produtos.produtos.edit', $produto->id)}}"class="btn btn-default btn-block">Editar</a>
 
-			</div>
-		</div>
-		
-	</div>
-
-	<div class="col-md-3">
-		<div class="panel panel-default">
-			<div class="panel-heading"><h5>Aplicativo</h5></div>
-			<div class="panel-body">
-				<label>Nome produto</label>
-				<p><strong>{{$produto->square_name}}</strong></p>
 			</div>
 		</div>
 		
