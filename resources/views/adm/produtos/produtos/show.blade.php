@@ -25,7 +25,9 @@
 					<p>Nome produto correspondente no aplicativo</p>
 					<p><strong>{{$produto->square_name}}</strong></p>
 					<p>Quantidae em estoque</p>
-					<p><strong>{{$produto->quantidadeEstoque}}</strong></p>					
+					<p><strong>{{$produto->quantidadeEstoque}}</strong></p>		
+					<p>Quantidade por porção</p>
+					<p><strong>{{$produto->calc}}</strong></p>				
 					<p>Fornecedores</p>
 					<p><strong>
 						@foreach($produto->fornecedores as $fornecedor)

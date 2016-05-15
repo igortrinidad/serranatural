@@ -673,6 +673,7 @@ class ProdutosController extends Controller
 
     public function updateProduto(Request $request, $id)
     {
+
         $produto = Produto::find($id);
         $produto->nome_produto = $request->nome_produto;
         $produto->descricao = $request->descricao;
@@ -682,6 +683,7 @@ class ProdutosController extends Controller
         $produto->categoria_id = $request->categoria_id;
         $produto->square_id = $request->square_id;
         $produto->square_name = $request->square_name;
+        $produto->calc = $request->calc;
 
         if($request->fornecedor_id) {
             $produto->fornecedores()->sync($request->fornecedor_id);  
