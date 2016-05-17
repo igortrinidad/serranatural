@@ -746,7 +746,7 @@ class FinanceiroController extends Controller
             return response()->json([
                 'return' => [
                     'type' => 'success',
-                    'message' => 'Pagamento cadastrado com sucesso',
+                    'message' => 'Pagamento simples cadastrado com sucesso',
                     'title' => 'OK',
                     'status_code' => 200,
                 ],

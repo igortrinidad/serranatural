@@ -10,6 +10,7 @@ use serranatural\Http\Controllers\Controller;
 use serranatural\Models\Caixa;
 use serranatural\Models\Retirada;
 use serranatural\User;
+use serranatural\Models\Produto;
 
 use Mail;
 use Carbon\Carbon;
@@ -256,12 +257,26 @@ class CaixaController extends Controller
 
         });
 
+        $caixa_anterior = Caixa::where('is_aberto', '=', '0')->orderBy('created_at', 'desc')->first();
+
+        $response = $this->payments($caixa_anterior->dt_fechamento, $caixa->dt_fechamento);
+
+        foreach($response->body as $venda){
+            foreach($venda->itemizations as $item){
+                $prod = Produto::where('square_id', '=', $item->item_detail->item_id)->first();
+                if($prod){
+                    $prod['quantidadeEstoque'] = $prod['quantidadeEstoque'] - $item->quantity;
+                    $prod->save();
+                }
+            }
+        }
+
         return response()->json([
                 'retorno' => [
                     'type' => 'success',
                     'message' => 'Caixa fechado com sucesso.',
                     'title' => 'Atenção!',
-                    'status_code' => 200,
+                    'status_code' => 200
                 ],
             ], 200);
 

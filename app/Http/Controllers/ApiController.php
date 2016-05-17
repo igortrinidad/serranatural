@@ -245,7 +245,7 @@ class ApiController extends Controller
 
         $response = \Unirest\Request::get("https://connect.squareup.com/v1/me/payments?begin_time=2016-03-16T10:19:08Z&end_time=2016-03-16T19:45:06Z");
 
-        //dd($response);
+        dd($response);
 
         $valor = 0;
         $tax = 0;
