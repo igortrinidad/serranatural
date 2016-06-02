@@ -186,7 +186,7 @@
 				<p>{{$pagamento->data_pgto}}</p>
 
 				<label>Usuário pagamento</label>
-				<p>{{$pagamento->usuarioPagamento->name}}</p>
+				<p>@if(!$pagamento->user_id_pagamento or $pagamento->user_id_pagamento == 0) Não informado @else {{ $pagamento->usuarioPagamento->name }} @endif</p>
 
 				<label>Origem do pagamento</label>
 				<p>{{$pagamento->fonte_pgto}}</p>
