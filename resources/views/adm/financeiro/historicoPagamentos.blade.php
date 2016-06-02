@@ -56,7 +56,7 @@
 			            <th class="text-center">{{$pag->vencimento}}</th>
 			            <th><a href="{{route('admin.financeiro.detalhes', $pag->id)}}">{{$pag->descricao}}</a></th>
 			            <th>{{$pag->valor}}</th>
-			            <th>{{$pag->usuarioPagamento->name}}</th>
+			            <th>{{($pag->usuarioPagamento->name) ? $pag->usuarioPagamento->name : 'Não informado'}}</th>
 			            <th class="text-center" width="10%">
 			            @if($pag->pagamento != '')
 			            	<a href="{!! route('arquivos.pagamentos', $pag->pagamento) !!}" data-lightbox="property"><i class="fa fa-search" ></i>
