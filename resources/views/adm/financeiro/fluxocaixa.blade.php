@@ -108,11 +108,19 @@
 					</div>
 				</div>	
 
-				<div class="col-md-3">
+				<div class="col-md-3" v-if="authorization">
 					<div class="well text-center" 
 						v-bind:class="{ 'warning': caixa_aberto.diferenca_final < 0, 'success': caixa_aberto.diferenca_final >= 0 }"
 					>
 						<h2>R$ @{{caixa_aberto.diferenca_final}}</h2>
+						<p>Diferença</p>
+					</div>
+				</div>	
+
+				<div class="col-md-3" v-if="!authorization">
+					<div class="well text-center" 
+					>
+						<h2>??</h2>
 						<p>Diferença</p>
 					</div>
 				</div>	
@@ -200,13 +208,26 @@
 					<div class="panel panel-default">
 						<div class="panel-heading">Ações</div>
 						<div class="panel-body">
-							<button class="btn btn-default btn-block" v-on:click="update($event)">Salvar</button>
+							
 							<br>
 							<div class="form-group">
-								<label>Senha</label>
+								<label>Senha operador</label>
 								<input class="form-control" type="password" v-model="caixa_aberto.senha"/>
 							</div>
-							<button class="btn btn-primary btn-block" v-on:click="fecha($event)">Fechar caixa</button>
+							<hr size="3px" style="margin: 10px;"/>
+							<div class="form-group">
+								<label>Senha conferente</label>
+								<input class="form-control" type="password" v-model="caixa_aberto.senha_conferente"/>
+							</div>
+							<br>
+							<button class="btn btn-warning btn-block" v-on:click="confere($event)">Conferir</button>
+							<br>
+							<button class="btn btn-primary btn-block" 
+								v-on:click="fecha($event)" 
+								:disabled="!authorization"
+							>Fechar caixa</button >
+
+
 
 						</div>
 
@@ -280,8 +301,9 @@ var n = this,
 				var vm = new Vue({
 				    el: '#contentCaixa',
 				    data: {
+				    	authorization: false,
 				    	retorno: '',
-				    	caixa_aberto: {senha: ''},
+				    	caixa_aberto: {senha: '', senha_conferente: ''},
 				    	caixa_anterior: '',
 				    	caixa_is_aberto: false,
 				    	vendas: {
@@ -368,19 +390,32 @@ var n = this,
 							    });
 
 				    	},
-				    	update: function(ev) {
+				    	confere: function(ev) {
 				    		ev.preventDefault();
+				    		var that = this;
 
-				    		this.$http.post('/admin/financeiro/caixa/update', this.caixa_aberto).then(function (response) {
+				    		this.$http.post('/admin/financeiro/caixa/confere', this.caixa_aberto).then(function (response) {
+
+				    				console.log(response.data);
+
 							       swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
+
+							     	that.authorization = true;
+
+							     	setTimeout( function(){
+							     		that.authorization = false;
+							     	}, 180000)
 
 							    }, function (response) {
 							      	console.log('Erro ao tentar salvar.');
+							      	swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
+							      	that.authorization = false;
 							    });
 
 				    	},
 				    	fecha: function(ev) {
 				    		ev.preventDefault();
+				    		var that = this;
 
 				    		this.$http.post('/admin/financeiro/caixa/fecha', this.caixa_aberto).then(function (response) {
 							       swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
@@ -389,12 +424,14 @@ var n = this,
 								    {
 								    	location.reload();
 								    }, 2200);
+							       that.authorization = false;
 
 							    }, function (response) {
 
 							      	console.log('Erro ao tentar fechar o caixa.');
 
 							      	swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
+							      	that.authorization = false;
 							    });
 
 				    	},
@@ -410,9 +447,6 @@ var n = this,
 					    	this.caixa_aberto.diferenca_final = parseFloat(diferenca).toFixed(2);
 					    	this.caixa_aberto.vendas = this.vendas.vendaBruta;
 
-					    	console.log('Conferencia 2: ' + conferencia1);
-					    	console.log('Conferencia 1: ' + conferencia2);
-					    	console.log('Diferença: ' + diferenca);
 				    	},
 				    	addProduto: function(ev, quantidade) {
 				    		ev.preventDefault();

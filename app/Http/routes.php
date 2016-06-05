@@ -63,6 +63,9 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::get('financeiro/caixa/fluxo', ['as' => 'caixa', 'uses' => 'CaixaController@index']);
 		Route::get('financeiro/caixa/consulta', ['uses' => 'CaixaController@consulta']);
 		Route::get('financeiro/caixa/consultaVendas', ['uses' => 'CaixaController@consultaVendas']);
+		Route::post('financeiro/caixa/confere', ['uses' => 'ConferenciaController@create']);
+		Route::get('financeiro/historico/conferencias', ['as' => 'conferencias','uses' => 'ConferenciaController@index']);
+		Route::get('financeiro/historico/conferencias/fetchAll', ['uses' => 'ConferenciaController@fetchAll']);
 		Route::post('financeiro/caixa/abreCaixa', ['uses' => 'CaixaController@abreCaixa']);
 		Route::post('financeiro/caixa/update', ['uses' => 'CaixaController@update']);
 		Route::post('financeiro/caixa/fecha', ['uses' => 'CaixaController@fecha']);
