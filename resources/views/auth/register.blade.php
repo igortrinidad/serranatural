@@ -6,7 +6,12 @@
 
 <h1 class="text-right">Novo usuário</h1>
 
-<div class="panel panel-default">
+<div class="col-md-3">
+    
+</div>
+
+<div class="col-md-6">
+    <div class="panel panel-default">
         <div class="panel-heading"><h5>Dados do usuário</h5></div>
         <div class="panel-body">
 
@@ -23,18 +28,30 @@
                 <input type="email" name="email" value="{{ old('email') }}" class="form-control">
             </div>
             <br />
+
             <div class="form-group">
-                <label>Tipo usuario</label>
-                <input type="text" name="user_type" value="{{ old('user_type') }}" class="form-control">
-            </div>
-            <div class="form-group">
-                <label>Password</label>
+                <label>Senha</label>
                 <input type="password" name="password" class="form-control">
             </div>
 
             <div class="form-group">
-                <label>Confirm Password</label>
+                <label>Confirma senha de acesso</label>
                 <input type="password" name="password_confirmation" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Senha de operação (caixa)</label>
+                <input type="password" name="senha_operacao" class="form-control">
+            </div>
+
+            <div class="form-group">
+                Tipo de usuário
+                <select name="user_type">
+                    <option value="operacao">Operação</option>
+                    <option value="consulta">Consulta</option>
+                    <option value="admin">Admin</option>
+                    <option value="super_adm">Super admin</option>
+                </select>
             </div>
 
             <div class="form-group">
@@ -44,5 +61,8 @@
 
     </div>
 </div>
+</div>
+
+
 
 @stop

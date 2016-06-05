@@ -222,9 +222,8 @@
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> {{ Auth::user()->name }}</a>
-                        </li>
-                        <li><a href="{{ route('admin.users.edit')}}"><i class="fa fa-gear fa-fw"></i> Configurações</a>
+
+                        <li><a href="{{ route('admin.users.edit')}}"><i class="fa fa-user fa-fw"></i> Editar usuário</a>
                         </li>
                         <li><a href="{{ route('admin.users.add')}}"><i class="fa fa-plus fa-fw"></i> Adiciona novo</a>
                         </li>

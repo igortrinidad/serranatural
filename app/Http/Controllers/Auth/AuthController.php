@@ -76,6 +76,7 @@ class AuthController extends Controller
             'name' => $usuario['name'],
             'email' => $usuario['email'],
             'password' => bcrypt($usuario['password']),
+            'senha_operacao' => $usuario['senha_operacao'],
             'user_type' => $usuario['user_type'],
         ]);
 
@@ -105,6 +106,7 @@ class AuthController extends Controller
             ->update([
                 'name' => $usuario['name'],
                 'email' => $usuario['email'],
+                'senha_operacao' => $usuario['senha_operacao'],
                 'password' => bcrypt($usuario['password']),
                 ]);
 

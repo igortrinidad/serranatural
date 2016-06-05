@@ -35,6 +35,7 @@ class ConferenciaController extends Controller
                     ->first();
 
         $autorizaConf = User::where('senha_operacao', '=', $request->senha_conferente)
+                           ->whereIn('user_type', ['super_adm', 'operacao', 'admin'])
                     ->first();
 
         if (!$autorizaUser || !$autorizaConf || $autorizaUser->id == $autorizaConf->id) {

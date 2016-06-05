@@ -404,7 +404,7 @@ var n = this,
 
 							     	setTimeout( function(){
 							     		that.authorization = false;
-							     	}, 180000)
+							     	}, 30000)
 
 							    }, function (response) {
 							      	console.log('Erro ao tentar salvar.');

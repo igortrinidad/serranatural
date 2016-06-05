@@ -29,12 +29,16 @@
 			        <input type="email" name="email" value="{{ Auth::user()->email }}" class="form-control">
 			    </div>
 			    <div class="form-group">
-			        Password
+			        Senha operação
+			        <input type="password" name="senha_operacao" class="form-control" required>
+			    </div>
+			    <div class="form-group">
+			        Senha de acesso
 			        <input type="password" name="password" class="form-control" required>
 			    </div>
 
 			    <div class="form-group">
-			        Confirm Password
+			        Confirma senha de acesso
 			        <input type="password" name="password_confirmation" class="form-control" required>
 			    </div>
 
