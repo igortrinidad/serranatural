@@ -264,7 +264,7 @@ class FinanceiroController extends Controller
 
     public function funcionariosForSelect()
     {
-        $funcionarios = \serranatural\Models\Funcionario::all();
+        $funcionarios = \serranatural\Models\Funcionario::where('is_ativo', '=', 1)->get();
         $result = array();
 
         foreach ($funcionarios as $key => $value) {
