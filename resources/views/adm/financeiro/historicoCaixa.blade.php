@@ -55,7 +55,7 @@
 										<td class="text-center">R$ @{{caixa.vr_emCaixa}}</td>
 										<td class="text-center" v-if="caixa.usuario_fechamento">@{{caixa.usuario_fechamento.name}}</td>
 										<td class="text-center" v-if="!caixa.usuario_fechamento">--</td>
-										<td class="text-center" 
+										<td class="text-center" v-on:click="mostraVendas(caixa)"
 										v-bind:class="{ 'warning': caixa.diferenca_final < 0, 'success': caixa.diferenca_final >= 0 }">R$ @{{caixa.diferenca_final}}</td>
 									</tr>
 								</tbody>
@@ -64,6 +64,64 @@
 			
 			</div>
 		</div>
+
+
+		<!-- Modal -->
+<div class="modal fade" id="modalCaixaSelected" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Caixa: @{{caixaSelected.caixa.id}}</h4>
+      </div>
+      <div class="modal-body">
+
+      <div class="row">
+      	<div class="col-md-6">
+      		<label>Usuário abertura</label>
+      		<p>@{{caixaSelected.caixa.usuario_abertura.name}}</p>
+      		<label>Vendas total</label>
+      		<p>R$ @{{caixaSelected.caixa.vendas}}</p>
+      		<label>Ticket Médio</label>
+      		<p>R$ @{{(caixaSelected.caixa.vendas / caixaSelected.fetched.vendas_resumo.length).toFixed(2)}}</p>
+      	</div>
+
+      	<div class="col-md-6">
+      		<label>Usuário fechamento</label>
+      		<p>@{{caixaSelected.caixa.usuario_fechamento.name}}</p>
+      		<label>Volume de vendas</label>
+      		<p>@{{caixaSelected.fetched.vendas_resumo.length}}</p>
+      	</div>
+      </div>
+        <table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Valor</th>
+					<th>Data</th>
+					<th>Ver conta</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="venda in caixaSelected.fetched.vendas_resumo">
+					<td >R$ @{{(venda.valor/100).formatMoney(2, ',', '.')}}</td>
+					<td>@{{venda.data}}</td>
+					<td><a href="@{{venda.url}}" target="_blank">Ver recibo</td>
+				</tr>
+				<tr>
+					<td colspan="2">Total de vendas</td>
+					<td>@{{ caixaSelected.fetched.vendas_resumo.length }}</td>
+				</tr>
+
+			</tbody>
+		</table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 </div>
 
@@ -87,6 +145,17 @@
 				    {
 				    	caixas: [],
 				    	retorno: [],
+				    	caixaSelected: {
+				    		caixa: {
+				    			usuario_abertura: {name: ''},
+				    			usuario_fechamento: {name: ''},
+				    			vendas: 0,
+				    		}, 
+				    		fetched: {
+				    			vendas_resumo: []
+				    		}
+				    		
+				    	},
 				    },
 				    ready: function(){
 				    	var self = this;	
@@ -104,7 +173,26 @@
 				    },
 				    methods:
 				    {	
-				    	
+				    	mostraVendas: function(caixa){
+					    	var self = this;	
+					      	// GET request
+					      	self.caixaSelected.caixa = caixa;
+
+					      	$('#modalCaixaSelected').modal('show');
+
+					      	this.$http.post('/admin/financeiro/historico/caixa/fetchVendasResume', caixa).then(function (response) {
+
+					          	self.caixaSelected.fetched = response.data;
+
+					          	console.log(self.caixaSelected);
+
+
+							}, function (response) {
+
+						      	console.log('Erro ao tentar carregar caixas.');
+
+						    });
+				    	}
 
 					},
 				});

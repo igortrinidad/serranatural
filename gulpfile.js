@@ -39,6 +39,7 @@ elixir(function(mix) {
 		'sb-admin-2.js',
 		'appGeral.js',
 		'notify.js',
+		'prototypes.js'
 
 		], 'public/js/vendor.js');
 

@@ -23,7 +23,7 @@ class CaixaController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => []]);
+        $this->middleware('auth', ['except' => ['fetchVendasResume']]);
     }
 
     public function index()
@@ -302,6 +302,21 @@ class CaixaController extends Controller
                 'caixas' => $caixas,
             ], 200);
 
+    }
+
+    public function fetchVendasResume(Request $request)
+    {
+        //dd($request->all());
+
+        $begin = Carbon::createFromFormat('Y-m-d H:i:s', $request->dt_abertura);
+        $begin->addHours(3);
+        $begin = 'begin_time='.$begin->format('Y-m-d\TH:i:s\Z');
+
+        $end = Carbon::createFromFormat('Y-m-d H:i:s', $request->dt_fechamento);
+        $end->addHours(3);
+        $end = 'end_time='.$end->format('Y-m-d\TH:i:s\Z');
+
+        return $this->paymentsResume($begin, $end);
     }
 
 }

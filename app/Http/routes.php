@@ -73,6 +73,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::post('financeiro/caixa/fecha', ['uses' => 'CaixaController@fecha']);
 		Route::get('financeiro/historico/caixa', ['as'=> 'caixa.historico','uses' => 'CaixaController@historico']);
 		Route::get('financeiro/historico/caixa/fetchAll', ['uses' => 'CaixaController@fetchAll']);
+		Route::post('financeiro/historico/caixa/fetchVendasResume', ['uses' => 'CaixaController@fetchVendasResume']);
 	});
 
 
