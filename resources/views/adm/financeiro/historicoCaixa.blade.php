@@ -42,10 +42,12 @@
 									<tr v-for="caixa in caixas">
 										<td class="text-center">@{{caixa.dt_abertura}}</td>
 										<td class="text-center" v-if="caixa.dt_fechamento > '2010-10-10'">@{{caixa.dt_fechamento}}</td>
+										<td class="text-center" v-if="caixa.dt_fechamento < '2010-10-10'">--</td>
 
 										<td class="text-center">@{{caixa.vendas}}</td>
 										<td class="text-center">R$ @{{caixa.vr_abertura}}</td>
-										<td class="text-center">@{{caixa.usuario_abertura.name}}</td>
+										<td class="text-center" v-if="caixa.usuario_abertura">@{{caixa.usuario_abertura.name}}</td>
+										<td class="text-center" v-if="!caixa.usuario_abertura">--</td>
 										<td class="text-center">R$ @{{caixa.vr_emCaixa}}</td>
 										<td class="text-center" v-if="caixa.usuario_fechamento">@{{caixa.usuario_fechamento.name}}</td>
 										<td class="text-center" v-if="!caixa.usuario_fechamento">--</td>
@@ -89,6 +91,7 @@
 				          	self.caixas = response.data.caixas;
 				          	self.retorno = response.data.retorno;
 				          	console.log('Caixas carregados com sucesso.');
+				          	console.log(self.caixas);
 
 						}, function (response) {
 
