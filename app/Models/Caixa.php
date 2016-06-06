@@ -52,8 +52,4 @@ class Caixa extends Model
         return $this->belongsTo('serranatural\User', 'user_id_fechamento', 'id');
     }
 
-    public function teste()
-    {
-        return 'Testado 1000';
-    }
 }

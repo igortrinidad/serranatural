@@ -6,7 +6,9 @@
   },
   "dependencies": {
     "bootstrap-sass": "^3.0.0",
+    "ioredis": "^2.0.1",
     "laravel-elixir": "^2.0.0",
+    "socket.io": "^1.4.6",
     "vue-msgbox": "^0.1.1"
   }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Redis;
+
 //Home
 Route::get('/', function() {
 	return view('auth/login');
@@ -235,6 +237,24 @@ Route::get('arquivos/pagamentos/{filename}', ['as' => 'arquivos.pagamentos', fun
 	    return $response;
 	}]
 	);
+
+Route::get('/testeRedis', function(){
+
+    $data = [
+        'event' => 'UserSignedUp',
+        'id' => '2',
+        'data' => [
+            'username' => 'JohnDoe'
+        ]
+    ];
+    // In Episode 4, we'll use Laravel's event broadcasting.
+    Redis::publish('test-channel', json_encode($data));
+
+    Redis::publish('user_room_'.'1', json_encode($data));
+
+    return view('welcome');
+
+});
 
 Route::get('arquivos/produtos/{filename}', ['as' => 'arquivos.produtos', function ($filename)
 	{

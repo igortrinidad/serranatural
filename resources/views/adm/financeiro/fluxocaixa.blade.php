@@ -29,6 +29,11 @@
 						<p><strong>Observações</strong></p>
 						<p>@{{caixa_anterior.obs}}</p>
 					</div>
+					<div class="well text-center"
+						v-bind:class="{ 'warning': abrir_caixa.diferenca_inicial < 0, 'success': abrir_caixa.diferenca_inicial >= 0 }">
+						<p><strong>Diferença entre os caixas!</strong></p>
+						<p><strong>R$ @{{abrir_caixa.diferenca_inicial}} </strong></p>
+					</div>
 					<div class="form-group">
 						<select class="form-control" v-model="abrir_caixa.turno">
 							<option value="1" selected>Turno 1</option>
@@ -37,7 +42,10 @@
 					</div>
 					<div class="form-group">
 						<label>Contagem do caixa atual</label>
-						<input class="form-control" type="text" v-model="abrir_caixa.valor"/>
+						<input class="form-control moneyFloat" type="text" 
+							v-model="abrir_caixa.valor" 
+							v-on:blur="calculaAbertura()"
+						/>
 					</div>
 
 					<div class="form-group">
@@ -140,8 +148,8 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Total de venda maquina REDE</label>
-									<input type="text" class="form-control moneyInteger" 
-										v-on:keyup="calcula($event)"
+									<input type="text" class="form-control moneyFloat" 
+										v-on:blur="calcula($event)"
 										v-model="caixa_aberto.vendas_rede"
 
 									/>
@@ -149,9 +157,9 @@
 
 								<div class="form-group">
 									<label>Total de venda maquina CIELO</label>
-									<input type="text" class="form-control moneyInteger" 
+									<input type="text" class="form-control moneyFloat" 
 										v-model="caixa_aberto.vendas_cielo"
-										v-on:keyup="calcula($event)"
+										v-on:blur="calcula($event)"
 									/>
 								</div>
 								
@@ -160,9 +168,9 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Dinheiro em caixa</label>
-									<input type="text" class="form-control moneyInteger" 
+									<input type="text" class="form-control moneyFloat" 
 										v-model="caixa_aberto.vr_emCaixa"
-										v-on:keyup="calcula($event)"
+										v-on:blur="calcula($event)"
 									/>
 								</div>
 							</div>
@@ -224,7 +232,6 @@
 							<br>
 							<button class="btn btn-primary btn-block" 
 								v-on:click="fecha($event)" 
-								:disabled="!authorization"
 							>Fechar caixa</button >
 
 
@@ -272,29 +279,28 @@
 
     @section('scripts')
 	    @parent
-	        <script src="{!! elixir('js/financeiro.js') !!}"></script>
+	    	<script type="text/javascript">
+	    		Number.prototype.format = function(n, x) {
+				    var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+				    return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+				};
+
+				// numero.formatMoney('2', ',', '.')
+				Number.prototype.formatMoney = function(c, d, t){
+				var n = this, 
+				    c = isNaN(c = Math.abs(c)) ? 2 : c, 
+				    d = d == undefined ? "." : d, 
+				    t = t == undefined ? "," : t, 
+				    s = n < 0 ? "-" : "", 
+				    i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", 
+				    j = (j = i.length) > 3 ? j % 3 : 0;
+				   return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+				 };
+	    	</script>
 
 	        <script src="{!! elixir('js/financeiro.js') !!}"></script>
 
 			<script type="text/javascript">
-
-			Number.prototype.format = function(n, x) {
-    var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
-    return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
-};
-
-Number.prototype.formatMoney = function(c, d, t){
-var n = this, 
-    c = isNaN(c = Math.abs(c)) ? 2 : c, 
-    d = d == undefined ? "." : d, 
-    t = t == undefined ? "," : t, 
-    s = n < 0 ? "-" : "", 
-    i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", 
-    j = (j = i.length) > 3 ? j % 3 : 0;
-   return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
- };
-
-				//$('.maskValor').mask("0000.00", {reverse: true});
 
 				Vue.config.debug = true;
 				Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#_tokenLaravel').getAttribute('value');
@@ -317,6 +323,7 @@ var n = this,
 				    		valor: '',
 				    		senha: '',
 				    		turno: '',
+				    		diferenca_inicial: '',
 				    	},
 				    	retiradas: [],
 				    },
@@ -412,6 +419,9 @@ var n = this,
 							      	that.authorization = false;
 							    });
 
+				    		that.caixa_aberto.senha = '';
+				    		that.caixa_aberto.senha_conferente = '';
+
 				    	},
 				    	fecha: function(ev) {
 				    		ev.preventDefault();
@@ -436,17 +446,42 @@ var n = this,
 
 				    	},
 				    	calcula: function(ev) {
-				    		
-				    		var conferencia1 = ( parseFloat(this.caixa_aberto.vr_emCaixa) + parseFloat(this.caixa_aberto.total_retirada) - (parseFloat(this.caixa_aberto.vr_abertura)));
+				    		console.log('Vendas rede: ' + this.caixa_aberto.vendas_rede);
+				    		console.log('Vendas cielo: ' + this.caixa_aberto.vendas_cielo);
+				    		console.log('Valor em caixa: ' + this.caixa_aberto.vr_emCaixa);
+				    		console.log('Total retirada: ' + this.caixa_aberto.total_retirada);
+				    		console.log('Vendas bruta: ' + this.vendas.vendaBruta.replace(',', ''));
 
-				    		var conferencia2 = (parseFloat(this.vendas.vendaBruta.replace(',', '')) ) -
-				    		(parseFloat(this.caixa_aberto.vendas_cielo) + parseFloat(this.caixa_aberto.vendas_rede)); 
+				    		var conferencia1 = 
+				    			( parseFloat( this.caixa_aberto.vr_emCaixa )
+				    			+ parseFloat( this.caixa_aberto.total_retirada ) - 
+				    			(parseFloat( this.caixa_aberto.vr_abertura ) ) );
+
+
+				    		var conferencia2 = 
+				    		( parseFloat( this.vendas.vendaBruta.replace(',', '') ) ) -
+				    		( parseFloat( this.caixa_aberto.vendas_cielo )
+				    		+ parseFloat( this.caixa_aberto.vendas_rede ) ); 
 
 				    		var diferenca = (conferencia1) - (conferencia2);
 
-					    	this.caixa_aberto.diferenca_final = parseFloat(diferenca).toFixed(2);
+				    		console.log('Conferencia 1: ' + conferencia1);
+				    		console.log('Conferencia 2: ' + conferencia2);
+				    		console.log('Diferença: ' + diferenca);
+
+					    	this.caixa_aberto.diferenca_final = diferenca.toFixed(2);
 					    	this.caixa_aberto.vendas = this.vendas.vendaBruta;
 
+				    	},
+				    	calculaAbertura: function(){
+				    		var diferenca = 
+				    			parseFloat(this.abrir_caixa.valor)
+				    			-
+				    			parseFloat(this.caixa_anterior.vr_emCaixa);
+
+				    		this.abrir_caixa.diferenca_inicial = diferenca;
+
+				    		console.log(this.abrir_caixa.diferenca_inicial);
 				    	},
 				    	addProduto: function(ev, quantidade) {
 				    		ev.preventDefault();
@@ -482,7 +517,10 @@ var n = this,
 
 			<script type="text/javascript">
 		        $('.moneyInteger').mask('000000', {reverse: true});
-		        
+		        $('.moneyFloat').mask('0000.00', {reverse: true});
+
+
+
 			</script>
 
 	    @stop
