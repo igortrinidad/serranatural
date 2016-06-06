@@ -33,6 +33,8 @@
 										<th class="text-center">Venda total</th>
 										<th class="text-center">Valor abertura</th>
 										<th class="text-center">Usuario abertura</th>
+										<th class="text-center">Cielo</th>
+										<th class="text-center">Rede</th>
 										<th class="text-center">Fundo de caixa</th>
 										<th class="text-center">Usuario fechamento</th>
 										<th class="text-center">Diferença total</th>
@@ -48,6 +50,8 @@
 										<td class="text-center">R$ @{{caixa.vr_abertura}}</td>
 										<td class="text-center" v-if="caixa.usuario_abertura">@{{caixa.usuario_abertura.name}}</td>
 										<td class="text-center" v-if="!caixa.usuario_abertura">--</td>
+										<td class="text-center">R$ @{{caixa.vendas_cielo}}</td>
+										<td class="text-center">R$ @{{caixa.vendas_rede}}</td>
 										<td class="text-center">R$ @{{caixa.vr_emCaixa}}</td>
 										<td class="text-center" v-if="caixa.usuario_fechamento">@{{caixa.usuario_fechamento.name}}</td>
 										<td class="text-center" v-if="!caixa.usuario_fechamento">--</td>
@@ -91,7 +95,6 @@
 				          	self.caixas = response.data.caixas;
 				          	self.retorno = response.data.retorno;
 				          	console.log('Caixas carregados com sucesso.');
-				          	console.log(self.caixas);
 
 						}, function (response) {
 
