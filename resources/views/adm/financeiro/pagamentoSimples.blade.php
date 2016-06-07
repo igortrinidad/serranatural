@@ -6,7 +6,9 @@
 
 <div id="contentProduto" class="row">
 
-
+<div v-show="loading">
+		@include('utils.loading-full')
+	</div>
 
 	<div class="col-md-7">
 
@@ -159,6 +161,7 @@
 				var vm = new Vue({
 				    el: '#contentProduto',
 				    data: {
+				    	loading: false,
 				    	return: '',
 				    	pagamento: {
 				    		valor: '',
@@ -178,11 +181,14 @@
     					},
 					    ready: function() {
 				 	      	var self = this;	
+				 	      	self.loading = true;
 					      	// GET request
 					      	this.$http.get('/admin/produtos/produtosForSelectJson/anything').then(function (response) {
 					          self.produtosForSelect = response.data;
+					          self.loading = false;
 					      }, function (response) {
 					          console.log(response);
+					          self.loading = false;
 					      });
 					    },
 				    methods: {
@@ -217,6 +223,7 @@
 					    },
 					    saveComprovante: function(ev) {
 					    	self = this;
+					    	self.loading = true;
 					    	this.$http.post('/admin/financeiro/despesaStoreVue', this.pagamento).then(function (response) {
 
 						    	self.return = response.data.return;
@@ -229,9 +236,11 @@
 					    		self.pagamento.observacoes = '';
 					    		self.pagamento.comprovante = '';
 					    		self.pagamento.produtos = [];
+					    		self.loading = false;
 
 					      	}, function (response) {
 					          	swal(self.return.title, self.return.message, self.return.type);
+					          	self.loading = false;
 					      	});
 					    }
 				    },

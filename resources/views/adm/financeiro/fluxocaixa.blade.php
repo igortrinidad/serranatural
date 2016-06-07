@@ -2,6 +2,7 @@
 
 @section('conteudo')
 
+
 <style>
 .success{
 	background-color: #CDDC39;
@@ -15,6 +16,10 @@
 <h2 class="text-right">Controle de caixa</h2><br>
 
 <div id="contentCaixa">
+
+<div v-show="loading">
+	@include('utils.loading-full')
+</div>
 
 	<div class="row">
 
@@ -290,6 +295,7 @@
 				var vm = new Vue({
 				    el: '#contentCaixa',
 				    data: {
+				    	loading: false,
 				    	authorization: false,
 				    	retorno: '',
 				    	caixa_aberto: {senha: '', senha_conferente: ''},
@@ -317,6 +323,7 @@
 					    ready: function() {
 				 	      	var self = this;	
 					      	// GET request
+					      	self.loading = true;
 					      	this.$http.get('/admin/financeiro/caixa/consulta').then(function (response) {
 
 					          if(response.data.caixa_aberto != null) {
@@ -325,6 +332,7 @@
 					          	self.caixa_anterior = response.data.caixa_anterior;
 					          	self.caixa_is_aberto = true;
 					          	self.retiradas = response.data.retiradas;
+					          	
 
 					          	this.$http.get('/admin/financeiro/caixa/consultaVendas').then(function (response) {
 							        self.vendas = response.data;
@@ -343,13 +351,18 @@
 
 					          self.abrir_caixa.turno = response.data.turno;
 
-					          
+					          self.loading = false;
 
 					      }, function (response) {
+
 					      	console.log('Erro ao tentar buscar caixa.');
 					        console.log(response.data);
 					        self.caixa_ = response.data.retorno;
+					        self.loading = false;
+
 					      });
+
+					    
 
 					      	setTimeout(function()
 								    {
@@ -360,6 +373,8 @@
 				    methods: {
 				    	abreCaixa: function(ev) {
 				    		self = this;
+
+				    		this.loading = true;
 
 				    		this.$http.post('/admin/financeiro/caixa/abreCaixa', self.abrir_caixa).then(function (response) {
 
@@ -379,10 +394,15 @@
 							      	swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
 							    });
 
+				    		this.loading = false;
+
 				    	},
 				    	confere: function(ev) {
 				    		ev.preventDefault();
+
 				    		var that = this;
+
+				    		that.loading = true;
 
 				    		this.$http.post('/admin/financeiro/caixa/confere', this.caixa_aberto).then(function (response) {
 
@@ -396,19 +416,26 @@
 							     		that.authorization = false;
 							     	}, 30000)
 
+							     	that.loading = false;
+
 							    }, function (response) {
 							      	console.log('Erro ao tentar salvar.');
 							      	swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
 							      	that.authorization = false;
+
+      					    		that.loading = false;
 							    });
 
 				    		that.caixa_aberto.senha = '';
 				    		that.caixa_aberto.senha_conferente = '';
 
+
+
 				    	},
 				    	fecha: function(ev) {
 				    		ev.preventDefault();
 				    		var that = this;
+				    		this.loading = true;
 
 				    		this.$http.post('/admin/financeiro/caixa/fecha', this.caixa_aberto).then(function (response) {
 							       swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
@@ -418,6 +445,7 @@
 								    	location.reload();
 								    }, 2200);
 							       that.authorization = false;
+							       that.loading = false;
 
 							    }, function (response) {
 
@@ -425,7 +453,9 @@
 
 							      	swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
 							      	that.authorization = false;
+							      	that.loading = false;
 							    });
+				    		
 
 				    	},
 				    	calcula: function(ev) {
@@ -466,34 +496,7 @@
 
 				    		console.log(this.abrir_caixa.diferenca_inicial);
 				    	},
-				    	addProduto: function(ev, quantidade) {
-				    		ev.preventDefault();
-				    		if( ! this.selected.nome  || ! this.selected.quantidade ) {
-				    			return false;
-				    		}
-				    		Produto = {id: this.selected.id, nome: this.selected.nome, quantidade: this.selected.quantidade};
-				    		this.pagamento.produtos.push(Produto);
-				    		this.selected = {id: '', nome: '', quantidade: ''};
-				    	},
-					    saveComprovante: function(ev) {
-					    	self = this;
-					    	this.$http.post('/admin/financeiro/despesaStoreVue', this.pagamento).then(function (response) {
 
-						    	self.return = response.data.return;
-						    	swal(self.return.title, self.return.message, self.return.type);
-
-						    	self.pagamento.valor = '';
-					    		self.pagamento.data_pgto = '';
-					    		self.pagamento.descricao = '';
-					    		self.pagamento.fonte_pgto = '';
-					    		self.pagamento.observacoes = '';
-					    		self.pagamento.comprovante = '';
-					    		self.pagamento.produtos = [];
-
-					      	}, function (response) {
-					          	swal(self.return.title, self.return.message, self.return.type);
-					      	});
-					    }
 				    },
 				})
 			</script>

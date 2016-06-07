@@ -6,6 +6,10 @@
 
 <div id="contentBoleto">
 
+<div v-show="loading">
+	@include('utils.loading-full')
+</div>
+
 	<div class="row">
 		<div class="col-md-7">
 			<div class="panel panel-default">
@@ -179,6 +183,7 @@
 				var vm = new Vue({
 				    el: '#contentBoleto',
 				    data: {
+				    	loading: false,
 				    	pagamento: {
 				    		tipo: '',
 				    		valor: '',
@@ -199,11 +204,14 @@
 					},
 				    ready: function() {
 			 	      	var self = this;	
+			 	      	self.loading = true;
 				      	// GET request
 				      	this.$http.get('/admin/produtos/produtosForSelectJson/anything').then(function (response) {
 				          self.produtosForSelect = response.data;
+				          self.loading = false;
 				      }, function (response) {
 				          console.log(response);
+				          self.loading = false;
 				      });
 				    },
 				    methods: {
@@ -226,6 +234,8 @@
 					      	this.createImage(files[0], tipo);
 					    },
 					    createImage(file, tipo) {
+					    var self = this;
+					    self.loading = true;
 					    	var tipo  = tipo;
 					      var image = new Image();
 					      var reader = new FileReader();
@@ -238,6 +248,7 @@
 					      	}
 					      };
 					      reader.readAsDataURL(file);
+					      self.loading = false;
 					    },
 					    removeImage: function(ev, tipo) {
 					    	var tipo  = tipo;
@@ -251,6 +262,7 @@
 					    savePagamento: function(ev) {
 					    	ev.preventDefault();
 					    	self = this;
+					    	self.loading = true;
 					    	this.$http.post('/admin/financeiro/pagamentosPost', this.pagamento).then(function (response) {
 
 						    	self.return = response.data.return;
@@ -266,7 +278,10 @@
 					    		self.pagamento.arquivoNota = '';
 					    		self.pagamento.produtos = [];
 
+					    		self.loading = false;
+
 					      	}, function (response) {
+					      		self.loading = false;
 					          	console.log(response);
 					      	});
 					    }

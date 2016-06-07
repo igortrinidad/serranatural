@@ -7,6 +7,10 @@
 
 	@include('errors.messages')
 
+	<div v-show="loading">
+		@include('utils.loading-full')
+	</div>
+
 	<div class="row">
 		<div class="col-md-6">
 
@@ -173,7 +177,8 @@
 				var vm = new Vue({
 				    el: '#elRetirada',
 				    data: 
-				    {
+				    {	
+				    	loading: false,
 				    	retirada: {
 				    		tipo: '',
 				    		valor: '',
@@ -243,6 +248,7 @@
 				    	},
 				    	sendRetirada: function() {
 				    		self = this;
+				    		self.loading = true;
 				    		console.log('Retirada foi recebida até aqui zé!');
 					    	self.$http.post('/admin/financeiro/retiradaPost', self.retirada).then(function (response) 
 					    	{
@@ -255,11 +261,12 @@
 
 						    	swal("Ok!", "Sua Retirada foi cadastrada", "success"); 
 
-
+						    	self.loading = false;
 
 					      	}, function (response) {
 					          	console.log(response.data);
 					          	swal("ERRO!", "Erro ao cadastrar retirada, ligue para o Igor.", "warning");
+					          	self.loading = false;
 					      	});
 				    	}
 				    },

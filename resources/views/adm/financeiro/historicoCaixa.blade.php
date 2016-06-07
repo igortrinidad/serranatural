@@ -19,6 +19,10 @@
 
 	@include('errors.messages')
 
+<div v-show="loading">
+	@include('utils.loading-full')
+</div>
+
 
 		<div class="col-md-12">
 
@@ -84,6 +88,8 @@
       		<p>R$ @{{caixaSelected.caixa.vendas}}</p>
       		<label>Ticket Médio</label>
       		<p>R$ @{{(caixaSelected.caixa.vendas / caixaSelected.fetched.vendas_resumo.length).toFixed(2)}}</p>
+      		<label>Vendas rede</label>
+      		<p>@{{caixaSelected.caixa.vendas_venda_rede}}</p>
       	</div>
 
       	<div class="col-md-6">
@@ -91,6 +97,8 @@
       		<p>@{{caixaSelected.caixa.usuario_fechamento.name}}</p>
       		<label>Volume de vendas</label>
       		<p>@{{caixaSelected.fetched.vendas_resumo.length}}</p>
+      		<label>Vendas cielo</label>
+      		<p>@{{caixaSelected.caixa.vendas_venda_cielo}}</p>
       	</div>
       </div>
         <table class="table table-bordered">
@@ -116,8 +124,7 @@
 		</table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
       </div>
     </div>
   </div>
@@ -142,7 +149,7 @@
 				var vm = new Vue({
 				    el: '#elHistoricoCaixa',
 				    data: 
-				    {
+				    {	loading: false,
 				    	caixas: [],
 				    	retorno: [],
 				    	caixaSelected: {
@@ -176,6 +183,10 @@
 				    	mostraVendas: function(caixa){
 					    	var self = this;	
 					      	// GET request
+					      	self.loading = true;
+					      	if(!caixa.usuario_fechamento.id){
+					      		return false;
+					      	}
 					      	self.caixaSelected.caixa = caixa;
 
 					      	$('#modalCaixaSelected').modal('show');
@@ -185,10 +196,11 @@
 					          	self.caixaSelected.fetched = response.data;
 
 					          	console.log(self.caixaSelected);
+					          	self.loading = false;
 
 
 							}, function (response) {
-
+								self.loading = false;
 						      	console.log('Erro ao tentar carregar caixas.');
 
 						    });
