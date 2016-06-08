@@ -33,32 +33,33 @@
 								<thead>
 									<tr>
 										<th class="text-center">Abertura</th>
-										<th class="text-center">Fechamento</th>
-										<th class="text-center">Venda total</th>
-										<th class="text-center">Valor abertura</th>
 										<th class="text-center">Usuario abertura</th>
+										<th class="text-center">Fechamento</th>
+										<th class="text-center">Usuario fechamento</th>
+										<th class="text-center">Valor abertura</th>
+										<th class="text-center">Venda total</th>
 										<th class="text-center">Cielo</th>
 										<th class="text-center">Rede</th>
 										<th class="text-center">Fundo de caixa</th>
-										<th class="text-center">Usuario fechamento</th>
+										<th class="text-center">Retirada total</th>
 										<th class="text-center">Diferença total</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr v-for="caixa in caixas">
 										<td class="text-center">@{{caixa.dt_abertura}}</td>
-										<td class="text-center" v-if="caixa.dt_fechamento > '2010-10-10'">@{{caixa.dt_fechamento}}</td>
-										<td class="text-center" v-if="caixa.dt_fechamento < '2010-10-10'">--</td>
-
-										<td class="text-center">@{{caixa.vendas}}</td>
-										<td class="text-center">R$ @{{caixa.vr_abertura}}</td>
 										<td class="text-center" v-if="caixa.usuario_abertura">@{{caixa.usuario_abertura.name}}</td>
 										<td class="text-center" v-if="!caixa.usuario_abertura">--</td>
+										<td class="text-center" v-if="caixa.dt_fechamento > '2010-10-10'">@{{caixa.dt_fechamento}}</td>
+										<td class="text-center" v-if="caixa.dt_fechamento < '2010-10-10'">--</td>
+										<td class="text-center" v-if="caixa.usuario_fechamento">@{{caixa.usuario_fechamento.name}}</td>
+										<td class="text-center" v-if="!caixa.usuario_fechamento">--</td>
+										<td class="text-center">R$ @{{caixa.vr_abertura}}</td>
+										<td class="text-center">@{{caixa.vendas}}</td>
 										<td class="text-center">R$ @{{caixa.vendas_cielo}}</td>
 										<td class="text-center">R$ @{{caixa.vendas_rede}}</td>
 										<td class="text-center">R$ @{{caixa.vr_emCaixa}}</td>
-										<td class="text-center" v-if="caixa.usuario_fechamento">@{{caixa.usuario_fechamento.name}}</td>
-										<td class="text-center" v-if="!caixa.usuario_fechamento">--</td>
+										<td class="text-center">R$ @{{caixa.total_retirada}}</td>
 										<td class="text-center" v-on:click="mostraVendas(caixa)"
 										v-bind:class="{ 'warning': caixa.diferenca_final < 0, 'success': caixa.diferenca_final >= 0 }">R$ @{{caixa.diferenca_final}}</td>
 									</tr>

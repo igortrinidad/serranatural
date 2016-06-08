@@ -236,7 +236,8 @@
 							<button class="btn btn-warning btn-block" v-on:click="confere($event)">Conferir</button>
 							<br>
 							<button class="btn btn-primary btn-block" 
-								v-on:click="fecha($event)" 
+								v-on:click="fecha($event)"
+								:disabled="!caixa_aberto.vendas_cielo || !caixa_aberto.vendas_rede"
 							>Fechar caixa</button >
 
 
