@@ -278,7 +278,6 @@
 
 	</div>
 
-<pre> @{{ $data | json }}</pre>
 
 </div>
 	
@@ -401,6 +400,7 @@
 				    	confere: function(ev) {
 				    		ev.preventDefault();
 
+				    		this.calcula();
 				    		var that = this;
 
 				    		that.loading = true;
@@ -437,6 +437,7 @@
 				    		ev.preventDefault();
 				    		var that = this;
 				    		this.loading = true;
+				    		this.calcula();
 
 				    		this.$http.post('/admin/financeiro/caixa/fecha', this.caixa_aberto).then(function (response) {
 							       swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);

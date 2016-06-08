@@ -90,7 +90,9 @@
       		<label>Ticket Médio</label>
       		<p>R$ @{{(caixaSelected.caixa.vendas / caixaSelected.fetched.vendas_resumo.length).toFixed(2)}}</p>
       		<label>Vendas rede</label>
-      		<p>@{{caixaSelected.caixa.vendas_venda_rede}}</p>
+      		<p>@{{caixaSelected.caixa.vendas_rede}}</p>
+      		<label>Abertura</label>
+      		<p>@{{caixaSelected.caixa.vr_abertura}}</p>
       	</div>
 
       	<div class="col-md-6">
@@ -99,10 +101,46 @@
       		<label>Volume de vendas</label>
       		<p>@{{caixaSelected.fetched.vendas_resumo.length}}</p>
       		<label>Vendas cielo</label>
-      		<p>@{{caixaSelected.caixa.vendas_venda_cielo}}</p>
+      		<p>@{{caixaSelected.caixa.vendas_cielo}}</p>
+      		<label>Total retiradas</label>
+      		<p>@{{caixaSelected.caixa.total_retirada}}</p>
+      		<label>Fundo de caixa</label>
+      		<p>@{{caixaSelected.caixa.vr_emCaixa}}</p>
+      	</div>
+
+      	<div class="col-md-12 text-center">
+      		<label>Diferença</label>
+      		<p>R$ @{{ caixaSelected.caixa.diferenca_calculada }}</p>
       	</div>
       </div>
-        <table class="table table-bordered">
+
+	    <hr size="3px" style="margin-top: 2px"/>
+
+	    <table class="table table-bordered table-striped">
+		    <thead>
+		        <tr>
+		            <th>Valor</th>
+		            <th>Tipo</th>
+		            <th>Descrição</th>
+		            <th>Quem fez?</th>
+		            <th>Para quem?</th>
+		        </tr>
+		    </thead>
+		    <tbody>
+		        <tr v-for="retirada in caixaSelected.caixa.retiradas">
+		            <td>@{{retirada.valor}}</td>
+		            <td>@{{retirada.tipo}}</td>
+		            <td>@{{retirada.descricao}}</td>
+		            <td>@{{retirada.usuario.name}}</td>
+		            <td v-if="retirada.funcionario">@{{retirada.funcionario.nome}}</td>
+		            <td v-if="!retirada.funcionario">--</td>
+		        </tr>
+		    </tbody>
+		</table>
+
+		<hr size="3px" style="margin-top: 2px"/>
+
+	    <table class="table table-bordered">
 			<thead>
 				<tr>
 					<th>Valor</th>
@@ -123,6 +161,7 @@
 
 			</tbody>
 		</table>
+		
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
@@ -158,6 +197,10 @@
 				    			usuario_abertura: {name: ''},
 				    			usuario_fechamento: {name: ''},
 				    			vendas: 0,
+				    			retiradas: [
+				    				{valor: '', descricao: '', tipo: '', usuario: {name: ''}, funcionario: {nome: ''}}
+				    			],
+				    			diferenca_calculada: '',
 				    		}, 
 				    		fetched: {
 				    			vendas_resumo: []
@@ -190,6 +233,8 @@
 					      	}
 					      	self.caixaSelected.caixa = caixa;
 
+					      	self.calcula();
+
 					      	$('#modalCaixaSelected').modal('show');
 
 					      	this.$http.post('/admin/financeiro/historico/caixa/fetchVendasResume', caixa).then(function (response) {
@@ -199,12 +244,34 @@
 					          	console.log(self.caixaSelected);
 					          	self.loading = false;
 
+					          	
+
 
 							}, function (response) {
 								self.loading = false;
 						      	console.log('Erro ao tentar carregar caixas.');
 
 						    });
+				    	},
+				    	calcula: function(){
+				    		that = this;
+
+				    		var retirada = that.caixaSelected.caixa.total_retirada;
+				    		var abertura = that.caixaSelected.caixa.vr_abertura;
+				    		var fundo = that.caixaSelected.caixa.vr_emCaixa;
+				    		var cielo = that.caixaSelected.caixa.vendas_cielo;
+				    		var rede = that.caixaSelected.caixa.vendas_rede;
+				    		var vendas = that.caixaSelected.caixa.vendas;
+
+				    		console.log(retirada + ' | ' + abertura + ' | '+ fundo + ' | '+ cielo + ' | '+ rede + ' | '+ vendas);
+
+				    		that.caixaSelected.caixa.diferenca_calculada = 
+				    		( parseFloat(fundo) + parseFloat(cielo) + parseFloat(rede) + parseFloat(retirada))
+				    		-
+				    		( parseFloat(vendas) + parseFloat(abertura) )
+				    		;
+
+				    		that.caixaSelected.caixa.diferenca_calculada = that.caixaSelected.caixa.diferenca_calculada.toFixed(2);
 				    	}
 
 					},
