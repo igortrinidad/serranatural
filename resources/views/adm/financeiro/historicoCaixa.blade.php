@@ -83,6 +83,8 @@
 
       <div class="row">
       	<div class="col-md-6">
+      		<label>Data abertura</label>
+      		<p>@{{caixaSelected.caixa.dt_abertura}}</p>
       		<label>Usuário abertura</label>
       		<p>@{{caixaSelected.caixa.usuario_abertura.name}}</p>
       		<label>Vendas total</label>
@@ -96,6 +98,8 @@
       	</div>
 
       	<div class="col-md-6">
+      		<label>Data fechamento</label>
+      		<p>@{{caixaSelected.caixa.dt_fechamento}}</p>
       		<label>Usuário fechamento</label>
       		<p>@{{caixaSelected.caixa.usuario_fechamento.name}}</p>
       		<label>Volume de vendas</label>

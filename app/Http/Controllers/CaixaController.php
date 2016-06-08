@@ -257,6 +257,17 @@ class CaixaController extends Controller
 
         });
 
+        if($caixa->diferenca_final <= -10) {
+
+            Mail::raw('Diferença de caixa', function ($message) use ($caixa){
+                $message->to('contato@maisbartenders.com.br', 'Igor Trindade');
+                $message->from('mkt@serranatural.com', 'Serra Natural');
+                $message->subject('Diferença de caixa : R$' . $caixa->diferenca_final);
+            });
+
+        }
+        
+
         $caixa_anterior = Caixa::where('is_aberto', '=', '0')->orderBy('created_at', 'desc')->first();
 
         $response = $this->payments($caixa_anterior->dt_fechamento, $caixa->dt_fechamento);
