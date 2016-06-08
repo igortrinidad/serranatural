@@ -233,11 +233,14 @@
 								<input class="form-control" type="password" v-model="caixa_aberto.senha_conferente"/>
 							</div>
 							<br>
-							<button class="btn btn-warning btn-block" v-on:click="confere($event)">Conferir</button>
+							<button class="btn btn-warning btn-block" 
+								v-on:click="confere($event)"
+								:disabled="!caixa_aberto.vendas_cielo || !caixa_aberto.vendas_rede || !caixa_aberto.vr_emCaixa"
+							>Conferir</button>
 							<br>
 							<button class="btn btn-primary btn-block" 
 								v-on:click="fecha($event)"
-								:disabled="!caixa_aberto.vendas_cielo || !caixa_aberto.vendas_rede"
+								:disabled="!caixa_aberto.vendas_cielo || !caixa_aberto.vendas_rede || !caixa_aberto.vr_emCaixa"
 							>Fechar caixa</button >
 
 
@@ -415,7 +418,7 @@
 
 							     	setTimeout( function(){
 							     		that.authorization = false;
-							     	}, 30000)
+							     	}, 40000)
 
 							     	that.loading = false;
 
@@ -445,7 +448,7 @@
 							       setTimeout(function()
 								    {
 								    	location.reload();
-								    }, 2200);
+								    }, 3000);
 							       that.authorization = false;
 							       that.loading = false;
 
@@ -461,6 +464,11 @@
 
 				    	},
 				    	calcula: function(ev) {
+
+				    		if (!this.caixa_aberto.vendas_rede) this.caixa_aberto.vendas_rede = 0;
+				    		if (!this.caixa_aberto.vendas_cielo) this.caixa_aberto.vendas_cielo = 0;
+				    		if (!this.caixa_aberto.vr_emCaixa) this.caixa_aberto.vr_emCaixa = 0;
+
 				    		console.log('Vendas rede: ' + this.caixa_aberto.vendas_rede);
 				    		console.log('Vendas cielo: ' + this.caixa_aberto.vendas_cielo);
 				    		console.log('Valor em caixa: ' + this.caixa_aberto.vr_emCaixa);
