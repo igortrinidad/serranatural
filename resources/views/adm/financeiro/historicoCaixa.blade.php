@@ -114,6 +114,8 @@
 
       	<div class="col-md-12 text-center">
       		<label>Diferença</label>
+      		<p>R$ @{{ caixaSelected.caixa.obs }}</p>
+      		<label>Diferença</label>
       		<p>R$ @{{ caixaSelected.caixa.diferenca_calculada }}</p>
       	</div>
       </div>
