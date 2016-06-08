@@ -3,6 +3,8 @@
 @section('conteudo')
 
 
+
+
     <section id="cadastro" class="services-section">
         <div class="container">
 
@@ -13,6 +15,8 @@
             <div class="row">
                 <div class="col-lg-1"></div>
                     <div class="col-lg-6">
+
+                    @include('flash::message')
 
                         <div class="panel painel_cadastro paineis">
                             <div class="panel-body">
@@ -79,15 +83,15 @@
                                     </div>
 
                                     <div class="" data-toggle="collapse" data-target="#demo"> Meus pontos <i class="fa fa-chevron-down"></i></div>
-                                      <div id="demo" class="collapse">
+                                    <div id="demo" class="collapse">
                                             
                                         <table class="table">
                                               <col width="50%">
                                                 <col width="50%">
                                             <thead>
                                                 <tr>
-                                                    <th class="text-center">Compra</th>
-                                                    <th class="text-center">Vencimento</th>
+                                                    <th class="text-center">Dt compra</th>
+                                                    <th class="text-center">Vencimento ponto</th>
                                                     <th class="text-center">Produto</th>
                                                 </tr>
                                             </thead>
@@ -102,7 +106,7 @@
                                             </tbody>
                                         </table>
 
-                                </div>
+                                    </div>
                         
 
                                 </div>
@@ -113,37 +117,38 @@
                                     <h4 class="text-left">Vouchers</h4>
 
 
-                                <div class="" data-toggle="collapse" data-target="#vouchers"> Meus vouchers <i class="fa fa-chevron-down"></i></div>
-                                      <div id="vouchers" class="collapse">
+                                <div class="" data-toggle="collapse" data-target="#vouchers">Meus vouchers
+                                    <i class="fa fa-chevron-down"></i>
+                                </div>
+                                    <div id="vouchers" class="collapse">
 
-                                    <table class="table">
-                                          <col width="10%">
+                                        <table class="table">
+                                            <col width="10%">
                                             <col width="45%">
                                             <col width="50%">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center">ID</th>
-                                                <th class="text-center">Produto</th>
-                                                <th class="text-center">Vencimento</th>
-                                                <th class="text-center">Data utilizado</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($vouchers as $voucher)
-                                            <tr>
-                                                <th class="text-center">{{$voucher->id}}</th>
-                                                <th class="text-center">{{$voucher->produto}}</th>
-                                                <th class="text-center">{{$voucher->vencimento}}</th>
-                                                <th class="text-center">@if($voucher->is_valido == 0){{$voucher->data_utilizado}} @else -- @endif</th>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">ID</th>
+                                                    <th class="text-center">Produto</th>
+                                                    <th class="text-center">Vencimento</th>
+                                                    <th class="text-center">Data utilizado</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($vouchers as $voucher)
+                                                <tr>
+                                                    <th class="text-center">{{$voucher->id}}</th>
+                                                    <th class="text-center">{{$voucher->produto}}</th>
+                                                    <th class="text-center">{{$voucher->vencimento}}</th>
+                                                    <th class="text-center">@if($voucher->is_valido == 0){{$voucher->data_utilizado}} @else -- @endif</th>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
 
-
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                 </div>
             </div>
             

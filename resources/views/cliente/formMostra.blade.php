@@ -18,16 +18,21 @@
 			<p>{{$cliente->email}}</p>
 		</div>
 
-	    <div class="form-group">
-	        <input form="votoForms" type="hidden" name="opt_email" value="0" class="checkbox"/>
-	        <input form="votoForms" type="checkbox" name="opt_email" value="1" class="checkbox" @if($cliente->opt_email == 1) checked @endif/>
+	    <div class="form-group text-left">
+			<label>Mailling Serra Natural</label> <br>
+			@if($cliente->opt_email == 1)
+			<a href="/admin/clientes/sairEmail/{{$cliente->id}}"><i class="fa fa-check-square-o"></i></a>
+			@else
+			<a href="/admin/clientes/entrarEmail/{{$cliente->id}}"><i class="fa fa-square-o"></i></a>
+			@endif
+
 	        <p class="texto_votacao">Aceito receber informações sobre promoções e novidades da Serra Natural.
 	        <br>Ao desmarcar essa opção você <strong style="color:red">não</strong> receberá nossos e-mails.</p>
 	    </div>
 	    
 
 	    <div class="form-group">
-	        <a href="/me/edita/{{$cliente->email}}" class="btn btn-default pull-right">Editar</a>
+	        <a href="/admin/clientes/reenviaSenha/{{$cliente->id}}" class="btn btn-default btn-block">Reenviar Senha <i class="fa fa-share"></i></a>
 	    </div>
 
 
