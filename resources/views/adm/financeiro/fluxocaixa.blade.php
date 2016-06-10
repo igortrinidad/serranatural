@@ -377,9 +377,11 @@
 				    	abreCaixa: function(ev) {
 				    		self = this;
 
-				    		this.loading = true;
+				    		if(!this.loading){
 
-				    		this.$http.post('/admin/financeiro/caixa/abreCaixa', self.abrir_caixa).then(function (response) {
+				    			this.loading = true;
+
+				    			this.$http.post('/admin/financeiro/caixa/abreCaixa', self.abrir_caixa).then(function (response) {
 
 				    				console.log('Caixa aberto com sucesso.');
 
@@ -390,14 +392,18 @@
 								    	location.reload();
 								    }, 2200);
 
+								    this.loading = false;
+
 							    }, function (response) {
 							      	console.log('Erro ao abrir o caixa');
 							      	console.log(response.data);
 
+							      	this.loading = false;
+
 							      	swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
 							    });
 
-				    		this.loading = false;
+				    		}
 
 				    	},
 				    	confere: function(ev) {
@@ -439,28 +445,32 @@
 				    	fecha: function(ev) {
 				    		ev.preventDefault();
 				    		var that = this;
-				    		this.loading = true;
-				    		this.calcula();
 
-				    		this.$http.post('/admin/financeiro/caixa/fecha', this.caixa_aberto).then(function (response) {
-							       swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
+				    		if(!this.loading){
 
-							       setTimeout(function()
-								    {
-								    	location.reload();
-								    }, 3000);
-							       that.authorization = false;
-							       that.loading = false;
+				    			this.loading = true;
 
-							    }, function (response) {
+					    		this.calcula();
 
-							      	console.log('Erro ao tentar fechar o caixa.');
+					    		this.$http.post('/admin/financeiro/caixa/fecha', this.caixa_aberto).then(function (response) {
+								       swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
 
-							      	swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
-							      	that.authorization = false;
-							      	that.loading = false;
-							    });
-				    		
+								       setTimeout(function()
+									    {
+									    	location.reload();
+									    }, 3000);
+								       that.authorization = false;
+								       that.loading = false;
+
+								    }, function (response) {
+
+								      	console.log('Erro ao tentar fechar o caixa.');
+
+								      	swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
+								      	that.authorization = false;
+								      	that.loading = false;
+								    });
+				    		}
 
 				    	},
 				    	calcula: function(ev) {

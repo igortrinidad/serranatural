@@ -62,6 +62,7 @@
 										<td class="text-center">R$ @{{caixa.total_retirada}}</td>
 										<td class="text-center" v-on:click="mostraVendas(caixa)"
 										v-bind:class="{ 'warning': caixa.diferenca_final < 0, 'success': caixa.diferenca_final >= 0 }">R$ @{{caixa.diferenca_final}}</td>
+
 									</tr>
 								</tbody>
 							</table>
@@ -233,31 +234,31 @@
 				    	mostraVendas: function(caixa){
 					    	var self = this;	
 					      	// GET request
-					      	self.loading = true;
-					      	if(!caixa.usuario_fechamento.id){
-					      		return false;
+					      	
+					      	if(caixa.usuario_fechamento){
+
+					      		self.loading = true;
+
+					      		self.caixaSelected.caixa = caixa;
+
+						      	self.calcula();
+
+						      	$('#modalCaixaSelected').modal('show');
+
+						      	this.$http.post('/admin/financeiro/historico/caixa/fetchVendasResume', caixa).then(function (response) {
+
+						          	self.caixaSelected.fetched = response.data;
+
+						          	console.log(self.caixaSelected);
+						          	self.loading = false;
+
+								}, function (response) {
+									self.loading = false;
+							      	console.log('Erro ao tentar carregar caixas.');
+
+							    });
 					      	}
-					      	self.caixaSelected.caixa = caixa;
-
-					      	self.calcula();
-
-					      	$('#modalCaixaSelected').modal('show');
-
-					      	this.$http.post('/admin/financeiro/historico/caixa/fetchVendasResume', caixa).then(function (response) {
-
-					          	self.caixaSelected.fetched = response.data;
-
-					          	console.log(self.caixaSelected);
-					          	self.loading = false;
-
-					          	
-
-
-							}, function (response) {
-								self.loading = false;
-						      	console.log('Erro ao tentar carregar caixas.');
-
-						    });
+					      	
 				    	},
 				    	calcula: function(){
 				    		that = this;
