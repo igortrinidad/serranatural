@@ -301,7 +301,9 @@ class CaixaController extends Controller
 
     public function fetchAll()
     {
-        $caixas = Caixa::with('usuarioAbertura', 'usuarioFechamento', 'retiradas', 'retiradas.usuario', 'retiradas.funcionario')->orderBy('created_at', 'DESC')->get();
+        $caixas = Caixa::with('usuarioAbertura', 'usuarioFechamento', 'retiradas', 'retiradas.usuario', 'retiradas.funcionario')
+                        ->where('is_aberto', '=', '0')
+                        ->orderBy('created_at', 'DESC')->get();
 
                 return response()->json([
                 'retorno' => [
