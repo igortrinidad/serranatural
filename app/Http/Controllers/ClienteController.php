@@ -761,12 +761,11 @@ class ClienteController extends Controller
 
         $import = $import->data;
 
-        return view('adm.clientes.importOpen', compact('import'));
+        return view('adm.clientes.importOpen', compact('import', 'id'));
     }
 
     public function importUpdate(Request $request)
     {
-        dd($request->all());
         $import = Import::find($request->id);
 
         $import = $import->update([ 'data' => json_encode($request->clients) ]);

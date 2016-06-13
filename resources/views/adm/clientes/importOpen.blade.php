@@ -86,8 +86,24 @@
 			
 		<div class="row">
 			<div class="col-md-12">
-				<button type="button" class="btn btn-danger pull-right" v-on:click="removeClient($event, clientSelected)">Deletar</button>
-				<button class="btn btn-success pull-right" v-on:click="nextClient($event, clientSelected)">Proximo</button>
+				<button 
+					type="button" 
+					class="btn btn-danger pull-right" 
+					v-on:click="removeClient($event, clientSelected)" 
+					style="margin: 10px">
+				Deletar</button >
+				<button 
+					class="btn btn-success pull-right" 
+					v-on:click="nextClient($event, clientSelected, null)" 
+					style="margin: 10px">
+				Proximo</button>
+				<button 
+					class="btn btn-success pull-right" 
+					v-on:click="saveUser($event, clientSelected)" 
+					style="margin: 10px">
+				Registrar usuário</button>
+
+				
 			</div>
 			
 		</div>
@@ -150,6 +166,7 @@
 				    	var self = this;	
 				      	
 				      	self.clients = {!! $import !!};
+				      	self.id = {!! $id !!};
 
 				    },
 				    methods:
@@ -178,19 +195,42 @@
 
 				    		this.clientSelected = client;
 				    	},
-				    	nextClient(ev, client){
+				    	nextClient(ev, client, index){
 				    		ev.preventDefault();
-				    		var index = this.clients.indexFromAttr(0, client[0]);
-				    		index++
+
+				    		if(index == null){
+								var index = this.clients.indexFromAttr(0, client[0]);
+								index++
+				    		}
 				    		this.clientSelected = this.clients[index];
 				    	},
 				    	removeClient(ev, client){
 				    		ev.preventDefault();
 
+				    		var index = this.clients.indexFromAttr(0, client[0]);
 				    		this.clients.removeFromAttr(0, client[0])
+				    		this.nextClient(ev, client, index)
 
-				    		this.nextClient(ev, client)
+				    	},
+				    	saveUser(ev, client){
+				    		var self = this;
+				    		ev.preventDefault();
 
+				    		var senha = Math.floor(Math.random() * 9000) + 1000;
+				    		var data = {nome: self.clientSelected[4], email: self.clientSelected[6], telefone: self.clientSelected[7], opt_email: 0, senha_resgate: senha};
+
+					    	this.$http.post('/cadastro', data).then(function (response) {
+
+					         	console.log(response);
+
+							}, function (response) {
+
+						     	console.log(response);
+
+						   });
+
+				    		this.removeClient(ev, client)
+				    		this.saveImport(ev)
 				    	}
 					}
 				});
