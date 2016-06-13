@@ -222,6 +222,8 @@
 					    	this.$http.post('/cadastro', data).then(function (response) {
 
 					         	console.log(response);
+					         	this.removeClient(ev, client)
+				    			this.saveImport(ev)
 
 							}, function (response) {
 
@@ -229,8 +231,7 @@
 
 						   });
 
-				    		this.removeClient(ev, client)
-				    		this.saveImport(ev)
+
 				    	}
 					}
 				});
