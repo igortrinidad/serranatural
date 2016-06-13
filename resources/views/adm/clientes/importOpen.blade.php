@@ -232,7 +232,6 @@
 					    		self.loading = false;
 					         	console.log('Usuario inserido com sucesso.');
 					         	this.removeClient(ev, client)
-				    			this.saveImport(ev)
 
 							}, function (response) {
 
