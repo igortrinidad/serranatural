@@ -13,7 +13,6 @@ var elixir = require('laravel-elixir');
 
 elixir(function(mix) {
 
-	mix.phpUnit();
 
 	mix.scripts([
 
@@ -36,6 +35,7 @@ elixir(function(mix) {
 		'../../../node_modules/vue/dist/vue.js',
 		'../../../node_modules/vue-resource/dist/vue-resource.js',
 		'../../../node_modules/sweetalert/dist/sweetalert.min.js',
+		'../../../node_modules/papaparse/papaparse.js',
 		'sb-admin-2.js',
 		'appGeral.js',
 		'notify.js',

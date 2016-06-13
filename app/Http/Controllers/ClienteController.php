@@ -20,13 +20,14 @@ use serranatural\Models\PontoColetado;
 use serranatural\Models\Voucher;
 use serranatural\Models\Retirada;
 use serranatural\Models\Caixa;
+use serranatural\Models\Import;
 
 class ClienteController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['cadastro', 'storeSelfCliente', 'clienteSelfEdita', 'clienteSelfMostra', 'selfChangeClient', 'testeApi']]);
+        $this->middleware('auth', ['except' => ['cadastro', 'storeSelfCliente', 'clienteSelfEdita', 'clienteSelfMostra', 'selfChangeClient', 'testeApi', 'reenviaSenha']]);
 
     }
 
@@ -739,8 +740,40 @@ class ClienteController extends Controller
 
             return redirect()->back();
 
-
     }
+
+    public function importIndex()
+    {
+        return view('adm.clientes.importIndex');
+    }
+
+        public function importData(Request $request)
+    {
+        Import::create([
+            'data' => json_encode($request->data)
+            ]);
+        return 'Ok';
+    }
+
+    public function importOpen($id)
+    {
+        $import = Import::find($id);
+
+        $import = $import->data;
+
+        return view('adm.clientes.importOpen', compact('import'));
+    }
+
+    public function importUpdate(Request $request)
+    {
+        dd($request->all());
+        $import = Import::find($request->id);
+
+        $import = $import->update([ 'data' => json_encode($request->clients) ]);
+
+        return 'ok';
+    }
+
 
 
 }

@@ -5,10 +5,22 @@
     "gulp-notify": "^2.2.0"
   },
   "dependencies": {
+    "bootstrap": "^3.3.6",
+    "bootstrap-datepicker": "^1.6.1",
     "bootstrap-sass": "^3.0.0",
+    "file-loader": "^0.8.5",
     "ioredis": "^2.0.1",
+    "jquery": "^3.0.0",
+    "jquery-mask-plugin": "^1.14.0",
+    "jquery-ui": "^1.10.5",
     "laravel-elixir": "^2.0.0",
+    "moment": "^2.13.0",
+    "papaparse": "^4.1.2",
+    "require": "^2.4.20",
+    "select2": "^4.0.3",
     "socket.io": "^1.4.6",
+    "summernote": "^0.8.1",
+    "util": "^0.10.3",
     "vue-msgbox": "^0.1.1"
   }
 }

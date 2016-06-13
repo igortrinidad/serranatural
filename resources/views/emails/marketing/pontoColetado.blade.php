@@ -72,7 +72,7 @@
                                                 <td width="450" valign="middle" align="center">                                                     <table width="380" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile">
                                                     <tbody>
                                                         <tr>
-                                                            <td width="380" c-style="yellowBG" class="pad15" style="background-color: rgb(38, 166, 80);border-top-left-radius:6px;border-top-right-radius:6px;">                                                                     <table width="240" border="0" cellpadding="0" cellspacing="0" align="center" class="full">
+                                                            <td width="380" c-style="yellowBG" class="pad15" style="background-color: #9CCC65;border-top-left-radius:6px;border-top-right-radius:6px;">                                                                     <table width="240" border="0" cellpadding="0" cellspacing="0" align="center" class="full">
                                                                 <tbody>
                                                                     <tr>
                                                                         <td width="100%" height="30"><p><br></p>
@@ -97,7 +97,7 @@
                                         <td width="450" valign="middle" align="center"><table width="380" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile">
                                             <tbody>
                                                 <tr>
-                                                    <td width="380" class="pad15" align="center" style="background-color: rgb(38, 166, 80);"><table width="240" border="0" cellpadding="0" cellspacing="0" align="center" class="full">
+                                                    <td width="380" class="pad15" align="center" style="background-color: #8BC34A;"><table width="240" border="0" cellpadding="0" cellspacing="0" align="center" class="full">
                                                         <tbody>
                                                             <tr>
                                                                 <td valign="middle" align="center" width="100%" t-style="not3Text" class="fullCenter" mc:edit="18" object="text-editable" style="text-align: center; font-family: Helvetica, Arial, sans-serif; color: rgb(63, 67, 69); line-height: 24px;"><span style="font-family: proxima_nova_rgregular, Helvetica;"><singleline>Você coletou <span style="font-weight: bold; font-size: 24px;">1&nbsp;</span> ponto de <span style="font-weight: bold;">{{ isset($produto) ? $produto : 'erro'}}</span> no programa de fidelidade&nbsp;<span style="font-weight: bold;">Serra Natural.</span></singleline></span></td>
@@ -140,7 +140,7 @@
                                     <td width="450" valign="middle" align="center"><table width="380" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile">
                                         <tbody>
                                             <tr>
-                                                <td width="380" c-style="yellowBG" class="pad15" style="background-color: rgb(38, 166, 80);"><table width="240" border="0" cellpadding="0" cellspacing="0" align="center" class="full">
+                                                <td width="380" c-style="yellowBG" class="pad15" style="background-color: #8BC34A;"><table width="240" border="0" cellpadding="0" cellspacing="0" align="center" class="full">
                                                     <tbody>
                                                         <tr>
                                                             <td width="100%" height="40"><p><br></p>
@@ -172,7 +172,7 @@
      <td width="450" valign="middle" align="center">                                                  <table width="380" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile">
        <tbody>
         <tr>
-          <td width="380" c-style="yellowBG" class="pad15" style="background-color: RGB(38, 166, 80);"></td>
+          <td width="380" c-style="yellowBG" class="pad15" style="background-color: #8BC34A;"></td>
       </tr>
   </tbody>
 </table>
@@ -187,7 +187,7 @@
             <td width="450" valign="middle" align="center"><table width="380" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile">
                 <tbody>
                     <tr>
-                        <td width="380" c-style="yellowBG" class="pad15" style="background-color: RGB(38, 166, 80);"><table width="240" border="0" cellpadding="0" cellspacing="0" align="center" class="full">
+                        <td width="380" c-style="yellowBG" class="pad15" style="background-color: #8BC34A;"><table width="240" border="0" cellpadding="0" cellspacing="0" align="center" class="full">
                             <tbody>
                                 <tr>
                                     <td valign="middle" width="50%" style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 30px; color: #3f4345; line-height: 34px; padding: 20px;" t-style="not3Text" class="fullCenter" mc:edit="17" object="text-editable"><table width="240" border="0" cellpadding="0" cellspacing="0" align="center" class="full" style="color: rgb(0, 0, 0); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; text-align: start;">
@@ -218,7 +218,7 @@
             <td width="450" valign="middle" align="center"><table width="380" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile">
                <tbody>
                 <tr>
-                  <td width="380" c-style="yellowBG" class="pad15" align="center" style="background-color: RGB(38, 166, 80);">                                                          <table width="240" border="0" cellpadding="0" cellspacing="0" align="center" class="full">
+                  <td width="380" c-style="yellowBG" class="pad15" align="center" style="background-color: #8BC34A;">                                                          <table width="240" border="0" cellpadding="0" cellspacing="0" align="center" class="full">
                     <tbody>
                         <tr>
                            <td valign="middle" align="center" width="100%" style="text-align: center; font-size: 14px; color: rgb(63, 67, 69); line-height: 24px;" t-style="not3Text" class="fullCenter" mc:edit="18" object="text-editable"><span style="font-family: proxima_nova_rgregular, Helvetica; font-size: 14px;">A cada 15 pontos você ganha um voucher de acordo com os pontos acumulados.</span></td>
@@ -240,7 +240,7 @@
             <td width="450" valign="middle" align="center"><table width="380" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile">
                 <tbody>
                     <tr>
-                        <td width="380" c-style="yellowBG" class="pad15" align="center" style="background-color: RGB(38, 166, 80);"><table width="240" border="0" cellpadding="0" cellspacing="0" align="center" class="full">
+                        <td width="380" c-style="yellowBG" class="pad15" align="center" style="background-color: #8BC34A;"><table width="240" border="0" cellpadding="0" cellspacing="0" align="center" class="full">
                             <tbody>
                                 <tr>
                                     <td valign="middle" align="center" width="100%" style="text-align: center; font-size: 14px; color: rgb(63, 67, 69); line-height: 24px;" t-style="not3Text" class="fullCenter" mc:edit="18" object="text-editable"><span style="font-family: proxima_nova_rgregular, Helvetica;"><br></span></td>
@@ -262,7 +262,7 @@
             <td width="450" valign="middle" align="center"><table width="380" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile">
                 <tbody>
                     <tr>
-                        <td width="380" c-style="yellowBG" class="pad15" align="center" style="background-color: RGB(38, 166, 80);"></td>
+                        <td width="380" c-style="yellowBG" class="pad15" align="center" style="background-color: #8BC34A;"></td>
                     </tr>
                 </tbody>
             </table>
@@ -292,7 +292,7 @@
      <td width="450" valign="middle" align="center">                                                  <table width="380" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile">
        <tbody>
         <tr>
-          <td width="380" c-style="yellowBG" class="pad15" style="background-color: RGB(38, 166, 80);">                                                         <table width="240" border="0" cellpadding="0" cellspacing="0" align="center" class="full">
+          <td width="380" c-style="yellowBG" class="pad15" style="background-color: #8BC34A;">                                                         <table width="240" border="0" cellpadding="0" cellspacing="0" align="center" class="full">
             <tbody>
                 <tr>
                    <td valign="middle" width="100%" style="text-align: center; font-size: 14px; color: rgb(63, 67, 69); line-height: 24px;" class="fullCenter" mc:edit="21" object="text-editable"><span style="font-family: proxima_nova_rgregular, Helvetica;"><span style="font-weight: bold;"><a href="http://admin.serranatural.com/me/{{ isset($emailCliente) ? $emailCliente : 'erro'}}" target="_blank">Clique aqui</a></span>&nbsp;e acompanhe seus pontos on-line.</span></td>
@@ -313,7 +313,7 @@
      <td width="450" valign="middle" align="center">                                                  <table width="380" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile">
        <tbody>
         <tr>
-          <td width="380" c-style="yellowBG" style="border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; background-color: RGB(38, 166, 80);" class="pad15">                                                          <table width="240" border="0" cellpadding="0" cellspacing="0" align="center" class="full">
+          <td width="380" c-style="yellowBG" style="border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; background-color: #8BC34A;" class="pad15">                                                          <table width="240" border="0" cellpadding="0" cellspacing="0" align="center" class="full">
             <tbody>
                 <tr>
                    <td width="100%" height="40"></td>
