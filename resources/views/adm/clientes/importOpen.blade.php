@@ -178,13 +178,19 @@
 
 				    		var data = {id: self.id, clients: self.clients};
 
+				    		self.loading = true;
+
 					    	this.$http.post('/admin/clientes/import/data/update', data).then(function (response) {
+
+					    		self.loading = false;
 
 					         	console.log(response);
 
 							}, function (response) {
 
 						     	console.log(response);
+
+						     	self.loading = false;
 
 						   });
 				    	},
@@ -219,14 +225,18 @@
 				    		var senha = Math.floor(Math.random() * 9000) + 1000;
 				    		var data = {nome: self.clientSelected[4], email: self.clientSelected[6], telefone: self.clientSelected[7], opt_email: 0, senha_resgate: senha};
 
+				    		self.loading = true;
+
 					    	this.$http.post('/cadastro', data).then(function (response) {
 
+					    		self.loading = false;
 					         	console.log('Usuario inserido com sucesso.');
 					         	this.removeClient(ev, client)
 				    			this.saveImport(ev)
 
 							}, function (response) {
 
+								self.loading = false;
 						     	console.log(response);
 
 						   });
