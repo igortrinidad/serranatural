@@ -221,7 +221,7 @@
 
 					    	this.$http.post('/cadastro', data).then(function (response) {
 
-					         	console.log(response);
+					         	console.log('Usuario inserido com sucesso.');
 					         	this.removeClient(ev, client)
 				    			this.saveImport(ev)
 
