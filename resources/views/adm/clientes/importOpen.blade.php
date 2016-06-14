@@ -27,8 +27,26 @@
 		<div class="col-md-12">
 
 			<br><br>
-			<button v-on:click="saveImport($event)" class="btn btn-success">Salvar alteração</button>
-			
+			<button v-on:click="saveImport($event)" class="btn btn-success">Salvar alteração na lista</button>
+
+			<br><br>
+
+			<table class="table table-bordered table-hover table-striped">
+			    <thead>
+			        <tr>
+			            <th>Nome</th>
+			            <th>Email</th>
+			            <th>Telefone</th>
+			        </tr>
+			    </thead>
+			    <tbody>
+			        <tr>
+			            <th><input class="form-control" v-model="fields.name"/></th>
+			            <th><input class="form-control" v-model="fields.email"/></th>
+			            <th><input class="form-control" v-model="fields.telefone"/></th>
+			        </tr>
+			    </tbody>
+			</table>
 		</div>
 	</div>
 
@@ -49,15 +67,13 @@
 					            <th>Nome cliente</th>
 					            <th>Email</th>
 					            <th>Telefone</th>
-					            <th>Telefone</th>
 					        </tr>
 					    </thead>
 					    <tbody>
 					        <tr v-for="client in clients" v-on:click="setClient($event, client)">
-					            <td>@{{client[4]}}</td>
-					            <td>@{{client[6]}}</td>
-					            <td>@{{client[7]}}</td>
-					            <td>@{{client['teste'] = 'test'}}</td>
+					            <td>@{{client[fields.name]}}</td>
+					            <td>@{{client[fields.email]}}</td>
+					            <td>@{{client[fields.telefone]}}</td>
 					        </tr>
 					    </tbody>
 					</table>
@@ -109,17 +125,17 @@
 		</div>
 		<div class="form-group">
 			<label>Nome cliente</label>
-			<input class="form-control" v-model="clientSelected[4]" />
+			<input class="form-control" v-model="clientSelected[fields.name]" />
 		</div>
 
 		<div class="form-group">
 			<label>Email</label>
-			<input class="form-control" v-model="clientSelected[6]" />
+			<input class="form-control" v-model="clientSelected[fields.email]" />
 		</div>
 
 		<div class="form-group">
 			<label>Telefone</label>
-			<input class="form-control" v-model="clientSelected[7]" />
+			<input class="form-control" v-model="clientSelected[fields.telefone]" />
 		</div>
 
 
@@ -136,6 +152,7 @@
     </div>
   </div>
 </div>
+
 
 </div>
 
@@ -160,6 +177,7 @@
 				    	clients: '',
 				    	clientSelected: '',
 				    	id: '',
+				    	fields: {name: 4, email: 6, telefone: 7}
 
 				    },
 				    ready: function(){
@@ -223,7 +241,9 @@
 				    		ev.preventDefault();
 
 				    		var senha = Math.floor(Math.random() * 9000) + 1000;
-				    		var data = {nome: self.clientSelected[4], email: self.clientSelected[6], telefone: self.clientSelected[7], opt_email: 0, senha_resgate: senha};
+				    		var data = {nome: self.clientSelected[self.fields.name], email: self.clientSelected[self.fields.email], telefone: self.clientSelected[self.fields.telefone], opt_email: 0, senha_resgate: senha};
+
+				    		console.log(data);
 
 				    		self.loading = true;
 
@@ -242,8 +262,7 @@
 
 						   });
 
-
-				    	}
+				    	},
 					}
 				});
 
