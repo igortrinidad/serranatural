@@ -31,6 +31,10 @@
 
 			<br><br>
 
+			<button class="btn btn-default"> @{{ clients.length }}</button>
+
+			<br><br>
+
 			<table class="table table-bordered table-hover table-striped">
 			    <thead>
 			        <tr>
