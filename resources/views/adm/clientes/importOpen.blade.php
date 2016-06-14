@@ -237,6 +237,8 @@
 
 								self.loading = false;
 						     	console.log(response);
+						     	swal(response.data.title, response.data.message, response.data.type);
+						     	this.removeClient(ev, client)
 
 						   });
 

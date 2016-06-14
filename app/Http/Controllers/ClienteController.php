@@ -9,6 +9,7 @@ use Mail;
 
 use Illuminate\Http\Request;
 use serranatural\Http\Requests;
+use Illuminate\Support\Facades\Validator;
 
 use serranatural\Http\Controllers\Controller;
 
@@ -285,6 +286,19 @@ class ClienteController extends Controller
 
     public function storeSelfCliente(Request $request)
     {
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:clientes',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'title' => 'Ops!',
+                'message' => 'Cliente já existe!',
+                'type' => 'error'
+            ], 403);
+        }
+
         $cliente = Cliente::create($request->all());
 
         $data = [
