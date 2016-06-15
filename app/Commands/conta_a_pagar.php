@@ -44,9 +44,9 @@ class conta_a_pagar extends Command implements SelfHandling
             Mail::queue('emails.admin.contas', $dados, function ($message) use ($dados)
             {
 
-                $message->to(env('EMAIL_TO'), 'Serra Natural');
-                $message->cc(env('EMAIL_CC'), 'Comercial Mais Bartenders');
-                $message->from(env('EMAIL_FROM'), 'Serra Natural');
+                $message->to(env('EMAIL_TO'), env('EMAIL_TONAME'));
+                $message->cc(env('EMAIL_CC'), env('EMAIL_CCNAME'));
+                $message->from(env('EMAIL_FROM'), env('EMAIL_FROMNAME'));
                 $message->subject('Contas a pagar');
                 $message->getSwiftMessage();
 
