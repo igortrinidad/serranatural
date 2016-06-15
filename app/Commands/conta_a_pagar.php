@@ -9,6 +9,7 @@ use DB;
 use Mail;
 
 use serranatural\Models\Pagamento;
+use serranatural\Models\LogEmail;
 
 class conta_a_pagar extends Command implements SelfHandling
 {
@@ -52,9 +53,15 @@ class conta_a_pagar extends Command implements SelfHandling
 
             });
 
+            LogEmail::create([
+                'email' => env('EMAIL_TO'),
+                'assunto' => 'Contas a pagar',
+                'mensagem' => json_encode($dados)
+            ]);
+
     	    return 'Comando rodado com sucesso - email enviado';
 
-        
+
         }
 
 	return 'Nenhum pagamento à vencer';
