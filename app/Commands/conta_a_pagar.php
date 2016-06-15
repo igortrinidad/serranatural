@@ -42,7 +42,7 @@ class conta_a_pagar extends Command implements SelfHandling
                 'pagamentos' => $pagamentos
             ];
 
-            Mail::queue('emails.admin.contas', $dados, function ($message) use ($dados)
+            Mail::send('emails.admin.contas', $dados, function ($message) use ($dados)
             {
 
                 $message->to(env('EMAIL_TO'), env('EMAIL_TONAME'));
