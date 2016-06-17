@@ -775,7 +775,9 @@ class ClienteController extends Controller
 
         $import = $import->data;
 
-        return view('adm.clientes.importOpen', compact('import', 'id'));
+        $clientes = Cliente::all();
+
+        return view('adm.clientes.importOpen', compact('import', 'id', 'clientes'));
     }
 
     public function importUpdate(Request $request)

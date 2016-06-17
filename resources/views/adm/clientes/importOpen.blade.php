@@ -35,6 +35,10 @@
 
 			<br><br>
 
+			<button class="btn btn-default" v-on:click="checkDuplicates($event)"> Checa duplicados</button>
+
+			<br><br>
+
 			<table class="table table-bordered table-hover table-striped">
 			    <thead>
 			        <tr>
@@ -181,7 +185,8 @@
 				    	clients: '',
 				    	clientSelected: '',
 				    	id: '',
-				    	fields: {name: 4, email: 6, telefone: 7}
+				    	fields: {name: 3, email: 4, telefone: 5},
+				    	cadastrados: ''
 
 				    },
 				    ready: function(){
@@ -189,10 +194,35 @@
 				      	
 				      	self.clients = {!! $import !!};
 				      	self.id = {!! $id !!};
+				      	self.cadastrados = {!! $clientes !!}
+
+
+
+							
+				      	
 
 				    },
 				    methods:
-				    {
+				    {	
+				    	checkDuplicates: function(ev){
+				    		ev.preventDefault();
+				    		self = this;
+
+				    		setTimeout( function(){
+
+					      		console.log('Rodei agora')
+					      		self.cadastrados.forEach( function(cadastrado){
+
+						      		var jaExiste = self.clients.indexFromAttr(self.fields.email, cadastrado.email);
+
+						      		if(jaExiste){
+						      			self.clients.removeFromAttr(self.fields.email, cadastrado.email)
+						      		}
+					      		})
+
+					      	}, 1000)
+
+				    },
 				    	saveImport: function(ev){
 				    		ev.preventDefault();
 
