@@ -43,7 +43,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <button id="votoCadastro" form="votoForm" type="submit" class="btn btn-primary botao">Cadastrar e votar!</button>
+                                            <button id="votoCadastro" form="votoForm" type="submit" class="btn btn-primary botao">Cadastrar !</button>
            
                                         </div>
 

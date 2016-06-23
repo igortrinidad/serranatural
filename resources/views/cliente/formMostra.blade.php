@@ -27,12 +27,18 @@
 			@endif
 
 	        <p class="texto_votacao">Aceito receber informações sobre promoções e novidades da Serra Natural.
-	        <br>Ao desmarcar essa opção você <strong style="color:red">não</strong> receberá nossos e-mails.</p>
+	        <br>Ao desmarcar essa opção você <strong style="color:red">não</strong> receberá nossos e-mails do prato do dia.</p>
 	    </div>
 	    
 
 	    <div class="form-group">
-	        <a href="/admin/clientes/reenviaSenha/{{$cliente->id}}" class="btn btn-default btn-block">Reenviar Senha <i class="fa fa-share"></i></a>
+	        <a href="/admin/clientes/reenviaSenha/{{$cliente->id}}" class="btn btn-default btn-block">Reenviar senha de resgate </a>
+	    </div>
+
+	    <div class="form-group">
+	        <a href="/admin/clientes/excluir/{{$cliente->id}}" class="btn btn-warning btn-block">Retirar da lista de email </a>
+	        <br>
+	        <p class="texto_votacao text-left">Ao clicar em retirar da lista você não receberá nossos emails e perderá os pontos e vouchers do programa fidelidade vinculados ao seu email e cadastro.</p>
 	    </div>
 
 
