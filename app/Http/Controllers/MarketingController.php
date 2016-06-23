@@ -9,6 +9,7 @@ use serranatural\Http\Controllers\Controller;
 
 use serranatural\Models\Template;
 use serranatural\Models\Cliente;
+use serranatural\Models\LogEmail;
 
 use Mail;
 use Flash;
@@ -105,6 +106,12 @@ class MarketingController extends Controller
                 $message->getSwiftMessage();
 
             });
+
+            LogEmail::create([
+                    'email' => $cliente->email,
+                    'assunto' => $data['assunto'],
+                    'mensagem' => $templateAlterado
+                ]);
         }
 
         flash()->success('Email enviado com sucesso');
