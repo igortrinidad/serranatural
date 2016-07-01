@@ -553,10 +553,14 @@ class ClienteController extends Controller
                             ->where('senha_resgate', '=', $request->senha_resgate)
                             ->first();
 
+        $userMaster = User::where('id', '=', \Auth::user->id)
+                            ->where('user_type', '=', 'super_adm')
+                            ->first();
+
         $voucher = Voucher::where('id', '=', $request->voucher_id)
                             ->first();
 
-        if (is_null($cliente) or empty($cliente)) {
+        if (!$cliente && !$userMaster) {
             $dados = [
                 'msg_retorno' => 'Senha errada!',
                 'tipo_retorno' => 'error'
