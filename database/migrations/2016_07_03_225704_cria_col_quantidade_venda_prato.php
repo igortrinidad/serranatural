@@ -13,7 +13,7 @@ class CriaColQuantidadeVendaPrato extends Migration
     public function up()
     {
         Schema::table('agendaPratos', function (Blueprint $table) {
-            $table->string('quantidade_venda')->after('dataStamp');
+            $table->decimal('quantidade_venda', 7, 2)->after('dataStamp');
         });
     }
 
