@@ -153,14 +153,9 @@ class ProdutosController extends Controller
                 ]);
         }
 
-        $dados = [
+        flash()->success('Prato cadastrado com sucesso.');
 
-        'msg_retorno' => 'Prato adicionado com sucesso',
-        'tipo_retorno' => 'success'
-
-        ];
-
-        return redirect()->action('ProdutosController@indexPrato')->with($dados);
+        return redirect()->back();
     }
 
     public function destroyPrato($id)
@@ -169,14 +164,7 @@ class ProdutosController extends Controller
 
         $preferencias = Preferencias::where('preferencias', '=', $id)->delete();
 
-        $dados = [
-
-        'msg_retorno' => 'Prato EXCLUIDO com sucesso',
-        'tipo_retorno' => 'danger'
-
-        ];
-
-        return redirect()->action('ProdutosController@indexPrato')->with($dados);
+        return redirect()->back();
     }
 
     /**
@@ -191,35 +179,6 @@ class ProdutosController extends Controller
         $pratos = Pratos::all();
 
         $agenda = AgendaPratos::where('dataStamp', '>=', Carbon::now()->format('Y-m-d'))->orderBy('dataStamp', 'ASC')->get();
-
-       // $votos = Voto::select(DB::raw('pratos_id, COUNT(*) as qtdVoto'))
-       //              ->from('votacaoPratosDoDia')
-       //              ->join('promocoes', 'votacaoPratosDoDia.promocaoID', '=', 'promocoes.id')
-       //              ->where('promocoes.ativo', '=', 1)
-       //              ->groupBY('pratos_id')
-       //              ->orderBY('qtdVoto', 'DESC')
-       //              ->take(5)
-       //              ->get();
-
-
-       // $totalVotos = DB::table('votacaoPratosDoDia')
-       //              ->select(DB::raw('pratos_id, COUNT(*) as total'))
-       //              ->from('votacaoPratosDoDia')
-       //              ->join('promocoes', 'votacaoPratosDoDia.promocaoID', '=', 'promocoes.id')
-       //              ->where('promocoes.ativo', '=', 1)
-       //              ->first();
-
-       // $votosGeral = Voto::select(DB::raw('pratos_id, COUNT(*) as qtdVoto'))
-       //      ->from('votacaoPratosDoDia')
-       //      ->groupBY('pratos_id')
-       //      ->orderBY('qtdVoto', 'DESC')
-       //      ->take(5)
-       //      ->get();
-
-       // $totalVotosGeral = DB::table('votacaoPratosDoDia')
-       //              ->select(DB::raw('pratos_id, COUNT(*) as total'))
-       //              ->from('votacaoPratosDoDia')
-       //              ->first();
         
         $pratosForSelect = $this->pratosForSelect();
 
@@ -295,6 +254,25 @@ class ProdutosController extends Controller
 
         return redirect()->action('ProdutosController@semanaIndex')->with($dados);
 
+    }
+
+    public function indexQuantidadeVendaPrato()
+    {
+        $pratos = AgendaPratos::with('pratos')->get();
+
+        return view('adm.produtos.prato.indexQuantidade', compact('pratos'));
+    }
+
+    public function alteraQuantidadeVendaPrato(Request $request)
+    {
+        $prato = AgendaPratos::find($request->id);
+
+        $prato->quantidade_venda = $request->quantidade_venda;
+        $prato->save();
+
+        flash()->success('Quantidade salva com sucesso.');
+
+        return redirect()->back();
     }
 
 

@@ -169,6 +169,8 @@ Route::group(['as' => 'produtos.'], function()
 		Route::get('/admin/produtos/excluiPratoSemana/{id}', 'ProdutosController@excluiPratoSemana');
 		Route::post('/admin/produtos/addPratoSemana/{id}', 'ProdutosController@addPratoSemana');
 		Route::post('/admin/produtos/enviaPratoDoDia', 'ProdutosController@enviaPratoDoDia');
+		Route::get('/admin/produtos/quantidadeVendaPrato', 'ProdutosController@indexQuantidadeVendaPrato');
+		Route::post('/admin/produtos/quantidadeVendaPratoPost', 'ProdutosController@alteraQuantidadeVendaPrato');
 
 		
 		

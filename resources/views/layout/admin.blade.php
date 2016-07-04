@@ -289,7 +289,7 @@
                                     <a href="/admin/produtos/pratosSemana">Agenda Pratos</a>
                                 </li>
                                 <li>
-                                    <a href="#">Relatórios</a>
+                                    <a href="/admin/produtos/quantidadeVendaPrato">Relatório de venda</a>
                                 </li>
 
                             </ul>

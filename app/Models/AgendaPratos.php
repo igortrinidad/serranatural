@@ -10,7 +10,7 @@ class AgendaPratos extends Model
 
     public $timestamps = true;
 
-    protected $fillable = array('pratos_id', 'dataStr', 'dataStamp', 'ativo');
+    protected $fillable = array('id', 'pratos_id', 'dataStr', 'dataStamp', 'ativo', 'quantidade_venda');
 
     public function pratos()
     {
