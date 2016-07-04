@@ -27,10 +27,10 @@
 			            <td class="text-center">
 			            	<a 
 			            	onclick="
-			            		$('input[name=id]').val( {{$prato->id}} )
-			            		$('#nome_prato').text({{$prato->pratos->prato}})
+			            		$('input[name=id]').val( {{$prato->id}} );
+			            		$('#nome_prato').text({{$prato->pratos->prato}});
 			            		if( {{$prato->quantidade_venda}} >= 1 ){
-			            			$('input[name=quantidade_venda]').val( {{$prato->quantidade_venda}} )
+			            			$('input[name=quantidade_venda]').val( {{$prato->quantidade_venda}} );
 			            		}
 			            	" 
 
