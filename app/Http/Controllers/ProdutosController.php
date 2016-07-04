@@ -258,7 +258,7 @@ class ProdutosController extends Controller
 
     public function indexQuantidadeVendaPrato()
     {
-        $pratos = AgendaPratos::with('pratos')->get();
+        $pratos = AgendaPratos::with('pratos')->orderBy('dataStamp', 'DESC')->get();
 
         return view('adm.produtos.prato.indexQuantidade', compact('pratos'));
     }
