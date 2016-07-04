@@ -26,8 +26,13 @@
 			            <td>{{ $prato->quantidade_venda}}</td>
 			            <td class="text-center">
 			            	<a 
-			            	onclick=" $('input[name=id]').val( {{$prato->id}} ); $('#nome_prato').text({{$prato->pratos->prato}});" 
-
+			            	onclick="
+			            		$('input[name=id]').val( {{$prato->id}} );
+			            		$('#nome_prato').text( '{{$prato->pratos->prato}}');
+			            		if( {{$prato->quantidade_venda}} >= 1 ){
+			            			$('input[name=quantidade_venda]').val( {{$prato->quantidade_venda}} );
+			            		}
+			            	" 
 			            	data-toggle="modal" 
 			            	data-target="#modal-venda" 
 			            	>
