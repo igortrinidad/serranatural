@@ -283,12 +283,11 @@
 								self.pagamento.valor = '';
 								self.pagamento.vencimento = '';
 								self.pagamento.descricao = '';
-								self.pagamento.linhaDigitavel = '';
+								self.pagamento.linha_digitavel = '';
 								self.pagamento.observacoes = '';
 								self.pagamento.arquivoPagamento = '';
 								self.pagamento.arquivoNota = '';
 								self.pagamento.produtos = [];
-								np
 								self.loading = false;
 
 							}, function (response) {
