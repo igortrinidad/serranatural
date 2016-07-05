@@ -4,6 +4,8 @@ namespace serranatural\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Carbon\Carbon;
+
 class Funcionario extends Model
 {
     protected $table = 'funcionarios';
@@ -27,7 +29,8 @@ class Funcionario extends Model
     							'vr_salario',
     							'cargo',
     							'dt_inicio',
-    							'foto'
+    							'foto',
+                                'is_ativo'
     							);
 
 
@@ -35,5 +38,11 @@ class Funcionario extends Model
     {
         return $this->hasMany('serranatural\Models\Retirada');
     }
+
+    public function setDtInicioAttribute($value)
+    {
+        return $this->attributes['dt_inicio'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+    }
+
 }
 

@@ -24,7 +24,7 @@
 
 							{!! csrf_field() !!}
 							<input type="hidden" name="id" value="{{isset($funcionario) ? $funcionario->id : ''}}" />
-
+							
 							<div class="form-group">
 								<label>Nome completo</label>
 								<input type="text" name="nome" value="{{isset($funcionario) ? $funcionario->nome : ''}}" class="form-control" />
@@ -59,14 +59,19 @@
 								<label>Observações</label>
 								<textarea 
 								name="observacoes" type="textarea" 
-								class="form-control">
-								{{isset($funcionario) ? $funcionario->observacoes : ''}}
-								</textarea>
+								class="form-control">{{isset($funcionario) ? $funcionario->observacoes : ''}}</textarea>
 							</div>
 
 						</div>
 						<div class="col-md-6">
 
+							<div class="form-group">
+								<label>Esta ativo?</label>
+								<select name="is_ativo" class="form-control">
+									<option value="0">Não</option>
+									<option value="1">Sim</option>
+								</select>
+							</div>
 
 							<div class="form-group">
 								<label>Transporte</label>
@@ -94,14 +99,11 @@
 							</div>
 
 							<div class="form-group">
-								<label>Data Inicios</label>
-								<input type="text" name="dt_inicio" value="{{isset($funcionario) ? $funcionario->dt_inicio->format('Y-m-d') : ''}}" class="form-control dataMysql" />
+								<label>Data Inicio</label>
+								<input type="text" name="dt_inicio" value="{{isset($funcionario) ? $funcionario->dt_inicio->format('d/m/Y') : ''}}" class="form-control dataMysql" />
 							</div>
 
-							<div class="form-group">
-								<label>Foto</label>
-								<input type="text" name="foto" value="{{isset($funcionario) ? $funcionario->foto : ''}}" class="form-control" />
-							</div>
+
 
 						</div>
 

@@ -119,6 +119,7 @@ class FuncionariosController extends Controller
         $funcionario->vr_salario = $request->vr_salario;
         $funcionario->dt_inicio = $request->dt_inicio;
         $funcionario->foto = $request->foto;
+        $funcionario->is_ativo = $request->is_ativo;
 
         $funcionario->save();
 

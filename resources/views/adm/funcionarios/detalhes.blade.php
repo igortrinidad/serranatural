@@ -58,7 +58,7 @@
 							</div>
 
 						</div>
-						
+
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Transporte</label>
@@ -91,8 +91,8 @@
 							</div>
 
 							<div class="form-group">
-								<label>Foto</label>
-								<p>{{$funcionario->foto}}</p>
+								<label>Esta ativo?</label>
+								<p>@if($funcionario->is_ativo) Sim @else Não @endif</p>
 							</div>
 
 						</div>
