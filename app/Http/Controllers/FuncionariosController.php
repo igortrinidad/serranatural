@@ -68,7 +68,7 @@ class FuncionariosController extends Controller
     {
         $funcionario = Funcionario::find($id);
 
-        $retiradas = Retirada::where('funcionario_id', '=', $id)->orderBy('created_at', 'desc')->paginate(12);
+        $retiradas = Retirada::where('funcionario_id', '=', $id)->orderBy('created_at', 'desc')->get();
 
         $dados = [
             'funcionario' => $funcionario,
@@ -111,7 +111,7 @@ class FuncionariosController extends Controller
         $funcionario->endereco = $request->endereco;
         $funcionario->horario_trabalho = $request->horario_trabalho;
         $funcionario->cargo = $request->cargo;
-        $funcionario->observacoes = $request->cargo;
+        $funcionario->observacoes = $request->observacoes;
         $funcionario->transporte = $request->transporte;
         $funcionario->vr_transporte = $request->vr_transporte;
         $funcionario->identidade = $request->identidade;

@@ -14,9 +14,6 @@
 			<div class="col-md-9">
 				<div class="panel panel-default">
 				<div class="panel-heading">Contato
-					<div class="pull-right">
-						<a href="{{route('admin.funcionarios.edit', $funcionario->id)}}"><i class="fa fa-pencil fa-2x"></i></a>
-					</div>
 				</div>
 				<div class="panel-body">
 
@@ -89,7 +86,7 @@
 
 							<div class="form-group">
 								<label>Data Inicio</label>
-								<p>{{$funcionario->dt_inicio}}</p>
+								<p>{{$funcionario->dt_inicio->format('d/m/Y')}}</p>
 							</div>
 
 							<div class="form-group">
@@ -112,7 +109,11 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">Açoes</div>
 					<div class="panel-body">
+						<a class="btn btn-default btn-block" href="{{route('admin.funcionarios.edit', $funcionario->id)}}">Editar</a>
+
 						<a class="btn btn-default btn-block" href="{{route('admin.funcionarios.recibo', $funcionario->id)}}">Recibo</a>
+	
+
 					</div>
 
 				</div>

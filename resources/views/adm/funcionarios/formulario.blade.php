@@ -91,7 +91,7 @@
 
 							<div class="form-group">
 								<label>Data Inicios</label>
-								<input type="text" name="dt_inicio" value="{{isset($funcionario) ? $funcionario->dt_inicio : ''}}" class="form-control" />
+								<input type="text" name="dt_inicio" value="{{isset($funcionario) ? $funcionario->dt_inicio->format('Y-m-d') : ''}}" class="form-control dataMysql" />
 							</div>
 
 							<div class="form-group">
@@ -117,9 +117,9 @@
 	    @parent
 	        <script src="{!! elixir('js/funcionarios.js') !!}"></script>
 
-<script type="text/javascript">
+			<script type="text/javascript">
 
-</script>
+			</script>
 
 	@stop
 

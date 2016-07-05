@@ -10,6 +10,8 @@ class Funcionario extends Model
 
     public $timestamps = true;
 
+    protected $dates = ['dt_inicio'];
+
     protected $fillable = array(
     							'id', 
     							'nome', 
