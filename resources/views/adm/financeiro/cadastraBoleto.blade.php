@@ -267,7 +267,7 @@
 						savePagamento: function(ev) {
 							ev.preventDefault();
 							self = this;
-							//self.loading = true;
+							self.loading = true;
 
 							//adiciona o objeto Pagamento ao FormData
 							for ( var key in self.pagamento ) {
