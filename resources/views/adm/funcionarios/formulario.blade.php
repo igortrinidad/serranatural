@@ -57,7 +57,11 @@
 
 							<div class="form-group">
 								<label>Observações</label>
-								<textarea name="observacoes" type="textarea" value="{{isset($funcionario) ? $funcionario->observacoes : ''}}" class="form-control"></textarea>
+								<textarea 
+								name="observacoes" type="textarea" 
+								class="form-control">
+								{{isset($funcionario) ? $funcionario->observacoes : ''}}
+								</textarea>
 							</div>
 
 						</div>
