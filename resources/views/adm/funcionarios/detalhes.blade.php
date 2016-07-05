@@ -168,7 +168,6 @@
 					        </tr>
 					        @endforeach
 
-					        {!! $retiradas->render() !!}
 
 					    </tbody>
 					</table>
