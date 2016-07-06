@@ -112,9 +112,6 @@
 					<div class="panel-body">
 						<a class="btn btn-default btn-block" href="{{route('admin.funcionarios.edit', $funcionario->id)}}">Editar</a>
 
-						<a class="btn btn-default btn-block" href="{{route('admin.funcionarios.recibo', $funcionario->id)}}">Recibo</a>
-	
-
 					</div>
 
 				</div>
@@ -130,6 +127,9 @@
 
 					{!! csrf_field() !!}
 
+					<button class="btn btn-primary" type="submit">Imprimir recibos selecionados</button>
+					<br><br>
+
 			    	@foreach($retiradas as $pagamento)
 				    	<div class="form-group">
 							<label><input type="checkbox" name="selected[]" value="{{$pagamento->id}}">
@@ -137,7 +137,7 @@
 				    	</div>							  
 					@endforeach
 					
-					<button class="btn btn-primary" type="submit">Imprimir recibos selecionados</button>
+					
 
 					<form>
 
