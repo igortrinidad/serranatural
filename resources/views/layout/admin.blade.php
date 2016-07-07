@@ -380,6 +380,9 @@
                                 <li>
                                     <a href="{{ route('admin.marketing.lista')}}">Lista modelos</a>
                                 </li>
+                               <li>
+                                    <a href="{{ route('admin.marketing.lastLogs')}}">Ultimos logs</a>
+                                </li>
                             </ul>
                         </li>
 <!--

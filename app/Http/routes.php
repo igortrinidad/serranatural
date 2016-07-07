@@ -119,6 +119,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::post('modelos/enviaEmail/{id}', ['as' => 'enviaEmail', 'uses' => 'MarketingController@enviaEmail']);
 		Route::get('modelos/editar/{id}', ['as' => 'editaModelo', 'uses' => 'MarketingController@editaModelo']);
 		Route::post('modelos/update/{id}', ['as' => 'updateModelo', 'uses' => 'MarketingController@updateModelo']);
+		Route::get('logs', ['as' => 'lastLogs', 'uses' => 'MarketingController@lastLogs']);
 	});
 
 

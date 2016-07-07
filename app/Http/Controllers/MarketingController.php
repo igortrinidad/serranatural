@@ -168,4 +168,11 @@ class MarketingController extends Controller
     {
         //
     }
+
+    public function lastLogs()
+    {
+        $logs = LogEmail::orderBy('created_at', 'DESC')->take(50)->get();
+
+        return view('adm.marketing.lastLogs', compact('logs'));
+    }
 }

@@ -116,7 +116,7 @@
 									<option value="Açaí">Açaí</option>
 									<option value="Almoço">Almoço</option>
 									<option value="Sandwich">Sandwich</option>
-									<option value="Sandwich+Suco">Sandwich + Suco</option>
+									<option value="Sandwich + Suco">Sandwich + Suco</option>
 									<option value="Salada">Salada</option>
 									<option value="Salada de Frutas">Salada de Frutas</option>
 									<option value="Menu Degustação">Menu degustação</option>
