@@ -10,6 +10,6 @@ class LogEmail extends Model
 
     public $timestamps = true;
 
-    protected $fillable = array('email', 'assunto', 'mensagem');
+    protected $fillable = array('email', 'assunto', 'mensagem', 'contador');
 
 }

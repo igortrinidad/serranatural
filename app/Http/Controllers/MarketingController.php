@@ -81,6 +81,8 @@ class MarketingController extends Controller
                     ];
 
         $clientes = Cliente::all();
+        $total = $clientes->count();
+        $contador = 1;
 
         foreach ($clientes as $cliente) {
 
@@ -109,9 +111,12 @@ class MarketingController extends Controller
 
             LogEmail::create([
                     'email' => $cliente->email,
+                    'contador' => $contador . ' de ' . $total,
                     'assunto' => $data['assunto'],
                     'mensagem' => $templateAlterado
                 ]);
+
+            $contador++;
         }
 
         flash()->success('Email enviado com sucesso');
