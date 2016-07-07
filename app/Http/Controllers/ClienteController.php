@@ -70,8 +70,8 @@ class ClienteController extends Controller
                                 ->paginate(8);
 
         $vouchers = Voucher::where('cliente_id', '=', $id)
-                            ->orderBY('vencimento', 'ASC')
-                            ->paginate(8);
+                            ->orderBY('data_utilizado', 'ASC')
+                            ->paginate(12);
 
                             //dd($vouchers);
 

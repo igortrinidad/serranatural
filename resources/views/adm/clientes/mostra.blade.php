@@ -67,60 +67,13 @@
 
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<div class="row">
-						<div class="col-md-6">
-							<h4>Vouchers</h4>
-						</div>
-						<div class="col-md-6">
-							<div class="inline text-right">
-								<ul class="pagination">
-									<li>
-										<a href="{!! $vouchers->previousPageUrl() !!}" rel="prev">«</a>
-									</li>
-									<li>
-										<a href="{!! $vouchers->nextPageUrl() !!}" rel="prev">»</a>
-									</li>
-								</ul>	
-							</div>
-						</div>
-					</div>
-
-
+					<h5>Vouchers</h5>
 				</div>
 				<div class="panel-body">
 
 					
 					<label>Adicionar voucher cortesia</label>
-					<div class="row">
-						<form method="post" action="{{route('admin.client.addVoucherCortesia', $cliente->id)}}">
 
-						{!! csrf_field() !!}
-						<div class="col-md-5">
-							<div class="form-group">
-								<select name="produto" class="form-control">
-									<option value="Açaí">Açaí</option>
-									<option value="Almoço">Almoço</option>
-									<option value="Sandwich">Sandwich</option>
-									<option value="Salada">Salada</option>
-									<option value="Salada de Frutas">Salada de Frutas</option>
-									<option value="Menu Degustação">Menu degustação</option>
-								</select>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="form-group">
-								<input type="password" name="senha" placeholder="Senha de administrador" class="form-control">
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group">
-								<button type="submit" class="btn btn-default btn-block">Adicionar</button>
-							</div>
-						</div>
-
-						</form>
-
-					</div>
 
 					<table class="table table-bordered text-center">
 						<thead>
@@ -149,6 +102,41 @@
 						</tr>	
 					@endforeach
 					</table>
+
+					{{ $vouchers->render() }}
+
+					<hr size="3px" />
+					<div class="row">
+						<form method="post" action="{{route('admin.client.addVoucherCortesia', $cliente->id)}}">
+
+						{!! csrf_field() !!}
+						<div class="col-md-5">
+							<div class="form-group">
+								<select name="produto" class="form-control">
+									<option value="Açaí">Açaí</option>
+									<option value="Almoço">Almoço</option>
+									<option value="Sandwich">Sandwich</option>
+									<option value="Sandwich+Suco">Sandwich + Suco</option>
+									<option value="Salada">Salada</option>
+									<option value="Salada de Frutas">Salada de Frutas</option>
+									<option value="Menu Degustação">Menu degustação</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<input type="password" name="senha" placeholder="Senha de administrador" class="form-control">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<button type="submit" class="btn btn-default btn-block">Adicionar</button>
+							</div>
+						</div>
+
+						</form>
+
+					</div>
 
 				</div>
 			</div>
