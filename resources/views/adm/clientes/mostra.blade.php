@@ -103,7 +103,7 @@
 					@endforeach
 					</table>
 
-					{{ $vouchers->render() }}
+					{!! $vouchers->render() !!}
 
 					<hr size="3px" />
 					<div class="row">
