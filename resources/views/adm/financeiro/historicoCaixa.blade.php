@@ -121,6 +121,22 @@
       	</div>
       </div>
 
+      <div class="row">
+      	<div class="col-md-12">
+  				<form method="post" action="/admin/financeiro/caixa/reabreCaixa/@{{caixaSelected.caixa.id}}">
+					{!! csrf_field() !!}
+
+					<div class="form-group">
+						<label>Senha</label>
+						<input type="password" name="senha" class="form-control"/>
+					</div>
+
+					<button type="submit" class="btn btn-danger btn-block">Reabrir caixa</button>
+
+				</form>
+      	</div>
+      </div>
+
 	    <hr size="3px" style="margin-top: 2px"/>
 
 	    <table class="table table-bordered table-striped">

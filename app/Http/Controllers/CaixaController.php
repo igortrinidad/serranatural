@@ -147,6 +147,24 @@ class CaixaController extends Controller
 
     }
 
+    public function reabreCaixa($id, Request $request)
+    {
+
+        if($request->senha == '154986'){
+            $caixa = Caixa::find($id);
+
+            $caixa->is_aberto = 1;
+
+            $caixa->save();
+
+            flash()->success('Caixa reaberto');
+        } else {
+            flash()->error('Senha errada');
+        }
+        
+        return view('adm.financeiro.historicoCaixa');
+    }
+
     
     /**
      * Store a newly created resource in storage.
