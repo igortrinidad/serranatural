@@ -214,6 +214,7 @@ Route::post('/cadastro', 'ClienteController@storeSelfCliente');
 
 
 Route::post('/me/selfChangeClient', 'ClienteController@selfChangeClient');
+Route::get('/me/localizar', 'ClienteController@clienteLocalizar');
 Route::get('/me/edita/{email}', 'ClienteController@clienteSelfEdita');
 Route::get('/me/{email}', [
     'as' => 'selfClient.mostraSelected', 'uses' => 'ClienteController@clienteSelfMostra'

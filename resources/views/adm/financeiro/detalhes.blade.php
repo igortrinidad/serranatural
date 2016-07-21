@@ -110,6 +110,11 @@
 					</div>
 
 					<div class="form-group">
+						<label>Valor pago</label>
+						<input type="text" name="fonte_pgto" class="form-control moneySql" />
+					</div>
+
+					<div class="form-group">
 						<label>Fonte pagamento</label>
 						<input type="text" name="fonte_pgto" class="form-control" />
 					</div>

@@ -28,7 +28,7 @@ class ClienteController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['cadastro', 'storeSelfCliente', 'clienteSelfEdita', 'clienteSelfMostra', 'selfChangeClient', 'testeApi', 'reenviaSenha', 'destroy']]);
+        $this->middleware('auth', ['except' => ['cadastro', 'storeSelfCliente', 'clienteSelfEdita', 'clienteSelfMostra', 'selfChangeClient', 'testeApi', 'reenviaSenha', 'destroy', 'clienteLocalizar']]);
 
     }
 
@@ -355,6 +355,11 @@ class ClienteController extends Controller
         ];
 
         return view('cliente.formMostra')->with($dados);
+    }
+
+    public function clienteLocalizar()
+    {
+        return view('cliente.clienteFind');
     }
 
     public function clienteSelfEdita($email)

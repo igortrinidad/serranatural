@@ -62,9 +62,7 @@ class email_pratoDoDia extends Command implements SelfHandling
             \serranatural\Models\LogEmail::create([
 
                 'email' => $cliente->email,
-                'assunto' => 'Cardapio do dia',
-                'mensagem' => $mensagem
-
+                'assunto' => 'Cardapio do dia'
                 ]);
             
         }

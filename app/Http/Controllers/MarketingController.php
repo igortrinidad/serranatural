@@ -112,8 +112,7 @@ class MarketingController extends Controller
             LogEmail::create([
                     'email' => $cliente->email,
                     'contador' => $contador . ' de ' . $total,
-                    'assunto' => $data['assunto'],
-                    'mensagem' => $templateAlterado
+                    'assunto' => $data['assunto']
                 ]);
 
             $contador++;

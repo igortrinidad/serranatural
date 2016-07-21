@@ -19,6 +19,10 @@ return [
         'secret' => 'key-02c7bfdc17d833537049a4d403b578b4',
     ],
 
+    'sparkpost' => [
+        'secret' => env('SPARKPOST_SECRET'),
+    ],
+
     'mandrill' => [
         'secret' => '',
     ],
