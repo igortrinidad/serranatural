@@ -44,6 +44,7 @@
 			            <th>Vencimento</th>
 			            <th>Descrição</th>
 			            <th>Valor</th>
+			            <th>Forma pgto</th>
 			            <th>Responsável Pagamento</th>
 			            <th>Arquivo pagamento</th>
 			            <th>Arq comprovante</th>
@@ -56,6 +57,7 @@
 			            <th class="text-center">{{$pag->vencimento}}</th>
 			            <th><a href="{{route('admin.financeiro.detalhes', $pag->id)}}">{{$pag->descricao}}</a></th>
 			            <th>{{$pag->valor}}</th>
+			            <th>{{$pag->fonte_pgto}}</th>
 			            <th>@if(!$pag->user_id_pagamento or $pag->user_id_pagamento == 0) Não informado @else {{ $pag->usuarioPagamento->name }} @endif</th>
 			            <th class="text-center" width="10%">
 			            @if($pag->pagamento != '')
