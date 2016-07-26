@@ -44,7 +44,7 @@
 			            <th>Vencimento</th>
 			            <th>Descrição</th>
 			            <th>Valor</th>
-			            <th>Forma pgto</th>
+			            <th>Fonte pgto</th>
 			            <th>Responsável Pagamento</th>
 			            <th>Arquivo pagamento</th>
 			            <th>Arq comprovante</th>

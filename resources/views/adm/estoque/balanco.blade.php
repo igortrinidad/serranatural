@@ -26,20 +26,19 @@
 				<h4>Produtos</h4>
 			</div>
 			<div class="panel-body">
-				<h5>Lista de Produtos</h5>
-
-				<h5 style="
-				position: fixed;
-				font-size: 20px;
-				color:#E12730;
-				font-weight: 800;
-				right:40px;
-				bottom:20px;
-
-				">
-				@{{produtos.finished}}%</h5>
+				<div class="row">
+					<div class="col-md-6">
+					<h5>Lista de Produtos</h5>
+				</div>
+				<div class="col-md-6 text-right">
+					<h5> Conclusão: @{{produtos.finished}} %</h5>
+				</div>
+				</div>
 				
-				<div class="row"  v-for="produto in produtos.listaProdutos" >
+				
+				
+				
+				<div class="row"  v-for="produto in produtos.listaProdutos | orderBy 'nome'" >
 					<div class="col-md-4">
 						<div class="form-group" >
 							<label>Produto</label>
@@ -62,19 +61,6 @@
 								v-el:produtoQtdes 
 								placeholder="00.00" 
 								disabled
-							>
-						</div>
-					</div>
-
-					<div class="col-md-2">
-						<div class="form-group" >
-							<label>Qtde venda</label>
-							<input 
-								type="text" 
-								class="form-control text-center" 
-								v-on:keyup="calculaDiferenca($event, produto)" 
-								v-model="produto.venda" 
-								v-el:produtoQtdes placeholder="00.00" 
 							>
 						</div>
 					</div>
@@ -121,7 +107,7 @@
 				>Salvar Balanço</a>
 				
 				<br><br>
-				<pre>@{{ $data | json }}</pre>
+
 			</div>
 
 		</div>
@@ -147,7 +133,7 @@
 				    data: {
 				    	produtos: {
 				    		listaProdutos: [],
-				    		finished: '',
+				    		finished: 0,
 				    	},
 				    	arrayFinished: [],
 				    	return: '',
@@ -163,6 +149,12 @@
 					      	// GET request
 					      	this.$http.get('/admin/produtos/produtosForSelectJson/trackeds').then(function (response) {
 					          self.produtos.listaProdutos = response.data;
+
+					          self.produtos.listaProdutos.forEach( function(produto){
+					          	produto.quantidadeReal = 0;
+					          	produto.diferenca = parseFloat(produto.quantidadeReal) - parseFloat(produto.quantidadeEstoque)
+					          });
+
 					      }, function (response) {
 					          console.log(response);
 					      });
@@ -186,10 +178,11 @@
 				            }
 
 				            self.produtos.finished = 100 / self.produtos.listaProdutos.length * self.arrayFinished.length;
+				            self.produtos.finished = self.produtos.finished.toFixed(2);
 
 				            if(produto.quantidadeReal != '') {
 				            	produto.diferenca = 
-				            		(parseFloat(produto.quantidadeReal) + parseFloat(produto.venda)) - parseFloat(produto.quantidadeEstoque);
+				            		parseFloat(produto.quantidadeReal)  - parseFloat(produto.quantidadeEstoque);
 				            } else {
 				            	produto.diferenca = 0;
 				            }
