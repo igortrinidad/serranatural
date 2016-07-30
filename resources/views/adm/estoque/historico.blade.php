@@ -26,44 +26,45 @@
 			</div>
 			<div class="panel-body">
 
-				<table class="table table-bordered table-hover table-striped">
-				    <thead>
-				        <tr>
-				            <th>ID balanço</th>
-				            <th>Data</th>
-				            <th colspan="2">Usuario</th>
-				            <th>Porcentagem</th>
-				        </tr>
-				    </thead>
-				    <tbody v-for="balanco in listaBalancos">
-				        <tr>
-				        	<td>@{{balanco.id}}
-				        	<td>@{{balanco.created_at}}
-				            <td colspan="2">@{{balanco.usuario.name}}</td>
-				            <td>@{{balanco.finished}}%</td>
-				        </tr>
-				        <tr>
-				            <th>Nome Produto</th>
-				            <th>Quantidade esperada</th>
-				            <th>Quantidade venda</th>
-				            <th>Quantidade real</th>
-				            <th>Diferença</th>
-				        </tr>
-				        <tr v-for="produto in balanco['lista']" track-by="$index">
-							<td colspan="1"> @{{produto.nome}} </td>
-							<td colspan="1"> @{{produto.quantidadeEstoque}} </td>
-							<td colspan="1"> @{{produto.venda}} </td>
-							<td colspan="1"> @{{produto.quantidadeReal}} </td>
-							<td colspan="1" v-bind:class="{ 'warning': produto.diferenca < 0, 'success': produto.diferenca >= 0 }"> @{{produto.diferenca}} </td>
-				        </tr>
-				        <tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-				        </tr>
-				    </tbody>
-				</table>
+				<div v-for="balanco in listaBalancos">
+					
+					<table class="table table-bordered table-hover table-striped">
+					    <thead>
+					        <tr>
+					            <th>ID balanço</th>
+					            <th>Data</th>
+					            <th colspan="3">Usuario</th>
+					            <th>Porcentagem</th>
+					        </tr>
+					    </thead>
+					    <tbody >
+					        <tr>
+					        	<td>@{{balanco.id}}
+					        	<td>@{{ balanco.created_at }}
+					            <td colspan="3">@{{balanco.usuario.name}}</td>
+					            <td>@{{balanco.finished}}%</td>
+					        </tr>
+					        <tr>
+					            <th>Nome Produto</th>
+					            <th>Validade</th>
+					            <th>Quantidade esperada</th>
+					            <th>Quantidade venda</th>
+					            <th>Quantidade real</th>
+					            <th>Diferença</th>
+					        </tr>
+					        <tr v-for="produto in balanco['lista']" track-by="$index">
+								<td colspan="1"> @{{produto.nome}} </td>
+								<td colspan="1"> @{{produto.validade}} </td>
+								<td colspan="1"> @{{produto.quantidadeEstoque}} </td>
+								<td colspan="1"> @{{produto.venda}} </td>
+								<td colspan="1"> @{{produto.quantidadeReal}} </td>
+								<td colspan="1" v-bind:class="{ 'warning': produto.diferenca < 0, 'success': produto.diferenca >= 0 }"> @{{produto.diferenca}} </td>
+
+					        </tr>
+					    </tbody>
+					</table>
+
+				</div>
 
 			</div>
 

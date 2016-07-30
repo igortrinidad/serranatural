@@ -10,6 +10,8 @@ class Produto extends Model
 
     protected $table = 'produtos';
 
+    protected $dates = ['validade'];
+
     protected $fillable = array(
     		'id', 
     		'nome_produto', 
@@ -20,7 +22,8 @@ class Produto extends Model
     		'tracked',
     		'square_id',
     		'square_name',
-            'calc'
+            'calc',
+            'validade'
     		);
 
     public function pratododia()

@@ -837,7 +837,7 @@ class ProdutosController extends Controller
 
     public function balancosJson()
     {
-        $balancos = Balanco::with('usuario')->get();
+        $balancos = Balanco::with('usuario')->orderBy('created_at', 'desc')->get();
 
         foreach($balancos as $balanco) {
             $balanco->lista = json_decode($balanco->lista);

@@ -21,6 +21,7 @@
     "socket.io": "^1.4.6",
     "summernote": "^0.8.1",
     "util": "^0.10.3",
+    "vue-moment": "^2.0.1",
     "vue-msgbox": "^0.1.1"
   }
 }

@@ -24,6 +24,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h4>Produtos</h4>
+				<p>O campo validade deverá ser preenchido com a primeira validade a vencer do produto.</p>
 			</div>
 			<div class="panel-body">
 				<div class="row">
@@ -74,6 +75,19 @@
 								v-on:keyup="calculaDiferenca($event, produto)" 
 								v-model="produto.quantidadeReal" 
 								v-el:produtoQtdes placeholder="00.00" 
+							>
+						</div>
+					</div>
+
+					<div class="col-md-2">
+						<div class="form-group" >
+							<label>Validade</label>
+							<input 
+								type="text" 
+								class="form-control text-center dataCompleta" 
+								v-on:keyup="calculaDiferenca($event, produto)" 
+								v-model="produto.validade" 
+								v-el:produtoQtdes placeholder="00/00/0000" 
 							>
 						</div>
 					</div>
