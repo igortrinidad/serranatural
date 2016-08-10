@@ -23,6 +23,8 @@ use serranatural\Models\Retirada;
 use serranatural\Models\Caixa;
 use serranatural\Models\Import;
 
+use Carbon\Carbon;
+
 class ClienteController extends Controller
 {
 
@@ -473,9 +475,16 @@ class ClienteController extends Controller
     {
         $cliente = $request->all();
 
+        if( !$cliente['cliente_id'] ){
+
+            flash()->error('Por favor, selecione um cliente.');
+
+            return redirect()->back();
+        }
+
         $id = $cliente['cliente_id'];
 
-        $timestamp = strtotime("+3 month");
+        $timestamp = strtotime("+6 month");
 
         $ponto = PontoColetado::create([
                 'cliente_id' => $id,
@@ -490,7 +499,39 @@ class ClienteController extends Controller
                                 ->where('produto', '=', $cliente['produto'])
                                 ->get();
 
+        $semana = Carbon::now()->subDays(7);
 
+        $pontosSemana = PontoColetado::where('cliente_id', '=', $cliente['cliente_id'])
+                                        ->where('is_valido', '=', 1)
+                                        ->where('produto', '=', $cliente['produto'])
+                                        ->where('created_at', '>', $semana)
+                                        ->groupBy(DB::raw('Date(created_at)'))
+                                        ->get();
+
+        //dd($pontosSemana);
+
+        if(count($pontosSemana) >= 5){
+
+            $voucher = Voucher::create([
+                'cliente_id' => $cliente['cliente_id'],
+                'data_voucher' => date('Y-m-d'),
+                'vencimento' => date('Y-m-d', $timestamp),
+                'is_valido' => 1,
+                'produto' => $cliente['produto']
+            ]);
+
+            foreach ($pontosSemana as $ponto) {
+                $ponto->update([
+                    'is_valido' => 0,
+                    'voucher_id' => $voucher->id
+                ]);
+            }
+
+            flash()->success('Cliente acaba de ganhar a promoção SERRA TODO DIA com o produto: ' . $cliente['produto']);
+
+            return redirect()->back();
+
+        }
 
 
         if (count($pontos) >= 15)
