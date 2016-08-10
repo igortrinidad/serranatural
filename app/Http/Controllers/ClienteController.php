@@ -527,6 +527,8 @@ class ClienteController extends Controller
                 ]);
             }
 
+            $this->enviaEmailVoucherColetado($cliente['cliente_id'], $voucher->id);
+
             flash()->success('Cliente acaba de ganhar a promoção SERRA TODO DIA com o produto: ' . $cliente['produto']);
 
             return redirect()->back();
