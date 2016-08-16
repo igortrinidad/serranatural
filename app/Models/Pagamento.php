@@ -25,7 +25,8 @@ class Pagamento extends Model
 						'user_id_pagamento',
 						'user_id_cadastro',
 						'data_pgto',
-						'observacoes'
+						'observacoes',
+                        'valor_pago'
 							];
 
     public function usuario()

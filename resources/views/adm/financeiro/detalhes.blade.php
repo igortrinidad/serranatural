@@ -114,7 +114,7 @@
 
 					<div class="form-group">
 						<label>Valor pago</label>
-						<input type="text" name="fonte_pgto" class="form-control moneySql" />
+						<input type="text" name="valor_pago" class="form-control moneySql" v-el="moneySql" />
 					</div>
 
 					<div class="form-group">
@@ -152,6 +152,11 @@
 							<div class="form-group">
 								<label>Data Pagamento</label>
 								<input type="text" name="data_pgto" value="" class="form-control datepicker dataCompleta" required/>
+							</div>
+
+							<div class="form-group">
+								<label>Valor pago</label>
+								<input type="text" name="valor_pago" class="form-control moneySql" v-el="moneySql" />
 							</div>
 
 							<div class="form-group">
@@ -259,6 +264,7 @@
 
 	        <script type="text/javascript">
  	
+ 				$('.moneySql').mask('000000.00', {reverse: true});
 	        	$('#alteraPagamento').on("click", function(e)
 	        	{
 	        		e.preventDefault();
