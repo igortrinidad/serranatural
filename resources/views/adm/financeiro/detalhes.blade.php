@@ -25,6 +25,9 @@
 				</div>
 				<div class="panel-body">
 
+					<label>Cadastrada quando</label>
+					<p>{{$pagamento->created_at->format('d/m/Y H:i:s')}}</p>
+
 					<label>Data de vencimento</label>
 					<p>{{$pagamento->vencimento}}</p>
 

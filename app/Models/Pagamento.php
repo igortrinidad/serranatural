@@ -8,6 +8,8 @@ class Pagamento extends Model
 {
     protected $table = 'pagamentos';
 
+    protected $dates = ['created_at'];
+
     protected $fillable = [
 						'id', 
 						'linha_digitavel', 
