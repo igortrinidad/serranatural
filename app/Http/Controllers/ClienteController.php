@@ -254,7 +254,7 @@ class ClienteController extends Controller
                     {
 
                         $message->to($cliente->email, $cliente->nome);
-                        $message->from('mkt@serranatural.com', 'Serra Natural');
+                        $message->from('contato@maisbartenders.com.br', 'MB - SERRA');
                         $message->subject('Cardápio do dia');
                         $message->getSwiftMessage();
 
