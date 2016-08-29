@@ -499,7 +499,7 @@ class ClienteController extends Controller
                                 ->where('produto', '=', $cliente['produto'])
                                 ->get();
 
-        $semana = Carbon::now()->subDays(7);
+        $semana = Carbon::now()->subDays(8);
 
         $pontosSemana = PontoColetado::where('cliente_id', '=', $cliente['cliente_id'])
                                         ->where('is_valido', '=', 1)
