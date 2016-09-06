@@ -5,11 +5,11 @@
 <br><br>
 <h2 class="text-center">Recibo</h2><br>
 
-<div class="row">
+<div class="row" style="font-size:15px !important; font-weight: 500 !important">
 	<div class="col-md-1 col-sm-1">
 	</div>
 	<div class="col-md-10 col-sm-10">
-		<p style="font-size:18px">Declaro para os devidos fins que recebi da empresa Serra Natural, CNPJ 20.699.074/0001-75, situada na Alameda do Ingá, 754 - Vila da Serra - Nova Lima os valores abaixo descriminados;</p>
+		<p >Declaro para os devidos fins que recebi da empresa Serra Natural, CNPJ 20.699.074/0001-75, situada na Alameda do Ingá, 754 - Vila da Serra - Nova Lima os valores abaixo descriminados;</p>
 
 		<br>
 
@@ -38,6 +38,12 @@
 								<td class="text-center" widtd="15%">@if($pagamento->is_debito == 1) R$ {{$pagamento->valor}} @endif</td>
 					        </tr>
 					        @endforeach
+
+					        <tr>
+					        	<td colspan="3" class="text-right"><strong>Sub-total</strong></td>
+					        	<td colspan="1" class="text-center"><strong>R$ {{number_format($totalCredito, 2, ',', '.')}}</strong></td>
+					        	<td colspan="1" class="text-center"><strong>R$ {{number_format($totalDebito, 2, ',', '.')}}</strong></td>
+					        </tr>
 					        
 					        <tr>
 					        	<td colspan="4" class="text-right"><strong>Total</strong></td>
@@ -49,16 +55,17 @@
 
 					<br>
 
-					<p style="font-size:18px">Belo Horizonte,  <strong>{{date('d/m/Y')}}</strong></p>
+					<p>Belo Horizonte,  <strong>{{date('d/m/Y')}}</strong></p>
 
-					<p style="font-size:18px">Nome completo: <strong>{{$funcionario->nome}}</strong></p>
-					<p style="font-size:18px">CPF: <strong>{{$funcionario->cpf}}</strong></p>
+					<p>Nome completo: <strong>{{$funcionario->nome}}</strong></p>
+					<p>CPF: <strong>{{$funcionario->cpf}}</strong></p>
 
 					<br>
 
-					<hr style="width: 80%; color: black; height: 2px; background-color:black;" />
+					<hr style="width: 80%; border: 1px solid; color: black; height: 2px; background-color:black;" />
 					<p class="text-center">Assinatura</p>
 
+					<strong>Observações</strong>
 					<p>{{$funcionario->observacoes}}</p>
 
 		<br>

@@ -133,7 +133,7 @@
 			    	@foreach($retiradas as $pagamento)
 				    	<div class="form-group">
 							<label><input type="checkbox" name="selected[]" value="{{$pagamento->id}}">
-								 {{$pagamento->created_at->format('d/m/Y')}} | {{substr($pagamento->descricao, 0, -10)}} | R$ {{$pagamento->valor}}</label>
+								 Data: {{$pagamento->created_at->format('d/m/Y')}} | Descrição: {{substr($pagamento->descricao, 0, -10)}} | Tipo: {{$pagamento->tipo}} | R$ {{$pagamento->valor}} | Debito: {{$pagamento->is_debito}} | INIT: {{$pagamento->init->format('d/m/Y')}} | END: {{$pagamento->end->format('d/m/Y')}}</label>
 				    	</div>							  
 					@endforeach
 					
