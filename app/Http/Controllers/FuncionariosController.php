@@ -174,13 +174,16 @@ class FuncionariosController extends Controller
         $dataInicio = date('Y-m-d', strtotime("-20 days"));
         $dataFim = date('Y-m-d', strtotime("+5 days"));
 
-        $pagamentos = Retirada::whereIn('id', $request->selected)->get();
+        $vts = Retirada::whereIn('id', $request->selected)->where('tipo', '=', 'Vale Transporte')->get();
+        $vtTotal = Retirada::whereIn('id', $request->selected)->where('tipo', '=', 'Vale Transporte')->where('is_debito', '=', 0)->sum('valor');
 
-        $totalCredito = Retirada::whereIn('id', $request->selected)->where('is_debito', '=', 0)->sum('valor');
-        $totalDebito = Retirada::whereIn('id', $request->selected)->where('is_debito', '=', 1)->sum('valor');
+        $pagamentos = Retirada::whereIn('id', $request->selected)->where('tipo', '<>', 'Vale Transporte')->get();
+
+        $totalCredito = Retirada::whereIn('id', $request->selected)->where('tipo', '<>', 'Vale Transporte')->where('is_debito', '=', 0)->sum('valor');
+        $totalDebito = Retirada::whereIn('id', $request->selected)->where('tipo', '<>', 'Vale Transporte')->where('is_debito', '=', 1)->sum('valor');
 
         $total = $totalCredito - $totalDebito;
 
-        return view('adm.funcionarios.recibo', compact('funcionario', 'pagamentos', 'total', 'totalDebito', 'totalCredito'));
+        return view('adm.funcionarios.recibo', compact('vts', 'vtTotal', 'funcionario', 'pagamentos', 'total', 'totalDebito', 'totalCredito'));
     }
 }

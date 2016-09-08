@@ -2,7 +2,7 @@
 
 @section('conteudo')
 
-<br><br>
+<br>
 <h2 class="text-center">Recibo</h2><br>
 
 <div class="row" style="font-size:15px !important; font-weight: 500 !important">
@@ -13,9 +13,44 @@
 
 		<br>
 
+					<table class="table table-bordered table-hover table-striped">
+					    <thead>
+					    	<tr>
+								<th colspan="5">Vale-transporte</th>
+					    	</tr>
+					        <tr>
+					            <th>Periodo</th>
+					            <th>Periodo</th>
+					            <th>Descrição</th>
+					            <th>Valor</th>
+					        </tr>
+					    </thead>
+					    <tbody>
+					    	@foreach($vts as $vt)
+					        <tr>
+								<td class="text-center" widtd="15%">{{$vt->init->format('d/m/Y')}}</td>
+								<td class="text-center" widtd="15%">{{$vt->end->format('d/m/Y')}}</td>
+								<td class="text-center" widtd="40%">{{$vt->tipo}}</td>
+								<td class="text-center" widtd="15%">R$ {{number_format($vt->valor, 2, ',', '.')}}</td>
+					        </tr>
+					        @endforeach
+
+					        
+					        <tr>
+					        	<td colspan="3" class="text-right"><strong>Total</strong></td>
+					        	<td colspan="1" class="text-center"><strong>R$ {{number_format($vtTotal, 2, ',', '.')}}</strong></td>
+					        </tr>
+					        
+					    </tbody>
+					</table>
+
+					<br>
 
 					<table class="table table-bordered table-hover table-striped">
 					    <thead>
+					    	<tr>
+					    		<th colspan="5">Pagamentos</th>
+					    	</tr>
 					        <tr>
 					            <th>Periodo</th>
 					            <th>Periodo</th>
