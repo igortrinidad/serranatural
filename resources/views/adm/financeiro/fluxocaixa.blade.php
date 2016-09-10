@@ -323,7 +323,7 @@
 				    	authorization: false,
 				    	retorno: '',
 				    	caixa_aberto: {senha: '', senha_conferente: ''},
-				    	cards: {rede: 0, cielo: 0},
+				    	cards: {rede: 0.00, cielo: 0.00},
 				    	caixa_anterior: '',
 				    	caixa_is_aberto: false,
 				    	vendas: {
@@ -467,6 +467,12 @@
 				    		ev.preventDefault();
 				    		var that = this;
 
+				    		if(!this.caixa_aberto.vendas_cielo || !this.caixa_aberto.vendas_rede){
+				    			
+				    			swal('Atenção', 'Confira o caixa ou zere os valores', 'warning');
+				    			return false
+				    		}
+
 				    		if(!this.loading){
 
 				    			this.loading = true;
@@ -522,12 +528,17 @@
 					    		this.caixa_aberto.vendas_rede = 
 					    			parseFloat(this.cards.rede) - 
 					    			parseFloat(this.caixa_anterior.vendas_rede) ;
-					    			console.log('Caixa 1');
+
+					    		this.caixa_aberto.vendas_rede.toFixed(2);
+					    		this.caixa_aberto.vendas_cielo.toFixed(2);
+
+					    		console.log('REDE DIF' + this.caixa_aberto.vendas_rede);
+					    		console.log('CIELO DIF' + this.caixa_aberto.vendas_cielo);
 
 				    		} else {
-				    			this.caixa_aberto.vendas_cielo = parseFloat( this.cards.cielo) ;
-				    			this.caixa_aberto.vendas_rede = parseFloat( this.card.rede) ;
-				    			console.log('Caixa 2');
+				    			this.caixa_aberto.vendas_cielo = parseFloat(this.cards.cielo) ;
+				    			this.caixa_aberto.vendas_rede = parseFloat(this.cards.rede) ;
+				    			console.log('Turno 1');
 				    		}
 
 				    		var conferencia2 = 
