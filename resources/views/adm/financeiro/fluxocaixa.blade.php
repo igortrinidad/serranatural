@@ -522,7 +522,12 @@
 					    		this.caixa_aberto.vendas_rede = 
 					    			parseFloat(this.cards.rede) - 
 					    			parseFloat(this.caixa_anterior.vendas_rede) ;
+					    			console.log('Caixa 1');
 
+				    		} else {
+				    			this.caixa_aberto.vendas_cielo = parseFloat( this.cards.cielo) ;
+				    			this.caixa_aberto.vendas_rede = parseFloat( this.card.rede) ;
+				    			console.log('Caixa 2');
 				    		}
 
 				    		var conferencia2 = 
