@@ -350,4 +350,16 @@ class CaixaController extends Controller
         return $this->paymentsResume($begin, $end);
     }
 
+    public function testeOrders(){
+        
+
+        $token = '5bDwfv16l7I02iePbc2GcQ';
+        \Unirest\Request::defaultHeader("Authorization", "Bearer ".$token);
+        \Unirest\Request::defaultHeader("Content-Type", "application/json");
+
+        $response = \Unirest\Request::get("https://connect.squareup.com/v2/me/orders");
+
+        dd($response);
+    }
+
 }

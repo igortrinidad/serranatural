@@ -6,7 +6,7 @@
 
 	@include('errors.messages')
 
-<div class="row">
+<div class="row" id="historicoPagamentos">
 
 	<div class="panel panel-default">
 
@@ -154,6 +154,28 @@
 				$('input[name="dataInicio"').val(dataInicio);
 				$('input[name="dataFim"').val(dataFim);
 
+				});
+
+			</script>
+
+
+			<script type"text/javascript">
+
+
+				Vue.config.debug = true;
+				Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#_tokenLaravel').getAttribute('value');
+				var vm = new Vue({
+				    el: '#historicoPagamentos',
+				    data: 
+				    {	
+				    	
+				    },
+				    ready: function(){
+				    	console.log('Estou ready!');
+				    },
+				    methods:
+				    {
+				    },
 				});
 
 			</script>

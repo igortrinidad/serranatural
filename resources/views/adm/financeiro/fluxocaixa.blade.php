@@ -150,35 +150,56 @@
 						<div class="panel-heading">Caixa</div>
 						<div class="panel-body">
 
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Total de venda maquina REDE</label>
-									<input type="text" class="form-control moneyFloat" 
-										v-on:blur="calcula($event)"
-										v-model="caixa_aberto.vendas_rede"
-
-									/>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Dinheiro em caixa</label>
+										<input type="text" class="form-control moneyFloat" 
+											v-model="caixa_aberto.vr_emCaixa"
+											v-on:blur="calcula($event)"
+										/>
+									</div>
 								</div>
 
-								<div class="form-group">
-									<label>Total de venda maquina CIELO</label>
-									<input type="text" class="form-control moneyFloat" 
-										v-model="caixa_aberto.vendas_cielo"
-										v-on:blur="calcula($event)"
-									/>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Turno</label>
+										<br>
+										<select v-model="caixa_aberto.turno" v-on:blur="calcula($event)">
+											<option>1</option>
+											<option>2</option>
+										</select>
+									</div>
 								</div>
 								
 							</div>
 
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Dinheiro em caixa</label>
-									<input type="text" class="form-control moneyFloat" 
-										v-model="caixa_aberto.vr_emCaixa"
-										v-on:blur="calcula($event)"
-									/>
+
+							<div class="row">
+
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Total de venda maquina REDE</label>
+										<input type="text" class="form-control moneyFloat" 
+											v-on:blur="calcula($event)"
+											v-model="cards.rede"
+
+										/>
+									</div>
+								</div>
+
+								<div class="col-md-6 col-xs-6">
+									<div class="form-group">
+										<label>Total de venda maquina CIELO</label>
+										<input type="text" class="form-control moneyFloat" 
+											v-model="cards.cielo"
+											v-on:blur="calcula($event)"
+										/>
+									</div>
 								</div>
 							</div>
+
+
 
 							<div class="col-md-12">
 								<div class="form-group">
@@ -302,6 +323,7 @@
 				    	authorization: false,
 				    	retorno: '',
 				    	caixa_aberto: {senha: '', senha_conferente: ''},
+				    	cards: {rede: 0, cielo: 0},
 				    	caixa_anterior: '',
 				    	caixa_is_aberto: false,
 				    	vendas: {
@@ -335,7 +357,6 @@
 					          	self.caixa_anterior = response.data.caixa_anterior;
 					          	self.caixa_is_aberto = true;
 					          	self.retiradas = response.data.retiradas;
-					          	
 
 					          	this.$http.get('/admin/financeiro/caixa/consultaVendas').then(function (response) {
 							        self.vendas = response.data;
@@ -478,6 +499,8 @@
 				    		if (!this.caixa_aberto.vendas_rede) this.caixa_aberto.vendas_rede = 0;
 				    		if (!this.caixa_aberto.vendas_cielo) this.caixa_aberto.vendas_cielo = 0;
 				    		if (!this.caixa_aberto.vr_emCaixa) this.caixa_aberto.vr_emCaixa = 0;
+				    		if (!this.cards.cielo) this.cards.cielo = 0;
+				    		if (!this.cards.rede) this.cards.rede = 0;
 
 				    		console.log('Vendas rede: ' + this.caixa_aberto.vendas_rede);
 				    		console.log('Vendas cielo: ' + this.caixa_aberto.vendas_cielo);
@@ -490,6 +513,17 @@
 				    			+ parseFloat( this.caixa_aberto.total_retirada ) - 
 				    			(parseFloat( this.caixa_aberto.vr_abertura ) ) );
 
+				    		if(this.caixa_aberto.turno == 2){
+
+				    			this.caixa_aberto.vendas_cielo = 
+					    			parseFloat( this.cards.cielo) - 
+					    			parseFloat( this.caixa_anterior.vendas_cielo) ;
+
+					    		this.caixa_aberto.vendas_rede = 
+					    			parseFloat(this.cards.rede) - 
+					    			parseFloat(this.caixa_anterior.vendas_rede) ;
+
+				    		}
 
 				    		var conferencia2 = 
 				    		( parseFloat( this.vendas.vendaBruta.replace(',', '') ) ) -
