@@ -163,12 +163,10 @@
 
 								<div class="col-md-6">
 									<div class="form-group">
-										<label>Turno</label>
+										<label>Substrair cartões anteriores</label>
 										<br>
-										<select v-model="caixa_aberto.turno" v-on:blur="calcula($event)">
-											<option>1</option>
-											<option>2</option>
-										</select>
+										<button v-if="unlock" class="btn btn-primary btn-block" @click="substract($event)">Subtrair</button>
+										<button v-if="!unlock" class="btn btn-danger btn-block" @click="substract($event)">Desbloquear</button>
 									</div>
 								</div>
 								
@@ -182,7 +180,7 @@
 										<label>Total de venda maquina REDE</label>
 										<input type="text" class="form-control moneyFloat" 
 											v-on:blur="calcula($event)"
-											v-model="cards.rede"
+											v-model="caixa_aberto.vendas_rede"
 
 										/>
 									</div>
@@ -192,7 +190,7 @@
 									<div class="form-group">
 										<label>Total de venda maquina CIELO</label>
 										<input type="text" class="form-control moneyFloat" 
-											v-model="cards.cielo"
+											v-model="caixa_aberto.vendas_cielo"
 											v-on:blur="calcula($event)"
 										/>
 									</div>
@@ -323,7 +321,6 @@
 				    	authorization: false,
 				    	retorno: '',
 				    	caixa_aberto: {senha: '', senha_conferente: ''},
-				    	cards: {rede: 0.00, cielo: 0.00},
 				    	caixa_anterior: '',
 				    	caixa_is_aberto: false,
 				    	vendas: {
@@ -340,6 +337,8 @@
 				    		diferenca_inicial: '',
 				    	},
 				    	retiradas: [],
+				    	substracted: false,
+				    	unlock: false,
 				    },
 				    attached: function()
     					{
@@ -357,6 +356,7 @@
 					          	self.caixa_anterior = response.data.caixa_anterior;
 					          	self.caixa_is_aberto = true;
 					          	self.retiradas = response.data.retiradas;
+					          	
 
 					          	this.$http.get('/admin/financeiro/caixa/consultaVendas').then(function (response) {
 							        self.vendas = response.data;
@@ -395,6 +395,28 @@
 
 					    },
 				    methods: {
+				    	substract: function(ev){
+				    		ev.preventDefault()
+
+				    		if(!this.substracted){
+
+				    		if(!this.unlock){
+				    			this.unlock = true;
+				    			return false
+				    		}
+				    			this.caixa_aberto.vendas_cielo = parseFloat(this.caixa_aberto.vendas_cielo) - parseFloat(this.caixa_anterior.vendas_cielo);
+
+				    			this.caixa_aberto.vendas_rede = parseFloat(this.caixa_aberto.vendas_rede) - parseFloat(this.caixa_anterior.vendas_rede);
+
+				    			this.unlock = false;
+
+				    			this.calcula();
+				    		}
+
+
+				    		this.substracted = true;
+
+				    	},
 				    	abreCaixa: function(ev) {
 				    		self = this;
 
@@ -461,17 +483,10 @@
 				    		that.caixa_aberto.senha_conferente = '';
 
 
-
 				    	},
 				    	fecha: function(ev) {
 				    		ev.preventDefault();
 				    		var that = this;
-
-				    		if(!this.caixa_aberto.vendas_cielo || !this.caixa_aberto.vendas_rede){
-				    			
-				    			swal('Atenção', 'Confira o caixa ou zere os valores', 'warning');
-				    			return false
-				    		}
 
 				    		if(!this.loading){
 
@@ -502,11 +517,11 @@
 				    	},
 				    	calcula: function(ev) {
 
+				    		this.substracted = false;
+
 				    		if (!this.caixa_aberto.vendas_rede) this.caixa_aberto.vendas_rede = 0;
 				    		if (!this.caixa_aberto.vendas_cielo) this.caixa_aberto.vendas_cielo = 0;
 				    		if (!this.caixa_aberto.vr_emCaixa) this.caixa_aberto.vr_emCaixa = 0;
-				    		if (!this.cards.cielo) this.cards.cielo = 0;
-				    		if (!this.cards.rede) this.cards.rede = 0;
 
 				    		console.log('Vendas rede: ' + this.caixa_aberto.vendas_rede);
 				    		console.log('Vendas cielo: ' + this.caixa_aberto.vendas_cielo);
@@ -519,27 +534,6 @@
 				    			+ parseFloat( this.caixa_aberto.total_retirada ) - 
 				    			(parseFloat( this.caixa_aberto.vr_abertura ) ) );
 
-				    		if(this.caixa_aberto.turno == 2){
-
-				    			this.caixa_aberto.vendas_cielo = 
-					    			parseFloat( this.cards.cielo) - 
-					    			parseFloat( this.caixa_anterior.vendas_cielo) ;
-
-					    		this.caixa_aberto.vendas_rede = 
-					    			parseFloat(this.cards.rede) - 
-					    			parseFloat(this.caixa_anterior.vendas_rede) ;
-
-					    		this.caixa_aberto.vendas_rede.toFixed(2);
-					    		this.caixa_aberto.vendas_cielo.toFixed(2);
-
-					    		console.log('REDE DIF' + this.caixa_aberto.vendas_rede);
-					    		console.log('CIELO DIF' + this.caixa_aberto.vendas_cielo);
-
-				    		} else {
-				    			this.caixa_aberto.vendas_cielo = parseFloat(this.cards.cielo) ;
-				    			this.caixa_aberto.vendas_rede = parseFloat(this.cards.rede) ;
-				    			console.log('Turno 1');
-				    		}
 
 				    		var conferencia2 = 
 				    		( parseFloat( this.vendas.vendaBruta.replace(',', '') ) ) -
