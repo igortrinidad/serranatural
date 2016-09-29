@@ -68,17 +68,15 @@ class ClienteController extends Controller
         $pratos = Pratos::all();
 
         $pontos = PontoColetado::where('cliente_id', '=', $id)
+                                ->where('is_valido', '=', 1)
                                 ->orderBY('vencimento', 'ASC')
-                                ->paginate(8);
+                                ->paginate(20);
 
         $vouchers = Voucher::where('cliente_id', '=', $id)
-                            ->orderBY('data_utilizado', 'ASC')
+                            ->orderBY('is_valido', 'DESC')
+                            ->orderBy('created_at', 'ASC')
                             ->paginate(12);
 
-                            //dd($vouchers);
-
-        $pontosTotal = count(PontoColetado::where('cliente_id', '=', $id)
-                                            ->get());
 
         $dados = [
             'cliente' => $cliente,
@@ -86,7 +84,6 @@ class ClienteController extends Controller
             'pratos' => $pratos,
             'pontos' => $pontos,
             'vouchers' => $vouchers,
-            'pontosTotal' => $pontosTotal
         ];
 
         return view('adm/clientes/mostra')->with($dados);
@@ -499,7 +496,7 @@ class ClienteController extends Controller
                                 ->where('produto', '=', $cliente['produto'])
                                 ->get();
 
-        $semana = Carbon::now()->subDays(8);
+        $semana = Carbon::now()->subDays(7);
 
         $pontosSemana = PontoColetado::where('cliente_id', '=', $cliente['cliente_id'])
                                         ->where('is_valido', '=', 1)
@@ -517,7 +514,8 @@ class ClienteController extends Controller
                 'data_voucher' => date('Y-m-d'),
                 'vencimento' => date('Y-m-d', $timestamp),
                 'is_valido' => 1,
-                'produto' => $cliente['produto']
+                'produto' => $cliente['produto'],
+                'tipo' => 'Serra Todo Dia'
             ]);
 
             foreach ($pontosSemana as $ponto) {
@@ -543,8 +541,8 @@ class ClienteController extends Controller
                     'data_voucher' => date('Y-m-d'),
                     'vencimento' => date('Y-m-d', $timestamp),
                     'is_valido' => 1,
-                    'produto' => $cliente['produto']
-
+                    'produto' => $cliente['produto'],
+                    'tipo' => 'Fidelidade Serra Natural'
                 ]);
 
             PontoColetado::where('cliente_id', '=', $cliente['cliente_id'])
@@ -764,7 +762,8 @@ class ClienteController extends Controller
                     'data_voucher' => date('Y-m-d'),
                     'vencimento' => date('Y-m-d', $timestamp),
                     'is_valido' => 1,
-                    'produto' => $request->produto
+                    'produto' => $request->produto,
+                    'tipo' => 'Cortesia'
                 ]);
 
             $this->enviaEmailVoucherColetado($id, $voucher->id);

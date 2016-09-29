@@ -13,7 +13,9 @@
 <div class="row">
 	<div class="col-md-9">
 		<div class="panel panel-default">
-			<div class="panel-heading"><h5>Dados</h5></div>
+			<div class="panel-heading">
+				<h4>Dados do cliente</h4>
+			</div>
 			<div class="panel-body">
 
 
@@ -65,47 +67,13 @@
 <div class="row">
 	<div class="col-md-12">
 
+			
+
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h5>Vouchers</h5>
+					<h4>Enviar voucher cortesia para cliente</h4>
 				</div>
 				<div class="panel-body">
-
-					
-					<label>Adicionar voucher cortesia</label>
-
-
-					<table class="table table-bordered text-center">
-						<thead>
-							<tr style="font-weight:700">
-								<td>Codigo</td>
-								<td>Produto</td>
-								<td>Vencimento</td>
-								<td>Data utilização</td>
-								<td>Valido</td>
-								<td>Uso autorizado por:</td>
-								<td>Valor autorizado</td>
-								<td>Usar</td>
-							</tr>
-						</thead>
-
-					@foreach($vouchers as $voucher)
-						<tr>
-							<td style="width:8%;">{{$voucher->id}}</td>
-							<td style="width:20%;">{{$voucher->produto}}</td>
-							<td style="width:13%;">{{$voucher->vencimento}}</td>
-							<td style="width:13%;">{{$voucher->data_utilizado}}</td>
-							<td style="width:10%;">@if($voucher->is_valido)Sim @else Não @endif</td>
-							<td style="width:10%;">@if(!$voucher->user_id) -- @else {{$voucher->usuario->name}} @endif</td>
-							<td style="width:10%;">{{$voucher->valor}}</td>
-							<td style="width:10%;">@if($voucher->is_valido)<button type="button" class="btn btn-default btn-xs btn_voucher" data-toggle="modal" data-target="#modalVoucher" onclick="idVoucher({{$voucher->id}}, '{{$voucher->produto}}')">Usar Voucher</button> @else -- @endif </td>
-						</tr>	
-					@endforeach
-					</table>
-
-					{!! $vouchers->render() !!}
-
-					<hr size="3px" />
 					<div class="row">
 						<form method="post" action="{{route('admin.client.addVoucherCortesia', $cliente->id)}}">
 
@@ -138,6 +106,51 @@
 						</form>
 
 					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4>Vouchers | Total: {{ $vouchers->count() }}</h4>
+				</div>
+				<div class="panel-body">
+
+					
+					<label>Adicionar voucher cortesia</label>
+
+
+					<table class="table table-bordered text-center">
+						<thead>
+							<tr style="font-weight:700">
+								<td>Codigo</td>
+								<td>Produto</td>
+								<td>Vencimento</td>
+								<td>Data utilização</td>
+								<td>Valido</td>
+								<td>Uso autorizado por:</td>
+								<td>Valor autorizado</td>
+								<td>Tipo</td>
+								<td>Usar</td>
+							</tr>
+						</thead>
+
+					@foreach($vouchers as $voucher)
+						<tr>
+							<td style="width:8%;">{{$voucher->id}}</td>
+							<td style="width:20%;">{{$voucher->produto}}</td>
+							<td style="width:13%;">{{$voucher->vencimento}}</td>
+							<td style="width:13%;">{{$voucher->data_utilizado}}</td>
+							<td style="width:10%;">@if($voucher->is_valido)Sim @else Não @endif</td>
+							<td style="width:10%;">@if(!$voucher->user_id) -- @else {{$voucher->usuario->name}} @endif</td>
+							<td style="width:10%;">{{$voucher->valor}}</td>
+							<td style="width:10%;">{{$voucher->tipo}}</td>
+							<td style="width:10%;">@if($voucher->is_valido)<button type="button" class="btn btn-default btn-xs btn_voucher" data-toggle="modal" data-target="#modalVoucher" onclick="idVoucher({{$voucher->id}}, '{{$voucher->produto}}')">Usar Voucher</button> @else -- @endif </td>
+
+						</tr>	
+					@endforeach
+					</table>
+
+					{!! $vouchers->render() !!}
 
 				</div>
 			</div>
@@ -150,23 +163,7 @@
 
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<div class="row">
-						<div class="col-md-6">
-							<h4>Pontos coletados</h4> <br>Pontos totais: {{$pontosTotal}}
-						</div>
-						<div class="col-md-6">
-							<div class="inline text-right">
-								<ul class="pagination">
-									<li>
-										<a href="{!! $pontos->previousPageUrl() !!}" rel="prev">«</a>
-									</li>
-									<li>
-										<a href="{!! $pontos->nextPageUrl() !!}" rel="prev">»</a>
-									</li>
-								</ul>	
-							</div>
-						</div>
-					</div>
+					<h4>Pontos validos | Total: {{ $pontos->count() }} </h4>
 				</div>
 
 				<div class="panel-body">
@@ -190,6 +187,8 @@
 						</tr>	
 					@endforeach
 					</table>
+
+					{!! $pontos->render() !!}
 
 				</div>
 			</div>

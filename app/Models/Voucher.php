@@ -23,7 +23,7 @@ class Voucher extends Model
                             'is_valido',
     						'produto',
                             'valor',
-    						
+                            'tipo'
     					];
 
     public function getVencimentoAttribute($value)
