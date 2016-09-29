@@ -38,14 +38,14 @@
 				    <tbody>
 				    @foreach($mes->lista as $voucher)
 				        <tr>
-							<td class="text-center">{{$voucher->cliente->nome}}</td>
+							<td class="text-center">@if(is_null($voucher->cliente) ) -- @else {{$voucher->cliente->nome}} @endif</td>
 							<td class="text-center">{{$voucher->data_voucher->format('d/m/Y')}}</td>
 							<td class="text-center">{{$voucher->vencimento}}</td>
 							<td class="text-center">{{$voucher->data_utilizado}}</td>
 							<td class="text-center">@if($voucher->is_valido)Sim @else Não @endif</td>
 							<td class="text-center">{{$voucher->valor}}</td>
 							<td class="text-center">{{$voucher->produto}}</td>
-							<td class="text-center">@if(!$voucher->user_id) -- @else {{$voucher->usuario->name}} @endif</td>
+							<td class="text-center">@if(is_null($voucher->usuario) ) -- @else {{$voucher->usuario->name}} @endif</td>
 
 				        </tr>
 				    @endforeach
