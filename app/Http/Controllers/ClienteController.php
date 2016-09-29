@@ -807,32 +807,32 @@ class ClienteController extends Controller
         $vouchers->gerados->mes1->nome = 'Vouchers gerados';
         $vouchers->gerados->mes1->init = $mes1_first;
         $vouchers->gerados->mes1->last = $mes1_last;
-        $vouchers->gerados->mes1->lista = Voucher::with('cliente')->where('created_at', '>=', $mes1_first)->where('created_at', '<=', $mes1_last)->paginate(20);
+        $vouchers->gerados->mes1->lista = Voucher::with('cliente')->where('created_at', '>=', $mes1_first)->where('created_at', '<=', $mes1_last)->paginate(50);
 
         $vouchers->gerados->mes2->nome = 'Vouchers gerados';
         $vouchers->gerados->mes2->init = $mes2_first;
         $vouchers->gerados->mes2->last = $mes2_last;
-        $vouchers->gerados->mes2->lista = Voucher::with('cliente')->where('created_at', '>=', $mes2_first)->where('created_at', '<=', $mes2_last)->paginate(20);
+        $vouchers->gerados->mes2->lista = Voucher::with('cliente')->where('created_at', '>=', $mes2_first)->where('created_at', '<=', $mes2_last)->paginate(50);
 
         $vouchers->gerados->mes3->nome = 'Vouchers gerados';
         $vouchers->gerados->mes3->init = $mes3_first;
         $vouchers->gerados->mes3->last = $mes3_last;
-        $vouchers->gerados->mes3->lista = Voucher::with('cliente')->where('created_at', '>=', $mes3_first)->where('created_at', '<=', $mes3_last)->paginate(20);
+        $vouchers->gerados->mes3->lista = Voucher::with('cliente')->where('created_at', '>=', $mes3_first)->where('created_at', '<=', $mes3_last)->paginate(50);
 
         $vouchers->utilizados->mes1->nome = 'Vouchers utilizados';
         $vouchers->utilizados->mes1->init = $mes1_first;
         $vouchers->utilizados->mes1->last = $mes1_last;
-        $vouchers->utilizados->mes1->lista = Voucher::with('cliente')->where('data_utilizado', '>=', $mes1_first)->where('data_utilizado', '<=', $mes1_last)->paginate(20);
+        $vouchers->utilizados->mes1->lista = Voucher::with('cliente')->where('data_utilizado', '>=', $mes1_first)->where('data_utilizado', '<=', $mes1_last)->paginate(50);
 
         $vouchers->utilizados->mes2->nome = 'Vouchers utilizados';
         $vouchers->utilizados->mes2->init = $mes2_first;
         $vouchers->utilizados->mes2->last = $mes2_last;
-        $vouchers->utilizados->mes2->lista = Voucher::with('cliente')->where('data_utilizado', '>=', $mes2_first)->where('data_utilizado', '<=', $mes2_last)->paginate(20);
+        $vouchers->utilizados->mes2->lista = Voucher::with('cliente')->where('data_utilizado', '>=', $mes2_first)->where('data_utilizado', '<=', $mes2_last)->paginate(50);
 
         $vouchers->utilizados->mes3->nome = 'Vouchers utilizados';
         $vouchers->utilizados->mes3->init = $mes3_first;
         $vouchers->utilizados->mes3->last = $mes3_last;
-        $vouchers->utilizados->mes3->lista = Voucher::with('cliente')->where('data_utilizado', '>=', $mes3_first)->where('data_utilizado', '<=', $mes3_last)->paginate(20);
+        $vouchers->utilizados->mes3->lista = Voucher::with('cliente')->where('data_utilizado', '>=', $mes3_first)->where('data_utilizado', '<=', $mes3_last)->paginate(50);
 
         $vouchers->aberto->mes->nome = 'Em Aberto';
         $vouchers->aberto->mes->init = '2000-01-01';
