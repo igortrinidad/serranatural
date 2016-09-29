@@ -39,7 +39,7 @@
 				    @foreach($mes->lista as $voucher)
 				        <tr>
 							<td class="text-center">@if(is_null($voucher->cliente) ) -- @else {{$voucher->cliente->nome}} @endif</td>
-							<td class="text-center">{{$voucher->data_voucher->format('d/m/Y')}}</td>
+							<td class="text-center">{{$voucher->created_at->format('d/m/Y')}}</td>
 							<td class="text-center">{{$voucher->vencimento}}</td>
 							<td class="text-center">{{$voucher->data_utilizado}}</td>
 							<td class="text-center">@if($voucher->is_valido)Sim @else Não @endif</td>
