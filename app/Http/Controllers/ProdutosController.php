@@ -164,7 +164,7 @@ class ProdutosController extends Controller
 
         $preferencias = Preferencias::where('preferencias', '=', $id)->delete();
 
-        return redirect()->back();
+        return redirect('/admin/produtos/pratos/lista');
     }
 
     /**

@@ -20,6 +20,7 @@
 			    </thead>
 			    <tbody>
 			    @foreach($pratos as $prato)
+			    	@if($prato->pratos)
 			        <tr>
 			            <td>{{ dataMysqlParaPtBr($prato->dataStamp) }}</td>
 			            <td>{{ $prato->pratos->prato}}</td>
@@ -40,6 +41,7 @@
 			            	</a>
 			            </td>
 			        </tr>
+			        @endif
 			    @endforeach
 			    </tbody>
 			</table>
