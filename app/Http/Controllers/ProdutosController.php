@@ -846,4 +846,15 @@ class ProdutosController extends Controller
         return $balancos;
     }
 
+    public function editProdutosDisponiveis()
+    {
+
+        $squareItems = $this->squareItemsList();
+
+        return view('adm.produtos.produtos.available', compact(
+            'squareItems'
+            ));
+
+    }
+
 }

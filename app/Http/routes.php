@@ -138,14 +138,10 @@ Route::group(['as' => 'auth.', 'prefix' => 'auth'], function()
 });
 
 //Promoções
-Route::group(['as' => 'promocoes.'], function()
+Route::group(['as' => 'promocoes.', 'prefix' => 'promocoes'], function()
 {
-	Route::get('/PromoVotacao', ['as' => 'landVotacao', 'uses' => 'PromocoesController@paginaVotacao']);
-	Route::post('/adm/promocoes/votacao/addVotoCliente', ['as' => 'addVotoCliente', 'uses' => 'PromocoesController@addVotoCliente']);
-	Route::post('/adm/promocoes/addVotoCadastro', ['as' => 'addVotoCadastro', 'uses' => 'PromocoesController@addVotoCadastro']);
-	Route::get('admin/promocoes', ['as' => 'index', 'uses' => 'PromocoesController@indexPromocoes']);
-	Route::post('admin/promocoes/sorteioVotacao', ['as' => 'sorteioVotacao', 'uses' => 'PromocoesController@sorteioVotacao']);
-	Route::post('admin/promocoes/salvaSorteado', ['as' => 'salvaSorteado', 'uses' => 'PromocoesController@salvaSorteado']);
+	Route::get('/', ['as' => 'landVotacao', 'uses' => 'PromocoesController@listPromo']);
+	Route::get('/', ['as' => 'landVotacao', 'uses' => 'PromocoesController@create']);
 });
 
 Route::group(['as' => 'produtos.'], function()
@@ -201,6 +197,8 @@ Route::group(['as' => 'produtos.'], function()
 		Route::post('/admin/produtos/balancoPost', ['uses' => 'ProdutosController@balancoPost']);
 		Route::get('/admin/produtos/historico/balanco', ['uses' => 'ProdutosController@historicoBalanco']);
 		Route::get('/admin/produtos/historico/balancosJson', ['uses' => 'ProdutosController@balancosJson']);
+
+		Route::get('/admin/produtos/disponiveis', 'ProdutosController@editProdutosDisponiveis');
 	});
 
 });

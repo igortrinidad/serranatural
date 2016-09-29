@@ -22,13 +22,22 @@ class conta_a_pagar extends Command implements SelfHandling
     public function handle()
     {
         if(date('d') == '6'){
+
             $pagamento = Pagamento::create([
                 'user_id_cadastro' => 1,
                 'descricao' => 'Aluguel do mês: ' . date('m'),
                 'vencimento' => date('14/m/Y'),
                 'valor' => 0,
                 'is_liquidado' => 0
-                ]);
+            ]);
+
+            $pagamento = Pagamento::create([
+                'user_id_cadastro' => 1,
+                'descricao' => 'Internet Florestal: ' . date('m'),
+                'vencimento' => date('14/m/Y'),
+                'valor' => 119.90,
+                'is_liquidado' => 0
+            ]);
         }
 
         $timestamp = strtotime("+2 days");

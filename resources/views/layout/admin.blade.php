@@ -292,6 +292,8 @@
                                     <a href="/admin/produtos/quantidadeVendaPrato">Relatório de venda</a>
                                 </li>
 
+
+
                             </ul>
                         </li>
 
@@ -308,6 +310,10 @@
 
                                 <li>
                                     <a href="/admin/produtos/calcular/index">Calcular</a>
+                                </li>
+
+                                <li>
+                                    <a href="/admin/produtos/disponiveis">Produtos disponíveis</a>
                                 </li>
 
                             </ul>

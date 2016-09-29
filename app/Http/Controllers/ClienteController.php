@@ -782,9 +782,67 @@ class ClienteController extends Controller
 
     public function voucherList()
     {
-        $vouchers = Voucher::with('cliente')->orderBy('data_utilizado', 'DESC')->paginate(20);
 
-        return view('adm.clientes.voucherList', compact('vouchers'));
+        $mes1_first = Carbon::now()->startOfMonth()->subMonth(0)->toDateString();
+        $mes1_last = Carbon::now()->endOfMonth()->subMonth(0)->toDateString();
+
+        $mes2_first = Carbon::now()->startOfMonth()->subMonth(1)->toDateString();
+        $mes2_last = Carbon::now()->endOfMonth()->subMonth(1)->toDateString();
+
+        $mes3_first = Carbon::now()->startOfMonth()->subMonth(2)->toDateString();
+        $mes3_last = Carbon::now()->endOfMonth()->subMonth(2)->toDateString();
+
+        $vouchers = new \stdClass();
+        $vouchers->gerados = new \stdClass();
+        $vouchers->utilizados = new \stdClass();
+        $vouchers->aberto = new \stdClass();
+        $vouchers->aberto->mes = new \stdClass();
+        $vouchers->utilizados->mes1 = new \stdClass();
+        $vouchers->utilizados->mes2 = new \stdClass();
+        $vouchers->utilizados->mes3 = new \stdClass();
+        $vouchers->gerados->mes1 = new \stdClass();
+        $vouchers->gerados->mes2 = new \stdClass();
+        $vouchers->gerados->mes3 = new \stdClass();
+
+        $vouchers->gerados->mes1->nome = 'Vouchers gerados';
+        $vouchers->gerados->mes1->init = $mes1_first;
+        $vouchers->gerados->mes1->last = $mes1_last;
+        $vouchers->gerados->mes1->lista = Voucher::with('cliente')->where('created_at', '>=', $mes1_first)->where('created_at', '<=', $mes1_last)->paginate(20);
+
+        $vouchers->gerados->mes2->nome = 'Vouchers gerados';
+        $vouchers->gerados->mes2->init = $mes2_first;
+        $vouchers->gerados->mes2->last = $mes2_last;
+        $vouchers->gerados->mes2->lista = Voucher::with('cliente')->where('created_at', '>=', $mes2_first)->where('created_at', '<=', $mes2_last)->paginate(20);
+
+        $vouchers->gerados->mes3->nome = 'Vouchers gerados';
+        $vouchers->gerados->mes3->init = $mes3_first;
+        $vouchers->gerados->mes3->last = $mes3_last;
+        $vouchers->gerados->mes3->lista = Voucher::with('cliente')->where('created_at', '>=', $mes3_first)->where('created_at', '<=', $mes3_last)->paginate(20);
+
+        $vouchers->utilizados->mes1->nome = 'Vouchers utilizados';
+        $vouchers->utilizados->mes1->init = $mes1_first;
+        $vouchers->utilizados->mes1->last = $mes1_last;
+        $vouchers->utilizados->mes1->lista = Voucher::with('cliente')->where('data_utilizado', '>=', $mes1_first)->where('data_utilizado', '<=', $mes1_last)->paginate(20);
+
+        $vouchers->utilizados->mes2->nome = 'Vouchers utilizados';
+        $vouchers->utilizados->mes2->init = $mes2_first;
+        $vouchers->utilizados->mes2->last = $mes2_last;
+        $vouchers->utilizados->mes2->lista = Voucher::with('cliente')->where('data_utilizado', '>=', $mes2_first)->where('data_utilizado', '<=', $mes2_last)->paginate(20);
+
+        $vouchers->utilizados->mes3->nome = 'Vouchers utilizados';
+        $vouchers->utilizados->mes3->init = $mes3_first;
+        $vouchers->utilizados->mes3->last = $mes3_last;
+        $vouchers->utilizados->mes3->lista = Voucher::with('cliente')->where('data_utilizado', '>=', $mes3_first)->where('data_utilizado', '<=', $mes3_last)->paginate(20);
+
+        $vouchers->aberto->mes->nome = 'Em Aberto';
+        $vouchers->aberto->mes->init = '2000-01-01';
+        $vouchers->aberto->mes->last = '2000-01-01';
+        $vouchers->aberto->mes->lista = Voucher::with('cliente')->where('is_valido', '=', 1)->paginate(100);
+
+        return view('adm.clientes.voucherList', compact(
+            'vouchers',
+            'vouchers_nao_utilizados'
+            ));
     }
 
     public function reenviaSenha($id)
