@@ -65,9 +65,9 @@
 								<td class="text-center" widtd="15%">{{$pagamento->init->format('d/m/Y')}}</td>
 								<td class="text-center" widtd="15%">{{$pagamento->end->format('d/m/Y')}}</td>
 								<td class="text-center" widtd="40%">
-								@if(is_null($pagamento->tipo) or empty($pagamento->tipo)) {{substr($pagamento->descricao, 0, -10) }} 
-								@elseif($pagamento->tipo == 'Pagamento') Pagamento {{substr($pagamento->descricao, 0, 15)}} 
-								@elseif($pagamento->tipo == 'Outros') Outros {{substr($pagamento->descricao, 0, 15)}} 
+								@if(is_null($pagamento->tipo) or empty($pagamento->tipo)) {{substr($pagamento->descricao, 0, 30) }} 
+								@elseif($pagamento->tipo == 'Pagamento') Pagamento {{substr($pagamento->descricao, 0, 30)}} 
+								@elseif($pagamento->tipo == 'Outros') Outros {{substr($pagamento->descricao, 0, 30)}} 
 								@else {{$pagamento->tipo}}
 								@endif</td>
 								<td class="text-center" widtd="15%">@if($pagamento->is_debito == 0) R$ {{$pagamento->valor}} @endif</td>
