@@ -1,11 +1,11 @@
 <?php
 
 //Site
-Route::get('/', ['as' => 'site.home', 'uses' => 'SiteController@home']);
-Route::get('/cardapio', ['as' => 'site.cardapio', 'uses' => 'SiteController@cardapio']);
-Route::get('/promocoes', ['as' => 'site.promocoes', 'uses' => 'SiteController@promocoes']);
-Route::get('/fidelidade', ['as' => 'site.fidelidade', 'uses' => 'SiteController@fidelidade']);
-Route::get('/contato', ['as' => 'site.contato', 'uses' => 'SiteController@contato']);
+Route::get('/', ['uses' => 'SiteController@home']);
+Route::get('/cardapio', ['uses' => 'SiteController@cardapio']);
+Route::get('/promocoes', ['uses' => 'SiteController@promocoes']);
+Route::get('/fidelidade', ['uses' => 'SiteController@fidelidade']);
+Route::get('/contato', ['uses' => 'SiteController@contato']);
 
 //Login
 Route::get('/admin/login', function(){
@@ -144,8 +144,12 @@ Route::group(['as' => 'auth.', 'prefix' => 'auth'], function()
 //Promoções
 Route::group(['as' => 'promocoes.', 'prefix' => 'admin/promocoes'], function()
 {
-	Route::get('/', ['as' => 'landVotacao', 'uses' => 'PromocoesController@listPromo']);
-	Route::get('/', ['as' => 'landVotacao', 'uses' => 'PromocoesController@create']);
+	Route::get('/', ['as' => 'create', 'uses' => 'PromocoesController@create']);
+	Route::get('/lista', ['as' => 'list', 'uses' => 'PromocoesController@listPromo']);
+	Route::get('/edita/{id}', ['as' => 'edit', 'uses' => 'PromocoesController@edit']);
+	Route::get('/status/{id}', ['as' => 'edit', 'uses' => 'PromocoesController@alteraStatus']);
+	Route::post('/store', ['as' => 'store', 'uses' => 'PromocoesController@store']);
+	Route::post('/update', ['as' => 'update', 'uses' => 'PromocoesController@update']);
 });
 
 Route::group(['as' => 'produtos.'], function()

@@ -26,9 +26,19 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+
+
 </head>
 
 <body>
+
+<style>
+        .active, .active:hover{
+            font-weight: 600 !important;
+            color: #222222 !important;
+        }
+
+    </style>
 
     <div class="brand">Serra Natural</div>
     <div class="address-bar">Alameda do Ingá, 754 - Vila da Serra - Nova Lima - Brasil</div>
@@ -50,20 +60,21 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
+
                     <li>
-                        <a href="/">Home</a>
+                        <a {!! Request::is('/') ? ' class="active"' : null !!} href="/">Home</a>
                     </li>
                     <li>
-                        <a href="/cardapio">Cardápio</a>
+                        <a {!! Request::is('cardapio') ? ' class="active"' : null !!} href="/cardapio">Cardápio</a>
                     </li>
                     <li>
-                        <a href="/promocoes">Promoções</a>
+                        <a {!! Request::is('promocoes') ? ' class="active"' : null !!} href="/promocoes">Promoções</a>
                     </li>
                     <li>
-                        <a href="/fidelidade">Fidelidade</a>
+                        <a {!! Request::is('fidelidade') ? ' class="active"' : null !!} href="/fidelidade">Fidelidade</a>
                     </li>
                     <li>
-                        <a href="/contato">Contato</a>
+                        <a {!! Request::is('contato') ? ' class="active"' : null !!} href="/contato">Contato</a>
                     </li>
                 </ul>
             </div>

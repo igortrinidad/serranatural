@@ -20,18 +20,19 @@
                             <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
                             <li data-target="#carousel-example-generic" data-slide-to="1"></li>
                             <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="3"></li>
                         </ol>
 
                         <!-- Wrapper for slides -->
                         <div class="carousel-inner">
                             <div class="item active">
-                                <img class="img-responsive img-full" src="/landing/img/slide-1.jpg" alt="">
+                                <img class="img-responsive img-full" src="/landing/img/produtos/acai1.png" alt="">
                             </div>
                             <div class="item">
-                                <img class="img-responsive img-full" src="/landing/img/slide-2.jpg" alt="">
+                                <img class="img-responsive img-full" src="/landing/img/produtos/popeye1.jpg" alt="">
                             </div>
                             <div class="item">
-                                <img class="img-responsive img-full" src="/landing/img/slide-3.jpg" alt="">
+                                <img class="img-responsive img-full" src="/landing/img/produtos/sand_fillet.jpg" alt="">
                             </div>
                         </div>
 

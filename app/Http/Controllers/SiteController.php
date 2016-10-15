@@ -9,6 +9,7 @@ use serranatural\Http\Controllers\Controller;
 use serranatural\Models\Cliente;
 use serranatural\Models\Pratos;
 use serranatural\Models\AgendaPratos;
+use serranatural\Models\Promocoes;
 
 use Mail;
 
@@ -31,7 +32,9 @@ class SiteController extends Controller
 
     public function promocoes()
     {
-        return view('landing/promocoes');
+        $promocoes = Promocoes::get();
+
+        return view('landing/promocoes', compact('promocoes'));
     }
 
     public function fidelidade()

@@ -368,6 +368,18 @@
                         </li>
 
                         <li>
+                            <a href="admin/promocoes"><i class="fa fa-money"></i> Promoções<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/admin/promocoes">Criar</a>
+                                </li>
+                                <li>
+                                    <a href="/admin/promocoes/lista">Lista</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
                             <a href="admin/estoque"><i class="fa fa-check-square"></i> Estoque<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
