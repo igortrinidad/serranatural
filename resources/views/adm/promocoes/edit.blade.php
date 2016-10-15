@@ -44,15 +44,15 @@
 
 					<div class="form-group">
 						<label>Descrição</label>
-						<textarea name="descricao" class="form-control">{{$promocao->descricao}}</textarea>
+						<textarea class="summernote" name="descricao" height="200px">{!! $promocao->descricao !!}</textarea>
 					</div>
 
 					<div class="form-group">
 						<label>Regulamento</label>
-						<textarea name="regulamento" class="form-control">{{$promocao->regulamento}}</textarea>
+						<textarea class="summernote" name="regulamento" height="200px">{!! $promocao->regulamento !!}</textarea>
 					</div>
 
-					<button class="btn btn-primary" type="submit">Atualizar</button>
+					<button class="btn btn-primary btn-block" type="submit">Atualizar</button>
 
 				</form>
 
@@ -65,7 +65,16 @@
 
     @section('scripts')
 	    @parent
+			<script type="text/javascript">
 
+				$('.summernote').summernote({
+					  height: 400,                 // set editor height
+					  minHeight: null,             // set minimum height of editor
+					  maxHeight: null,             // set maximum height of editor
+					  focus: true                  // set focus to editable area after initializing summernote
+					});
+
+			</script>
 
 		@stop
 

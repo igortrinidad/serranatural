@@ -99,14 +99,16 @@ elixir(function(mix) {
 	mix.styles([
 		'../landing/css/bootstrap.min.css',
 		'../landing/css/business-casual.css',
-		'/../bower_components/font-awesome/css/font-awesome.css'
+		'/../bower_components/font-awesome/css/font-awesome.css',
+		'/../bower_components/summernote/dist/summernote.css',
 	], 'public/landing/css/vendor.css');
 
 	mix.scripts([
 		'../landing/js/jquery.js',
 		'../landing/js/bootstrap.min.js',
 		'../../../node_modules/vue/dist/vue.js',
-		'../../../node_modules/vue-resource/dist/vue-resource.js'
+		'../../../node_modules/vue-resource/dist/vue-resource.js',
+		'/../bower_components/summernote/dist/summernote.js',
 	], 'public/landing/js/vendor.js');
 //
 

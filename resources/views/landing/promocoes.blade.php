@@ -40,14 +40,14 @@
                         <label>Validade</label>
                         <p>Início: {{$promo->inicio}} | Término: {{$promo->fim}}</p>
                         <label>Descrição</label>
-                        <p>{{$promo->descricao}}</p>
+                        <p>{!!$promo->descricao !!}</p>
 
                         <div class="" data-toggle="collapse" data-target="#regulamento{{$promo->id}}">
                             <label>Regulamento</label>
                             <i class="fa fa-chevron-down"></i>
                         </div>
                         <div id="regulamento{{$promo->id}}" class="collapse">
-                            <p>{{$promo->regulamento}}</p>
+                            <p>{!! $promo->regulamento !!}</p>
                         </div>
 
                     </div>
