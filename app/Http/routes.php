@@ -1,12 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Redis;
+//Site
+Route::get('/', ['as' => 'site.home', 'uses' => 'SiteController@home']);
+Route::get('/cardapio', ['as' => 'site.cardapio', 'uses' => 'SiteController@cardapio']);
+Route::get('/promocoes', ['as' => 'site.promocoes', 'uses' => 'SiteController@promocoes']);
+Route::get('/fidelidade', ['as' => 'site.fidelidade', 'uses' => 'SiteController@fidelidade']);
+Route::get('/contato', ['as' => 'site.contato', 'uses' => 'SiteController@contato']);
 
-//Home
-Route::get('/', function() {
+//Login
+Route::get('/admin/login', function(){
 	return view('auth/login');
 });
-Route::get('/login', function(){return view('auth/login');});
 
 //Rota adimin geral
 Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
@@ -138,7 +142,7 @@ Route::group(['as' => 'auth.', 'prefix' => 'auth'], function()
 });
 
 //Promoções
-Route::group(['as' => 'promocoes.', 'prefix' => 'promocoes'], function()
+Route::group(['as' => 'promocoes.', 'prefix' => 'admin/promocoes'], function()
 {
 	Route::get('/', ['as' => 'landVotacao', 'uses' => 'PromocoesController@listPromo']);
 	Route::get('/', ['as' => 'landVotacao', 'uses' => 'PromocoesController@create']);
@@ -204,7 +208,6 @@ Route::group(['as' => 'produtos.'], function()
 });
 
 
-
 Route::get('/hoje', 'ProdutosController@landPratoDoDia');
 Route::get('/hojeCompleto1010', 'ProdutosController@landPratoDoDiaCompleto');
 Route::get('/amanhaCompleto1010', 'ProdutosController@landAmanhaCompleto');
@@ -250,23 +253,6 @@ Route::get('arquivos/pagamentos/{filename}', ['as' => 'arquivos.pagamentos', fun
 	}]
 	);
 
-Route::get('/testeRedis', function(){
-
-    $data = [
-        'event' => 'UserSignedUp',
-        'id' => '2',
-        'data' => [
-            'username' => 'JohnDoe'
-        ]
-    ];
-    // In Episode 4, we'll use Laravel's event broadcasting.
-    Redis::publish('test-channel', json_encode($data));
-
-    Redis::publish('user_room_'.'1', json_encode($data));
-
-    return view('welcome');
-
-});
 
 Route::get('arquivos/produtos/{filename}', ['as' => 'arquivos.produtos', function ($filename)
 	{
@@ -282,34 +268,3 @@ Route::get('arquivos/produtos/{filename}', ['as' => 'arquivos.produtos', functio
 	}]
 	);
 
-Route::post('oauth/access_token', function() {
-    return Response::json(Authorizer::issueAccessToken());
-});
-
-Route::group(['as' => 'api.', 'middleware' => 'oauth', 'prefix' => 'api'], function()
-{
-	Route::get('oauth1', function () 
-	{
-		return [
-			'id' => 1,
-			'nome' => 'Sei la quantos',
-		];
-	});
-
-	Route::get('square/teste', ['as' => 'square.teste', 'uses' => 'ApiController@squareTeste']);
-});
-
-Route::get('connect/teste', ['as' => 'teste', 'uses' => 'ApiController@teste']);
-Route::get('connect/consultaPratoHoje', ['as' => 'consultaPratoHoje', 'uses' => 'ApiController@consultaPratoHoje']);
-
-
-Route::group(['as' => 'cors.',  'prefix' => 'cors', 'middleware' => 'cors'], function()
-{
-	Route::post('teste', function () 
-	{
-		return [
-			'id' => 2,
-			'nome' => 'Sei la quantos',
-		];
-	});
-});

@@ -42,7 +42,9 @@
 
 
             <ul class="nav navbar-top-links navbar-right">
-
+                <li>
+                   {{ \Auth::user()->name }}
+                </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
@@ -240,6 +242,8 @@
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
+
+                    <!--
                         <li class="sidebar-search">
                             <div class="input-group custom-search-form">
                                 <input type="text" class="form-control" placeholder="Search...">
@@ -249,8 +253,9 @@
                                     </button>
                                 </span>
                             </div>
-                            <!-- /input-group -->
+
                         </li>
+                    -->
                         <li>
                             <a href="/admin"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>

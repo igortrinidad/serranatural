@@ -95,5 +95,20 @@ elixir(function(mix) {
 
 	mix.styles('estilos/login.css', 'public/css/login.css');
 
+//Site
+	mix.styles([
+		'../landing/css/bootstrap.min.css',
+		'../landing/css/business-casual.css',
+		'/../bower_components/font-awesome/css/font-awesome.css'
+	], 'public/landing/css/vendor.css');
+
+	mix.scripts([
+		'../landing/js/jquery.js',
+		'../landing/js/bootstrap.min.js',
+		'../../../node_modules/vue/dist/vue.js',
+		'../../../node_modules/vue-resource/dist/vue-resource.js'
+	], 'public/landing/js/vendor.js');
+//
+
 	mix.version(['js/app.js', 'js/votacao.js', 'js/clientes.js', 'js/financeiro.js', 'js/funcionarios.js'])
 });
