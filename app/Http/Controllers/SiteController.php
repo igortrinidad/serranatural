@@ -14,6 +14,7 @@ use serranatural\Models\PontoColetado;
 use serranatural\Models\Voucher;
 
 use Mail;
+use DateTime;
 
 class SiteController extends Controller
 {
@@ -29,7 +30,17 @@ class SiteController extends Controller
 
     public function cardapio()
     {
-        return view('landing.cardapio');
+
+        $pratoDeHoje = AgendaPratos::with('pratos')->where('dataStamp', '=', date('Y-m-d'))
+                                    ->first();
+
+        $date = new DateTime();
+        $date->modify('+1 day');
+
+        $pratoDeAmanha = AgendaPratos::with('pratos')->where('dataStamp', '=', $date->format('Y-m-d'))
+                                    ->first();
+
+        return view('landing.cardapio', compact('pratoDeHoje', 'pratoDeAmanha'));
     }
 
     public function promocoes()
