@@ -17,27 +17,26 @@
 
                 <form role="form" method="POST" action="/contato/send">
                     {!! csrf_field() !!}
-                    
+
                     <div class="row">
                         <div class="form-group col-lg-4">
                             <label>Nome</label>
-                            <input type="text" name="nome" class="form-control">
+                            <input type="text" name="nome" class="form-control" required>
                         </div>
                         <div class="form-group col-lg-4">
                             <label>Email</label>
-                            <input type="email" name="email" class="form-control">
+                            <input type="email" name="email" class="form-control" required>
                         </div>
                         <div class="form-group col-lg-4">
                             <label>Telefone</label>
-                            <input type="tel" name="telefone" class="form-control">
+                            <input type="tel" name="telefone" class="form-control" required>
                         </div>
                         <div class="clearfix"></div>
                         <div class="form-group col-lg-12">
                             <label>Mensagem</label>
-                            <textarea class="form-control" name="message" rows="6"></textarea>
+                            <textarea class="form-control" name="mensagem" rows="6" required></textarea>
                         </div>
                         <div class="form-group col-lg-12">
-                            <input type="hidden" name="save" value="contact">
                             <button type="submit" class="btn btn-default">Enviar</button>
                         </div>
                     </div>

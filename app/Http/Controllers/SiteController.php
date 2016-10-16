@@ -92,12 +92,16 @@ class SiteController extends Controller
     public function contatoForm(Request $request)
     {
 
-        $content = '<p><strong>Mensagem:</strong> ' . $request->mensagem . '</p>';
+        $emailMsg = 
+            '<p><strong>Nome:</strong> ' . $request->nome . '</p>'.
+            '<p><strong>Email: </strong>' . $request->email . '</p>'.
+            '<p><strong>Telefone: </strong>' . $request->telefone . '</p>'.
+            '<p><strong>Mensagem</strong>: ' . $request->mensagem . '</p>';
 
-        Mail::raw($content, function ($message) {
+        Mail::send(array('html' => 'emails.marketing.blank'), array('msg' => $emailMsg), function ($message) use ($request) {
             $message->to('lojaserranatural@gmail.com');
-            $message->from('site@serranatural.com', 'Serra Natural');
-            $message->subject('Mensagem site Serra Natural');
+            $message->from($request->email, $request->nome);
+            $message->subject('Mensagem site Serra Natural: ' . $request->nome);
         });
 
         flash()->success('Email enviado com sucesso.');
