@@ -24,19 +24,19 @@ class SiteController extends Controller
      */
     public function home()
     {
-        return view('landing/home');
+        return view('landing.home');
     }
 
     public function cardapio()
     {
-        return view('landing/cardapio');
+        return view('landing.cardapio');
     }
 
     public function promocoes()
     {
         $promocoes = Promocoes::get();
 
-        return view('landing/promocoes', compact('promocoes'));
+        return view('landing.promocoes', compact('promocoes'));
     }
 
     public function fidelidade()
@@ -46,7 +46,7 @@ class SiteController extends Controller
 
     public function cadastroCliente($email)
     {
-        return view('landing.detalhescliente', compact('email'));
+        return view('landing.detalhesCliente', compact('email'));
     }
 
         public function detalhesCliente($email)
@@ -75,7 +75,7 @@ class SiteController extends Controller
                                 ->where('is_valido', '=', 0)
                                 ->get();
 
-    return view('landing.detalhescliente', compact(
+    return view('landing.detalhesCliente', compact(
             'cliente',
             'pontosAll',
             'vouchers',
@@ -86,11 +86,11 @@ class SiteController extends Controller
 
     public function contato()
     {
-        return view('landing/contato');
+        return view('landing.contato');
     }
 
     public function contatoForm()
     {
-        
+
     }
 }
