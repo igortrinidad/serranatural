@@ -69,7 +69,7 @@ class PromocoesController extends Controller
 
         if ($request->file('foto')) {
 
-            $this->gravaArquivo($request->file('foto'), 'PROMO_', $promo);
+            $this->gravaArquivo($request->file('foto'), 'PROMO_', $promocao);
         }
 
         flash()->success('Promoção gravada com sucesso.');
