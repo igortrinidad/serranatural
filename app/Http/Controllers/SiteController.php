@@ -89,8 +89,19 @@ class SiteController extends Controller
         return view('landing.contato');
     }
 
-    public function contatoForm()
+    public function contatoForm(Request $request)
     {
 
+        $content = '<p><strong>Mensagem:</strong> ' . $request->mensagem . '</p>';
+
+        Mail::raw($content, function ($message) {
+            $message->to('lojaserranatural@gmail.com');
+            $message->from('site@serranatural.com', 'Serra Natural');
+            $message->subject('Mensagem site Serra Natural');
+        });
+
+        flash()->success('Email enviado com sucesso.');
+
+        return redirect()->back();
     }
 }

@@ -9,6 +9,7 @@ Route::get('/cliente/{email}', ['uses' => 'SiteController@detalhesCliente']);
 Route::post('/fidelidade/cadastra/post', ['uses' => 'ClienteController@storeSelfCliente']);
 Route::post('/cliente/detalhes/post', ['uses' => 'ClienteController@clienteMostraSite']);
 Route::get('/contato', ['uses' => 'SiteController@contato']);
+Route::post('/contato/send', ['uses' => 'SiteController@contatoForm']);
 
 //Login
 Route::get('/admin/login', function(){

@@ -15,7 +15,9 @@
                 <hr>
                 <p>Compartilhe conosco suas dúvidas e sugestões.</p>
 
-                <form role="form">
+                <form role="form" method="POST" action="/contato/send">
+                    {!! csrf_field() !!}
+                    
                     <div class="row">
                         <div class="form-group col-lg-4">
                             <label>Nome</label>

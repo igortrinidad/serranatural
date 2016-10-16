@@ -95,7 +95,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="label-email">Email cadastrado</label>
+                                    <label class="label-email">Email</label>
                                     <input type="email" name="email" class="form-control" required>
                                 </div>
 
