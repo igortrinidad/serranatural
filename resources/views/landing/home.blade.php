@@ -27,19 +27,19 @@
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner">
                         <div class="item active">
-                            <img class="img-responsive img-full" src="/landing/img/produtos/acai1.png" alt="">
+                            <img class="img-responsive img-full" src="/landing/img/produtos/acai1.png" alt="Açaí cremoso">
                         </div>
                         <div class="item">
-                            <img class="img-responsive img-full" src="/landing/img/produtos/popeye1.jpg" alt="">
+                            <img class="img-responsive img-full" src="/landing/img/produtos/popeye1.jpg" alt="Sucos Detox, Smoothies, Sucos refrescantes">
                         </div>
                         <div class="item">
-                            <img class="img-responsive img-full" src="/landing/img/produtos/decor2.png" alt="">
+                            <img class="img-responsive img-full" src="/landing/img/produtos/decor2.png" alt="Ambiente charmoso e descontraído para casais.">
                         </div>
                         <div class="item">
-                            <img class="img-responsive img-full" src="/landing/img/produtos/sand_fillet.jpg" alt="">
+                            <img class="img-responsive img-full" src="/landing/img/produtos/sand_fillet.jpg" alt="Hamburgueria, burguers deliciosos">
                         </div>
                         <div class="item">
-                            <img class="img-responsive img-full" src="/landing/img/produtos/decor1.jpg" alt="">
+                            <img class="img-responsive img-full" src="/landing/img/produtos/decor1.jpg" alt="Linda decoração de restaurante">
                         </div>
                         
                     </div>
@@ -65,7 +65,7 @@
                     <strong>por Luiz Cabral - SuperDicas BH</strong>
                 </h2>
                 <hr>
-                <img class="img-responsive img-border img-left" src="/landing/img/intro-pic.jpg" alt="">
+                <img class="img-responsive img-border img-left" src="/landing/img/intro-pic.jpg" alt="Açaí cremoso da Serra Natural">
                 <hr class="visible-xs">
                 <p>
                     Descobri o Serra Natural pelo Instagram (@serranatural). As fotos postadas são maravilhosas, e a gente realmente come com os olhos. Fui lá conferir essa pompa toda e, como se não bastasse, me surpreendi. O ambiente é lindo (todo em madeira, com gangorra nas mesas, quadrinhos descolados e decoração sustentável), a música é boa (estava tocando músicas antigas do Guns N’Roses, num clima ótimo!), e o atendimento e as comidinhas são perfeitos! Com uma pegada bem natural, a casa serve saladas de frutas, sucos cremosos, cafés, salgados, coquetéis, saladas, almoço executivo, mas foram o açaí e o sanduíche que ganharam meu coração. No Serra Natural, você pode montar tudo do seu jeito. Acrescentei no meu açaí banana, manga, leite em pó, granola e castanha. Nossa... Ficou sensacional! Poucos açaís na cidade são tão cremosos, viu?! E o que dizer sobre o sanduíche? Também nessa onda de montar, escolhi filé mignon, rúcula, muçarela de búfula, tomatinho cereja, tomate seco e molho de mostarda e mel, tudo num pão australiano bem crocante. Delícia demais! Não preciso nem dizer que virei cliente, né?
@@ -82,7 +82,9 @@
                     <strong>Rádio Serra Natural</strong>
                 </h2>
                 <hr>
-                <p>Se você é um dos nossos clientes que não param de balançar os pésinhos enquanto curte os quitutes no Serra Natural, montamos uma seleção dos nossos melhores sons para você! Curta nossa playlist no Spotify!</p>
+                <p>
+                Criamos uma playlist exclusiva no Spotify para aqueles clientes que não param de balançar os pésinhos enquanto curtem os nossos quitutes. Ouça agora!
+                </p>
                 <hr class="visible-xs">
                 <iframe src="https://embed.spotify.com/?uri=spotify%3Auser%3A12173842362%3Aplaylist%3A7vPafsb2CIxh2VtHLkFd8T" width="100%" height="300" frameborder="0" allowtransparency="true">
                 </iframe>
@@ -102,16 +104,16 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <td class="text-center">Segunda à sexta</td>
+                                <td class="text-center">Segunda à Sexta</td>
                                 <td class="text-center">Sábado</td>
                                 <td class="text-center">Domingo</td>
                             </tr>
                         </thead>
                         <tbody>
                             <tr style="font-size: 20px">
-                                <td class="text-center" >10:00 as 21:00</td>
-                                <td class="text-center">10:00 as 20:00</td>
-                                <td class="text-center">13:00 as 20:00</td>
+                                <td class="text-center" >10:00 às 21:00</td>
+                                <td class="text-center">10:00 às 20:00</td>
+                                <td class="text-center">13:00 às 20:00</td>
                             </tr>
                         </tbody>
                     </table>

@@ -19,7 +19,7 @@
                         </h2>
                         <hr>
 
-                        <p>Confira abaixo todas as promoções válidas que a Serra Natural oferece para você.</p>
+                        <p>Confira abaixo as promoções válidas da Serra Natural.</p>
 
                     </div>
                 </div>

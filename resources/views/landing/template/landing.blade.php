@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 
 <head>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Açaí, Hamburgueria, Lanches e Sucos.">
+    <meta name="author" content="Igor Trindade">
 
     <title>Serra Natural - O melhor açaí de Minas Gerais</title>
 
@@ -25,7 +25,6 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 
 
 </head>
@@ -140,7 +139,8 @@
 
 
       function initMap() {
-          var myLatLng = {lat: -19.980827, lng: -43.939483};
+
+          var myLatLng = {lat: -19.9812183, lng: -43.939634};
 
           var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 16,
