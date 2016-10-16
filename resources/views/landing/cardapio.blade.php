@@ -17,7 +17,7 @@
 
                     <h1>{{$pratoDeHoje->pratos->prato}}</h1>
                     <small>Acompanhamentos</small>
-                    <p>{!! $pratoDeHoje->pratos->acompanhamentos !!}</p>
+                    <p>{!! nl2br($pratoDeHoje->pratos->acompanhamentos) !!}</p>
 
                 </div>
             </div>
@@ -37,7 +37,7 @@
 
                     <h1>{{$pratoDeAmanha->pratos->prato}}</h1>
                     <small>Acompanhamentos</small>
-                    <p>{!! $pratoDeAmanha->pratos->acompanhamentos !!}</p>
+                    <p>{!! nl2br($pratoDeAmanha->pratos->acompanhamentos) !!}</p>
                     
                 </div>
             </div>
