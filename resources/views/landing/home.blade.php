@@ -79,6 +79,22 @@
             <div class="col-lg-12">
                 <hr>
                 <h2 class="intro-text text-center">
+                    <strong>Rádio Serra Natural</strong>
+                </h2>
+                <hr>
+                <p>Se você é um dos nossos clientes que não param de balançar os pésinhos enquanto curte os quitutes no Serra Natural, montamos uma seleção dos nossos melhores sons para você! Curta nossa playlist no Spotify!</p>
+                <hr class="visible-xs">
+                <iframe src="https://embed.spotify.com/?uri=spotify%3Auser%3A12173842362%3Aplaylist%3A7vPafsb2CIxh2VtHLkFd8T" width="100%" height="300" frameborder="0" allowtransparency="true">
+                </iframe>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="box">
+            <div class="col-lg-12">
+                <hr>
+                <h2 class="intro-text text-center">
                     <strong>Horário de funcionamento</strong>
                 </h2>
                 <hr>
