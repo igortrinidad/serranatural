@@ -65,12 +65,16 @@ class PromocoesController extends Controller
         $promocao->fim = $request->fim;
         $promocao->descricao = $request->descricao;
         $promocao->regulamento = $request->regulamento;
-        $promocao->save();
+        
 
         if ($request->file('foto')) {
 
             $this->gravaArquivo($request->file('foto'), 'PROMO_', $promocao);
+        } else{
+            $promocao->foto = '';
         }
+
+        $promocao->save();
 
         flash()->success('Promoção gravada com sucesso.');
 
@@ -96,6 +100,5 @@ class PromocoesController extends Controller
         $nomeArquivo = $prefixo . '_ID_' . $objeto->id . '.' . $ext;
         $arquivo->move(public_path().'/uploads/promocoes/', $nomeArquivo);
         $objeto->foto = $nomeArquivo;
-        $objeto->save();
     }
 }
