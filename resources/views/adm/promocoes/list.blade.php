@@ -44,11 +44,11 @@
 				            @endif
 				        </tr>
 				        <tr>
-				        	<td colspan="5"><strong>Descrição</strong> <br>{{$promo->descricao}}</td>
+				        	<td colspan="5"><strong>Descrição</strong> <br>{!! $promo->descricao !!}</td>
 				        </tr>
 
 				        <tr>
-				        	<td colspan="5"><strong>Regulamento</strong> <br>{{$promo->regulamento}}</td>
+				        	<td colspan="5"><strong>Regulamento</strong> <br>{!! $promo->regulamento !!}</td>
 				        </tr>
 				        <tr>
 							<td colspan="5"><strong>Foto</strong><br><img width="100%" src="/uploads/promocoes/{{$promo->foto}}" /></td>
