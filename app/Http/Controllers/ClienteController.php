@@ -288,73 +288,27 @@ class ClienteController extends Controller
 
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:clientes',
+            'nome' => 'required',
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'title' => 'Ops!',
-                'message' => 'Cliente já existe!',
-                'type' => 'error'
-            ], 403);
+            
+            flash()->error('Email : ' . $request->email . ' já possui cadastro.');
+
+            return redirect()->back();
         }
 
         $cliente = Cliente::create($request->all());
 
-        $data = [
-            'msg_retorno' => 'Cadastro efetuado com sucesso!',
-            'tipo_retorno' => 'success',
-        ];
+        flash()->success('Email : ' . $request->email . ' cadastrado com sucesso.');
 
-        return redirect()->back()->with($data);
+        $cliente->opt_email = 1;
+
+        $cliente->save();
+
+        return redirect()->back();
     }
 
-    public function clienteSelfMostra($email)
-    {
-
-        $cliente = Cliente::where('email', '=', $email)->first();
-
-        if (is_null($cliente) or empty($cliente)) {
-            $dados = [
-
-            'email' => $email
-                ];
-
-            return view('cliente.clienteNotFound')->with($dados);
-
-        }
-
-
-        $pontosAcai = PontoColetado::where('cliente_id', '=', $cliente->id)
-                                ->where('is_valido', '=', 1)
-                                ->where('produto', '=', 'Açaí')
-                                ->get();
-
-        $pontosAlmoco = PontoColetado::where('cliente_id', '=', $cliente->id)
-                                ->where('is_valido', '=', 1)
-                                ->where('produto', '=', 'Almoço')
-                                ->get();
-
-        $pontosAll = PontoColetado::where('cliente_id', '=', $cliente->id)
-                                ->where('is_valido', '=', 1)
-                                ->get();
-
-        $vouchers = Voucher::where('cliente_id', '=', $cliente->id)
-                                ->get();
-
-        $qtdPontosAcai = count($pontosAcai);
-        $qtdPontosAlmoco = count($pontosAlmoco);
-
-        $dados = [
-
-            'cliente' => $cliente,
-            'pontosAll' => $pontosAll,
-            'qtdPontosAcai' => $qtdPontosAcai,
-            'qtdPontosAlmoco' => $qtdPontosAlmoco,
-            'vouchers' => $vouchers
-        ];
-
-        return view('cliente.formMostra')->with($dados);
-    }
 
     public function clienteLocalizar()
     {

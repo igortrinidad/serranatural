@@ -10,6 +10,8 @@ use serranatural\Models\Cliente;
 use serranatural\Models\Pratos;
 use serranatural\Models\AgendaPratos;
 use serranatural\Models\Promocoes;
+use serranatural\Models\PontoColetado;
+use serranatural\Models\Voucher;
 
 use Mail;
 
@@ -42,8 +44,53 @@ class SiteController extends Controller
         return view('landing/fidelidade');
     }
 
+    public function cadastroCliente($email)
+    {
+        return view('landing.detalhescliente', compact('email'));
+    }
+
+        public function detalhesCliente($email)
+    {
+
+        $cliente = Cliente::where('email', '=', $email)->first();
+
+        if (!$cliente) {
+
+            flash()->error('Email : ' . $email . ' não encontrado.');
+
+            return redirect('/fidelidade');
+
+        }
+
+
+        $pontosAll = PontoColetado::where('cliente_id', '=', $cliente->id)
+                                ->where('is_valido', '=', 1)
+                                ->get();
+
+        $vouchers = Voucher::where('cliente_id', '=', $cliente->id)
+                                ->where('is_valido', '=', 1)
+                                ->get();
+
+        $vouchersUtilizados = Voucher::where('cliente_id', '=', $cliente->id)
+                                ->where('is_valido', '=', 0)
+                                ->get();
+
+    return view('landing.detalhescliente', compact(
+            'cliente',
+            'pontosAll',
+            'vouchers',
+            'vouchersUtilizados'
+        ));
+
+    }
+
     public function contato()
     {
         return view('landing/contato');
+    }
+
+    public function contatoForm()
+    {
+        
     }
 }

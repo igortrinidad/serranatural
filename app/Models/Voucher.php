@@ -31,6 +31,11 @@ class Voucher extends Model
         return date('d/m/Y', strtotime($value));
     }
 
+    public function getDataVoucherAttribute($value)
+    {
+        return date('d/m/Y', strtotime($value));
+    }
+
     public function getDataUtilizadoAttribute($value)
     {
         if($value <= '2001-01-01')

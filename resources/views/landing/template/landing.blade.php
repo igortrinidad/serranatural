@@ -13,7 +13,7 @@
 
     
     <!-- VENDOR STYLES -->
-    <link href="landing/css/vendor.css" rel="stylesheet">
+    <link href="{!! asset('landing/css/vendor.css') !!}" rel="stylesheet">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
@@ -84,15 +84,20 @@
     </nav>
 
     <div class="container">
-
-        @include('flash::message')
                     
         @yield('conteudo')
 
-
+    <div class="row">
+        <div class="box">
+            <div id="map" style="width:100%;height:500px"></div>
+        </div>
+        
+    </div>
 
     </div>
     <!-- /.container -->
+
+    
 
     <footer>
         <div class="container">
@@ -116,6 +121,10 @@
 
         <script src="{!! asset('landing/js/vendor.js') !!}"></script>
 
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJ5ANKHZZw8pasBTic7V62VI7HVGdZaX4&callback=initMap"
+    async defer></script>
+
+
     @show
 
     <!-- Script to Activate the Carousel -->
@@ -123,6 +132,47 @@
     $('.carousel').carousel({
         interval: 5000 //changes the speed
     })
+
+
+
+      function initMap() {
+          var myLatLng = {lat: -19.980827, lng: -43.939483};
+
+          var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 16,
+            center: myLatLng
+          });
+
+          var marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map,
+            title: 'Hello World!'
+          });
+
+          var contentString = 
+          '<div>'+
+            '<h4>Serra Natural</h4>'+
+            '<p>Alameda do Ingá, 754<p>'+
+            '<p>Vila da Serra - Nova Lima<p>'+
+            '<p>31 3658-8052 | 98282-8052<p>'+
+          '</div>'
+
+          var infowindow = new google.maps.InfoWindow({
+            content: contentString,
+            maxWidth: 200
+          });
+
+          setTimeout( function(){
+            infowindow.open(map, marker);
+        }, 3000)
+        }
+
+
+
+      
+
+      
+
     </script>
 
 </body>
