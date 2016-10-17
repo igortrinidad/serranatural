@@ -85,7 +85,7 @@
 
                                 <div class="text-center">
                                     <h4>Cadastre-se!</h4>
-                                    <small>Receba informações e promoção da Serra Natural e participe do programa de fidelidade.</small>
+                                    <small>Receba informações da Serra Natural e participe de nossas promoções.</small>
                                 </div>
 
                                 <br><br>

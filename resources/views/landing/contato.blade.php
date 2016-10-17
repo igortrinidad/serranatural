@@ -13,7 +13,7 @@
                     <strong>Contato</strong>
                 </h2>
                 <hr>
-                <p>Compartilhe conosco suas dúvidas e sugestões.</p>
+                <p>Compartilhe conosco suas dúvidas ou sugestões.</p>
 
                 <form role="form" method="POST" action="/contato/send">
                     {!! csrf_field() !!}
