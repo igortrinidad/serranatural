@@ -119,6 +119,36 @@
                     </table>
                 </div>
             </div>
+            <br>
+            <div class="col-lg-12">
+                <hr>
+                <h2 class="intro-text text-center">
+                    <strong>Horário de entrega</strong>
+                </h2>
+                <hr>
+                <div class="row">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td></td>
+                                <td class="text-center">Segunda à Sexta</td>
+                                <td class="text-center">Sábado</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="font-size: 20px">
+                                <td></td>
+                                <td class="text-center" >14:00 às 20:30</td>
+                                <td class="text-center">14:00 às 19:30</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
         </div>
     </div>
 
