@@ -124,9 +124,10 @@
                 <hr>
                 <h2 class="intro-text text-center">
                     <strong>Horário de entrega</strong>
+                    <small>Somente no bairro Vila da Serra e Vale do Sereno</small>
                 </h2>
                 <hr>
-                <small>Somente no bairro Vila da Serra e Vale do Sereno</small>
+
                 <div class="row">
                     <table class="table">
                         <thead>
