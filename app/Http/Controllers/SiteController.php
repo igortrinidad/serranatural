@@ -76,14 +76,17 @@ class SiteController extends Controller
 
         $pontosAll = PontoColetado::where('cliente_id', '=', $cliente->id)
                                 ->where('is_valido', '=', 1)
+                                ->where('vencimento', '>=', date('Y-m-d'))
                                 ->get();
 
         $vouchers = Voucher::where('cliente_id', '=', $cliente->id)
                                 ->where('is_valido', '=', 1)
+                                ->where('vencimento', '>=', date('Y-m-d'))
                                 ->get();
 
         $vouchersUtilizados = Voucher::where('cliente_id', '=', $cliente->id)
                                 ->where('is_valido', '=', 0)
+                                ->where('vencimento', '>=', date('Y-m-d'))
                                 ->get();
 
     return view('landing.detalhesCliente', compact(

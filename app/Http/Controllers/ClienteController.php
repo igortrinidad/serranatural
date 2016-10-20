@@ -42,8 +42,6 @@ class ClienteController extends Controller
 
         $urlPagination = '/admin/clientes/lista/?page=';
 
-        flash()->success('Isto está um <b>sucesso</b>.');
-
         $dados = [
 
             'lista' => $lista,
@@ -69,10 +67,12 @@ class ClienteController extends Controller
 
         $pontos = PontoColetado::where('cliente_id', '=', $id)
                                 ->where('is_valido', '=', 1)
+                                ->where('vencimento', '>=', date('Y-m-d'))
                                 ->orderBY('vencimento', 'ASC')
                                 ->paginate(20);
 
         $vouchers = Voucher::where('cliente_id', '=', $id)
+                            ->where('vencimento', '>=', date('Y-m-d'))
                             ->orderBY('is_valido', 'DESC')
                             ->orderBy('created_at', 'ASC')
                             ->paginate(12);
@@ -447,6 +447,7 @@ class ClienteController extends Controller
 
         $pontos = PontoColetado::where('cliente_id', '=', $cliente['cliente_id'])
                                 ->where('is_valido', '=', 1)
+                                ->where('vencimento', '>=', date('Y-m-d'))
                                 ->where('produto', '=', $cliente['produto'])
                                 ->get();
 
@@ -454,6 +455,7 @@ class ClienteController extends Controller
 
         $pontosSemana = PontoColetado::where('cliente_id', '=', $cliente['cliente_id'])
                                         ->where('is_valido', '=', 1)
+                                        ->where('vencimento', '>=', date('Y-m-d'))
                                         ->where('produto', '=', $cliente['produto'])
                                         ->where('created_at', '>', $semana)
                                         ->groupBy(DB::raw('Date(created_at)'))
@@ -811,7 +813,7 @@ class ClienteController extends Controller
         }
             $this->enviaEmailVoucherColetado($id, $voucher->id);
 
-            flash()->success('Senha reenviada com sucesso.');
+            flash()->success('Senha reenviada com sucesso, confira o email cadastrado.');
 
             return redirect()->back();
 

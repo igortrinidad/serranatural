@@ -42,6 +42,20 @@
                             <p>{{$cliente->telefone}}</p>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-4 col-xs-12">
+                            
+                        </div>
+
+                        <div class="col-md-4 col-xs-12">
+                            <div class="form-group">
+                                <a href="/admin/clientes/reenviaSenha/{{$cliente->id}}" class="btn btn-default btn-block">Reenviar senha de resgate </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    
                     
                     
                 </div>
