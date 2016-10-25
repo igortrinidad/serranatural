@@ -32,7 +32,7 @@ class Pagamento extends Model
     /*
      * Adiciona o caminho hasheado para o arquivo no registro
      */
-    protected $appends = ['arquivo_pagamento', 'arquivo_nota'];
+    protected $appends = ['arquivo_pagamento', 'arquivo_nota', 'arquivo_comprovante'];
 
     //url arquivo pagamento
     public function getArquivoPagamentoAttribute()
@@ -50,6 +50,16 @@ class Pagamento extends Model
         if($this->attributes['notaFiscal'])
         {
             return $this->getFileUrl($this->attributes['notaFiscal']);
+        }
+
+    }
+
+    //url arquivo comprovante
+    public function getArquivoComprovanteAttribute()
+    {
+        if($this->attributes['comprovante'])
+        {
+            return $this->getFileUrl($this->attributes['comprovante']);
         }
 
     }

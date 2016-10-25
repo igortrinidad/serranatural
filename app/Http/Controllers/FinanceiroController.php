@@ -27,6 +27,10 @@ use serranatural\Http\Requests\PagamentoRequest as PagamentoRequest;
 
 class FinanceiroController extends Controller
 {
+    /*
+     * Seta o caminho para upload do arquivo.
+     */
+    private  $uploadPath = 'financeiro/pagamentos/';
 
     public function __construct()
     {
@@ -484,10 +488,9 @@ class FinanceiroController extends Controller
 
         $extArquivo = $arquivo->getClientOriginalExtension();
         $nomeArquivo = $dataAlt . $prefix . $dataArquivo . '.' . $extArquivo;
-        $salvaArquivo = Storage::disk('pagamentos')->put($nomeArquivo, File::get($arquivo));
 
-        return $nomeArquivo;
-
+        \Storage::disk('s3')->put($this->uploadPath.$nomeArquivo, file_get_contents($arquivo));
+        return $this->uploadPath.$nomeArquivo;
     }
 
     public function listaAPagar()
@@ -585,6 +588,7 @@ class FinanceiroController extends Controller
         if (!is_null($request->file('comprovante')) or !empty($request->file('comprovante'))) {
             //Salva arquivo pagamento e seta o nome no banco.
             $nomeArquivos = $this->salvaArquivosPagamento($request->file('comprovante'), '_ID_' . $pagamento->id . '_COMPVT_', $request->data_pgto);
+            //aqui sobrescrevendo o arquivo da nota
             $pagamento->notafiscal = $nomeArquivos;
             $pagamento->comprovante = $nomeArquivos;
         }
@@ -763,18 +767,19 @@ class FinanceiroController extends Controller
         $dataAlt = dataAnoMes($data);
         $dataArquivo = dataPtBrParaArquivo($data);
         $nomeArquivo = $prefixo . '_ID_' . $objeto->id . '_' . $dataArquivo . '.' . '.jpg';
-        $img->save(storage_path().'/app/financeiro/pagamentos/'.$nomeArquivo);
-        $objeto->$tipo = $nomeArquivo;
+        \Storage::disk('s3')->put($this->uploadPath.$nomeArquivo, $img->__toString());
+        $objeto->$tipo = $this->uploadPath.$nomeArquivo;
     }
 
     public function gravaArquivo($arquivo, $data, $prefixo, $objeto, $tipo)
     {
+
         $ext = $arquivo->getClientOriginalExtension();
         $dataAlt = dataAnoMes($data);
         $dataArquivo = dataPtBrParaArquivo($data);
         $nomeArquivo = $prefixo . '_ID_' . $objeto->id . '_' . $dataArquivo . '.' . $ext;
-        $arquivo->move(storage_path().'/app/financeiro/pagamentos/', $nomeArquivo);
-        $objeto->$tipo = $nomeArquivo;
+        \Storage::disk('s3')->put($this->uploadPath.$nomeArquivo, file_get_contents($arquivo));
+        $objeto->$tipo = $this->uploadPath.$nomeArquivo;
 
     }
 
