@@ -585,27 +585,24 @@ class FinanceiroController extends Controller
 
         $pagamento = Pagamento::where('id', '=', $request->pagamento_id)->first();
 
-        if (!is_null($request->file('comprovante')) or !empty($request->file('comprovante'))) {
+        if ($request->file('comprovante')) {
             //Salva arquivo pagamento e seta o nome no banco.
             $nomeArquivos = $this->salvaArquivosPagamento($request->file('comprovante'), '_ID_' . $pagamento->id . '_COMPVT_', $request->data_pgto);
             //aqui sobrescrevendo o arquivo da nota
-            $pagamento->notafiscal = $nomeArquivos;
             $pagamento->comprovante = $nomeArquivos;
         }
 
-        if ($request->is_liquidado == 1) {
+        if ($request->is_liquidado) {
 
             $pagamento->data_pgto = $request->data_pgto;
             $pagamento->valor_pago = $request->valor_pago;
             $pagamento->fonte_pgto = $request->fonte_pgto;
-            $pagamento->is_liquidado = 1;
             $pagamento->user_id_pagamento = \Auth::user()->id;
 
         } 
 
-        if ($request->is_liquidado == 0){
+        if (!$request->is_liquidado){
 
-            $pagamento->is_liquidado = 0;
             $pagamento->user_id_pagamento = '';
             $pagamento->fonte_pgto = '';
             $pagamento->comprovante = '';
@@ -614,12 +611,9 @@ class FinanceiroController extends Controller
 
         $pagamento->save();
 
-        $dados = [
-            'msg_retorno' => 'Pagamento liquidado com sucesso.',
-            'tipo_retorno' => 'success'
-        ];
+        flash()->success('Pagamento excluido com sucesso.');
 
-        return redirect()->back()->with($dados);
+        return redirect()->back();
     }
 
     public function dateRange(PagamentoRequest $request)
