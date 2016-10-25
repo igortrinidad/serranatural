@@ -12,7 +12,6 @@ class CriaTabPromocoes extends Migration
      */
     public function up()
     {
-        Schema::drop('promocoes');
         
         Schema::create('promocoes', function (Blueprint $table) {
             $table->increments('id');
