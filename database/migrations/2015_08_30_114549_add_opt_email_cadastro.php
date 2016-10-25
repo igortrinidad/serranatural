@@ -14,7 +14,6 @@ class AddOptEmailCadastro extends Migration
     {
         Schema::table('clientes', function(Blueprint $table)
         {
-
             $table->boolean('opt_email');
         });
 
@@ -30,7 +29,6 @@ class AddOptEmailCadastro extends Migration
     {
         Schema::table('clientes,', function(Blueprint $table)
         {
-
             $table->dropColumn('opt_email');
         });
     }

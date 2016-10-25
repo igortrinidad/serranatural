@@ -26,6 +26,11 @@ class AdicionaColunaAtivoPratosDoDia extends Migration
      */
     public function down()
     {
+
+        Schema::table('pratosDoDia', function(Blueprint $table)
+        {
             $table->dropColumn('ativo');
-        }
+        });
+            
+    }
 }

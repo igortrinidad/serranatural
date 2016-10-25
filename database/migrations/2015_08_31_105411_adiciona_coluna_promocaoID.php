@@ -26,7 +26,10 @@ class AdicionaColunaPromocaoID extends Migration
      */
     public function down()
     {
+        Schema::create('agendaPratos', function ($table) {
             $table->dropColumn('promocaoID');
-        }
+        });
+            
+    }
     
 }

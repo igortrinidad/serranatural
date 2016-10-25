@@ -28,8 +28,14 @@ class AdicionaColunasAnalisePromocaoVotacao extends Migration
      */
     public function down()
     {
+
+        Schema::table('promocoes', function(Blueprint $table)
+        {
+
             $table->dropColumn('ticketsValidos');
             $table->dropColumn('participantesUnicos');
             $table->dropColumn('mediaTicketDia');
-        }
+        });
+            
+    }
 }
