@@ -593,16 +593,16 @@ class FinanceiroController extends Controller
         }
 
         if ($request->is_liquidado) {
-
+            $pagamento->is_liquidado = 1;
             $pagamento->data_pgto = $request->data_pgto;
             $pagamento->valor_pago = $request->valor_pago;
             $pagamento->fonte_pgto = $request->fonte_pgto;
             $pagamento->user_id_pagamento = \Auth::user()->id;
-
+            
         } 
 
         if (!$request->is_liquidado){
-
+            $pagamento->is_liquidado = 0;
             $pagamento->user_id_pagamento = '';
             $pagamento->fonte_pgto = '';
             $pagamento->comprovante = '';
