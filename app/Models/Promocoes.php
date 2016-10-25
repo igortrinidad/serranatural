@@ -24,6 +24,37 @@ class Promocoes extends Model
     	'is_ativo'
     ];
 
+    /*
+    * Adiciona o caminho hasheado para o arquivo no registro
+    */
+    protected $appends = ['foto_url'];
+
+    //url foto
+    public function getFotoUrlAttribute()
+    {
+        if($this->attributes['foto'])
+        {
+            return $this->getFileUrl($this->attributes['foto']);
+        }
+
+    }
+
+    //get file url
+    private function getFileUrl($key) {
+        $s3 = \Storage::disk('s3');
+        $client = $s3->getDriver()->getAdapter()->getClient();
+        $bucket = \Config::get('filesystems.disks.s3.bucket');
+
+        $command = $client->getCommand('GetObject', [
+            'Bucket' => $bucket,
+            'Key' => $key
+        ]);
+
+        $request = $client->createPresignedRequest($command, '+1440 minutes');
+
+        return (string) $request->getUri();
+    }
+
     public function setInicioAttribute($value)
     {
         return $this->attributes['inicio'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');

@@ -27,6 +27,10 @@ use serranatural\Http\Requests\PagamentoRequest as PagamentoRequest;
 
 class FinanceiroController extends Controller
 {
+    /*
+     * Seta o caminho para upload do arquivo.
+     */
+    private  $uploadPath = 'financeiro/pagamentos/';
 
     public function __construct()
     {
@@ -484,10 +488,9 @@ class FinanceiroController extends Controller
 
         $extArquivo = $arquivo->getClientOriginalExtension();
         $nomeArquivo = $dataAlt . $prefix . $dataArquivo . '.' . $extArquivo;
-        $salvaArquivo = Storage::disk('pagamentos')->put($nomeArquivo, File::get($arquivo));
 
-        return $nomeArquivo;
-
+        \Storage::disk('s3')->put($this->uploadPath.$nomeArquivo, file_get_contents($arquivo));
+        return $this->uploadPath.$nomeArquivo;
     }
 
     public function listaAPagar()
@@ -582,26 +585,24 @@ class FinanceiroController extends Controller
 
         $pagamento = Pagamento::where('id', '=', $request->pagamento_id)->first();
 
-        if (!is_null($request->file('comprovante')) or !empty($request->file('comprovante'))) {
+        if ($request->file('comprovante')) {
             //Salva arquivo pagamento e seta o nome no banco.
             $nomeArquivos = $this->salvaArquivosPagamento($request->file('comprovante'), '_ID_' . $pagamento->id . '_COMPVT_', $request->data_pgto);
-            $pagamento->notafiscal = $nomeArquivos;
+            //aqui sobrescrevendo o arquivo da nota
             $pagamento->comprovante = $nomeArquivos;
         }
 
-        if ($request->is_liquidado == 1) {
+        if ($request->is_liquidado) {
 
             $pagamento->data_pgto = $request->data_pgto;
             $pagamento->valor_pago = $request->valor_pago;
             $pagamento->fonte_pgto = $request->fonte_pgto;
-            $pagamento->is_liquidado = 1;
             $pagamento->user_id_pagamento = \Auth::user()->id;
 
         } 
 
-        if ($request->is_liquidado == 0){
+        if (!$request->is_liquidado){
 
-            $pagamento->is_liquidado = 0;
             $pagamento->user_id_pagamento = '';
             $pagamento->fonte_pgto = '';
             $pagamento->comprovante = '';
@@ -610,12 +611,9 @@ class FinanceiroController extends Controller
 
         $pagamento->save();
 
-        $dados = [
-            'msg_retorno' => 'Pagamento liquidado com sucesso.',
-            'tipo_retorno' => 'success'
-        ];
+        flash()->success('Pagamento excluido com sucesso.');
 
-        return redirect()->back()->with($dados);
+        return redirect()->back();
     }
 
     public function dateRange(PagamentoRequest $request)
@@ -763,18 +761,19 @@ class FinanceiroController extends Controller
         $dataAlt = dataAnoMes($data);
         $dataArquivo = dataPtBrParaArquivo($data);
         $nomeArquivo = $prefixo . '_ID_' . $objeto->id . '_' . $dataArquivo . '.' . '.jpg';
-        $img->save(storage_path().'/app/financeiro/pagamentos/'.$nomeArquivo);
-        $objeto->$tipo = $nomeArquivo;
+        \Storage::disk('s3')->put($this->uploadPath.$nomeArquivo, $img->__toString());
+        $objeto->$tipo = $this->uploadPath.$nomeArquivo;
     }
 
     public function gravaArquivo($arquivo, $data, $prefixo, $objeto, $tipo)
     {
+
         $ext = $arquivo->getClientOriginalExtension();
         $dataAlt = dataAnoMes($data);
         $dataArquivo = dataPtBrParaArquivo($data);
         $nomeArquivo = $prefixo . '_ID_' . $objeto->id . '_' . $dataArquivo . '.' . $ext;
-        $arquivo->move(storage_path().'/app/financeiro/pagamentos/', $nomeArquivo);
-        $objeto->$tipo = $nomeArquivo;
+        \Storage::disk('s3')->put($this->uploadPath.$nomeArquivo, file_get_contents($arquivo));
+        $objeto->$tipo = $this->uploadPath.$nomeArquivo;
 
     }
 

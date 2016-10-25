@@ -48,11 +48,11 @@
 						@if(is_null($pagamento->pagamento) OR empty($pagamento->pagamento))
 						--
 						@elseif(substr($pagamento->pagamento, -3) == 'pdf' OR substr($pagamento->pagamento, -3) == 'PDF')
-						<a target="_blank" href="{{ route('arquivos.pagamentos', $pagamento->pagamento)}}" >PDF
+						<a target="_blank" href="{{  $pagamento->arquivo_pagamento}}" >PDF
 						</a>
 						@else
-						<a href="{{ route('arquivos.pagamentos', $pagamento->pagamento)}}" data-lightbox="property">
-							<img class="img-polaroid" src="{{ route('arquivos.pagamentos', $pagamento->pagamento)}}" width="300" />
+						<a href="{{ $pagamento->arquivo_pagamento }}" data-lightbox="property">
+							<img class="img-polaroid" src="{{ $pagamento->arquivo_pagamento }}" width="300" />
 						</a>
 						@endif
 					</p>
@@ -62,10 +62,10 @@
 						@if(is_null($pagamento->notaFiscal) OR empty($pagamento->notaFiscal))
 						--
 						@elseif(substr($pagamento->notaFiscal, -3) == 'pdf' OR substr($pagamento->notaFiscal, -3) == 'PDF')
-						<a target="_blank" href="{{ route('arquivos.pagamentos', $pagamento->notaFiscal)}}">PDF</a>
+						<a target="_blank" href="{{ $pagamento->arquivo_nota }}">PDF</a>
 						@else
-						<a href="{{ route('arquivos.pagamentos', $pagamento->notaFiscal)}}" data-lightbox="property">
-							<img class="img-polaroid" src="{{ route('arquivos.pagamentos', $pagamento->notaFiscal)}}" width="300" />
+						<a href="{{ $pagamento->arquivo_nota }}" data-lightbox="property">
+							<img class="img-polaroid" src="{{ $pagamento->arquivo_nota }}" width="300" />
 						</a>
 						@endif
 					</p>
@@ -207,12 +207,12 @@
 				<label>Comprovante</label>
 				<p>
 					@if(substr($pagamento->comprovante, -3) == 'pdf' OR substr($pagamento->comprovante, -3) == 'PDF')
-					<a target="_blank" href="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}"><STRONG>PDF</STRONG></a>
+					<a target="_blank" href="{{ $pagamento->arquivo_comprovante }}"><STRONG>PDF</STRONG></a>
 					@elseif(is_null($pagamento->comprovante) OR empty($pagamento->comprovante))
 					--
 					@else
-					<a href="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}" data-lightbox="property">
-						<img src="{{ route('arquivos.pagamentos', $pagamento->comprovante)}}" width="300" />
+					<a href="{{ $pagamento->arquivo_comprovante }}" data-lightbox="property">
+						<img src="{{ $pagamento->arquivo_comprovante }}" width="300" />
 					</a>
 					@endif
 				</p>

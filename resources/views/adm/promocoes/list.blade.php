@@ -51,7 +51,7 @@
 				        	<td colspan="5"><strong>Regulamento</strong> <br>{!! $promo->regulamento !!}</td>
 				        </tr>
 				        <tr>
-							<td colspan="5"><strong>Foto</strong><br><img width="100%" src="/uploads/promocoes/{{$promo->foto}}" /></td>
+							<td colspan="5"><strong>Foto</strong><br><img width="100%" src="{{$promo->foto_url}}" /></td>
 				        </tr>
 				        <tr><td colspan="5"></td></tr>
 				      @endforeach

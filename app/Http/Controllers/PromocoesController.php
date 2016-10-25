@@ -17,6 +17,12 @@ use serranatural\Models\Promocoes;
 
 class PromocoesController extends Controller
 {
+
+    /*
+     * Seta o caminho para upload do arquivo.
+     */
+    private  $uploadPath = 'media/promocoes/';
+
         public function __construct()
     {
         $this->middleware('auth', ['except' => [],]);
@@ -50,6 +56,8 @@ class PromocoesController extends Controller
 
             $this->gravaArquivo($request->file('foto'), 'PROMO_', $promo);
         }
+
+        $promo->save();
 
         flash()->success('Promoção gravada com sucesso.');
 
@@ -98,7 +106,7 @@ class PromocoesController extends Controller
     {
         $ext = $arquivo->getClientOriginalExtension();
         $nomeArquivo = $prefixo . '_ID_' . $objeto->id . '.' . $ext;
-        $arquivo->move(public_path().'/uploads/promocoes/', $nomeArquivo);
-        $objeto->foto = $nomeArquivo;
+        \Storage::disk('s3')->put($this->uploadPath.$nomeArquivo, file_get_contents($arquivo));
+        $objeto->foto = $this->uploadPath.$nomeArquivo;
     }
 }

@@ -49,13 +49,13 @@
 			            <td>{{$pag->usuarioCadastro->name}}</td>
 			            <td class="text-center" width="10%">
 			            @if($pag->pagamento != '')
-			            	<a href="{!! route('arquivos.pagamentos', $pag->pagamento) !!}" data-lightbox="property"><i class="fa fa-search" ></i>
+			            	<a href="{!! $pag->arquivo_pagamento !!}" data-lightbox="property"><i class="fa fa-search" ></i>
 			            @endif
 			            	</a>
 			            </td>
 			            <td class="text-center" width="10%">
 			            @if($pag->notaFiscal != '')
-			            	<a href="{!! route('arquivos.pagamentos', $pag->notaFiscal) !!}" data-lightbox="property"><i class="fa fa-search">
+			            	<a href="{!! $pag->arquivo_nota !!}" data-lightbox="property"><i class="fa fa-search">
 			            @endif 
 			            </td>
 			            <td class="text-center">
