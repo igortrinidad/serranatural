@@ -21,7 +21,7 @@ class CriaColunasFotoPrato extends Migration
     {
     Schema::table('pratosDoDia', function(Blueprint $table)
         {
-            $table->dropColumn('foto');
+            $table->dropColumn('titulo_foto');
         });
     }
 }
