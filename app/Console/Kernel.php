@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         \serranatural\Console\Commands\Inspire::class,
         \serranatural\Commands\email_pratoDoDia::class,
         \serranatural\Commands\conta_a_pagar::class,
+        \serranatural\Commands\AwsMigration::class,
     ];
 
     /**

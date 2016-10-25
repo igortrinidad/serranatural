@@ -29,6 +29,48 @@ class Pagamento extends Model
                         'valor_pago'
 							];
 
+    /*
+     * Adiciona o caminho hasheado para o arquivo no registro
+     */
+    protected $appends = ['arquivo_pagamento', 'arquivo_nota'];
+
+    //url arquivo pagamento
+    public function getArquivoPagamentoAttribute()
+    {
+        if($this->attributes['pagamento'])
+        {
+            return $this->getFileUrl($this->attributes['pagamento']);
+        }
+
+    }
+
+    //url arquivo nota
+    public function getArquivoNotaAttribute()
+    {
+        if($this->attributes['notaFiscal'])
+        {
+            return $this->getFileUrl($this->attributes['notaFiscal']);
+        }
+
+    }
+
+    //get file url
+    private function getFileUrl($key) {
+        $s3 = \Storage::disk('s3');
+        $client = $s3->getDriver()->getAdapter()->getClient();
+        $bucket = \Config::get('filesystems.disks.s3.bucket');
+
+        $command = $client->getCommand('GetObject', [
+            'Bucket' => $bucket,
+            'Key' => $key
+        ]);
+
+        $request = $client->createPresignedRequest($command, '+1440 minutes');
+
+        return (string) $request->getUri();
+    }
+
+
     public function usuario()
     {
     	return $this->belongsTo('serranatural\User', 'user_id', 'id');
