@@ -27,7 +27,7 @@ class AddOptEmailCadastro extends Migration
      */
     public function down()
     {
-        Schema::table('clientes,', function(Blueprint $table)
+        Schema::table('clientes', function(Blueprint $table)
         {
             $table->dropColumn('opt_email');
         });
