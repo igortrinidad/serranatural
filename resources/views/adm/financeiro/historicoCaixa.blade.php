@@ -117,7 +117,7 @@
       		<label>Diferença</label>
       		<p>R$ @{{ caixaSelected.caixa.diferenca_calculada }}</p>
       		<label>Observações</label>
-      		<p>R$ @{{ caixaSelected.caixa.obs }}</p>
+      		<p>@{{{ caixaSelected.caixa.obs }}}</p>
       	</div>
       </div>
 

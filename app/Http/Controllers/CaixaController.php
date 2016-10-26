@@ -231,7 +231,7 @@ class CaixaController extends Controller
        $caixa = Caixa::with(['retiradas', 'retiradas.usuario', 'usuarioAbertura', 'usuarioFechamento'])->where('id', '=', $request->id)->first();
 
 
-        if(!is_null($caixa) or !empty($caixa)) {
+        if($caixa) {
 
             $caixa->update([
                     'user_id_fechamento' => \Auth::user()->id,
@@ -248,26 +248,49 @@ class CaixaController extends Controller
                     'obs' => $request->obs,
                     'is_aberto' => 0
                 ]);
-        }
 
-        $email = Mail::queue('emails.admin.fechamentoCaixaNovo', ['caixa' => $caixa], function ($message) use ($caixa) {
+            $email = Mail::queue('emails.admin.fechamentoCaixaNovo', ['caixa' => $caixa], function ($message) use ($caixa) {
 
-            $message->to('contato@maisbartenders.com.br', 'Igor Trindade');
-            $message->from('mkt@serranatural.com', 'Serra Natural');
-            $message->subject('Fechamento de caixa : ' . $caixa->dt_fechamento->format('d/m/Y H:i:s'));
-            $message->getSwiftMessage();
-
-        });
-
-        if($caixa->diferenca_final <= -10) {
-
-            Mail::raw('Diferença de caixa', function ($message) use ($caixa){
                 $message->to('contato@maisbartenders.com.br', 'Igor Trindade');
                 $message->from('mkt@serranatural.com', 'Serra Natural');
-                $message->subject('Diferença de caixa : R$' . $caixa->diferenca_final);
+                $message->subject('Fechamento de caixa : ' . $caixa->dt_fechamento->format('d/m/Y H:i:s'));
+                $message->getSwiftMessage();
+
             });
 
+            if($caixa->diferenca_final <= -10) {
+
+                Mail::raw('Diferença de caixa', function ($message) use ($caixa){
+                    $message->to('contato@maisbartenders.com.br', 'Igor Trindade');
+                    $message->from('mkt@serranatural.com', 'Serra Natural');
+                    $message->subject('Diferença de caixa : R$' . $caixa->diferenca_final);
+                });
+
+            }
+
+            return response()->json([
+                'retorno' => [
+                    'type' => 'success',
+                    'message' => 'Caixa fechado com sucesso.',
+                    'title' => 'Atenção!',
+                    'status_code' => 200
+                ],
+            ], 200);
+
+        } else {
+
+            return response()->json([
+                'retorno' => [
+                    'type' => 'error',
+                    'message' => 'Ocorreu um problema ao fechar o caixa.',
+                    'title' => 'Atenção!',
+                    'status_code' => 200
+                ],
+            ], 500);
+
         }
+
+        
         
         //Linha que faz a baixa dos produtos pela venda - com erro...
        //$caixa_anterior = Caixa::where('is_aberto', '=', '0')->orderBy('created_at', 'desc')->first();
@@ -286,15 +309,6 @@ class CaixaController extends Controller
        //       }
        //   }
        //}
-
-        return response()->json([
-                'retorno' => [
-                    'type' => 'success',
-                    'message' => 'Caixa fechado com sucesso.',
-                    'title' => 'Atenção!',
-                    'status_code' => 200
-                ],
-            ], 200);
 
 
     }
