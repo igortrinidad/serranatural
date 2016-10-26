@@ -37,22 +37,27 @@
                             </tr>
                             <tr>
                               <td width="40"></td>
-                              <td width="320">                                    <table border="0" cellpadding="0" cellspacing="0">
+                              <td width="320">
+                                <table border="0" cellpadding="0" cellspacing="0">
                                 <tbody>
                                   <tr>
-                                    <td colspan="2" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:22px;color:#575757;font-weight:bold">                                          Fechamento de caixa:                                         </td>
+                                    <td colspan="2" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:22px;color:#575757;font-weight:bold">
+                                      Fechamento de caixa:
+                                    </td>
                                   </tr>
                                   <tr>
                                     <td colspan="2" height="5" style="font-size:0px;line-height:0px">&nbsp;</td>
                                   </tr>
+
                                   <tr>
-                                  <td colspan="2" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757">
-                                    {{ $caixa->dt_abertura }} —<br>
-                                    {{ $caixa->dt_fechamento }}</td>
+                                    <td style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="200">
+                                      {{ $caixa->dt_abertura }}
+                                    </td>
+                                    <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="120">
+                                      {{ $caixa->dt_fechamento }}
+                                    </td>
                                   </tr>
-                                  <tr>
-                                    <td colspan="2" height="30"></td>
-                                  </tr>
+
                                   <tr>
                                     <td bgcolor="#575757" colspan="2" height="2" style="font-size:0px;line-height:0px">&nbsp;</td>
                                   </tr>
@@ -65,7 +70,7 @@
                                       Total de vendas
                                     </td>
                                     <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="120">
-                                      R$ {{ $caixa->total_vendas }}
+                                      R$ {{ $caixa->vendas }}
                                     </td>
                                   </tr>
                                   <tr>
@@ -153,7 +158,7 @@
                                       <tbody>
                                         <tr>
                                           <td style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757;text-align:right">
-                                            {{$caixa->fundo_caixa }}
+                                            {{$caixa->vr_emCaixa }}
                                           </td>
                                         </tr>
                                         <tr>
