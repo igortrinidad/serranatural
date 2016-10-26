@@ -22,6 +22,7 @@ class Caixa extends Model
                             'vendas_card',
                             'vendas_rede',
                             'vendas_cielo',
+                            'vendas_online',
                             'total_retirada',
                             'esperado_caixa',
                             'diferenca_caixa',

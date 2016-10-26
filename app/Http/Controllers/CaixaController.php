@@ -228,7 +228,8 @@ class CaixaController extends Controller
             ], 404);
         }
 
-       $caixa = Caixa::where('id', '=', $request->id)->first();
+       $caixa = Caixa::with(['retiradas', 'retiradas.usuario', 'usuarioAbertura', 'usuarioFechamento'])->where('id', '=', $request->id)->first();
+
 
         if(!is_null($caixa) or !empty($caixa)) {
 
@@ -238,6 +239,7 @@ class CaixaController extends Controller
                     'vendas' => $request->vendas,
                     'vendas_cielo' => $request->vendas_cielo,
                     'vendas_rede' => $request->vendas_rede,
+                    'vendas_online' => $request->vendas_online,
                     'total_retirada' => $request->total_retirada,
                     'esperado_caixa' => $request->esperado_caixa,
                     'vr_emCaixa' => $request->vr_emCaixa,
@@ -248,25 +250,7 @@ class CaixaController extends Controller
                 ]);
         }
 
-        //Array para view de email fechamentoCaixaNovo
-        $dados = [
-            'dt_abertura' => $caixa->dt_abertura->format('d/m/Y H:i:s'),
-            'dt_fechamento' => $caixa->dt_fechamento->format('d/m/Y H:i:s'),
-            'vendas' => $caixa->vendas,
-            'total_retirada' => $caixa->total_retirada,
-            'vendas_rede' => $caixa->vendas_rede,
-            'vendas_cielo' => $caixa->vendas_cielo,
-            'vr_emCaixa' => $caixa->vr_emCaixa,
-            'vr_abertura' => $caixa->vr_abertura,
-            'diferenca_final' => $caixa->diferenca_final,
-            'user_abertura' => $caixa->usuarioAbertura->name,
-            'user_fechamento' => $caixa->usuarioFechamento->name,
-            'retiradas' => $caixa->retiradas,
-            'turno' => $caixa->turno,
-            'observacoes' => $caixa->obs
-        ];
-
-        $email = Mail::queue('emails.admin.fechamentoCaixaNovo', $dados, function ($message) use ($dados, $caixa) {
+        $email = Mail::queue('emails.admin.fechamentoCaixaNovo', $caixa, function ($message) use ($caixa) {
 
             $message->to('contato@maisbartenders.com.br', 'Igor Trindade');
             $message->from('mkt@serranatural.com', 'Serra Natural');
@@ -285,20 +269,23 @@ class CaixaController extends Controller
 
         }
         
+        //Linha que faz a baixa dos produtos pela venda - com erro...
+       //$caixa_anterior = Caixa::where('is_aberto', '=', '0')->orderBy('created_at', 'desc')->first();
 
-        $caixa_anterior = Caixa::where('is_aberto', '=', '0')->orderBy('created_at', 'desc')->first();
+       //$response = $this->payments($caixa_anterior->dt_fechamento, $caixa->dt_fechamento);
 
-        $response = $this->payments($caixa_anterior->dt_fechamento, $caixa->dt_fechamento);
-
-        foreach($response->body as $venda){
-            foreach($venda->itemizations as $item){
-                $prod = Produto::where('square_id', '=', $item->item_detail->item_id)->first();
-                if($prod){
-                    $prod['quantidadeEstoque'] = $prod['quantidadeEstoque'] - $item->quantity;
-                    $prod->save();
-                }
-            }
-        }
+       //foreach($response->body as $venda){
+       //   foreach($venda->itemizations as $item){
+       //       if(!$item->item_detail->item_id){
+       //           dd($item->item_detail);
+       //       }
+       //       $prod = Produto::where('square_id', '=', $item->item_detail->item_id)->first();
+       //       if($prod){
+       //           $prod['quantidadeEstoque'] = $prod['quantidadeEstoque'] - $item->quantity;
+       //           $prod->save();
+       //       }
+       //   }
+       //}
 
         return response()->json([
                 'retorno' => [

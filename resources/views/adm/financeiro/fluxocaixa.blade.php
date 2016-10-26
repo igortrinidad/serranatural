@@ -195,15 +195,28 @@
 										/>
 									</div>
 								</div>
+
+								<div class="col-md-6 col-xs-6">
+									<div class="form-group">
+										<label>Vendas ONLINE (somente pagamento online, quando não recebeu)</label>
+										<input type="text" class="form-control moneyFloat" 
+											v-model="caixa_aberto.vendas_online"
+											v-on:blur="calcula($event)"
+										/>
+									</div>
+								</div>
 							</div>
 
 
+							<div class="row">
 
-							<div class="col-md-12">
-								<div class="form-group">
-									<label>Observações</label>
-									<textarea rows="7" class="form-control" v-model="caixa_aberto.obs"></textarea>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Observações e relatório do dia</label>
+										<textarea rows="7" class="form-control" v-model="caixa_aberto.obs"></textarea>
+									</div>
 								</div>
+								
 							</div>
 
 						</div>
@@ -508,7 +521,7 @@
 
 								      	console.log('Erro ao tentar fechar o caixa.');
 
-								      	swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
+								      	swal('ERRO', 'ERRO AO FECHAR O CAIXA! TENTE NOVAMENTE OU VERIFIQUE SE O CAIXA FOI FECHADO. INFORME AO ASSISTÊNCIA.', 'error');
 								      	that.authorization = false;
 								      	that.loading = false;
 								    });
@@ -521,6 +534,7 @@
 
 				    		if (!this.caixa_aberto.vendas_rede) this.caixa_aberto.vendas_rede = 0;
 				    		if (!this.caixa_aberto.vendas_cielo) this.caixa_aberto.vendas_cielo = 0;
+				    		if (!this.caixa_aberto.vendas_online) this.caixa_aberto.vendas_online = 0;
 				    		if (!this.caixa_aberto.vr_emCaixa) this.caixa_aberto.vr_emCaixa = 0;
 
 				    		console.log('Vendas rede: ' + this.caixa_aberto.vendas_rede);
@@ -538,7 +552,9 @@
 				    		var conferencia2 = 
 				    		( parseFloat( this.vendas.vendaBruta.replace(',', '') ) ) -
 				    		( parseFloat( this.caixa_aberto.vendas_cielo )
-				    		+ parseFloat( this.caixa_aberto.vendas_rede ) ); 
+				    		+ parseFloat( this.caixa_aberto.vendas_rede ) 
+				    		+ parseFloat( this.caixa_aberto.vendas_online )
+				    		); 
 
 				    		var diferenca = (conferencia1) - (conferencia2);
 
