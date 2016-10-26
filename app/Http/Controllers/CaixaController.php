@@ -250,7 +250,9 @@ class CaixaController extends Controller
                 ]);
         }
 
-        $email = Mail::queue('emails.admin.fechamentoCaixaNovo', $caixa, function ($message) use ($caixa) {
+        $dados = $caixa->toArray();
+
+        $email = Mail::queue('emails.admin.fechamentoCaixaNovo', $dados, function ($message) use ($caixa) {
 
             $message->to('contato@maisbartenders.com.br', 'Igor Trindade');
             $message->from('mkt@serranatural.com', 'Serra Natural');
