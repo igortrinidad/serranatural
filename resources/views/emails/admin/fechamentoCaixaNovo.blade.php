@@ -129,6 +129,18 @@
                                       R$ {{$caixa->vendas_cielo }}
                                     </td>
                                   </tr>
+
+                                  <tr>
+                                    <td colspan="2" height="15" style="font-size:0px;line-height:0px">&nbsp;</td>
+                                  </tr>
+                                  <tr>
+                                    <td style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="200">
+                                      Vendas ONLINE
+                                    </td>
+                                    <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" valign="bottom" width="120">
+                                      R$ {{$caixa->vendas_online }}
+                                    </td>
+                                  </tr>
                                   
                                   <tr>
                                     <td colspan="2" height="15" style="font-size:0px;line-height:0px">&nbsp;</td>
