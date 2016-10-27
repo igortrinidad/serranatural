@@ -78,6 +78,15 @@
 						<p>Turno do caixa</p>
 					</div>
 				</div>
+
+				<div class="col-md-3">
+					<div class="well text-center" 
+					>
+						<h2>Aberto em:</h2>
+						<p>@{{ caixa_aberto.created_at | formatDate }}</p>
+					</div>
+				</div>	
+
 				<div class="col-md-3">
 					<div class="well text-center">
 						<h2>R$ @{{caixa_aberto.vr_abertura}}</h2>
@@ -126,14 +135,6 @@
 						v-bind:class="{ 'warning': caixa_aberto.diferenca_final < 0, 'success': caixa_aberto.diferenca_final >= 0 }"
 					>
 						<h2>R$ @{{caixa_aberto.diferenca_final}}</h2>
-						<p>Diferença</p>
-					</div>
-				</div>	
-
-				<div class="col-md-3" v-if="!authorization">
-					<div class="well text-center" 
-					>
-						<h2>??</h2>
 						<p>Diferença</p>
 					</div>
 				</div>	
@@ -352,6 +353,17 @@
 				    	retiradas: [],
 				    	substracted: false,
 				    	unlock: false,
+				    },
+				    filters: {
+					    formatDate: {
+			                read: function (val) {
+			                    return moment(val).format('DD/MM/YYYY HH:mm:ss')
+			                },
+
+			                write: function (val) {
+			                	return val
+			                }
+			            }	
 				    },
 				    attached: function()
     					{
