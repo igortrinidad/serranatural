@@ -199,7 +199,7 @@
 
 								<div class="col-md-6 col-xs-6">
 									<div class="form-group">
-										<label>Vendas ONLINE (somente pagamento online, quando não recebeu)</label>
+										<label>Total vendas ONLINE no periodo do caixa(somente pagamento online, quando não recebeu)</label>
 										<input type="text" class="form-control moneyFloat" 
 											v-model="caixa_aberto.vendas_online"
 											v-on:blur="calcula($event)"
