@@ -88,6 +88,14 @@
 				</div>	
 
 				<div class="col-md-3">
+					<div class="well text-center" 
+					>
+						<h2>Responsável:</h2>
+						<p>@{{ caixa_aberto.usuario_abertura.name }}</p>
+					</div>
+				</div>	
+
+				<div class="col-md-3">
 					<div class="well text-center">
 						<h2>R$ @{{caixa_aberto.vr_abertura}}</h2>
 						<p>Valor de abertura</p>
@@ -98,6 +106,27 @@
 					<div class="well text-center">
 						<h2>R$ @{{vendas.vendaBruta}}</h2>
 						<p>Vendas total</p>
+					</div>
+				</div>
+
+				<div class="col-md-3">
+					<div class="well text-center">
+						<h2>R$ @{{caixa_anterior.vendas_rede}}</h2>
+						<p>Venda Rede Anterior</p>
+					</div>
+				</div>	
+
+				<div class="col-md-3">
+					<div class="well text-center">
+						<h2>R$ @{{caixa_anterior.vendas_cielo}}</h2>
+						<p>Venda Cielo Anterior</p>
+					</div>
+				</div>
+
+				<div class="col-md-3">
+					<div class="well text-center">
+						<h2>R$ @{{caixa_anterior.vendas_online}}</h2>
+						<p>Venda Online Anterior</p>
 					</div>
 				</div>
 
@@ -116,19 +145,9 @@
 					</div>
 				</div>
 
-				<div class="col-md-3">
-					<div class="well text-center">
-						<h2>R$ @{{caixa_anterior.vendas_rede}}</h2>
-						<p>Venda Rede Anterior</p>
-					</div>
-				</div>	
+				
 
-				<div class="col-md-3">
-					<div class="well text-center">
-						<h2>R$ @{{caixa_anterior.vendas_cielo}}</h2>
-						<p>Venda Cielo Anterior</p>
-					</div>
-				</div>	
+				
 
 				<div class="col-md-3" v-if="authorization">
 					<div class="well text-center" 

@@ -34,7 +34,7 @@ class CaixaController extends Controller
     public function consulta()
     {
 
-        $caixa_aberto = Caixa::where('is_aberto', '=', '1')->first();
+        $caixa_aberto = Caixa::with('usuarioAbertura')->where('is_aberto', '=', '1')->first();
 
         if ($caixa_aberto) {
 
