@@ -269,7 +269,7 @@
 
 						    	swal("Ok!", "Sua Retirada foi cadastrada", "success"); 
 
-						    	window.location = '/admin/financeiro/retiradas';
+						    	window.location = '/admin/financeiro/historico/retiradas';
 
 
 

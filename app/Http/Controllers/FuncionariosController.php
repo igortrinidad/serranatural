@@ -68,7 +68,7 @@ class FuncionariosController extends Controller
     {
         $funcionario = Funcionario::find($id);
 
-        $retiradas = Retirada::where('funcionario_id', '=', $id)->orderBy('created_at', 'desc')->get();
+        $retiradas = Retirada::with('usuario')->where('funcionario_id', '=', $id)->orderBy('created_at', 'desc')->get();
 
         $dados = [
             'funcionario' => $funcionario,

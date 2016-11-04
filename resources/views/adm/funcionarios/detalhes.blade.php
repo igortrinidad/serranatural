@@ -130,12 +130,44 @@
 					<button class="btn btn-primary" type="submit">Imprimir recibos selecionados</button>
 					<br><br>
 
-			    	@foreach($retiradas as $pagamento)
+			    	
+			    		<table class="table table-bordered table-hover table-striped">
+			    		    <thead>
+			    		        <tr>
+			    		            <th>Selecionar</th>
+			    		            <th>Data</th>
+			    		            <th>Debito?</th>
+			    		            <th>Tipo</th>
+			    		            <th>Observação</th>
+			    		            <th>Valor</th>
+			    		            <th>Quem fez?</th>
+			    		            <th>Inicio</th>
+			    		            <th>Término</th>
+			    		        </tr>
+			    		    </thead>
+			    		    <tbody>
+			    		    	@foreach($retiradas as $pagamento)
+				    		        <tr>
+				    		            <td class="text-center" width="3%">
+				    		            	<label>
+												<input type="checkbox" name="selected[]" value="{{$pagamento->id}}">
+											</label>
+										</td>
+										<td>{{$pagamento->created_at->format('d/m/Y')}}</td>
+										<td>{{$pagamento->is_debito ? 'Sim' : 'Não'}}</td>
+										<td>{{$pagamento->tipo}}</td>
+										<td>{{substr($pagamento->descricao, 0, -10)}}</td>
+										<td>R$ {{$pagamento->valor}}</td>
+										<td>{{$pagamento->usuario->name}}</td>
+										<td>{{$pagamento->init->format('d/m/Y')}}</td>
+										<td>{{$pagamento->end->format('d/m/Y')}}</td>
+				    		        </tr>
+			    		        @endforeach
+			    		    </tbody>
+			    		</table>
 				    	<div class="form-group">
-							<label><input type="checkbox" name="selected[]" value="{{$pagamento->id}}">
-								 Data: {{$pagamento->created_at->format('d/m/Y')}} | Descrição: {{substr($pagamento->descricao, 0, -10)}} | Tipo: {{$pagamento->tipo}} | R$ {{$pagamento->valor}} | Debito: {{$pagamento->is_debito}} | INIT: {{$pagamento->init->format('d/m/Y')}} | END: {{$pagamento->end->format('d/m/Y')}}</label>
+							
 				    	</div>							  
-					@endforeach
 					
 					
 

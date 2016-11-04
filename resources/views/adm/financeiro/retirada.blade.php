@@ -29,7 +29,7 @@
 									<option value="Sangria">Sangria</option>
 									<option value="Vale Transporte">Vale Transporte</option>
 									<option value="Bonificação">Bonificação</option>
-									<option value="Taxa de serviço">Taxa de serviço</option>
+									<option value="Rateio taxa de serviço">Taxa de serviço</option>
 									<option value="Adiantamento">Adiantamento</option>
 									<option value="Pagamento">Pagamento</option>
 									<option value="Outros">Outros</option>
