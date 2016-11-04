@@ -144,6 +144,7 @@
 			    		            <th>Inicio</th>
 			    		            <th>Término</th>
 			    		            <th>Caixa?</th>
+			    		            <th>Excluir?</th>
 			    		        </tr>
 			    		    </thead>
 			    		    <tbody>
@@ -160,12 +161,15 @@
 										</td>
 										<td>{{$pagamento->is_debito ? 'Sim' : ''}}</td>
 										<td>{{$pagamento->tipo}}</td>
-										<td>{{substr($pagamento->descricao, 0, -10)}}</td>
+										<td>{{substr($pagamento->descricao, 0, 10)}}</td>
 										<td>R$ {{$pagamento->valor}}</td>
 										<td>{{$pagamento->usuario->name}}</td>
 										<td>{{$pagamento->init->format('d/m/Y')}}</td>
 										<td>{{$pagamento->end->format('d/m/Y')}}</td>
 										<td>{{$pagamento->retirado_caixa ? 'Sim' : ''}}</td>
+										<td class="text-center">
+											<a href="{{ route('admin.financeiro.deletaRetirada', $pagamento->id)}}"<i class="fa fa-trash "></i></a>
+										</td>
 				    		        </tr>
 			    		        @endforeach
 			    		    </tbody>
