@@ -136,13 +136,14 @@
 			    		        <tr>
 			    		            <th>Selecionar</th>
 			    		            <th>Data</th>
-			    		            <th>Debito?</th>
+			    		            <th>Desconto?</th>
 			    		            <th>Tipo</th>
 			    		            <th>Observação</th>
 			    		            <th>Valor</th>
 			    		            <th>Quem fez?</th>
 			    		            <th>Inicio</th>
 			    		            <th>Término</th>
+			    		            <th>Caixa?</th>
 			    		        </tr>
 			    		    </thead>
 			    		    <tbody>
@@ -153,14 +154,18 @@
 												<input type="checkbox" name="selected[]" value="{{$pagamento->id}}">
 											</label>
 										</td>
-										<td>{{$pagamento->created_at->format('d/m/Y')}}</td>
-										<td>{{$pagamento->is_debito ? 'Sim' : 'Não'}}</td>
+										<td>
+											<a href="{{route('admin.financeiro.retiradaEdit', $pagamento->id) }}"/>{{$pagamento->created_at->format('d/m/Y')}}
+											</a>
+										</td>
+										<td>{{$pagamento->is_debito ? 'Sim' : ''}}</td>
 										<td>{{$pagamento->tipo}}</td>
 										<td>{{substr($pagamento->descricao, 0, -10)}}</td>
 										<td>R$ {{$pagamento->valor}}</td>
 										<td>{{$pagamento->usuario->name}}</td>
 										<td>{{$pagamento->init->format('d/m/Y')}}</td>
 										<td>{{$pagamento->end->format('d/m/Y')}}</td>
+										<td>{{$pagamento->retirado_caixa ? 'Sim' : ''}}</td>
 				    		        </tr>
 			    		        @endforeach
 			    		    </tbody>

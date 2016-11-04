@@ -68,7 +68,10 @@ class FuncionariosController extends Controller
     {
         $funcionario = Funcionario::find($id);
 
-        $retiradas = Retirada::with('usuario')->where('funcionario_id', '=', $id)->orderBy('created_at', 'desc')->get();
+        $retiradas = Retirada::with('usuario')
+            ->where('funcionario_id', '=', $id)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         $dados = [
             'funcionario' => $funcionario,
@@ -171,8 +174,6 @@ class FuncionariosController extends Controller
 
         $funcionario = Funcionario::find($id);
 
-        $dataInicio = date('Y-m-d', strtotime("-20 days"));
-        $dataFim = date('Y-m-d', strtotime("+5 days"));
 
         $vts = Retirada::whereIn('id', $request->selected)->where('tipo', '=', 'Vale Transporte')->get();
         $vtTotal = Retirada::whereIn('id', $request->selected)->where('tipo', '=', 'Vale Transporte')->where('is_debito', '=', 0)->sum('valor');

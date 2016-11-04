@@ -2,7 +2,6 @@
 
 @section('conteudo')
 
-<br>
 <h2 class="text-center">Recibo</h2><br>
 
 <div class="row" style="font-size:15px !important; font-weight: 500 !important">
