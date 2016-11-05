@@ -440,6 +440,18 @@
                             <!-- /.nav-second-level -->
                         </li>
 
+                        <li>
+
+                            <a href="#"><i class="fa fa-sitemap fa-fw"></i> Usuários<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="{{route('admin.users.list')}}">Lista</a>
+                                </li>
+
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

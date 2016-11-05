@@ -121,6 +121,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::post('password/email', ['as' => 'reset', 'uses' =>'Auth\PasswordController@resetPass']);
 		Route::get('usuarios/configuracoes', ['as' => 'edit', 'uses' =>'Auth\AuthController@editaUsuario']);
 		Route::post('usuarios/configuracoes/update', ['as' => 'update', 'uses' =>'Auth\AuthController@updateUsuario']);
+		Route::get('usuarios/lista', ['as' => 'list', 'uses' =>'UsuarioController@index']);
 
 	});
 

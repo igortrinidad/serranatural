@@ -441,7 +441,7 @@ class FinanceiroController extends Controller
 
         if ($request->arquivoPagamento != '') {
 
-            $this->gravaArquivo($request->arquivoPagamento, $request->vencimento, 'BOLET_', $pagamento, 'pagamento');
+            $this->gravaArquivo($request->arquivoPagamento, $request->vencimento, 'BOLETO_', $pagamento, 'pagamento');
         }
 
         if ($request->arquivoNota != '') {
@@ -490,7 +490,9 @@ class FinanceiroController extends Controller
         $nomeArquivo = $dataAlt . $prefix . $dataArquivo . '.' . $extArquivo;
 
         \Storage::disk('s3')->put($this->uploadPath.$nomeArquivo, file_get_contents($arquivo));
+
         return $this->uploadPath.$nomeArquivo;
+        
     }
 
     public function listaAPagar()

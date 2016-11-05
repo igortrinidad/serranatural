@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use serranatural\Http\Requests;
 use serranatural\Http\Controllers\Controller;
 
+use serranatural\User;
+
 class UsuarioController extends Controller
 {
     /**
@@ -15,8 +17,10 @@ class UsuarioController extends Controller
      * @return Response
      */
     public function index()
-    {
-        //
+    {   
+        $users = User::all();
+
+        return view('adm.usuarios.list', compact('users'));
     }
 
     /**
