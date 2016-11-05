@@ -107,6 +107,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::post('funcionarios/recibo/{id}', ['as' => 'recibo', 'uses' => 'FuncionariosController@relatorio']);
 		Route::post('funcionarios/recibo/salva/{id}', ['as' => 'reciboSalva', 'uses' => 'FuncionariosController@salvaRecibo']);
 		Route::get('funcionarios/recibo/gerado/{id}', ['as' => 'reciboSalvo', 'uses' => 'FuncionariosController@abreReciboSalvo']);
+		Route::get('funcionarios/recibo/gerado/deleta/{id}', ['as' => 'reciboSalvoDeleta', 'uses' => 'FuncionariosController@deletaRecibo']);
 
 	});
 

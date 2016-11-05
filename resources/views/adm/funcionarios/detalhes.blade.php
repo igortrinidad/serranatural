@@ -197,6 +197,7 @@
 					            <td>Data</td>
 					            <td>Total Debito</td>
 					            <td>Total Credito</td>
+					            <td>Excluir</td>
 					        </tr>
 					    </thead>
 					    <tbody>
@@ -209,6 +210,11 @@
 					            <td>{{$recibo->created_at}}</td>
 					            <td>R$ {{$recibo->total_debito}}</td>
 					            <td>R$ {{$recibo->total_credito}}</td>
+					            <td>
+									<a href="{{route('admin.funcionarios.reciboSalvoDeleta', $recibo->id) }}" />
+										<i class="fa fa-trash"></i>
+									</td>
+					            </td>
 					        </tr>
 					        @endforeach
 					    </tbody>

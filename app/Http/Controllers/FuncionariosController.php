@@ -226,4 +226,15 @@ class FuncionariosController extends Controller
 
         return view('adm.funcionarios.recibo', compact('vts', 'vtTotal', 'funcionario', 'pagamentos', 'total', 'totalDebito', 'totalCredito', 'recibo', 'func_id'));
     }
+
+    public function deletaRecibo($id)
+    {
+
+        $recibo = ReciboFuncionario::find($id);
+        $recibo->delete();
+
+        flash()->success('Recibo excluido com sucesso.');
+
+        return redirect()->back();
+    }
 }
