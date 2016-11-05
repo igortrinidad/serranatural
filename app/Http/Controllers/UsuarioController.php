@@ -11,6 +11,14 @@ use serranatural\User;
 
 class UsuarioController extends Controller
 {
+
+    public function __construct()
+    {
+
+        $this->middleware('nivelAcesso:super_adm', ['except' => ['index']]);
+
+    }
+
     /**
      * Display a listing of the resource.
      *
