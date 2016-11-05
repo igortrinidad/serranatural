@@ -7,6 +7,7 @@ use serranatural\Http\Requests;
 use serranatural\Http\Controllers\Controller;
 
 use serranatural\Models\Funcionario;
+use serranatural\Models\ReciboFuncionario;
 use serranatural\Models\Retirada;
 
 class FuncionariosController extends Controller
@@ -66,9 +67,9 @@ class FuncionariosController extends Controller
      */
     public function show($id)
     {
-        $funcionario = Funcionario::find($id);
+        $funcionario = Funcionario::with('recibos')->where('id', '=', $id)->first();
 
-        $retiradas = Retirada::with('usuario')
+        $retiradas = Retirada::with(['usuario'])
             ->where('funcionario_id', '=', $id)
             ->orderBy('created_at', 'desc')
             ->get();
@@ -174,6 +175,8 @@ class FuncionariosController extends Controller
 
         $funcionario = Funcionario::find($id);
 
+        $recibo = json_encode($request->selected);
+        $func_id = $id;
 
         $vts = Retirada::whereIn('id', $request->selected)->where('tipo', '=', 'Vale Transporte')->get();
         $vtTotal = Retirada::whereIn('id', $request->selected)->where('tipo', '=', 'Vale Transporte')->where('is_debito', '=', 0)->sum('valor');
@@ -185,6 +188,42 @@ class FuncionariosController extends Controller
 
         $total = $totalCredito - $totalDebito;
 
-        return view('adm.funcionarios.recibo', compact('vts', 'vtTotal', 'funcionario', 'pagamentos', 'total', 'totalDebito', 'totalCredito'));
+        return view('adm.funcionarios.recibo', compact('vts', 'vtTotal', 'funcionario', 'pagamentos', 'total', 'totalDebito', 'totalCredito', 'recibo', 'func_id'));
+    }
+
+    public function salvaRecibo(Request $request, $id)
+    {
+
+        ReciboFuncionario::create([
+                'retiradas' => json_encode($request->retiradas),
+                'funcionario_id' => $id,
+                'total_debito' => $request->total_debito,
+                'total_credito' => $request->total_credito
+            ]);
+
+        return 'okokok';
+    }
+
+    public function abreReciboSalvo($id)
+    {
+        $recibo = ReciboFuncionario::find($id);
+
+        $retiradas = json_decode($recibo->retiradas);
+
+        $funcionario = Funcionario::find($recibo->funcionario_id);
+
+        $func_id = $funcionario->id;
+
+        $vts = Retirada::whereIn('id', $retiradas)->where('tipo', '=', 'Vale Transporte')->get();
+        $vtTotal = Retirada::whereIn('id', $retiradas)->where('tipo', '=', 'Vale Transporte')->where('is_debito', '=', 0)->sum('valor');
+
+        $pagamentos = Retirada::whereIn('id', $retiradas)->where('tipo', '<>', 'Vale Transporte')->get();
+
+        $totalCredito = Retirada::whereIn('id', $retiradas)->where('tipo', '<>', 'Vale Transporte')->where('is_debito', '=', 0)->sum('valor');
+        $totalDebito = Retirada::whereIn('id', $retiradas)->where('tipo', '<>', 'Vale Transporte')->where('is_debito', '=', 1)->sum('valor');
+
+        $total = $totalCredito - $totalDebito;
+
+        return view('adm.funcionarios.recibo', compact('vts', 'vtTotal', 'funcionario', 'pagamentos', 'total', 'totalDebito', 'totalCredito', 'recibo', 'func_id'));
     }
 }

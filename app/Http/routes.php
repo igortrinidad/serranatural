@@ -98,13 +98,15 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 	Route::group(['as' => 'funcionarios.'], function()
 
 	{
-		Route::get('funcioarios/adiciona', ['as' => 'adiciona', 'uses' => 'FuncionariosController@create']);
-		Route::post('funcioarios/adiciona', ['as' => 'store', 'uses' => 'FuncionariosController@store']);
-		Route::get('funcioarios/lista', ['as' => 'lista', 'uses' => 'FuncionariosController@lista']);
-		Route::get('funcioarios/{id}/detalhes', ['as' => 'detalhes', 'uses' => 'FuncionariosController@show']);
-		Route::get('funcioarios/{id}/edita', ['as' => 'edit', 'uses' => 'FuncionariosController@edit']);
-		Route::post('funcioarios/{id}/update', ['as' => 'update', 'uses' => 'FuncionariosController@update']);
-		Route::post('funcioarios/recibo/{id}', ['as' => 'recibo', 'uses' => 'FuncionariosController@relatorio']);
+		Route::get('funcionarios/adiciona', ['as' => 'adiciona', 'uses' => 'FuncionariosController@create']);
+		Route::post('funcionarios/adiciona', ['as' => 'store', 'uses' => 'FuncionariosController@store']);
+		Route::get('funcionarios/lista', ['as' => 'lista', 'uses' => 'FuncionariosController@lista']);
+		Route::get('funcionarios/{id}/detalhes', ['as' => 'detalhes', 'uses' => 'FuncionariosController@show']);
+		Route::get('funcionarios/{id}/edita', ['as' => 'edit', 'uses' => 'FuncionariosController@edit']);
+		Route::post('funcionarios/{id}/update', ['as' => 'update', 'uses' => 'FuncionariosController@update']);
+		Route::post('funcionarios/recibo/{id}', ['as' => 'recibo', 'uses' => 'FuncionariosController@relatorio']);
+		Route::post('funcionarios/recibo/salva/{id}', ['as' => 'reciboSalva', 'uses' => 'FuncionariosController@salvaRecibo']);
+		Route::get('funcionarios/recibo/gerado/{id}', ['as' => 'reciboSalvo', 'uses' => 'FuncionariosController@abreReciboSalvo']);
 
 	});
 

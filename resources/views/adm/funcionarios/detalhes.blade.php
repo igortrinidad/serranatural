@@ -156,7 +156,7 @@
 											</label>
 										</td>
 										<td>
-											<a href="{{route('admin.financeiro.retiradaEdit', $pagamento->id) }}"/>{{$pagamento->created_at->format('d/m/Y')}}
+											<a target="_blank" href="{{route('admin.financeiro.retiradaEdit', $pagamento->id) }}"/>{{$pagamento->created_at->format('d/m/Y')}}
 											</a>
 										</td>
 										<td>{{$pagamento->is_debito ? 'Sim' : ''}}</td>
@@ -185,6 +185,35 @@
 
 				</div>
 
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">Recibos gerados</div>
+				<div class="panel-body">
+					<table class="table table-bordered table-hover table-striped">
+					    <thead>
+					        <tr>
+					            <td>Visualizar</td>
+					            <td>Data</td>
+					            <td>Total Debito</td>
+					            <td>Total Credito</td>
+					        </tr>
+					    </thead>
+					    <tbody>
+					    	@foreach($funcionario->recibos as $recibo)
+					        <tr>
+					        	<td>
+									<a href="{{route('admin.funcionarios.reciboSalvo', $recibo->id) }}"/><i class="fa fa-search"></i>
+									</a>
+								</td>
+					            <td>{{$recibo->created_at}}</td>
+					            <td>R$ {{$recibo->total_debito}}</td>
+					            <td>R$ {{$recibo->total_credito}}</td>
+					        </tr>
+					        @endforeach
+					    </tbody>
+					</table>
+				</div>
 			</div>
 
 			<div class="panel panel-default">

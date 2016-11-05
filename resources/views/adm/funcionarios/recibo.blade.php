@@ -4,10 +4,9 @@
 
 <h2 class="text-center">Recibo</h2><br>
 
-<div class="row" style="font-size:15px !important; font-weight: 500 !important">
-	<div class="col-md-1 col-sm-1">
-	</div>
-	<div class="col-md-10 col-sm-10">
+<div class="row" id="reciboss" style="font-size:15px !important; font-weight: 500 !important">
+
+	<div class="col-md-10 col-md-offset-1">
 		<p >Declaro para os devidos fins que recebi da empresa Serra Natural, CNPJ 20.699.074/0001-75, situada na Alameda do Ingá, 754 - Vila da Serra - Nova Lima os valores abaixo descriminados;</p>
 
 		<br>
@@ -105,12 +104,12 @@
 
 		<br>
 
-
-
 	</div>
 
 	<div class="col-md-1 col-sm-1">
-		
+		<div class="row">
+			<button class="btn btn-default" @click="salva()">Imprimir</button>
+		</div>
 	</div>
 </div>
 
@@ -120,14 +119,55 @@
 
 </div>
 
-
     @section('scripts')
 	    @parent
 	        <script src="{!! elixir('js/funcionarios.js') !!}"></script>
 
-<script type="text/javascript">
+			<script type="text/javascript">
 
-</script>
+				Vue.config.debug = true;
+				Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#_tokenLaravel').getAttribute('value');
+				var vm = new Vue({
+				    el: '#reciboss',
+				    data: {
+				    	retiradas: {!! $recibo !!},
+				    	id: {{ $func_id }},
+				    	total_debito: {{ $totalDebito}},
+				    	total_credito: {{ $totalCredito}}
+				    },
+
+					methods: {
+						imprime: function(){
+
+							window.print()
+
+						},
+						salva: function(){
+
+							this.$http.post('/admin/funcionarios/recibo/salva/' + this.id, { 
+									retiradas: this.retiradas,
+									total_debito: this.total_debito,
+									total_credito: this.total_credito
+								}).then(function (response) {
+
+								swal('OK', 'RECIBO GERADO COM SUCESSO.', 'success');
+
+								window.print()
+
+						    }, function (response) {
+
+						      	swal('ERRO', 'PROBLEMA AO GERAR O RECIBO.', 'error');
+						      	
+						      	console.log(response)
+
+						      	window.print()
+
+						    });
+						}
+					},
+				})
+
+			</script>
 
 	@stop
 

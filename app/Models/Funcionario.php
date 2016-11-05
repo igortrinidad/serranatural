@@ -39,6 +39,11 @@ class Funcionario extends Model
         return $this->hasMany('serranatural\Models\Retirada');
     }
 
+    public function recibos()
+    {
+        return $this->hasMany('serranatural\Models\ReciboFuncionario', 'funcionario_id', 'id');
+    }
+
     public function setDtInicioAttribute($value)
     {
         return $this->attributes['dt_inicio'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
