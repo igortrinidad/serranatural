@@ -36,7 +36,7 @@ class FinanceiroController extends Controller
     {
         $this->middleware('auth', ['except' => ['getImage']]);
 
-        //$this->middleware('nivelAcesso:super_adm', ['only' => ['retirada']]);
+        //$this->middleware('nivelAcesso:super_adm,two', ['only' => ['retirada']]);
 
     }
 

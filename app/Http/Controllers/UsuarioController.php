@@ -16,7 +16,7 @@ class UsuarioController extends Controller
     {
         $this->middleware('auth');
 
-        $this->middleware('nivelAcesso:super_adm', ['except' => ['index']]);
+        $this->middleware('nivelAcesso:super_adm,two', ['except' => ['index']]);
 
     }
 
