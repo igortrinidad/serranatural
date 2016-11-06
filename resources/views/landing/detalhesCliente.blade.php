@@ -63,10 +63,33 @@
                 <div class="row" >
 
                     <hr>
-                    <h2 class="intro-text text-center">
-                        <strong>Pontos válidos</strong>
-                    </h2>
+                        <h2 class="intro-text text-center">
+                            <strong>Pontos válidos</strong>
+                        </h2>
                     <hr>
+
+                    <div class="row">
+                        
+                        <div class="col-md-@{{interactions.cols}} text-center" v-for="pontos in pontosProgress">
+
+                            <label style="font-size: 20px">@{{pontos.produto}}</label>
+                            <p>Faltam: @{{pontos.faltam}}</p>
+                            <div class="progress progress-striped m-b-10">
+                                <div class="progress-bar progress-bar-success"
+                                     role="progressbar"
+                                     :aria-valuenow="pontos.percentual"
+                                     aria-valuemin="0"
+                                     aria-valuemax="100"
+                                     :style="{ width: pontos.percentual+'%' }"
+                                >
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                        <br>
+
+                    </div>
 
                     <table class="table">
                         <thead>
@@ -162,13 +185,19 @@
                     data: 
                     {
                         interactions: {
-                            
+                            totalProducts: {{$pontosProgress->count()}},
+                            cols: ''
                         },
+                        styles: [],
                         pontos: JSON.parse('{!!$pontosAll->toJson()!!}'),
+                        pontosProgress: JSON.parse('{!!$pontosProgress->toJson()!!}'),
                         vouchers: JSON.parse('{!!$vouchers->toJson()!!}'),
                         vouchersUtilizados: JSON.parse('{!!$vouchersUtilizados->toJson()!!}')
                     },
                     ready: function(){
+                        var that = this
+
+                        that.interactions.cols = 12 / that.interactions.totalProducts.toFixed(0);
 
                     }
                 });

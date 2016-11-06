@@ -15,6 +15,7 @@ use serranatural\Models\Voucher;
 
 use Mail;
 use DateTime;
+use DB;
 
 class SiteController extends Controller
 {
@@ -80,6 +81,18 @@ class SiteController extends Controller
                                 ->where('vencimento', '>=', date('Y-m-d'))
                                 ->get();
 
+        $pontosProgress = PontoColetado::where('cliente_id', '=', $cliente->id)
+                                ->where('is_valido', '=', 1)
+                                ->where('vencimento', '>=', date('Y-m-d'))
+                                ->groupBy('produto')
+                                ->select('produto', DB::raw('count(*) as total'))
+                                ->get();
+
+        foreach($pontosProgress as $pontos){
+            $pontos->percentual = number_format(100 / 15 * $pontos->total, 0);
+            $pontos->faltam = 15 - $pontos->total;
+        }
+
         $vouchers = Voucher::where('cliente_id', '=', $cliente->id)
                                 ->where('is_valido', '=', 1)
                                 ->where('vencimento', '>=', date('Y-m-d'))
@@ -93,6 +106,7 @@ class SiteController extends Controller
     return view('landing.detalhesCliente', compact(
             'cliente',
             'pontosAll',
+            'pontosProgress',
             'vouchers',
             'vouchersUtilizados'
         ));
