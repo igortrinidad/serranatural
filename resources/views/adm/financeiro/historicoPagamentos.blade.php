@@ -61,7 +61,7 @@
 			            <td>
 			            	@if(!$pag->user_id_pagamento or $pag->user_id_pagamento == 0) 
 			            		Não informado 
-			            	@elseif($pag->usuarioPagamento)
+			            	@elseif(!$pag->usuarioPagamento)
 								Usuário excluído
 			            	@else 
 			            		{{ $pag->usuarioPagamento->name }} 
