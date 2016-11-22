@@ -53,23 +53,31 @@
 			    <tbody>
 			    @foreach($pagamentos as $pag)
 			        <tr>
-			            <th class="text-center">@if($pag->is_liquidado == 0)<strong style="color:red">Pendente</strong> @else Liquidado - ({{$pag->data_pgto}}) @endif </th>
-			            <th class="text-center">{{$pag->vencimento}}</th>
-			            <th><a href="{{route('admin.financeiro.detalhes', $pag->id)}}">{{$pag->descricao}}</a></th>
-			            <th>{{$pag->valor}}</th>
-			            <th>{{$pag->fonte_pgto}}</th>
-			            <th>@if(!$pag->user_id_pagamento or $pag->user_id_pagamento == 0) Não informado @else {{ $pag->usuarioPagamento->name }} @endif</th>
-			            <th class="text-center" width="10%">
+			            <td class="text-center">@if($pag->is_liquidado == 0)<strong style="color:red">Pendente</strong> @else Liquidado - ({{$pag->data_pgto}}) @endif </td>
+			            <td class="text-center">{{$pag->vencimento}}</td>
+			            <td><a href="{{route('admin.financeiro.detalhes', $pag->id)}}">{{$pag->descricao}}</a></td>
+			            <td>{{$pag->valor}}</td>
+			            <td>{{$pag->fonte_pgto}}</td>
+			            <td>
+			            	@if(!$pag->user_id_pagamento or $pag->user_id_pagamento == 0) 
+			            		Não informado 
+			            	@elseif($pag->usuarioPagamento)
+								Usuário excluído
+			            	@else 
+			            		{{ $pag->usuarioPagamento->name }} 
+			            	@endif
+			            </td>
+			            <td class="text-center" width="10%">
 			            @if($pag->pagamento != '')
 			            	<a href="{!! route('arquivos.pagamentos', $pag->pagamento) !!}" data-lightbox="property"><i class="fa fa-search" ></i>
 			            @endif
 			            	</a>
-			            </th>
-			            <th class="text-center" width="10%">
+			            </td>
+			            <td class="text-center" width="10%">
 			            @if($pag->comprovante != '')
 			            	<a href="{!! route('arquivos.pagamentos', $pag->comprovante) !!}" data-lightbox="property"><i class="fa fa-search">
 			            @endif 
-			            </th>
+			            </td>
 			        </tr>
 			    @endforeach
 			    </tbody>
