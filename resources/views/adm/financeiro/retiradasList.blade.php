@@ -57,7 +57,13 @@
 			            </td>
 			            <td>{{$retirada->valor}}</td>
 			            <td>{{$retirada->descricao}}</td>
-			            <td>{{$retirada->usuario->name}}</td>
+			            <td>
+			            	@if(!$retirada->usuario)
+								Usuario excluído
+							@else
+			            		{{$retirada->usuario->name}}
+			            	@endif
+			            </td>
 			            <td>@if($retirada->retirado_caixa == 1) Sim @else Não @endif</td>
 			            <td>@if($retirada->funcionario_id != 0) {{$retirada->funcionario->nome}} @else -- @endif</td>
 			            <td class="text-center"><a href="{{ route('admin.financeiro.deletaRetirada', $retirada->id)}}"<i class="fa fa-trash fa-2x"></i></a></td>
