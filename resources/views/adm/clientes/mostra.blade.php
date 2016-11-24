@@ -144,7 +144,7 @@
 							<td style="width:10%;">
 								@if(!$voucher->user_id)
 								 -- 
-								@elseif($voucher->usuario)
+								@elseif(!$voucher->usuario)
 									Usuario excluido
 								@else
 									{{$voucher->usuario->name}}
