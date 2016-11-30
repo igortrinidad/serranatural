@@ -163,7 +163,13 @@
 										<td>{{$pagamento->tipo}}</td>
 										<td>{{substr($pagamento->descricao, 0, 10)}}</td>
 										<td>R$ {{$pagamento->valor}}</td>
+										
+										@if(!$pagamento->usuario)
+										<td>Usuário excluido</td>
+										@else
 										<td>{{$pagamento->usuario->name}}</td>
+										@endif
+
 										<td>{{$pagamento->init->format('d/m/Y')}}</td>
 										<td>{{$pagamento->end->format('d/m/Y')}}</td>
 										<td>{{$pagamento->retirado_caixa ? 'Sim' : ''}}</td>
