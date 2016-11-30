@@ -163,7 +163,7 @@
 										<td>{{$pagamento->tipo}}</td>
 										<td>{{substr($pagamento->descricao, 0, 10)}}</td>
 										<td>R$ {{$pagamento->valor}}</td>
-										
+
 										@if(!$pagamento->usuario)
 										<td>Usuário excluido</td>
 										@else
@@ -247,7 +247,12 @@
 								<td class="text-center" width="20%">{{$pagamento->created_at}}</td>
 								<td class="text-center" width="15%">{{$pagamento->valor}}</td>
 								<td width="35%">{{$pagamento->descricao}}</td>
-								<td>{{$pagamento->usuario->name}}</td>
+
+								@if(!$pagamento->usuario)
+									<td>Usuario excluido</td>
+								@else
+									<td>{{$pagamento->usuario->name}}</td>
+								@endif
 					        </tr>
 					        @endforeach
 
