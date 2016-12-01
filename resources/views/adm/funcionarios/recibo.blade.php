@@ -108,7 +108,7 @@
 
 	<div class="col-md-1 col-sm-1">
 		<div class="row">
-			<button class="btn btn-default" @click="salva()">Imprimir</button>
+			<button class="btn btn-default" @click="salva()">Salvar recibo</button>
 		</div>
 	</div>
 </div>
@@ -137,11 +137,7 @@
 				    },
 
 					methods: {
-						imprime: function(){
 
-							window.print()
-
-						},
 						salva: function(){
 
 							this.$http.post('/admin/funcionarios/recibo/salva/' + this.id, { 
@@ -152,15 +148,12 @@
 
 								swal('OK', 'RECIBO GERADO COM SUCESSO.', 'success');
 
-								window.print()
 
 						    }, function (response) {
 
 						      	swal('ERRO', 'PROBLEMA AO GERAR O RECIBO.', 'error');
 						      	
 						      	console.log(response)
-
-						      	window.print()
 
 						    });
 						}
