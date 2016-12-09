@@ -7,7 +7,7 @@
 
             <hr>
             <h2 class="intro-text text-center">
-                <strong>Faça um tour</strong>
+                <strong>BEM VINDO</strong>
             </h2>
             <hr>
 
