@@ -106,7 +106,7 @@ class PromocoesController extends Controller
     {
         $ext = $arquivo->getClientOriginalExtension();
         $nomeArquivo = $prefixo . '_ID_' . $objeto->id . '.' . $ext;
-        \Storage::disk('s3')->put($this->uploadPath.$nomeArquivo, file_get_contents($arquivo));
+        \Storage::disk('s3')->put($this->uploadPath.$nomeArquivo, file_get_contents($arquivo), 'public');
         $objeto->foto = $this->uploadPath.$nomeArquivo;
     }
 }
