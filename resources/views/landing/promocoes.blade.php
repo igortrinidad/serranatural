@@ -38,7 +38,7 @@
                         <hr>
                         
                         @if($promo->foto)
-                        <img class="img-responsive img-full" src="/uploads/promocoes/{{$promo->foto}}" alt="{{$promo->titulo}}">
+                        <img class="img-responsive img-full" src="https://s3.amazonaws.com/serranatural-production/{{$promo->foto}}" alt="{{$promo->titulo}}">
                         <br>
                         @endif
 
