@@ -282,9 +282,9 @@
 							    </thead>
 							    <tbody>
 							        <tr>
-							            <td><input class="form-control" v-model="newConta.cliente"></td>
-							            <td><input class="form-control phone_with_ddd" v-model="newConta.telefone"></td>
-							            <td><input class="form-control moneyFloat" data-mask="000.00" v-model="newConta.valor"></td>
+							            <td><input class="form-control" placeholder="Nome cliente" v-model="newConta.cliente"></td>
+							            <td><input class="form-control phone_with_ddd" placeholder="Telefone cliente" v-model="newConta.telefone"></td>
+							            <td><input class="form-control moneyFloat" placeholder="Valor do vale" data-mask="000.00" v-model="newConta.valor"></td>
 							        </tr>
 							    </tbody>
 							</table>
