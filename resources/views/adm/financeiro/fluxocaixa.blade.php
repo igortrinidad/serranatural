@@ -363,10 +363,10 @@
 								<input class="form-control" type="password" v-model="caixa_aberto.senha_conferente"/>
 							</div>
 							<br>
-							<button class="btn btn-warning btn-block" 
-								v-on:click="confere($event)"
-								:disabled="!caixa_aberto.vendas_cielo || !caixa_aberto.vendas_rede || !caixa_aberto.vr_emCaixa"
-							>Conferir</button>
+							<button 
+								class="btn btn-success btn-block" 
+								v-on:click="salva($event)"
+							>Salvar</button>
 							<br>
 							<button class="btn btn-primary btn-block" 
 								v-on:click="fecha($event)"
@@ -707,6 +707,38 @@
 								      	console.log('Erro ao tentar fechar o caixa.');
 
 								      	swal('ERRO', 'ERRO AO FECHAR O CAIXA! TENTE NOVAMENTE OU VERIFIQUE SE O CAIXA FOI FECHADO. INFORME AO ASSISTÊNCIA.', 'error');
+								      	that.authorization = false;
+								      	that.loading = false;
+								    });
+				    		}
+
+				    	},
+
+				    	salva: function(ev) {
+				    		ev.preventDefault();
+				    		var that = this;
+
+				    		if(!this.loading){
+
+				    			this.loading = true;
+
+					    		this.calcula();
+
+					    		this.$http.post('/admin/financeiro/caixa/update', this.caixa_aberto).then(function (response) {
+								       swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
+
+								       setTimeout(function()
+									    {
+									    	location.reload();
+									    }, 3000);
+								       that.authorization = false;
+								       that.loading = false;
+
+								    }, function (response) {
+
+								      	console.log('Erro ao tentar fechar o caixa.');
+
+								      	swal('ERRO', 'ERRO AO SALVAR O CAIXA! TENTE NOVAMENTE E VERIFIQUE SE O CAIXA FOI FECHADO. INFORME AO ASSISTÊNCIA.', 'error');
 								      	that.authorization = false;
 								      	that.loading = false;
 								    });
