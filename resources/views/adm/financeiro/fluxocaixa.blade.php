@@ -730,8 +730,8 @@
 
 				    		var conferencia1 = 
 				    			( parseFloat( this.caixa_aberto.vr_emCaixa )
-				    			+ parseFloat( this.caixa_aberto.total_retirada ) - 
-				    			(parseFloat( this.caixa_aberto.vr_abertura ) ) );
+				    			+ parseFloat( this.caixa_aberto.total_retirada ) 
+				    			- (parseFloat( this.caixa_aberto.vr_abertura) + parseFloat( this.caixa_anterior.contas.total ) ) );
 
 
 				    		var conferencia2 = 
