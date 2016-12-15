@@ -132,6 +132,7 @@ class CaixaController extends Controller
             $caixa = Caixa::create([
                     'vr_abertura' => $request->valor,
                     'user_id_abertura' => \Auth::user()->id,
+                    'contas' => $request->contas,
                     'turno' => $request->turno,
                     'is_aberto' => 1,
                     'dt_abertura' => date('Y-m-d H:i:s')
@@ -191,7 +192,8 @@ class CaixaController extends Controller
                     'turno' => $request->turno,
                     'diferenca_final' => $request->diferenca_final,
                     'is_aberto' => $request->is_aberto,
-                    'obs' => $request->obs
+                    'obs' => $request->obs,
+                    'contas' => $request->contas,
                 ]);
         }
 
@@ -246,6 +248,7 @@ class CaixaController extends Controller
                     'diferenca_final' => $request->diferenca_final,
                     'dt_fechamento' => date('Y-m-d H:i:s'),
                     'obs' => $request->obs,
+                    'contas' => $request->contas,
                     'is_aberto' => 0
                 ]);
 

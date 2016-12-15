@@ -243,6 +243,84 @@
 					</div>
 
 					<div class="panel panel-default">
+						<div class="panel-heading">Contas | Total de contas pendentes: R$ @{{caixa_aberto.contas.total}}</div>
+						<div class="panel-body">
+							<p>Obs. A lista de contas deve coincidir com as contas impressas e assinadas pelos clientes e armazenadas.</p>
+							<table class="table">
+							    <thead>
+							        <tr>
+							            <th width="20%">Data</th>
+							            <th width="20%">Cliente</th>
+							            <th width="15%">Tel</th>
+							            <th width="10%">Valor</th>
+							            <th width="20%">Quem autorizou?</th>
+							            <th width="10%">Quitar</th>
+							        </tr>
+							    </thead>
+							    <tbody>
+							        <tr v-for="conta in caixa_aberto.contas.contas_abertas">
+							            <td>@{{conta.data_init}}</td>
+							            <td>@{{conta.cliente}}</td>
+							            <td>@{{conta.telefone}}</td>
+							            <td>R$ @{{conta.valor}}</td>
+							            <td>@{{conta.usuario}}</td>
+							            <td @click="baixaConta(conta)"><i class="fa fa-check"></i></td>
+							        </tr>
+							    </tbody>
+							</table>
+
+							<br>
+							<table class="table">
+							    <thead>
+							        <tr>
+							            <th>Cliente</th>
+							            <th>Telefone</th>
+							            <th>Valor</th>
+							        </tr>
+							    </thead>
+							    <tbody>
+							        <tr>
+							            <td><input class="form-control" v-model="newConta.cliente"></td>
+							            <td><input class="form-control phone_with_ddd" v-model="newConta.telefone"></td>
+							            <td><input class="form-control moneyFloat" data-mask="000.00" v-model="newConta.valor"></td>
+							        </tr>
+							    </tbody>
+							</table>
+
+							<button class="btn btn-block btn-primary" @click="addNewConta()">Adicionar conta</button>
+
+							<br>
+
+							<table class="table">
+							    <thead>
+							        <tr>
+							            <th>Data compras</th>
+							            <th>Data quit.</th>
+							            <th>Cliente</th>
+							            <th>Telefone</th>
+							            <th>Valor</th>
+							            <th>Excluir</th>
+							        </tr>
+							    </thead>
+							    <tbody>
+							        <tr v-for="conta in caixa_aberto.contas.contas_pagas">
+							            <td>@{{conta.data_init}}</td>
+							            <td>@{{conta.data_pay}}</td>
+							            <td>@{{conta.cliente}}</td>
+							            <td>@{{conta.telefone}}</td>
+							            <td>R$ @{{conta.valor}}</td>
+							            <td ><i class="fa fa-trash"></i></td>
+							        </tr>
+							    </tbody>
+							</table>
+
+
+
+						</div>
+
+					</div>
+
+					<div class="panel panel-default">
 						<div class="panel-heading">Vendas</div>
 						<div class="panel-body">
 							<table class="table table-bordered">
@@ -326,6 +404,8 @@
 						</div>
 
 					</div>
+
+					
 				</div>
 			</div>
 
@@ -353,8 +433,22 @@
 				    	loading: false,
 				    	authorization: false,
 				    	retorno: '',
-				    	caixa_aberto: {senha: '', senha_conferente: ''},
-				    	caixa_anterior: '',
+				    	caixa_aberto: {
+				    		senha: '', 
+				    		senha_conferente: '',
+				    		contas: {
+			    				contas_abertas: [],
+			    				contas_pagas: [],
+			    				total: 0,
+				    		}
+				    	},
+				    	caixa_anterior: {
+				    			contas: {
+				    				contas_abertas: [],
+				    				contas_pagas: [],
+				    				total: 0,
+				    			}
+				    	},
 				    	caixa_is_aberto: false,
 				    	vendas: {
 				    		vendaBruta: '',
@@ -368,6 +462,15 @@
 				    		senha: '',
 				    		turno: '',
 				    		diferenca_inicial: '',
+				    		contas: {},
+				    	},
+				    	newConta: {
+				    		data_init: '',
+				    		cliente: '',
+				    		telefone: '',
+				    		valor: '',
+				    		data_pay: '',
+				    		usuario: '{{\Auth::user()->name}}'
 				    	},
 				    	retiradas: [],
 				    	substracted: false,
@@ -400,7 +503,8 @@
 					          	self.caixa_anterior = response.data.caixa_anterior;
 					          	self.caixa_is_aberto = true;
 					          	self.retiradas = response.data.retiradas;
-					          	
+
+					          	self.checkContas()
 
 					          	this.$http.get('/admin/financeiro/caixa/consultaVendas').then(function (response) {
 							        self.vendas = response.data;
@@ -414,6 +518,9 @@
 
 					          	self.caixa_anterior = response.data.caixa_anterior;
 					          	self.caixa_is_aberto = false;
+					          	self.abrir_caixa.contas = self.caixa_anterior.contas
+
+					          	self.checkContas()
 
 					          }
 
@@ -430,15 +537,62 @@
 
 					      });
 
-					    
+											    
 
-					      	setTimeout(function()
-								    {
-								    	location.reload();
-								    }, 180000);
+				      	setTimeout(function(){
+					    	location.reload();
+					    }, 180000);
 
-					    },
+					},
 				    methods: {
+
+				    	addNewConta: function(){
+				    		var that = this
+
+				    		that.newConta.data_init = moment().format('DD/MM/YYYY HH:mm:ss')
+
+				    		that.caixa_aberto.contas.contas_abertas.push($.extend(true, {}, that.newConta))
+
+				    		that.newConta.data_init = ''
+				    		that.newConta.data_pay = ''
+				    		that.newConta.cliente = ''
+				    		that.newConta.telefone = ''
+				    		that.newConta.valor = ''
+
+				    		that.checkContas()
+
+				    	},
+
+				    	baixaConta: function(conta){
+				    		var that = this
+
+				    		that.caixa_aberto.contas.contas_abertas.$remove(conta)
+
+				    		conta.usuario = '{{\Auth::user()->name}}'
+
+				    		conta.data_pay = moment().format('DD/MM/YYYY HH:mm:ss')
+
+				    		that.caixa_aberto.contas.contas_pagas.push(conta)
+
+				    		that.checkContas()
+
+				    	},
+
+				    	checkContas: function(){
+				    		var that = this
+
+				    		var soma = 0;
+
+				    		if(that.caixa_aberto.contas.contas_abertas.length){
+
+				    			that.caixa_aberto.contas.contas_abertas.forEach( function(conta){
+				    				soma = soma + parseFloat(conta.valor)
+				    			})
+
+				    		}
+
+				    		that.caixa_aberto.contas.total = soma
+				    	},
 				    	substract: function(ev){
 				    		ev.preventDefault()
 
