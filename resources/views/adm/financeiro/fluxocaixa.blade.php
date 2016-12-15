@@ -254,7 +254,7 @@
 							            <th width="15%">Tel</th>
 							            <th width="10%">Valor</th>
 							            <th width="20%">Quem autorizou?</th>
-							            <th width="10%">Quitar</th>
+							            <th width="10%" class="text-center">Quitar</th>
 							        </tr>
 							    </thead>
 							    <tbody>
@@ -264,7 +264,9 @@
 							            <td>@{{conta.telefone}}</td>
 							            <td>R$ @{{conta.valor}}</td>
 							            <td>@{{conta.usuario}}</td>
-							            <td @click="baixaConta(conta)"><i class="fa fa-check"></i></td>
+							            <td @click="baixaConta(conta)" class="text-center">
+							            	<i class="fa fa-check" style="cursor:pointer;"></i>
+							            </td>
 							        </tr>
 							    </tbody>
 							</table>
@@ -294,23 +296,29 @@
 							<table class="table">
 							    <thead>
 							        <tr>
-							            <th>Data compras</th>
-							            <th>Data quit.</th>
-							            <th>Cliente</th>
-							            <th>Telefone</th>
-							            <th>Valor</th>
-							            <th>Excluir</th>
+							            <th width="20%">Data compras</th>
+							            <th width="15%">Cliente</th>
+							            <th width="10%">Telefone</th>
+							            <th width="20%">Valor</th>
+							            <th width="10%" class="text-center">Excluir</th>
 							        </tr>
 							    </thead>
-							    <tbody>
-							        <tr v-for="conta in caixa_aberto.contas.contas_pagas">
-							            <td>@{{conta.data_init}}</td>
-							            <td>@{{conta.data_pay}}</td>
-							            <td>@{{conta.cliente}}</td>
-							            <td>@{{conta.telefone}}</td>
-							            <td>R$ @{{conta.valor}}</td>
-							            <td ><i class="fa fa-trash"></i></td>
-							        </tr>
+							    <tbody v-for="conta in caixa_aberto.contas.contas_pagas">
+								        <tr >
+								            <td>@{{conta.data_init}}</td>
+								            <td>@{{conta.cliente}}</td>
+								            <td>@{{conta.telefone}}</td>
+								            <td>R$ @{{conta.valor}}</td>
+								            <td class="text-center" @click="removeConta(conta)"><i class="fa fa-trash" style="cursor:pointer;"></i></td>
+								        </tr>
+								        <tr>
+											<td colspan="2">Data quitação</td>
+											<td colspan="3">Usuário quitação</td>
+								        </tr>
+								        <tr>
+											<td colspan="2"> @{{conta.data_pay}}</td>
+											<td colspan="3"> @{{conta.usuario_pay}}</td>
+								        </tr>
 							    </tbody>
 							</table>
 
@@ -470,7 +478,8 @@
 				    		telefone: '',
 				    		valor: '',
 				    		data_pay: '',
-				    		usuario: '{{\Auth::user()->name}}'
+				    		usuario: '{{\Auth::user()->name}}',
+				    		usuario_pay: '{{\Auth::user()->name}}'
 				    	},
 				    	retiradas: [],
 				    	substracted: false,
@@ -549,6 +558,11 @@
 				    	addNewConta: function(){
 				    		var that = this
 
+				    		if(!that.newConta.cliente || !that.newConta.telefone || !that.newConta.valor){
+				    			swal('Ops!', 'Preencha corretamente a conta.', 'error');
+				    			return false
+				    		}
+
 				    		that.newConta.data_init = moment().format('DD/MM/YYYY HH:mm:ss')
 
 				    		that.caixa_aberto.contas.contas_abertas.push($.extend(true, {}, that.newConta))
@@ -568,16 +582,47 @@
 
 				    		that.caixa_aberto.contas.contas_abertas.$remove(conta)
 
-				    		conta.usuario = '{{\Auth::user()->name}}'
-
 				    		conta.data_pay = moment().format('DD/MM/YYYY HH:mm:ss')
 
 				    		that.caixa_aberto.contas.contas_pagas.push(conta)
 
 				    		that.checkContas()
 
+				    		swal('Ok!', 'Conta liquidada corretamente.', 'success');
+
 				    	},
 
+				    	removeConta: function(conta){
+				    		var that = this
+
+				    		swal({
+							  title: "Confirme!",
+							  text: "Digite a senha de confirmação:",
+							  type: "input",
+							  showCancelButton: true,
+							  closeOnConfirm: false,
+							  animation: "slide-from-top",
+							  inputPlaceholder: "senha de autorização",
+							  inputType: 'password',
+							},
+							function(inputValue){
+							  if (inputValue === false) return false;
+							  
+							  if (inputValue === "") {
+							    swal.showInputError("You need to write something!");
+							    return false
+							  }
+
+							  if(inputValue == '1549'){
+							  	that.caixa_aberto.contas.contas_pagas.$remove(conta)
+							  	swal("Ok!", "Conta excluida com sucesso.", "success");
+							  } else {
+							  	swal('Ops!', 'Senha errada', 'error');
+							  }
+							  
+							});
+
+				    	},
 				    	checkContas: function(){
 				    		var that = this
 
