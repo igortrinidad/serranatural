@@ -739,6 +739,7 @@
 				    		( parseFloat( this.caixa_aberto.vendas_cielo )
 				    		+ parseFloat( this.caixa_aberto.vendas_rede ) 
 				    		+ parseFloat( this.caixa_aberto.vendas_online )
+				    		+ parseFloat( this.caixa_aberto.contas.total )
 				    		); 
 
 				    		var diferenca = (conferencia1) - (conferencia2);
