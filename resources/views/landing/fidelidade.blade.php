@@ -72,7 +72,7 @@ img {
                         </div>
 
                         <div class="col-md-10 text-center">
-                            <div class="card" style="height: 220px; background-color: #E0E5E5;">
+                            <div class="card" style="height: 220px; background-color: #E0E5E5; ">
                                 <div class="card-container">
                                     <h2>2º</h2>
                                     @if($p2)
@@ -84,7 +84,7 @@ img {
                                 </div>
                             </div>
 
-                            <div class="card" style="height: 300px; background-color: #FED136;">
+                            <div class="card" style="height: 300px; background-color: #FED136; width: 220px;">
                                 <div class="card-container">
                                     <h2>1º</h2>
                                     @if($p1)
