@@ -17,6 +17,8 @@ use Mail;
 use DateTime;
 use DB;
 
+use Carbon\Carbon;
+
 class SiteController extends Controller
 {
     /**
@@ -54,7 +56,29 @@ class SiteController extends Controller
 
     public function fidelidade()
     {
-        return view('landing/fidelidade');
+        $start = new Carbon('first day of this month');
+
+        $end = new Carbon('last day of this month');
+
+        $podiums = PontoColetado::with('cliente')
+            ->whereBetween('created_at', [$start, $end])
+            ->groupBy('cliente_id')
+            ->select('cliente_id', 'id', DB::raw('count(*) as total'))
+            ->orderBy('total', 'DESC')
+            ->limit(3)
+            ->get();
+
+        if($podiums->count() >= 3){
+            $p1 = $podiums[0];
+            $p2 = $podiums[1];
+            $p3 = $podiums[2];
+        } else {
+            $p1 = null;
+            $p2 = null;
+            $p3 = null;
+        }
+
+        return view('landing/fidelidade', compact('p1', 'p2', 'p3', 'start', 'end'));
     }
 
     public function cadastroCliente($email)
@@ -62,7 +86,7 @@ class SiteController extends Controller
         return view('landing.detalhesCliente', compact('email'));
     }
 
-        public function detalhesCliente($email)
+    public function detalhesCliente($email)
     {
 
         $cliente = Cliente::where('email', '=', $email)->first();
@@ -112,6 +136,7 @@ class SiteController extends Controller
         ));
 
     }
+
 
     public function contato()
     {

@@ -12,13 +12,114 @@
 .label-email{
     text-align: left;
 }
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px; /* 5px rounded corners */
+    background-color: white;
+    width: 180px;
+    display: inline-block;
+    vertical-align: bottom;
+    margin: 20px;
+}
+
+.card-row{
+    height: 300px;
+
+}
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+/* Add some padding inside the card container */
+.card-container {
+    padding: 25px 16px;
+}
+
+/* Add rounded corners to the top left and the top right corner of the image */
+img {
+    border-radius: 5px 5px 0 0;
+}
 </style>
 
     <div class="row"  id="elFidelidade">
+
         <div class="box">
             <div class="col-lg-12">
 
                 @include('flash::message')
+
+                <div class="text-center">
+                    <hr>
+                    <h2 class="intro-text">
+                        <strong>Podium Serra Natural</strong>
+                    </h2>
+                    <hr>
+
+                    <p>Periodo: {{$start->format('d/m/Y')}} - {{$end->format('d/m/Y')}}</p>
+                    
+                </div>
+
+                
+                <br>
+                    <div class="row">
+                        
+                        <div class="col-md-1 card-row text-center">
+                            
+                        </div>
+
+                        <div class="col-md-10 text-center">
+                            <div class="card" style="height: 220px; background-color: #E0E5E5;">
+                                <div class="card-container">
+                                    <h2>2º</h2>
+                                    @if($p2)
+                                        <h5><b>{{$p2->cliente->nome}}</b></h5> 
+                                        <p style="font-size: 20px">{{$p2->total}} pontos</p> 
+                                    @else
+                                        <p>Contabilizando</p> 
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="card" style="height: 300px; background-color: #FED136;">
+                                <div class="card-container">
+                                    <h2>1º</h2>
+                                    @if($p1)
+                                    <h5><b>{{$p1->cliente->nome}}</b></h5> 
+                                    <p style="font-size: 20px">{{$p1->total}} pontos</p> 
+                                    @else
+                                        <p>Contabilizando</p>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="card" style="height: 180px; background-color: #BCB296;">
+                                <div class="card-container">
+                                    <h2>3º</h2>
+                                    @if($p3)
+                                        <h5><b>{{$p3->cliente->nome}}</b></h5> 
+                                        <p style="font-size: 20px">{{$p3->total}} pontos</p> 
+                                    @else
+                                        <p>Contabilizando</p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-1 card-row text-center">
+                            
+                        </div>
+                        
+                        <br>
+
+                    </div>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="col-lg-12">
 
                 <div class="text-center">
                 	<hr>
@@ -153,7 +254,6 @@
                         }
                     }
                 });
-
 
 		</script>
 

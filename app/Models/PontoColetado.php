@@ -24,7 +24,7 @@ class PontoColetado extends Model
     					];
 
     public function cliente(){
-        return $this->belongsTo('serranatural\Models\Cliente', 'cliente_id', 'id');
+        return $this->belongsTo('serranatural\Models\Cliente');
     }
 
 
