@@ -76,7 +76,7 @@ img {
                                 <div class="card-container">
                                     <h2>2º</h2>
                                     @if($p2)
-                                        <h5><b>{{$p2->cliente->nome}}</b></h5> 
+                                        <h5><b>{{$p2->nome}}</b></h5>
                                         <p style="font-size: 20px">{{$p2->total}} pontos</p> 
                                     @else
                                         <p>Contabilizando</p> 
@@ -88,7 +88,7 @@ img {
                                 <div class="card-container">
                                     <h2>1º</h2>
                                     @if($p1)
-                                    <h5><b>{{$p1->cliente->nome}}</b></h5> 
+                                    <h5><b>{{$p1->nome}}</b></h5>
                                     <p style="font-size: 20px">{{$p1->total}} pontos</p> 
                                     @else
                                         <p>Contabilizando</p>
@@ -99,7 +99,7 @@ img {
                                 <div class="card-container">
                                     <h2>3º</h2>
                                     @if($p3)
-                                        <h5><b>{{$p3->cliente->nome}}</b></h5> 
+                                        <h5><b>{{$p3->nome}}</b></h5>
                                         <p style="font-size: 20px">{{$p3->total}} pontos</p> 
                                     @else
                                         <p>Contabilizando</p>

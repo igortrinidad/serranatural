@@ -56,19 +56,20 @@ class SiteController extends Controller
 
     public function fidelidade()
     {
-        $start = new Carbon('first day of this month');
+        $start = new Carbon('first day of September 2016');
 
-        $end = new Carbon('last day of this month');
+        $end = new Carbon('last day of September 2016');
 
-        $podiums = PontoColetado::with('cliente')
-            ->whereBetween('created_at', [$start, $end])
-            ->groupBy('cliente_id')
-            ->select('cliente_id', 'id', DB::raw('count(*) as total'))
+        $podiums = PontoColetado::join('clientes', 'pontos_coletados.cliente_id', '=', 'clientes.id')
+            ->whereBetween('pontos_coletados.created_at', [$start, $end])
+            ->groupBy('pontos_coletados.cliente_id')
+            ->select('clientes.nome', 'pontos_coletados.cliente_id', 'pontos_coletados.id', DB::raw('count(*) as total'))
             ->orderBy('total', 'DESC')
+            ->orderBy('clientes.nome', 'ASC')
             ->limit(3)
             ->get();
 
-        if($podiums->count() >= 3){
+        if ($podiums->count() >= 3) {
             $p1 = $podiums[0];
             $p2 = $podiums[1];
             $p3 = $podiums[2];
