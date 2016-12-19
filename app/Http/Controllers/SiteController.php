@@ -56,9 +56,9 @@ class SiteController extends Controller
 
     public function fidelidade()
     {
-        $start = new Carbon('first day of September 2016');
+        $start = new Carbon('first day of this month');
 
-        $end = new Carbon('last day of September 2016');
+        $end = new Carbon('last day of this month');
 
         $podiums = PontoColetado::join('clientes', 'pontos_coletados.cliente_id', '=', 'clientes.id')
             ->whereBetween('pontos_coletados.created_at', [$start, $end])
