@@ -65,56 +65,84 @@ img {
 
                 
                 <br>
-                    <div class="row">
-                        
-                        <div class="col-md-1 card-row text-center">
-                            
-                        </div>
+                <div class="row">
 
-                        <div class="col-md-10 text-center">
-                            <div class="card" style="height: 220px; background-color: #E0E5E5; ">
-                                <div class="card-container">
-                                    <h2>2º</h2>
-                                    @if($p2)
-                                        <h5><b>{{$p2->nome}}</b></h5>
-                                        <p style="font-size: 20px">{{$p2->total}} pontos</p> 
-                                    @else
-                                        <p>Contabilizando</p> 
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="card" style="height: 300px; background-color: #FED136; width: 220px;">
-                                <div class="card-container">
-                                    <h2>1º</h2>
-                                    @if($p1)
-                                    <h5><b>{{$p1->nome}}</b></h5>
-                                    <p style="font-size: 20px">{{$p1->total}} pontos</p> 
-                                    @else
-                                        <p>Contabilizando</p>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="card" style="height: 180px; background-color: #BCB296;">
-                                <div class="card-container">
-                                    <h2>3º</h2>
-                                    @if($p3)
-                                        <h5><b>{{$p3->nome}}</b></h5>
-                                        <p style="font-size: 20px">{{$p3->total}} pontos</p> 
-                                    @else
-                                        <p>Contabilizando</p>
-                                    @endif
-                                </div>
+                    <div class="col-md-10 col-md-offset-1 text-center">
+                        <div class="card" style="height: 220px; background-color: #E0E5E5; ">
+                            <div class="card-container">
+                                <h2>2º</h2>
+                                @if($p2)
+                                    <h5><b>{{$p2->nome}}</b></h5>
+                                    <p style="font-size: 20px">{{$p2->total}} pontos</p> 
+                                @else
+                                    <p>Contabilizando</p> 
+                                @endif
                             </div>
                         </div>
 
-                        <div class="col-md-1 card-row text-center">
-                            
+                        <div class="card" style="height: 300px; background-color: #FED136; width: 220px;">
+                            <div class="card-container">
+                                <h2>1º</h2>
+                                @if($p1)
+                                <h5><b>{{$p1->nome}}</b></h5>
+                                <p style="font-size: 20px">{{$p1->total}} pontos</p> 
+                                @else
+                                    <p>Contabilizando</p>
+                                @endif
+                            </div>
                         </div>
-                        
-                        <br>
-
+                        <div class="card" style="height: 180px; background-color: #BCB296;">
+                            <div class="card-container">
+                                <h2>3º</h2>
+                                @if($p3)
+                                    <h5><b>{{$p3->nome}}</b></h5>
+                                    <p style="font-size: 20px">{{$p3->total}} pontos</p> 
+                                @else
+                                    <p>Contabilizando</p>
+                                @endif
+                            </div>
+                        </div>
                     </div>
+                    
+                    <br>
+
+                </div>
+
+                <br>
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2 text-center">
+
+                        <hr>
+                        <h2 class="intro-text">
+                            <div class="" data-toggle="collapse" data-target="#rankingMes">
+                                <label>Ranking do mês</label>
+                                <i class="fa fa-chevron-down"></i>
+                            </div>
+                        </h2>
+                        <hr>
+                        <div id="rankingMes" class="collapse">
+                            
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <td>Cliente</td>
+                                        <td>Quantidade de pontos</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($podiums as $p)
+                                    <tr>
+                                        <td>{{$p->cliente->nome}}</td>
+                                        <td>{{$p->total}}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </div>
+                </div>
+
             </div>
         </div>
 

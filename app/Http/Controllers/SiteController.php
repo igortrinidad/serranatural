@@ -66,7 +66,6 @@ class SiteController extends Controller
             ->select('clientes.nome', 'pontos_coletados.cliente_id', 'pontos_coletados.id', DB::raw('count(*) as total'))
             ->orderBy('total', 'DESC')
             ->orderBy('clientes.nome', 'ASC')
-            ->limit(3)
             ->get();
 
         if ($podiums->count() >= 3) {
@@ -79,7 +78,7 @@ class SiteController extends Controller
             $p3 = null;
         }
 
-        return view('landing/fidelidade', compact('p1', 'p2', 'p3', 'start', 'end'));
+        return view('landing/fidelidade', compact('p1', 'p2', 'p3', 'start', 'end', 'podiums'));
     }
 
     public function cadastroCliente($email)
