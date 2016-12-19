@@ -125,15 +125,17 @@ img {
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
+                                        <td>Ranking</td>
                                         <td>Cliente</td>
                                         <td>Quantidade de pontos</td>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($podiums as $p)
+                                    @foreach($podiums as $key => $p)
                                     <tr>
-                                        <td>{{$p->cliente->nome}}</td>
-                                        <td>{{$p->total}}</td>
+                                        <td>{{ $key+1 }}</td>
+                                        <td>{{ $p->cliente->nome }}</td>
+                                        <td>{{ $p->total }}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
