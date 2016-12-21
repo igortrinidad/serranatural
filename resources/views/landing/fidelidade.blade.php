@@ -133,7 +133,7 @@ img {
                                 <tbody>
                                     @foreach($podiums as $key => $p)
                                     <tr>
-                                        <td>{{ $key+1 }}</td>
+                                        <td>{{ $key+1 }}º</td>
                                         <td>{{ $p->cliente->nome }}</td>
                                         <td>{{ $p->total }}</td>
                                     </tr>
