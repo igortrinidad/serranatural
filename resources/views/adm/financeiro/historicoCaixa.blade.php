@@ -15,66 +15,66 @@
 </style>
 
 <div id="elHistoricoCaixa">
-<h2 class="text-right">Histórico de caixas</h2><br>
+	<h2 class="text-right">Histórico de caixas</h2><br>
 
 	@include('errors.messages')
 
-<div v-show="loading">
-	@include('utils.loading-full')
-</div>
+	<div v-show="loading">
+		@include('utils.loading-full')
+	</div>
 
 
-		<div class="col-md-12">
+	<div class="col-md-12">
 
-			<div class="panel panel-default">
-				<div class="panel-heading">Caixas</div>
-				<div class="panel-body">
-							<table class="table table-bordered">
-								<thead>
-									<tr>
-										<th class="text-center">Abertura</th>
-										<th class="text-center">Usuario abertura</th>
-										<th class="text-center">Fechamento</th>
-										<th class="text-center">Usuario fechamento</th>
-										<th class="text-center">Valor abertura</th>
-										<th class="text-center">Venda total</th>
-										<th class="text-center">Cielo</th>
-										<th class="text-center">Rede</th>
-										<th class="text-center">Fundo de caixa</th>
-										<th class="text-center">Retirada total</th>
-										<th class="text-center">Diferença total</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr v-for="caixa in caixas">
-										<td class="text-center">@{{caixa.dt_abertura}}</td>
-										<td class="text-center" v-if="caixa.usuario_abertura">@{{caixa.usuario_abertura.name}}</td>
-										<td class="text-center" v-if="!caixa.usuario_abertura">--</td>
-										<td class="text-center" v-if="caixa.dt_fechamento > '2010-10-10'">@{{caixa.dt_fechamento}}</td>
-										<td class="text-center" v-if="caixa.dt_fechamento < '2010-10-10'">--</td>
-										<td class="text-center" v-if="caixa.usuario_fechamento">@{{caixa.usuario_fechamento.name}}</td>
-										<td class="text-center" v-if="!caixa.usuario_fechamento">--</td>
-										<td class="text-center">R$ @{{caixa.vr_abertura}}</td>
-										<td class="text-center">@{{caixa.vendas}}</td>
-										<td class="text-center">R$ @{{caixa.vendas_cielo}}</td>
-										<td class="text-center">R$ @{{caixa.vendas_rede}}</td>
-										<td class="text-center">R$ @{{caixa.vr_emCaixa}}</td>
-										<td class="text-center">R$ @{{caixa.total_retirada}}</td>
-										<td class="text-center" v-on:click="mostraVendas(caixa)"
-										v-bind:class="{ 'warning': caixa.diferenca_final < 0, 'success': caixa.diferenca_final >= 0 }">R$ @{{caixa.diferenca_final}}</td>
+		<div class="panel panel-default">
+			<div class="panel-heading">Caixas</div>
+			<div class="panel-body">
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th class="text-center">Abertura</th>
+									<th class="text-center">Usuario abertura</th>
+									<th class="text-center">Fechamento</th>
+									<th class="text-center">Usuario fechamento</th>
+									<th class="text-center">Valor abertura</th>
+									<th class="text-center">Venda total</th>
+									<th class="text-center">Cielo</th>
+									<th class="text-center">Rede</th>
+									<th class="text-center">Fundo de caixa</th>
+									<th class="text-center">Retirada total</th>
+									<th class="text-center">Diferença total</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="caixa in caixas">
+									<td class="text-center">@{{caixa.dt_abertura}}</td>
+									<td class="text-center" v-if="caixa.usuario_abertura">@{{caixa.usuario_abertura.name}}</td>
+									<td class="text-center" v-if="!caixa.usuario_abertura">--</td>
+									<td class="text-center" v-if="caixa.dt_fechamento > '2010-10-10'">@{{caixa.dt_fechamento}}</td>
+									<td class="text-center" v-if="caixa.dt_fechamento < '2010-10-10'">--</td>
+									<td class="text-center" v-if="caixa.usuario_fechamento">@{{caixa.usuario_fechamento.name}}</td>
+									<td class="text-center" v-if="!caixa.usuario_fechamento">--</td>
+									<td class="text-center">R$ @{{caixa.vr_abertura}}</td>
+									<td class="text-center">@{{caixa.vendas}}</td>
+									<td class="text-center">R$ @{{caixa.vendas_cielo}}</td>
+									<td class="text-center">R$ @{{caixa.vendas_rede}}</td>
+									<td class="text-center">R$ @{{caixa.vr_emCaixa}}</td>
+									<td class="text-center">R$ @{{caixa.total_retirada}}</td>
+									<td class="text-center" v-on:click="mostraVendas(caixa)"
+									v-bind:class="{ 'warning': caixa.diferenca_final < 0, 'success': caixa.diferenca_final >= 0 }">R$ @{{caixa.diferenca_final}}</td>
 
-									</tr>
-								</tbody>
-							</table>
-				</div>
-			
+								</tr>
+							</tbody>
+						</table>
 			</div>
+		
 		</div>
+	</div>
 
 
 		<!-- Modal -->
 <div class="modal fade" id="modalCaixaSelected" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -82,108 +82,196 @@
       </div>
       <div class="modal-body">
 
-      <div class="row">
-      	<div class="col-md-6">
-      		<label>Data abertura</label>
-      		<p>@{{caixaSelected.caixa.dt_abertura}}</p>
-      		<label>Usuário abertura</label>
-      		<p>@{{caixaSelected.caixa.usuario_abertura.name}}</p>
-      		<label>Vendas total</label>
-      		<p>R$ @{{caixaSelected.caixa.vendas}}</p>
-      		<label>Ticket Médio</label>
-      		<p>R$ @{{(caixaSelected.caixa.vendas / caixaSelected.fetched.vendas_resumo.length).toFixed(2)}}</p>
-      		<label>Vendas rede</label>
-      		<p>@{{caixaSelected.caixa.vendas_rede}}</p>
-      		<label>Abertura</label>
-      		<p>@{{caixaSelected.caixa.vr_abertura}}</p>
+		<!-- DETALHES CAIXA -->
+	    <div class="row">
+	     	<div class="col-md-12 col-xs-12">
+		     	<fieldset>
+		     		<legend>Detalhes caixa</legend>
+			      	<div class="col-md-6">
+			      		<label>Data abertura</label>
+			      		<p>@{{caixaSelected.caixa.dt_abertura}}</p>
+			      		<label>Usuário abertura</label>
+			      		<p>@{{caixaSelected.caixa.usuario_abertura.name}}</p>
+			      		<label>Vendas total</label>
+			      		<p>R$ @{{caixaSelected.caixa.vendas}}</p>
+			      		<label>Ticket Médio</label>
+			      		<p>R$ @{{(caixaSelected.caixa.vendas / caixaSelected.fetched.vendas_resumo.length).toFixed(2)}}</p>
+			      		<label>Vendas rede</label>
+			      		<p>@{{caixaSelected.caixa.vendas_rede}}</p>
+			      		<label>Abertura</label>
+			      		<p>@{{caixaSelected.caixa.vr_abertura}}</p>
+			      	</div>
+
+			      	<div class="col-md-6">
+			      		<label>Data fechamento</label>
+			      		<p>@{{caixaSelected.caixa.dt_fechamento}}</p>
+			      		<label>Usuário fechamento</label>
+			      		<p>@{{caixaSelected.caixa.usuario_fechamento.name}}</p>
+			      		<label>Volume de vendas</label>
+			      		<p>@{{caixaSelected.fetched.vendas_resumo.length}}</p>
+			      		<label>Vendas cielo</label>
+			      		<p>@{{caixaSelected.caixa.vendas_cielo}}</p>
+			      		<label>Total retiradas</label>
+			      		<p>@{{caixaSelected.caixa.total_retirada}}</p>
+			      		<label>Fundo de caixa</label>
+			      		<p>@{{caixaSelected.caixa.vr_emCaixa}}</p>
+			      	</div>
+
+			      	<div class="col-md-12 text-center">
+			      		<label>Diferença</label>
+			      		<p>R$ @{{ caixaSelected.caixa.diferenca_calculada }}</p>
+			      		<label>Observações</label>
+			      		<p>@{{{ caixaSelected.caixa.obs }}}</p>
+			      	</div>
+		      	</fieldset>
+	     	</div>
+	    </div>
+
+		<!-- RETIRADAS -->
+		<div class="row">
+			<div class="col-md-12 col-xs-12">
+
+				<fieldset>
+					<legend>Retiradas</legend>
+				    <table class="table table-bordered table-striped">
+					    <thead>
+					        <tr>
+					            <th>Valor</th>
+					            <th>Tipo</th>
+					            <th>Descrição</th>
+					            <th>Quem fez?</th>
+					            <th>Para quem?</th>
+					        </tr>
+					    </thead>
+					    <tbody>
+					        <tr v-for="retirada in caixaSelected.caixa.retiradas">
+					            <td>@{{retirada.valor}}</td>
+					            <td>@{{retirada.tipo}}</td>
+					            <td>@{{retirada.descricao}}</td>
+					            <td>@{{retirada.usuario.name}}</td>
+					            <td v-if="retirada.funcionario">@{{retirada.funcionario.nome}}</td>
+					            <td v-if="!retirada.funcionario">--</td>
+					        </tr>
+					    </tbody>
+					</table>
+				</fieldset>
+				
+			</div>
+		</div>
+
+		<!-- CONTAS EM ABERTO -->
+		<div class="row">
+			<div class="col-md-12 col-xs-12">
+
+				<fieldset>
+					<legend>Contas em aberto</legend>
+				    <table class="table table-bordered table-striped">
+					    <thead>
+					        <tr>
+					            <th>Data</th>
+					            <th>Cliente</th>
+					            <th>Telefone</th>
+					            <th>Valor</th>
+					            <th>Quem autorizou?</th>
+					        </tr>
+					    </thead>
+					    <tbody v-if="caixaSelected">
+					        <tr v-for="conta in caixaSelected.caixa.contas.contas_abertas | orderBy 'cliente'">
+					            <td>@{{conta.data_init}}</td>
+					            <td>@{{conta.cliente}}</td>
+					            <td>@{{conta.telefone}}</td>
+					            <td>@{{conta.valor}}</td>
+					            <td>@{{conta.usuario}}</td>
+					        </tr>
+					    </tbody>
+					</table>
+				</fieldset>
+				
+			</div>
+		</div>
+
+		<!-- CONTAS PAGAS -->
+		<div class="row">
+			<div class="col-md-12 col-xs-12">
+
+				<fieldset>
+					<legend>Contas liquidadas</legend>
+				    <table class="table table-bordered table-striped">
+					    <thead>
+					        <tr>
+					            <th>Data</th>
+					            <th>Cliente</th>
+					            <th>Valor</th>
+					            <th>Quem autorizou entrada?</th>
+					            <th>Quem autorizou baixa?</th>
+					        </tr>
+					    </thead>
+					    <tbody v-if="caixaSelected.caixa.contas">
+					        <tr v-for="conta in caixaSelected.caixa.contas.contas_pagas">
+					            <td>@{{conta.data_pay}}</td>
+					            <td>@{{conta.cliente}}</td>
+					            <td>@{{conta.valor}}</td>
+					            <td>@{{conta.usuario}}</td>
+					            <td>@{{conta.usuario_pay}}</td>
+					        </tr>
+					    </tbody>
+					</table>
+				</fieldset>
+				
+			</div>
+		</div>
+
+		<!-- VENDAS REALIZADAS -->
+		<div class="row">
+			<div class="col-md-12 col-xs-12">
+				<fieldset>
+					<legend>Vendas realizadas neste caixa</legend>
+
+				    <table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>Valor</th>
+								<th>Data</th>
+								<th>Ver conta</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="venda in caixaSelected.fetched.vendas_resumo">
+								<td >R$ @{{(venda.valor/100).formatMoney(2, ',', '.')}}</td>
+								<td>@{{venda.data}}</td>
+								<td><a href="@{{venda.url}}" target="_blank">Ver recibo</td>
+							</tr>
+							<tr>
+								<td colspan="2">Total de vendas</td>
+								<td>@{{ caixaSelected.fetched.vendas_resumo.length }}</td>
+							</tr>
+
+						</tbody>
+					</table>
+					
+				</fieldset>
+			</div>
+		</div>
+
+		<!-- REABRIR CAIXA -->
+		<div class="row">
+	      	<div class="col-md-12">
+	      		<fieldset>
+	      			<legend>Reabrir caixa</legend>
+	  				<form method="post" action="/admin/financeiro/caixa/reabreCaixa/@{{caixaSelected.caixa.id}}">
+						{!! csrf_field() !!}
+
+						<div class="form-group">
+							<label>Senha</label>
+							<input type="password" name="senha" class="form-control"/>
+						</div>
+
+						<button type="submit" class="btn btn-danger btn-block">Reabrir caixa</button>
+
+					</form>
+				</fieldset>
+	      	</div>
       	</div>
-
-      	<div class="col-md-6">
-      		<label>Data fechamento</label>
-      		<p>@{{caixaSelected.caixa.dt_fechamento}}</p>
-      		<label>Usuário fechamento</label>
-      		<p>@{{caixaSelected.caixa.usuario_fechamento.name}}</p>
-      		<label>Volume de vendas</label>
-      		<p>@{{caixaSelected.fetched.vendas_resumo.length}}</p>
-      		<label>Vendas cielo</label>
-      		<p>@{{caixaSelected.caixa.vendas_cielo}}</p>
-      		<label>Total retiradas</label>
-      		<p>@{{caixaSelected.caixa.total_retirada}}</p>
-      		<label>Fundo de caixa</label>
-      		<p>@{{caixaSelected.caixa.vr_emCaixa}}</p>
-      	</div>
-
-      	<div class="col-md-12 text-center">
-      		<label>Diferença</label>
-      		<p>R$ @{{ caixaSelected.caixa.diferenca_calculada }}</p>
-      		<label>Observações</label>
-      		<p>@{{{ caixaSelected.caixa.obs }}}</p>
-      	</div>
-      </div>
-
-      <div class="row">
-      	<div class="col-md-12">
-  				<form method="post" action="/admin/financeiro/caixa/reabreCaixa/@{{caixaSelected.caixa.id}}">
-					{!! csrf_field() !!}
-
-					<div class="form-group">
-						<label>Senha</label>
-						<input type="password" name="senha" class="form-control"/>
-					</div>
-
-					<button type="submit" class="btn btn-danger btn-block">Reabrir caixa</button>
-
-				</form>
-      	</div>
-      </div>
-
-	    <hr size="3px" style="margin-top: 2px"/>
-
-	    <table class="table table-bordered table-striped">
-		    <thead>
-		        <tr>
-		            <th>Valor</th>
-		            <th>Tipo</th>
-		            <th>Descrição</th>
-		            <th>Quem fez?</th>
-		            <th>Para quem?</th>
-		        </tr>
-		    </thead>
-		    <tbody>
-		        <tr v-for="retirada in caixaSelected.caixa.retiradas">
-		            <td>@{{retirada.valor}}</td>
-		            <td>@{{retirada.tipo}}</td>
-		            <td>@{{retirada.descricao}}</td>
-		            <td>@{{retirada.usuario.name}}</td>
-		            <td v-if="retirada.funcionario">@{{retirada.funcionario.nome}}</td>
-		            <td v-if="!retirada.funcionario">--</td>
-		        </tr>
-		    </tbody>
-		</table>
-
-		<hr size="3px" style="margin-top: 2px"/>
-
-	    <table class="table table-bordered">
-			<thead>
-				<tr>
-					<th>Valor</th>
-					<th>Data</th>
-					<th>Ver conta</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for="venda in caixaSelected.fetched.vendas_resumo">
-					<td >R$ @{{(venda.valor/100).formatMoney(2, ',', '.')}}</td>
-					<td>@{{venda.data}}</td>
-					<td><a href="@{{venda.url}}" target="_blank">Ver recibo</td>
-				</tr>
-				<tr>
-					<td colspan="2">Total de vendas</td>
-					<td>@{{ caixaSelected.fetched.vendas_resumo.length }}</td>
-				</tr>
-
-			</tbody>
-		</table>
 		
       </div>
       <div class="modal-footer">
@@ -224,6 +312,10 @@
 				    				{valor: '', descricao: '', tipo: '', usuario: {name: ''}, funcionario: {nome: ''}}
 				    			],
 				    			diferenca_calculada: '',
+				    			contas: {
+				    				contas_abertas: [],
+				    				contas_pagas: []
+				    			}
 				    		}, 
 				    		fetched: {
 				    			vendas_resumo: []
@@ -231,6 +323,7 @@
 				    		
 				    	},
 				    },
+
 				    ready: function(){
 				    	var self = this;	
 				      	// GET request
