@@ -62,10 +62,11 @@ class SiteController extends Controller
 
         $podiums = PontoColetado::join('clientes', 'pontos_coletados.cliente_id', '=', 'clientes.id')
             ->whereBetween('pontos_coletados.created_at', [$start, $end])
-            ->groupBy('pontos_coletados.cliente_id')
             ->select('pontos_coletados.id', 'clientes.nome', 'pontos_coletados.cliente_id', DB::raw('count(DISTINCT pontos_coletados.id) as total'))
+            ->groupBy('pontos_coletados.cliente_id')
             ->orderBy('total', 'DESC')
             ->orderBy('clientes.nome', 'ASC')
+            ->withTrashed()
             ->get();
 
         if ($podiums->count() >= 3) {
