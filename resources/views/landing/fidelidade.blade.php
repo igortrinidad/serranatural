@@ -58,7 +58,7 @@ img {
                         <strong>Podium Serra Natural</strong>
                     </h2>
                     <hr>
-
+                    <p>*Em desenvolvimento</p>
                     <p>Periodo: {{$start->format('d/m/Y')}} - {{$end->format('d/m/Y')}}</p>
                     
                 </div>
