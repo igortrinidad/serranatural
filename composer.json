@@ -22,7 +22,8 @@
         "mashape/unirest-php": "^3.0",
         "predis/predis": "^1.1",
         "league/flysystem": "^1.0",
-        "league/flysystem-aws-s3-v3": "^1.0"
+        "league/flysystem-aws-s3-v3": "^1.0",
+        "nesbot/carbon": "^1.21"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

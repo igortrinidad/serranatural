@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cebb0416849fd20d72314e7ba9141d23",
-    "content-hash": "54ae12d0c9e63d477b6d66b3dc823d02",
+    "hash": "bed9f3ef67d4a65188cd2127f6b18d67",
+    "content-hash": "0f297af2f4371482d017aa608acc799a",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -763,7 +763,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image/zipball/86dfe2f2a95aa9eed58faf1cc1dae6534a6ce931",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/4064a980324f6c3bfa2bd981dfb247afa705ec3c",
                 "reference": "86dfe2f2a95aa9eed58faf1cc1dae6534a6ce931",
                 "shasum": ""
             },
@@ -1490,7 +1490,6 @@
                 "oauth2",
                 "server"
             ],
-            "abandoned": "laravel/passport",
             "time": "2015-11-02 12:24:52"
         },
         {

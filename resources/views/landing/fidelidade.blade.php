@@ -58,7 +58,7 @@ img {
                         <strong>Podium Serra Natural</strong>
                     </h2>
                     <hr>
-                    <p>Periodo: {{$start->format('d/m/Y')}} - {{$end->format('d/m/Y')}}</p>
+                    <p>Periodo: {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $start)->format('d/m/Y') }} - {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $end)->format('d/m/Y') }}</p>
                     
                 </div>
 
