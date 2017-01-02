@@ -110,6 +110,7 @@ elixir(function(mix) {
 		'../../../node_modules/vue-resource/dist/vue-resource.js',
 		'/../bower_components/summernote/dist/summernote.js',
 		'/../bower_components/jquery-mask-plugin/dist/jquery.mask.js',
+		'instafeed.js'
 	], 'public/landing/js/vendor.js');
 //
 

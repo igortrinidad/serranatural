@@ -73,6 +73,9 @@
                         <a {!! Request::is('fidelidade') ? ' class="active"' : null !!} href="/fidelidade">Fidelidade</a>
                     </li>
                     <li>
+                        <a {!! Request::is('instagram') ? ' class="active"' : null !!} href="/instagram">Instagram</a>
+                    </li>
+                    <li>
                         <a {!! Request::is('contato') ? ' class="active"' : null !!} href="/contato">Contato</a>
                     </li>
                 </ul>

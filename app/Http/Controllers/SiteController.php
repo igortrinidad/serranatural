@@ -140,6 +140,11 @@ class SiteController extends Controller
 
     }
 
+    public function instagram()
+    {
+        return view('landing.instagram');
+    }
+
 
     public function contato()
     {
