@@ -5,8 +5,9 @@
     <style>
         
         .insta-feed-serra{
-            width: 200px;
+            width: 20%;
             transition: 1s;
+            margin: 5px;
         }
 
         .insta-feed-serra:hover{
