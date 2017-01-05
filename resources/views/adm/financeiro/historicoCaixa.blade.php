@@ -175,7 +175,7 @@
 					            <th>Quem autorizou?</th>
 					        </tr>
 					    </thead>
-					    <tbody v-if="caixaSelected && caixaSelected.caixa.contas.contas_abertas">
+					    <tbody v-if="caixaSelected && caixaSelected.caixa.contas">
 					        <tr v-for="conta in caixaSelected.caixa.contas.contas_abertas | orderBy 'cliente'">
 					            <td>@{{conta.data_init}}</td>
 					            <td>@{{conta.cliente}}</td>
@@ -206,7 +206,7 @@
 					            <th>Quem autorizou baixa?</th>
 					        </tr>
 					    </thead>
-					    <tbody v-if="caixaSelected.caixa.contas && caixaSelected.caixa.contas.contas_pagas">
+					    <tbody v-if="caixaSelected.caixa.contas && caixaSelected.caixa.contas">
 					        <tr v-for="conta in caixaSelected.caixa.contas.contas_pagas">
 					            <td>@{{conta.data_pay}}</td>
 					            <td>@{{conta.cliente}}</td>
