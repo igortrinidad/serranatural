@@ -26,6 +26,7 @@
 	    </thead>
 	    <tbody>
 	    @foreach($funcionarios as $funcionario)
+	    	@if($funcionario->is_ativo)
 	        <tr>
 	            <th>{{$funcionario->nome}}</th>
 	            <th>{{$funcionario->cargo}}</th>
@@ -34,8 +35,26 @@
 	            <th class="text-center" width="12%">{{$funcionario->vr_transporte}}</th>
 	            <th class="text-center" width="8%"><a href="{{route('admin.funcionarios.detalhes', $funcionario->id)}}"><i class="fa fa-search"></i></a></th>
 	            <th class="text-center" width="8%"><a href="{{route('admin.funcionarios.edit', $funcionario->id)}}"><i class="fa fa-pencil"></i></a></th>
-		@endforeach
+	        @endif
 	        </tr>
+		@endforeach
+
+			<tr></tr>
+
+			@foreach($funcionarios as $funcionario)
+	    	@if(!$funcionario->is_ativo)
+	        <tr>
+	            <th>{{$funcionario->nome}}</th>
+	            <th>{{$funcionario->cargo}}</th>
+	            <th>{{$funcionario->horario_trabalho}}</th>
+	            <th>{{$funcionario->telefone}}</th>
+	            <th class="text-center" width="12%">{{$funcionario->vr_transporte}}</th>
+	            <th class="text-center" width="8%"><a href="{{route('admin.funcionarios.detalhes', $funcionario->id)}}"><i class="fa fa-search"></i></a></th>
+	            <th class="text-center" width="8%"><a href="{{route('admin.funcionarios.edit', $funcionario->id)}}"><i class="fa fa-pencil"></i></a></th>
+	        @endif
+	        </tr>
+		@endforeach
+	        
 	    </tbody>
 	</table>
 
