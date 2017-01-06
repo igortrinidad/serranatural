@@ -39,7 +39,7 @@
 	        </tr>
 		@endforeach
 
-			<tr></tr>
+			<tr col-span="7">Funcionários inativos</tr>
 
 			@foreach($funcionarios as $funcionario)
 	    	@if(!$funcionario->is_ativo)
