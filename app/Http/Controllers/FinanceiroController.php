@@ -36,6 +36,8 @@ class FinanceiroController extends Controller
     {
         $this->middleware('auth', ['except' => ['getImage']]);
 
+        $this->middleware('nivelAcesso:super_adm,two', ['only' => ['autorizarRetirada']]);
+
         //$this->middleware('nivelAcesso:super_adm,two', ['only' => ['retirada']]);
 
     }
@@ -52,8 +54,18 @@ class FinanceiroController extends Controller
         return view('adm.financeiro.fluxo')->with($dados);
     }
 
-    public function caixaCreate()
+    public function autorizarRetirada($id)
     {
+
+        $retirada = Retirada::find($id);
+        $retirada->autorizado_por = \Auth::user()->id;
+        $retirada->autorizado_quando = date('Y-m-d H:i:s');
+        $retirada->save();
+
+        flash()->success('Retirada autorizada com sucesso.');
+
+        return redirect()->back();
+
 
 
     }

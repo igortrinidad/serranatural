@@ -45,6 +45,8 @@
 			            <th width="10%" class="text-center">Retirado caixa</th>
 			            <th width="15%" class="text-center">Para quem?</th>
 			            <th width="10%" class="text-center">Deleta</th>
+			            <th width="10%" class="text-center">Autorizado por quem?</th>
+			            <th width="10%" class="text-center">Autorizado quando?</th>
 			        </tr>
 			    </thead>
 			    <tbody>
@@ -67,6 +69,14 @@
 			            <td>@if($retirada->retirado_caixa == 1) Sim @else Não @endif</td>
 			            <td>@if($retirada->funcionario_id != 0) {{$retirada->funcionario->nome}} @else -- @endif</td>
 			            <td class="text-center"><a href="{{ route('admin.financeiro.deletaRetirada', $retirada->id)}}"<i class="fa fa-trash fa-2x"></i></a></td>
+			            <td class="text-center">
+			            	@if(!$retirada->autorizado)
+								<a href="{{route('admin.financeiro.autorizarRetirada', $retirada->id)}}" class="btn btn-primary">Autorizar retirada</a>
+							@else
+			            		{{$retirada->autorizado->name}}
+			            	@endif
+			            </td>
+			            <td>{{ $retirada->autorizado_quando->format('d/m/Y H:i:s') }}</td>
 			        </tr>
 			    @endforeach
 			    </tbody>

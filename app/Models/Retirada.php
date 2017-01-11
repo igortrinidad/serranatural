@@ -9,7 +9,7 @@ class Retirada extends Model
 {
     use SoftDeletes;
 
-    protected $dates = ['init', 'end', 'deleted_at', 'created_at'];
+    protected $dates = ['init', 'end', 'deleted_at', 'created_at', 'autorizado_quando'];
 
     protected $table = 'retiradas';
 
@@ -25,7 +25,9 @@ class Retirada extends Model
                             'fonte_pgto',
                             'init',
                             'end',
-                            'tipo'
+                            'tipo',
+                            'autorizado_por',
+                            'autorizado_quando',
     					];
 
 
@@ -43,6 +45,11 @@ class Retirada extends Model
     public function caixa()
     {
         return $this->belongsTo('serranatural\Models\Caixa', 'caixa_id', 'id');
+    }
+
+    public function autorizado()
+    {
+        return $this->belongsTo('serranatural\User', 'autorizado_por', 'id');
     }
 }
 
