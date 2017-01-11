@@ -74,13 +74,13 @@
 							</div>
 
 							<div class="form-group">
-								<label>Transporte</label>
+								<label>Tipo de transporte?</label>
 								<input type="text" name="transporte" value="{{isset($funcionario) ? $funcionario->transporte : ''}}" class="form-control" />
 							</div>
 
 							<div class="form-group">
-								<label>Valor Onibus</label>
-								<input type="text" name="vr_transporte" value="{{isset($funcionario) ? $funcionario->vr_transporte : ''}}" class="form-control" />
+								<label>Vale transporte por dia útil</label>
+								<input type="text" name="vr_transporte" value="{{isset($funcionario) ? $funcionario->vr_transporte : ''}}" class="form-control moneySql" placeholder="00.00 - não usar vírgula"/>
 							</div>
 
 							<div class="form-group">
@@ -100,7 +100,7 @@
 
 							<div class="form-group">
 								<label>Data Inicio</label>
-								<input type="text" name="dt_inicio" value="{{isset($funcionario) ? $funcionario->dt_inicio->format('d/m/Y') : ''}}" class="form-control dataMysql" />
+								<input type="text" name="dt_inicio" value="{{isset($funcionario) ? $funcionario->dt_inicio->format('d/m/Y') : ''}}" class="form-control" placeholder="00/00/0000" />
 							</div>
 
 

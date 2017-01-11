@@ -19,7 +19,7 @@
 	            <th>Cargo</th>
 	            <th>Horario</th>
 	            <th>Telefone</th>
-	            <th>Vr transporte</th>
+	            <th>Vr transporte por dia util</th>
 	            <th>Mostrar</th>
 	            <th>Edita</th>
 	        </tr>
