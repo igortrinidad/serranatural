@@ -42,6 +42,13 @@ class ClienteController extends Controller
 
         $urlPagination = '/admin/clientes/lista/?page=';
 
+        $clientesComPontos = Cliente::has('pontos')->get();
+
+        foreach($clientesComPontos as $cliente){
+            $cliente->is_ativo = 1;
+            $cliente->save();
+        }
+
         $dados = [
 
             'lista' => $lista,
@@ -378,7 +385,7 @@ class ClienteController extends Controller
 
     public function clientesForSelect()
     {
-        $clientes = Cliente::all();
+        $clientes = Cliente::where('is_ativo', '=', 1)->get();
         $result = array();
 
         foreach($clientes as $key => $value) {
