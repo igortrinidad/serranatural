@@ -320,7 +320,7 @@ class FinanceiroController extends Controller
         }
 
         $retirada = new Retirada();
-        $retirada->user_id = \Auth::user()->id;
+        $retirada->user_id = $user->id;
         $retirada->valor = $request->valor;
         $retirada->descricao = $request->descricao;
         $retirada->tipo = $request->tipo;
@@ -343,7 +343,7 @@ class FinanceiroController extends Controller
         if ($request->registraPagamento) {
 
             Pagamento::create([
-                'user_id_cadastro' => \Auth::user()->id,
+                'user_id_cadastro' => $user->id,
                 'descricao' => $request->tipo.' '.$request->descricao,
                 'vencimento' => date('d/m/Y'),
                 'data_pgto' => date('d/m/Y'),
