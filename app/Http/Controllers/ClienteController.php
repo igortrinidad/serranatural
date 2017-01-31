@@ -42,13 +42,6 @@ class ClienteController extends Controller
 
         $urlPagination = '/admin/clientes/lista/?page=';
 
-        $clientesComPontos = Cliente::has('pontos')->get();
-
-        foreach($clientesComPontos as $cliente){
-            $cliente->is_ativo = 1;
-            $cliente->save();
-        }
-
         $dados = [
 
             'lista' => $lista,

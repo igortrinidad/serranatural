@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
         \serranatural\Commands\email_pratoDoDia::class,
         \serranatural\Commands\conta_a_pagar::class,
         \serranatural\Commands\AwsMigration::class,
+        \serranatural\Commands\check_pontos::class,
     ];
 
     /**
@@ -39,6 +40,9 @@ class Kernel extends ConsoleKernel
             $schedule->command('conta_a_pagar')
                      ->dailyAt('10:00');
 
+                     //nome do comando e não nome da classe - para evitar conflitos coloque tudo igual caralho
+            $schedule->command('check_pontos')
+                     ->dailyAt('05:00');
 
         }
 
