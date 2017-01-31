@@ -55,6 +55,21 @@
 		                </div>
 
 		                <div class="form-group">
+		                	<label>Usuario</label>
+							<select class="form-control" v-model="retirada.usuario_id">
+								<option v-for="usuario in users" v-bind:value="usuario.id">@{{usuario.name}}</option>
+							</select>
+						</div>
+
+		                <div class="form-group">
+							<label>Senha operação</label>
+							<input type="password" 
+								name="senha_operacao" 
+								class="form-control"
+								v-model="retirada.senha_operacao" />
+						</div>
+
+		                <div class="form-group">
 							<label>Observações (se houver)</label>
 							<input type="text" 
 								name="descricao" 
@@ -62,9 +77,11 @@
 								v-model="retirada.descricao" />
 						</div>
 
+						
+
 						<div class="form-group">
 							<label>Origem retirada</label>
-								<select class="form-control"v-model="retirada.fontePgto">
+								<select class="form-control" v-model="retirada.fontePgto">
 									<option value="" selected disabled>Selecione uma opção</option>
 									<option value="Dinheiro Caixa">Dinheiro Caixa</option>
 									<option value="Dinheiro externo">Dinheiro externo</option>
@@ -157,7 +174,6 @@
 
 	</div>
 
-	<pre> @{{ $data | json }}</pre>
 </div>
 
 
@@ -180,6 +196,8 @@
 				    {	
 				    	loading: false,
 				    	retirada: {
+				    		usuario_id: '',
+				    		senha_operacao: '',
 				    		tipo: '',
 				    		valor: '',
 					    	descricao: '',
@@ -197,7 +215,8 @@
 						    	message: '',
 						    	status_code: '',
 					    	}
-					    }
+					    },
+					    users: {!! $usuarios !!}
 				  
 				    },
 				    methods:
@@ -265,7 +284,7 @@
 
 					      	}, function (response) {
 					          	console.log(response.data);
-					          	swal("ERRO!", "Erro ao cadastrar retirada, ligue para o Igor.", "warning");
+					          	swal("ERRO!", response.data.error.message, "warning");
 					          	self.loading = false;
 					      	});
 				    	}

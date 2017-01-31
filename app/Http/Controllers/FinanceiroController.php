@@ -295,8 +295,11 @@ class FinanceiroController extends Controller
 
         $funcionarios = $this->funcionariosForSelect();
 
+        $usuarios = User::all();
+
         $dados = [
-            'funcionarios' => $funcionarios
+            'funcionarios' => $funcionarios,
+            'usuarios' => $usuarios
         ];
 
         return view('adm.financeiro.retirada')->with($dados);
@@ -304,6 +307,17 @@ class FinanceiroController extends Controller
 
     public function retiradaPost(Request $request)
     {
+
+        $user = User::find($request->usuario_id);
+
+        if($request->senha_operacao != $user->senha_operacao){
+            return response()->json([
+                'error' => [
+                    'message' => 'Senha não confere!',
+                    'status_code' => 404,
+                ],
+            ], 404);
+        }
 
         $retirada = new Retirada();
         $retirada->user_id = \Auth::user()->id;
