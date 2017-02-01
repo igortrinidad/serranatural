@@ -303,6 +303,7 @@ class ClienteController extends Controller
         flash()->success('Email : ' . $request->email . ' cadastrado com sucesso.');
 
         $cliente->opt_email = 1;
+        $cliente->is_ativo = 1;
 
         $cliente->save();
 
