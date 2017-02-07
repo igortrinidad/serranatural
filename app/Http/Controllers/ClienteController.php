@@ -803,7 +803,10 @@ class ClienteController extends Controller
 
     public function reenviaSenha($id)
     {
-        $voucher = Voucher::where('cliente_id', '=', $id)->where('is_valido', '=', '1')->first();
+        $voucher = Voucher::where('cliente_id', '=', $id)
+            ->where('is_valido', '=', '1')
+            ->where('vencimento', '>=', date('Y-m-d'))
+            ->first();
 
         if(!$voucher) {
 
