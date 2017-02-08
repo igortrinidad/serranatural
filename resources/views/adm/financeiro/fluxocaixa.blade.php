@@ -826,7 +826,7 @@
 				    		console.log('Diferença: ' + diferenca);
 
 					    	this.caixa_aberto.diferenca_final = diferenca.toFixed(2);
-					    	this.caixa_aberto.vendas = this.vendas.vendaBruta;
+					    	this.caixa_aberto.vendas = this.vendas.vendaBruta.replace(',', '');
 
 				    	},
 				    	calculaAbertura: function(){
