@@ -25,10 +25,10 @@
 
 
 			<label>Preço pequeno</label>
-			<p>R$ {{ moneyBR($prato->valor_pequeno) }}</p>
+			<p>{{ moneyBR($prato->valor_pequeno) }}</p>
 
 			<label>Preço grande</label>
-			<p>R$ {{ moneyBR($prato->valor_grande) }}</p>
+			<p>{{ moneyBR($prato->valor_grande) }}</p>
 
 		</div>
 	</div>
