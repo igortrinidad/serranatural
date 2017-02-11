@@ -123,7 +123,7 @@
 			$("#produtos").change(function() 
 				{
 					var id = $(this).val();
-				 	var href = '/admin/produtos/show' + id;
+				 	var href = '/admin/produtos/show/' + id;
 				    //adiciona o valor do id recebido como parametro na funcao
 					$('#buttonProdutos').prop("href", href);
 				});
