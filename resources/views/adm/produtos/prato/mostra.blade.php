@@ -63,7 +63,7 @@
 					
 					@foreach($prato->produtos as $produto)
 					<tr>
-						<td>{{$produto->nome_produto}}</td>
+						<td><a href="/admin/produtos/show/{{$produto->id}}">{{$produto->nome_produto}}</a></td>
 						<td>{{$produto->pivot->quantidade}}</td>
 						<td>{{$produto->pivot->unidade}}</td>
 						<td>
