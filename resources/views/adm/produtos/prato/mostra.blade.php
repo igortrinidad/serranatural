@@ -25,10 +25,10 @@
 
 
 			<label>Preço pequeno</label>
-			<p>R$ {{number_format($prato->valor_pequeno, 2, ',', '.')}}</p>
+			<p>R$ {{ moneyBR($prato->valor_pequeno) }}</p>
 
 			<label>Preço grande</label>
-			<p>R$ {{number_format($prato->valor_grande, 2, ',', '.')}}</p>
+			<p>R$ {{ moneyBR($prato->valor_grande) }}</p>
 
 		</div>
 	</div>
@@ -69,20 +69,68 @@
 						<td>
 							<a href="/admin/produtos/ingredientes/excluir/{{$produto->id}}/{{$prato->id}}">Excluir</a>
 						</td>
-						<td width="20%">R$ {{$produto->custo}}</td>
+						<td width="20%">{{ moneyBR($produto->custo) }}</td>
 					</tr>
 
 					@endforeach
 					<tr class="text-right">
 						<td colspan="4">Custo total</td>
-						<td>R$ {{$prato->total}}</td> 
+						<td>{{ moneyBR($prato->total) }}</td> 
 					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
 
+	<div class="panel panel-default">
+		<div class="panel-heading"><h5>Simulação de custo para: {{$quantidade}} unidades</h5></div>
+		<div class="panel-body">
 
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Quantidade</label>
+						<input class="form-control" value="{{$quantidade}}" id="novaQuantidadeInput" />
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<button class="btn btn-primary m-t-25" id="buttonAlteraQuantidade">Alterar quantidade para simulação</button>
+				</div>
+			</div>
+
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<td class="text-center">Nome</td>
+						<td class="text-center">Quantidade / prato</td>
+						<td class="text-center">Unidade</td>
+						<td class="text-center">Excluir</td>
+						<td class="text-center">Custo</td>
+					</tr>
+				</thead>
+				<tbody>
+					
+					@foreach($prato->produtos as $produto)
+					<tr>
+						<td>{{$produto->nome_produto}}</td>
+						<td>{{$produto->quantidade_calculado}}</td>
+						<td>{{$produto->pivot->unidade}}</td>
+						<td>
+							<a href="/admin/produtos/ingredientes/excluir/{{$produto->id}}/{{$prato->id}}">Excluir</a>
+						</td>
+						<td width="20%">{{ moneyBR($produto->custo_calculado) }}</td>
+					</tr>
+
+					@endforeach
+					<tr class="text-right">
+						<td colspan="4">Custo total</td>
+						<td>R$ {{ moneyBR($prato->total_calculado) }}</td> 
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 
 	</div>
 
@@ -116,7 +164,7 @@
 
 
 					<div class="form-group">
-						<label>Nome</label>
+						<label>Nome produto</label>
 						<div class="form-group">
 				              {!! Form::select('produtos_id[]', $produtosForSelect, null, ['class' => 'form-control', 
 				              'single' => 'single', 'id' => 'produtos'])   !!}
@@ -161,8 +209,12 @@
 	    @parent
 
 			<script type="text/javascript">
-			$('#produtos').select2();
-			$('.gramas').mask('000.000', {reverse: true})
+				$('#produtos').select2();
+				$('.gramas').mask('000.000', {reverse: true})
+
+				$('#buttonAlteraQuantidade').on('click', function(){
+					window.location.href='/admin/produtos/pratos/mostra/' + {{$prato->id}} + '/?quantidade=' + $('#novaQuantidadeInput').val();
+				})
 			</script>
 
 		@stop

@@ -79,6 +79,7 @@ elixir(function(mix) {
 		'/../bower_components/bootstrap-toggle/css/bootstrap-toggle.css',
 		'../../../node_modules/sweetalert/dist/sweetalert.css',
 		'sb-admin-2.css',
+		'/estilos/generic-class.css',
 		], 'public/css/vendor.css');
 
 	mix.styles([
@@ -101,6 +102,7 @@ elixir(function(mix) {
 		'../landing/css/business-casual.css',
 		'/../bower_components/font-awesome/css/font-awesome.css',
 		'/../bower_components/summernote/dist/summernote.css',
+		'/estilos/generic-class.css',
 	], 'public/landing/css/vendor.css');
 
 	mix.scripts([

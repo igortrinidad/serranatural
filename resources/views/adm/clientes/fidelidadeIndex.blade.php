@@ -33,9 +33,9 @@
 							<option>Sandwich</option>
 						</select>
 					</div>
-					<div class="col-md-2">
+					<div class="col-md-3">
 						<div class="form-group">
-							{!! Form::submit('Salvar!', ['class' => 'btn btn-default btn-sm']) !!}
+							{!! Form::submit('Salvar ponto', ['class' => 'btn btn-primary btn-block btn-sm']) !!}
 							{!! Form::close() !!}
 						</div>
 					</div>

@@ -35,7 +35,7 @@ class ReceitasController extends Controller
             'agenda' => $agenda
         ];
 
-        return view('adm.produtos.prato.rangeData')->with($return);
+        return view('adm.produtos.prato.calcular-index')->with($return);
     }
     /**
      * Display a listing of the resource.
@@ -152,7 +152,15 @@ class ReceitasController extends Controller
         
 
         foreach ($agendados as $agenda) {
+
+            $agenda->pratos->total = 0;
+
             foreach ($agenda->pratos->produtos as $produto) {
+
+                $produto->custo = $produto->preco * $produto->pivot->quantidade;
+
+                $agenda->pratos->total = $agenda->pratos->total + $produto->custo;
+
                 if ( array_key_exists($produto->nome_produto, $produtosTotais) ) {
                     $produtosTotais[$produto->nome_produto]['quantidade'] = $produtosTotais[$produto->nome_produto]['quantidade'] + $produto->pivot->quantidade;
                 } else {
@@ -171,6 +179,6 @@ class ReceitasController extends Controller
             'dataFim' => $request->dataFim
         ];
 
-        return view('adm.produtos.prato.listaCompras')->with($return);
+        return view('adm.produtos.prato.calcular-resultado')->with($return);
     }
 }

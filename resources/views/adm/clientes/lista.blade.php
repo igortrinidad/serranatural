@@ -54,7 +54,7 @@
 					</div>
 					<div class="col-md-2">
 						<div class="form-group">
-							<a class="btn btn-default btn-sm" id="linkCliente"> Detalhes</a>
+							<a class="btn btn-primary btn-sm" id="linkCliente"> Detalhes</a>
 						</div>
 					</div>
 

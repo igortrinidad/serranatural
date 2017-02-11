@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\File;
 use serranatural\Http\Controllers\Controller;
 use Mail;
 use Carbon\Carbon;
+use Input;
 
 use serranatural\Models\Pratos;
 use serranatural\Models\AgendaPratos;
@@ -42,17 +43,25 @@ class ProdutosController extends Controller
     }
 
 
-    public function mostraPrato($id)
+    public function mostraPrato($id, $quantidade = 10)
     {
+
+        if(Input::get('quantidade')){
+            $quantidade = Input::get('quantidade');
+        }
 
         $prato = Pratos::with('produtos')->where('id', '=', $id)->first();
 
         $prato->total = 0;
+        $prato->total_calculado = 0;
 
         if($prato->produtos){
             foreach ($prato->produtos as $produto) {
                 $produto->custo = $produto->preco * $produto->pivot->quantidade;
+                $produto->quantidade_calculado = $produto->pivot->quantidade * $quantidade;
+                $produto->custo_calculado = $produto->preco * $produto->quantidade_calculado;
                 $prato->total = $prato->total + $produto->custo;
+                $prato->total_calculado = $prato->total_calculado + $produto->custo_calculado;
             }
         }
 
@@ -62,6 +71,7 @@ class ProdutosController extends Controller
         [
             'prato' => $prato,
             'produtosForSelect' => $produtosForSelect,
+            'quantidade' => $quantidade
         ];
 
         return view('adm/produtos/prato/mostra')->with($dados);
@@ -686,13 +696,16 @@ class ProdutosController extends Controller
 
         $produtosNaoRastreados = Produto::with('categoria')->where('tracked', '=', '0')->orderBy('nome_produto', 'asc')->get();
 
+        $produtosForSelect = $this->produtosForSelect();
+
         
         $squareItemsForSelect = $this->squareItemsForSelect();
 
         return view('adm.produtos.produtos.lista', compact(
                 'produtosRastreados', 
                 'produtosNaoRastreados',
-                'squareItemsForSelect'
+                'squareItemsForSelect',
+                'produtosForSelect'
                 ));
     }
 

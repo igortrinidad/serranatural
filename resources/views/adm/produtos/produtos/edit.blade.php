@@ -19,80 +19,10 @@
 
 				<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 
-					<div class="row">
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Nome</label>
-								<input type="text" name="nome_produto" value="{{$produto->nome_produto}}" class="form-control">
-							</div>
-						</div>
-						<div class="col-md-3 text-center">
-							<label>Controlar estoque?</label><br>
-							{!! Form::checkbox('tracked', 1, $produto->tracked) !!}
-						</div>
-						<div class="col-md-3 text-center">
-							<label>Ativo?</label><br>
-							{!! Form::checkbox('is_ativo', 1, $produto->is_ativo) !!}
-						</div>
-					</div>
-					
-					<div class="row">
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Descrição</label>
-								<input type="text" name="descricao" value="{{$produto->descricao}}" class="form-control">
-							</div>
-						</div>
 
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Fornecedores</label>
-			              		{!! Form::select('fornecedor_id[]', $fornecedoresForSelect, $fornecedoresSelecionados, ['class' => 'form-control', 'multiple' => 'multiple', 'id' => 'fornecedores'])   !!}
-			        		</div>
-						</div>
+				@include('adm.produtos.produtos.product-form')				
 
-						
-					</div>
-
-					
-					<div class="row">
-
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Preço médio</label>
-								<input type="text" name="preco" class="form-control"/>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Quantidade por porção de venda (grama, kilo, unidade, caixa)</label>
-								<input type="text" name="calc" value="{{$produto->calc}}" id="calc" class="form-control"/>
-							</div>
-						</div>
-	
-					</div>
-
-					<div class="row">
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Categoria</label>
-			              		{!! Form::select('categoria_id', $categorias, $produto->categoria_id, ['class' => 'form-control', 'single' => 'single', 'id' => 'categoria'])   !!}
-			        		</div>
-						</div>
-
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Produto correspondente aplicativo de venda</label>
-			              		{!! Form::select('square_id', $squareItemsForSelect, null, ['class' => 'form-control', 'single' => 'single', 'id' => 'square', 'placeholder' => 'Selecione um produto'])   !!}
-			              		<input type="hidden" value="" name="square_name" />
-			        		</div>
-						</div>
-					</div>
-
-
-				
-
-				<button type="submit" class="btn btn-primary">Salvar Produto</button>
+				<button type="submit" class="btn btn-block btn-primary">Salvar Produto</button>
                                
 			</form>
 
@@ -105,13 +35,16 @@
 
 			<script type="text/javascript">
 
-			$('#fornecedores').select2();
-			$('#square').select2();
+				$('.money').mask("0000.00", {reverse: true});
+				$('.unity').mask("000.000", {reverse: true});
 
-			$('#square').on('change', function(){
-				$('input[name="square_name"]').val($("#square option:selected").text());
-				console.log($('#square :selected').text());
-			});
+				$('#fornecedores').select2();
+				$('#square').select2();
+
+				$('#square').on('change', function(){
+					$('input[name="square_name"]').val($("#square option:selected").text());
+					console.log($('#square :selected').text());
+				});
 
 			</script>
 

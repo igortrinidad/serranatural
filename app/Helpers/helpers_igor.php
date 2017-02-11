@@ -19,6 +19,10 @@ function corBarraProgresso($incremento){
     }
 }
 
+function moneyBR($number){
+    return 'R$' . number_format($number, 2, ',', '');
+}
+
 function retornaMesPorExtenso($stamp) {
                  $month = array(1=>"Janeiro",
                  2=>"Fevereiro",
