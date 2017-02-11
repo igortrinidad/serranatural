@@ -22,7 +22,7 @@
 			</div>
 			<div class="col-md-2">
 				<div class="form-group">
-					<a class="btn btn-primary btn-sm" id="linkCliente">Mostrar produto</a>
+					<a class="btn btn-primary btn-sm" href="" id="buttonProdutos">Mostrar produto</a>
 				</div>
 			</div>
 
