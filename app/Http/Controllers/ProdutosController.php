@@ -47,6 +47,15 @@ class ProdutosController extends Controller
 
         $prato = Pratos::with('produtos')->where('id', '=', $id)->first();
 
+        $prato->total = 0;
+
+        if($prato->produtos){
+            foreach ($prato->produtos as $produto) {
+                $produto->custo = $produto->preco * $produto->pivot->quantidade;
+                $prato->total = $prato->total + $produto->custo;
+            }
+        }
+
         $produtosForSelect = $this->produtosForSelect();
 
         $dados =

@@ -38,13 +38,17 @@
 		<div class="panel-heading"><h5>Preparo</h5></div>
 		<div class="panel-body">
 
-			<label>Modo de preparo</label>
-			<table class="table table-bordered">
-				<tbody>
-				<td>{!!nl2br($prato->modo_preparo)!!}</td>
-				</tbody>
-			</table>
-			<label>Produtos necessários</label>
+			<div class="form-group">
+				<label>Modo de preparo</label>
+				<p>{!!nl2br($prato->modo_preparo)!!}</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading"><h5>Fica técnica</h5></div>
+		<div class="panel-body">
+
 			<table class="table table-bordered">
 				<thead>
 					<tr>
@@ -52,17 +56,27 @@
 						<td class="text-center">Quantidade / prato</td>
 						<td class="text-center">Unidade</td>
 						<td class="text-center">Excluir</td>
+						<td class="text-center">Custo</td>
 					</tr>
 				</thead>
 				<tbody>
-					@foreach($prato->produtos as $produtos)
+					
+					@foreach($prato->produtos as $produto)
 					<tr>
-						<td>{{$produtos->nome_produto}}</td>
-						<td>{{$produtos->pivot->quantidade}}</td>
-						<td>{{$produtos->pivot->unidade}}</td>
-						<td><a href="/admin/produtos/ingredientes/excluir/{{$produtos->id}}/{{$prato->id}}">Excluir</a></td>
+						<td>{{$produto->nome_produto}}</td>
+						<td>{{$produto->pivot->quantidade}}</td>
+						<td>{{$produto->pivot->unidade}}</td>
+						<td>
+							<a href="/admin/produtos/ingredientes/excluir/{{$produto->id}}/{{$prato->id}}">Excluir</a>
+						</td>
+						<td width="20%">R$ {{$produto->custo}}</td>
 					</tr>
+
 					@endforeach
+					<tr class="text-right">
+						<td colspan="4">Custo total</td>
+						<td>R$ {{$prato->total}}</td> 
+					</tr>
 				</tbody>
 			</table>
 		</div>
