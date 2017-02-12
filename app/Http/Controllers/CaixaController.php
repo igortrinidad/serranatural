@@ -11,6 +11,7 @@ use serranatural\Models\Caixa;
 use serranatural\Models\Retirada;
 use serranatural\User;
 use serranatural\Models\Produto;
+use serranatural\Models\Cliente;
 
 use Mail;
 use Carbon\Carbon;
@@ -40,19 +41,25 @@ class CaixaController extends Controller
 
             $caixa_anterior = Caixa::where('is_aberto', '=', '0')->orderBy('created_at', 'desc')->first();
 
+            $clientes = Cliente::where('is_ativo', '=', 1)->get();
+
             $retiradas = Retirada::where('caixa_id', '=', $caixa_aberto->id)->get();
 
             $totalRetiradas = Retirada::where('caixa_id', '=', $caixa_aberto->id)->sum('valor');
 
             $caixa_aberto->total_retirada = $totalRetiradas;
             $caixa_aberto->save();
+
             return response()->json([
                     'caixa_aberto' => $caixa_aberto,
                     'caixa_anterior' => $caixa_anterior,
+                    'clientes' => $clientes,
                     'retiradas' => $retiradas,
                     'caixa_is_aberto' => 'true'
                 ], 200);
         } 
+
+        //Se não tiver caixa aberto
 
         $caixa_anterior = Caixa::where('is_aberto', '=', '0')->orderBy('created_at', 'desc')->first();
         
@@ -364,6 +371,18 @@ class CaixaController extends Controller
         $response = \Unirest\Request::get("https://connect.squareup.com/v2/me/orders");
 
         dd($response);
+    }
+
+    public function clientesForSelect()
+    {
+        $clientes = Cliente::where('is_ativo', '=', 1)->get();
+        $result = array();
+
+        foreach($clientes as $key => $value) {
+            $result[$value->id] = $value->id.' - '.$value->nome . ' - ' . $value->email;
+        }
+
+        return $result;
     }
 
 }
