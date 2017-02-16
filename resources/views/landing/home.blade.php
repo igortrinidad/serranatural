@@ -143,8 +143,7 @@
                         <thead>
                             <tr>
                                 <td></td>
-                                <td class="text-center">Segunda à Sexta</td>
-                                <td class="text-center">Sábado</td>
+                                <td class="text-center">Segunda à Sábado</td>
                                 <td></td>
                             </tr>
                         </thead>
@@ -152,7 +151,6 @@
                             <tr style="font-size: 20px">
                                 <td></td>
                                 <td class="text-center" >14:00 às 20:30</td>
-                                <td class="text-center">14:00 às 19:30</td>
                                 <td></td>
                             </tr>
                         </tbody>
