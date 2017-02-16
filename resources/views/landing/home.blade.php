@@ -118,16 +118,12 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <td class="text-center">Segunda à Sexta</td>
-                                <td class="text-center">Sábado</td>
-                                <td class="text-center">Domingo</td>
+                                <td class="text-center">Segunda à Sábado</td>
                             </tr>
                         </thead>
                         <tbody>
                             <tr style="font-size: 20px">
                                 <td class="text-center" >10:00 às 21:00</td>
-                                <td class="text-center">10:00 às 20:00</td>
-                                <td class="text-center">13:00 às 20:00</td>
                             </tr>
                         </tbody>
                     </table>
