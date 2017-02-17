@@ -3,7 +3,7 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Nome</label>
-								<input type="text" name="nome_produto" value="{{($produto) ? $produto->nome_produto : ''}}" class="form-control">
+								<input type="text" name="nome_produto" value="{{ (isset($produto))  ? $produto->nome_produto : ''}}" class="form-control">
 							</div>
 						</div>
 						<div class="col-md-3 text-center">
@@ -22,14 +22,14 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Descrição</label>
-								<input type="text" name="descricao" value="{{($produto) ? $produto->descricao : ''}}" class="form-control">
+								<input type="text" name="descricao" value="{{ (isset($produto)) ? $produto->descricao : ''}}" class="form-control">
 							</div>
 						</div>
 
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Preço médio</label>
-								<input type="text" name="preco" value="{{($produto) ? $produto->preco : ''}}" class="form-control money"/>
+								<input type="text" name="preco" value="{{ ( isset($produto)) ? $produto->preco : ''}}" class="form-control money"/>
 							</div>
 						</div>
 
