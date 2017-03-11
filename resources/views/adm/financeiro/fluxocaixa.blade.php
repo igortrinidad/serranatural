@@ -97,7 +97,7 @@
 
 				<div class="col-md-3">
 					<div class="well text-center">
-						<h2>R$ @{{caixa_aberto.vr_abertura}}</h2>
+						<h2>R$ @{{caixa_aberto.payments.register_init_value}}</h2>
 						<p>Valor de abertura</p>
 					</div>
 				</div>
