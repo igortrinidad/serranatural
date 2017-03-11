@@ -48,7 +48,7 @@
 					<div class="form-group">
 						<label>Contagem do caixa atual</label>
 						<input class="form-control moneyFloat" type="text" 
-							v-model="abrir_caixa.valor" 
+							v-model="abrir_caixa.payments.register_init_value" 
 							v-on:blur="calculaAbertura()"
 						/>
 					</div>
@@ -58,7 +58,7 @@
 						<input class="form-control" type="password" v-model="abrir_caixa.senha"/>
 					</div>
 
-					<button class="btn btn-primary btn-block" :disabled="! abrir_caixa.valor || ! abrir_caixa.senha || !abrir_caixa.turno" v-on:click="abreCaixa()">Abrir caixa</button>
+					<button class="btn btn-primary btn-block" :disabled="! abrir_caixa.payments.register_init_value || ! abrir_caixa.senha || !abrir_caixa.turno" v-on:click="abreCaixa()">Abrir caixa</button>
 
 				</div>
 
@@ -175,7 +175,7 @@
 									<div class="form-group">
 										<label>Dinheiro em caixa</label>
 										<input type="text" class="form-control moneyFloat" 
-											v-model="caixa_aberto.vr_emCaixa"
+											v-model="caixa_aberto.payments.register_end_value"
 											v-on:blur="calcula($event)"
 										/>
 									</div>
@@ -195,33 +195,13 @@
 
 							<div class="row">
 
-								<div class="col-md-6">
+								<div class="col-md-6" v-for="payment in caixa_aberto.payments.items">
 									<div class="form-group">
-										<label>Total de venda maquina REDE</label>
+										<label>Total de venda: @{{payment.label}}</label>
 										<input type="text" class="form-control moneyFloat" 
 											v-on:blur="calcula($event)"
-											v-model="caixa_aberto.vendas_rede"
+											v-model="payment.value"
 
-										/>
-									</div>
-								</div>
-
-								<div class="col-md-6 col-xs-6">
-									<div class="form-group">
-										<label>Total de venda maquina CIELO</label>
-										<input type="text" class="form-control moneyFloat" 
-											v-model="caixa_aberto.vendas_cielo"
-											v-on:blur="calcula($event)"
-										/>
-									</div>
-								</div>
-
-								<div class="col-md-6 col-xs-6">
-									<div class="form-group">
-										<label>Total vendas ONLINE no periodo do caixa(somente pagamento online, quando não recebeu)</label>
-										<input type="text" class="form-control moneyFloat" 
-											v-model="caixa_aberto.vendas_online"
-											v-on:blur="calcula($event)"
 										/>
 									</div>
 								</div>
@@ -441,20 +421,18 @@
 								<input class="form-control" type="password" v-model="caixa_aberto.senha"/>
 							</div>
 							<hr size="3px" style="margin: 10px;"/>
-							<div class="form-group">
-								<label>Senha conferente</label>
-								<input class="form-control" type="password" v-model="caixa_aberto.senha_conferente"/>
-							</div>
+							<button class="btn btn-primary btn-block" 
+								v-on:click="fecha($event)"
+								:disabled="!caixa_aberto.vendas_cielo || !caixa_aberto.vendas_rede || !caixa_aberto.vr_emCaixa || !vendas.vendaBruta || !caixa_aberto.senha"
+							>Fechar caixa</button >
+							<hr size="3px" style="margin: 10px;"/>
 							<br>
 							<button 
 								class="btn btn-success btn-block" 
 								v-on:click="salva($event)"
 							>Salvar</button>
 							<br>
-							<button class="btn btn-primary btn-block" 
-								v-on:click="fecha($event)"
-								:disabled="!caixa_aberto.vendas_cielo || !caixa_aberto.vendas_rede || !caixa_aberto.vr_emCaixa || !vendas.vendaBruta || !caixa_aberto.senha"
-							>Fechar caixa</button >
+
 
 
 
@@ -543,7 +521,35 @@
 			    				contas_abertas: [],
 			    				contas_pagas: [],
 			    				total: 0,
-				    		}
+				    		},
+				    		payments: {
+				    			register_init_value: 0,
+				    			register_end_value: 0,
+				    			diff_actual_register_to_last: 0,
+				    			total: 0,
+				    			items: [
+				    			{
+					    			label: 'Ticket',
+					    			value: 0
+					    		},
+					    		{
+					    			label: 'Stone',
+					    			value: 0
+					    		},
+					    		{
+					    			label: 'Rede',
+					    			value: 0
+					    		},
+					    		{
+					    			label: 'iFood',
+					    			value: 0
+					    		},
+					    		{
+					    			label: 'Cielo',
+					    			value: 0
+					    		},
+					    		]
+					    	},
 				    	},
 				    	caixa_anterior: {
 				    			contas: {
@@ -567,6 +573,35 @@
 				    		turno: '',
 				    		diferenca_inicial: '',
 				    		contas: {},
+				    		payments: {
+				    			register_init_value: 0,
+				    			register_end_value: 0,
+				    			diff_actual_register_to_last: 0,
+				    			total: 0,
+				    			items: [
+				    			{
+					    			label: 'Ticket',
+					    			value: 0
+					    		},
+					    		{
+					    			label: 'Stone',
+					    			value: 0
+					    		},
+					    		{
+					    			label: 'Rede',
+					    			value: 0
+					    		},
+					    		{
+					    			label: 'iFood',
+					    			value: 0
+					    		},
+					    		{
+					    			label: 'Cielo',
+					    			value: 0
+					    		},
+					    		]
+					    	},
+
 				    	},
 				    	newConta: {
 				    		data_init: '',
@@ -590,60 +625,59 @@
 			                write: function (val) {
 			                	return val
 			                }
-			            }	
+			            }
 				    },
-				    attached: function()
-    					{
-    						$(this.$els.amount).mask("000.00");
-    					},
-					    ready: function() {
-				 	      	var self = this;	
-					      	// GET request
-					      	self.loading = true;
-					      	this.$http.get('/admin/financeiro/caixa/consulta').then(function (response) {
+				    attached: function(){
+						$(this.$els.amount).mask("000.00");
+					},
+				    ready: function() {
+			 	      	var self = this;	
+				      	// GET request
+				      	self.loading = true;
+				      	this.$http.get('/admin/financeiro/caixa/consulta').then(function (response) {
 
-					          if(response.data.caixa_aberto != null) {
+				          if(response.data.caixa_aberto != null) {
 
-					          	self.caixa_aberto = response.data.caixa_aberto;
-					          	self.caixa_anterior = response.data.caixa_anterior;
-					          	self.caixa_is_aberto = true;
-					          	self.retiradas = response.data.retiradas;
-					          	self.clientes = response.data.clientes;
+				          	self.caixa_aberto = response.data.caixa_aberto;
+				          	self.caixa_anterior = response.data.caixa_anterior;
+				          	self.caixa_is_aberto = true;
+				          	self.retiradas = response.data.retiradas;
+				          	self.clientes = response.data.clientes;
 
-					          	self.checkContas()
+				          	self.checkContas()
 
-					          	this.$http.get('/admin/financeiro/caixa/consultaVendas').then(function (response) {
-							        self.vendas = response.data;
-							        self.caixa_aberto.vendas = self.vendas.vendaBruta;
+				          	this.$http.get('/admin/financeiro/caixa/consultaVendas').then(function (response) {
+						        self.vendas = response.data;
+						        self.caixa_aberto.vendas = self.vendas.vendaBruta;
 
-							    }, function (response) {
-							      	console.log('Erro ao tentar buscar vendas.');
-							    });
+						    }, function (response) {
+						      	console.log('Erro ao tentar buscar vendas.');
+						    });
 
-					          } else if(response.data.caixa_anterior != null) {
+				          } else if(response.data.caixa_anterior != null) {
 
-					          	self.caixa_anterior = response.data.caixa_anterior;
-					          	self.caixa_is_aberto = false;
-					          	self.abrir_caixa.contas = self.caixa_anterior.contas
+				          	self.caixa_anterior = response.data.caixa_anterior;
+				          	self.caixa_is_aberto = false;
+				          	self.abrir_caixa.contas = self.caixa_anterior.contas
 
-					          	self.checkContas()
+				          	self.checkContas()
 
-					          }
+				          }
 
-					          self.abrir_caixa.turno = response.data.turno;
+				          self.abrir_caixa.turno = response.data.turno;
 
-					          self.loading = false;
+				          self.loading = false;
 
-					      }, function (response) {
+				      }, function (response) {
 
-					      	console.log('Erro ao tentar buscar caixa.');
-					        console.log(response.data);
-					        self.caixa_ = response.data.retorno;
-					        self.loading = false;
+				      	console.log('Erro ao tentar buscar caixa.');
+				        console.log(response.data);
+				        self.caixa_ = response.data.retorno;
+				        self.loading = false;
 
-					      });
+				      });
 
-											    
+										    
 
 				      	setTimeout(function(){
 					    	location.reload();
@@ -651,6 +685,106 @@
 
 					},
 				    methods: {
+
+				    	abreCaixa: function(ev) {
+				    		self = this;
+
+				    		if(!this.loading){
+
+				    			this.loading = true;
+
+				    			this.$http.post('/admin/financeiro/caixa/abreCaixa', self.abrir_caixa).then(function (response) {
+
+				    				console.log('Caixa aberto com sucesso.');
+
+				    				swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
+
+				    				setTimeout(function()
+								    {
+								    	location.reload();
+								    }, 2200);
+
+								    this.loading = false;
+
+							    }, function (response) {
+							      	console.log('Erro ao abrir o caixa');
+							      	console.log(response.data);
+
+							      	this.loading = false;
+
+							      	swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
+							    });
+
+				    		}
+				    	},
+
+				    	calcula: function(ev) {
+				    		var that = this
+				    		this.substracted = false;
+
+				    		var totalPayments = 0;
+
+				    		that.caixa_aberto.payments.items.forEach(function(payment){
+				    			if(isNaN(payment.value) || !payment.value){
+				    				payment.value = 0;
+				    			}
+				    			totalPayments += parseFloat(payment.value);
+
+				    		});
+
+				    		console.log(totalPayments);
+
+				    		if (!that.caixa_aberto.payments.register_end_value || isNaN(that.caixa_aberto.payments.egister_end_value)) that.caixa_aberto.payments.egister_end_value = 0;
+
+				    		var conferencia1 = 
+				    			( parseFloat( that.caixa_aberto.payments.register_end_value )
+				    			+ parseFloat( this.caixa_aberto.total_retirada ) 
+				    			- (parseFloat( that.caixa_aberto.payments.register_init_value) + parseFloat( this.caixa_anterior.contas.total ) ) );
+
+				    		console.log('init' + that.caixa_aberto.payments.register_init_value);
+				    		console.log('end' + that.caixa_aberto.payments.register_end_value);
+
+				    		var conferencia2 = parseFloat( this.vendas.vendaBruta.replace(',', '') ) - (totalPayments + parseFloat( this.caixa_aberto.contas.total )); 
+
+				    		var diferenca = (conferencia1) - (conferencia2);
+
+				    		console.log('Conferencia 1: ' + conferencia1);
+				    		console.log('Conferencia 2: ' + conferencia2);
+				    		console.log('Diferença: ' + diferenca);
+
+					    	this.caixa_aberto.diferenca_final = diferenca.toFixed(2);
+					    	this.caixa_aberto.vendas = this.vendas.vendaBruta.replace(',', '');
+				    	},
+
+				    	substract: function(ev){
+				    		ev.preventDefault()
+				    		var that = this
+
+				    		if(!this.substracted){
+
+					    		if(!this.unlock){
+					    			this.unlock = true;
+					    			return false
+					    		}
+				    			that.caixa_anterior.payments.items.forEach(function(oldPayment){
+
+					    			that.caixa_aberto.payments.items.forEach(function(payment){
+
+						    			if(oldPayment.label == payment.label){
+						    				payment.value = parseFloat(payment.value) - parseFloat(oldPayment.value)
+						    			}
+
+						    		});
+
+					    		});
+
+				    			this.unlock = false;
+
+				    			this.calcula();
+				    		}
+
+				    		this.substracted = true;
+				    	},
 
 				    	addNewConta: function(){
 				    		var that = this
@@ -691,7 +825,6 @@
 				    		that.newConta.valor = '';
 
 				    		that.checkContas();
-
 				    	},
 
 				    	baixaConta: function(conta){
@@ -706,7 +839,6 @@
 				    		that.checkContas()
 
 				    		swal('Ok!', 'Conta liquidada corretamente.', 'success');
-
 				    	},
 
 				    	liquidaConta: function(conta){
@@ -718,7 +850,6 @@
 				    		that.checkContas()
 
 				    		swal('Ok!', 'Conta liquidada corretamente.', 'success');
-
 				    	},
 
 				    	removeConta: function(cliente, index){
@@ -744,8 +875,6 @@
 				    				
 				    			}
 				    		}
-
-
 				    	},
 
 				    	checkContas: function(){
@@ -785,60 +914,7 @@
 
 				    		that.calcula();
 				    	},
-				    	substract: function(ev){
-				    		ev.preventDefault()
-
-				    		if(!this.substracted){
-
-				    		if(!this.unlock){
-				    			this.unlock = true;
-				    			return false
-				    		}
-				    			this.caixa_aberto.vendas_cielo = parseFloat(this.caixa_aberto.vendas_cielo) - parseFloat(this.caixa_anterior.vendas_cielo);
-
-				    			this.caixa_aberto.vendas_rede = parseFloat(this.caixa_aberto.vendas_rede) - parseFloat(this.caixa_anterior.vendas_rede);
-
-				    			this.unlock = false;
-
-				    			this.calcula();
-				    		}
-
-
-				    		this.substracted = true;
-
-				    	},
-				    	abreCaixa: function(ev) {
-				    		self = this;
-
-				    		if(!this.loading){
-
-				    			this.loading = true;
-
-				    			this.$http.post('/admin/financeiro/caixa/abreCaixa', self.abrir_caixa).then(function (response) {
-
-				    				console.log('Caixa aberto com sucesso.');
-
-				    				swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
-
-				    				setTimeout(function()
-								    {
-								    	location.reload();
-								    }, 2200);
-
-								    this.loading = false;
-
-							    }, function (response) {
-							      	console.log('Erro ao abrir o caixa');
-							      	console.log(response.data);
-
-							      	this.loading = false;
-
-							      	swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
-							    });
-
-				    		}
-
-				    	},
+				    	
 				    	confere: function(ev) {
 				    		ev.preventDefault();
 
@@ -871,7 +947,6 @@
 
 				    		that.caixa_aberto.senha = '';
 				    		that.caixa_aberto.senha_conferente = '';
-
 
 				    	},
 				    	fecha: function(ev) {
@@ -937,45 +1012,7 @@
 				    		}
 
 				    	},
-				    	calcula: function(ev) {
-
-				    		this.substracted = false;
-
-				    		if (!this.caixa_aberto.vendas_rede) this.caixa_aberto.vendas_rede = 0;
-				    		if (!this.caixa_aberto.vendas_cielo) this.caixa_aberto.vendas_cielo = 0;
-				    		if (!this.caixa_aberto.vendas_online) this.caixa_aberto.vendas_online = 0;
-				    		if (!this.caixa_aberto.vr_emCaixa) this.caixa_aberto.vr_emCaixa = 0;
-
-				    		console.log('Vendas rede: ' + this.caixa_aberto.vendas_rede);
-				    		console.log('Vendas cielo: ' + this.caixa_aberto.vendas_cielo);
-				    		console.log('Valor em caixa: ' + this.caixa_aberto.vr_emCaixa);
-				    		console.log('Total retirada: ' + this.caixa_aberto.total_retirada);
-				    		console.log('Vendas bruta: ' + this.vendas.vendaBruta.replace(',', ''));
-
-				    		var conferencia1 = 
-				    			( parseFloat( this.caixa_aberto.vr_emCaixa )
-				    			+ parseFloat( this.caixa_aberto.total_retirada ) 
-				    			- (parseFloat( this.caixa_aberto.vr_abertura) + parseFloat( this.caixa_anterior.contas.total ) ) );
-
-
-				    		var conferencia2 = 
-				    		( parseFloat( this.vendas.vendaBruta.replace(',', '') ) ) -
-				    		( parseFloat( this.caixa_aberto.vendas_cielo )
-				    		+ parseFloat( this.caixa_aberto.vendas_rede ) 
-				    		+ parseFloat( this.caixa_aberto.vendas_online )
-				    		+ parseFloat( this.caixa_aberto.contas.total )
-				    		); 
-
-				    		var diferenca = (conferencia1) - (conferencia2);
-
-				    		console.log('Conferencia 1: ' + conferencia1);
-				    		console.log('Conferencia 2: ' + conferencia2);
-				    		console.log('Diferença: ' + diferenca);
-
-					    	this.caixa_aberto.diferenca_final = diferenca.toFixed(2);
-					    	this.caixa_aberto.vendas = this.vendas.vendaBruta.replace(',', '');
-
-				    	},
+				    	
 				    	calculaAbertura: function(){
 				    		var diferenca = 
 				    			parseFloat(this.abrir_caixa.valor)

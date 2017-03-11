@@ -139,6 +139,7 @@ class CaixaController extends Controller
             $caixa = Caixa::create([
                     'vr_abertura' => $request->valor,
                     'user_id_abertura' => \Auth::user()->id,
+                    'payments' => $request->payments,
                     'contas' => $request->contas,
                     'turno' => $request->turno,
                     'is_aberto' => 1,
