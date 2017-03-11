@@ -109,26 +109,12 @@
 					</div>
 				</div>
 
-				<div class="col-md-3">
+				<div class="col-md-3" v-for="payment in caixa_anterior.payments.items">
 					<div class="well text-center">
-						<h2>R$ @{{caixa_anterior.vendas_rede}}</h2>
-						<p>Venda Rede Anterior</p>
+						<h2>R$ @{{payment.value}}</h2>
+						<p>@{{payment.label}} anterior</p>
 					</div>
 				</div>	
-
-				<div class="col-md-3">
-					<div class="well text-center">
-						<h2>R$ @{{caixa_anterior.vendas_cielo}}</h2>
-						<p>Venda Cielo Anterior</p>
-					</div>
-				</div>
-
-				<div class="col-md-3">
-					<div class="well text-center">
-						<h2>R$ @{{caixa_anterior.vendas_online}}</h2>
-						<p>Venda Online Anterior</p>
-					</div>
-				</div>
 
 				<div class="col-md-3">
 					<div class="well text-center">
@@ -201,7 +187,6 @@
 										<input type="text" class="form-control moneyFloat" 
 											v-on:blur="calcula($event)"
 											v-model="payment.value"
-
 										/>
 									</div>
 								</div>
@@ -525,7 +510,9 @@
 				    		payments: {
 				    			register_init_value: 0,
 				    			register_end_value: 0,
-				    			diff_actual_register_to_last: 0,
+				    			total_money: 0,
+				    			total_cards: 0,
+				    			total_accounts: 0,
 				    			total: 0,
 				    			items: [
 				    			{
@@ -552,11 +539,11 @@
 					    	},
 				    	},
 				    	caixa_anterior: {
-				    			contas: {
-				    				contas_abertas: [],
-				    				contas_pagas: [],
-				    				total: 0,
-				    			}
+			    			contas: {
+			    				contas_abertas: [],
+			    				contas_pagas: [],
+			    				total: 0,
+			    			}
 				    	},
 				    	clientes: [],
 				    	caixa_is_aberto: false,
@@ -576,7 +563,9 @@
 				    		payments: {
 				    			register_init_value: 0,
 				    			register_end_value: 0,
-				    			diff_actual_register_to_last: 0,
+				    			total_money: 0,
+				    			total_cards: 0,
+				    			total_accounts: 0,
 				    			total: 0,
 				    			items: [
 				    			{
@@ -638,8 +627,8 @@
 
 				          if(response.data.caixa_aberto != null) {
 
-				          	self.caixa_aberto = response.data.caixa_aberto;
-				          	self.caixa_anterior = response.data.caixa_anterior;
+				          	self.$set('caixa_aberto', response.data.caixa_aberto);
+				          	self.$set('caixa_anterior', response.data.caixa_anterior);
 				          	self.caixa_is_aberto = true;
 				          	self.retiradas = response.data.retiradas;
 				          	self.clientes = response.data.clientes;
@@ -732,17 +721,18 @@
 
 				    		});
 
-				    		console.log(totalPayments);
+				    		if (!that.caixa_aberto.payments.register_end_value || isNaN(that.caixa_aberto.payments.register_end_value)) that.caixa_aberto.payments.register_end_value = 0;
 
-				    		if (!that.caixa_aberto.payments.register_end_value || isNaN(that.caixa_aberto.payments.egister_end_value)) that.caixa_aberto.payments.egister_end_value = 0;
+				    		that.caixa_aberto.payments.total_cards = totalPayments;
+				    		that.caixa_aberto.payments.total_money = parseFloat(that.caixa_aberto.payments.register_end_value) + 
+				    			parseFloat(this.caixa_aberto.total_retirada) -
+				    			parseFloat(that.caixa_aberto.payments.register_init_value);
+				    		that.caixa_aberto.payments.total_accounts = parseFloat(this.caixa_aberto.contas.total) - parseFloat(this.caixa_anterior.contas.total);
 
 				    		var conferencia1 = 
 				    			( parseFloat( that.caixa_aberto.payments.register_end_value )
 				    			+ parseFloat( this.caixa_aberto.total_retirada ) 
 				    			- (parseFloat( that.caixa_aberto.payments.register_init_value) + parseFloat( this.caixa_anterior.contas.total ) ) );
-
-				    		console.log('init' + that.caixa_aberto.payments.register_init_value);
-				    		console.log('end' + that.caixa_aberto.payments.register_end_value);
 
 				    		var conferencia2 = parseFloat( this.vendas.vendaBruta.replace(',', '') ) - (totalPayments + parseFloat( this.caixa_aberto.contas.total )); 
 
@@ -750,7 +740,7 @@
 
 				    		console.log('Conferencia 1: ' + conferencia1);
 				    		console.log('Conferencia 2: ' + conferencia2);
-				    		console.log('Diferença: ' + diferenca);
+				    		console.log(': ' + diferenca);
 
 					    	this.caixa_aberto.diferenca_final = diferenca.toFixed(2);
 					    	this.caixa_aberto.vendas = this.vendas.vendaBruta.replace(',', '');
@@ -1015,13 +1005,12 @@
 				    	
 				    	calculaAbertura: function(){
 				    		var diferenca = 
-				    			parseFloat(this.abrir_caixa.valor)
+				    			parseFloat(this.abrir_caixa.payments.register_init_value)
 				    			-
 				    			parseFloat(this.caixa_anterior.vr_emCaixa);
 
-				    		this.abrir_caixa.diferenca_inicial = diferenca;
+				    		this.abrir_caixa.diferenca_inicial = diferenca.toFixed(2);
 
-				    		console.log(this.abrir_caixa.diferenca_inicial);
 				    	},
 
 				    },

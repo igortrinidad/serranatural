@@ -98,11 +98,95 @@
                                       {{ $caixa->usuarioFechamento->name }}
                                     </td>
                                   </tr>
+
+
+                                  <!-- caixa novo -->
                                   <tr>
                                     <td colspan="2" height="15" style="font-size:0px;line-height:0px">&nbsp;</td>
                                   </tr>
+                                  <tr>
+                                    <td style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="200">
+                                      Valor abertura
+                                    </td>
+                                    <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="120">
+                                      R$ {{$caixa->payments['register_init_value'] }}
+                                    </td>
+                                  </tr>
+
+                                  <tr>
+                                    <td colspan="2" height="15" style="font-size:0px;line-height:0px">&nbsp;</td>
+                                  </tr>
+                                  <tr>
+                                    <td style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="200">
+                                      Valor fechamento
+                                    </td>
+                                    <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="120">
+                                      R$ {{$caixa->payments['register_end_value'] }}
+                                    </td>
+                                  </tr>
+
+                                  <tr>
+                                    <td colspan="2" height="15" style="font-size:0px;line-height:0px">&nbsp;</td>
+                                  </tr>
+                                  <tr>
+                                    <td style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="200">
+                                      Venda total dinheiro (aprox)
+                                    </td>
+                                    <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="120">
+                                      R$ {{$caixa->payments['total_money'] }}
+                                    </td>
+                                  </tr>
+
+                                  <tr>
+                                    <td colspan="2" height="15" style="font-size:0px;line-height:0px">&nbsp;</td>
+                                  </tr>
+                                  <tr>
+                                    <td style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="200">
+                                      Venda total cartão
+                                    </td>
+                                    <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="120">
+                                      R$ {{$caixa->payments['total_cards'] }}
+                                    </td>
+                                  </tr>
+
+                                  <tr>
+                                    <td colspan="2" height="15" style="font-size:0px;line-height:0px">&nbsp;</td>
+                                  </tr>
+                                  <tr>
+                                    <td style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="200">
+                                      Venda contas
+                                    </td>
+                                    <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="120">
+                                      R$ {{$caixa->payments['total_accounts'] }}
+                                    </td>
+                                  </tr>
+
+                                  <hr>
+                                  
+                                  @foreach($caixa->payments['items'] as $item)
+                                  <tr>
+                                    <td colspan="2" height="15" style="font-size:0px;line-height:0px">&nbsp;</td>
+                                  </tr>
+                                  <tr>
+                                    <td style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="200">
+                                      {{$item['label']}}
+                                    </td>
+                                    <td align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="120">
+                                      R$ {{$item['value'] }}
+                                    </td>
+                                  </tr>
+                                  @endforeach
 
 
+                                  <hr>
+
+
+                                  <!-- caixa novo -->
+
+
+                                  <tr>
+                                    <td colspan="2" height="15" style="font-size:0px;line-height:0px">&nbsp;</td>
+                                  </tr>
                                   <tr>
                                     <td style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:21px;color:#575757" width="200">
                                       Valor abertura
@@ -111,6 +195,7 @@
                                       R$ {{$caixa->vr_abertura }}
                                     </td>
                                   </tr>
+
                                   <tr>
                                     <td colspan="2" height="15" style="font-size:0px;line-height:0px">&nbsp;</td>
                                   </tr>
@@ -328,7 +413,7 @@
             <td height="20" style="font-size:0px;line-height:0px">&nbsp;</td>
           </tr>
           <tr>
-            <td align="center"><p><img src="http://www.admin.serranatural.com/img/logo.png" style="width: 25%;"><br></p>
+            <td align="center"><p><img src="https://serranatural.com/img/logo.png" style="width: 25%;"><br></p>
             </td>
           </tr>
           <tr>

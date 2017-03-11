@@ -202,6 +202,7 @@ class CaixaController extends Controller
                     'is_aberto' => $request->is_aberto,
                     'obs' => $request->obs,
                     'contas' => $request->contas,
+                    'payments' => $request->payments,
                 ]);
         }
 
@@ -257,6 +258,7 @@ class CaixaController extends Controller
                     'dt_fechamento' => date('Y-m-d H:i:s'),
                     'obs' => $request->obs,
                     'contas' => $request->contas,
+                    'payments' => $request->payments,
                     'is_aberto' => 0
                 ]);
 
