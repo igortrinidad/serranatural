@@ -45,12 +45,12 @@
 									<th class="text-center">Diferença total</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr v-for="caixa in caixas">
-									<td class="text-center">@{{caixa.dt_abertura}}</td>
+							<tbody v-for="caixa in caixas">
+								<tr>
+									<td class="text-center">@{{caixa.dt_abertura | moment 'DD/MM/YYYY HH:mm:ss'}}</td>
 									<td class="text-center" v-if="caixa.usuario_abertura">@{{caixa.usuario_abertura.name}}</td>
 									<td class="text-center" v-if="!caixa.usuario_abertura">--</td>
-									<td class="text-center" v-if="caixa.dt_fechamento > '2010-10-10'">@{{caixa.dt_fechamento}}</td>
+									<td class="text-center" v-if="caixa.dt_fechamento > '2010-10-10'">@{{caixa.dt_fechamento | moment 'DD/MM/YYYY HH:mm:ss'}}</td>
 									<td class="text-center" v-if="caixa.dt_fechamento < '2010-10-10'">--</td>
 									<td class="text-center" v-if="caixa.usuario_fechamento">@{{caixa.usuario_fechamento.name}}</td>
 									<td class="text-center" v-if="!caixa.usuario_fechamento">--</td>
@@ -62,6 +62,38 @@
 									<td class="text-center">R$ @{{caixa.total_retirada}}</td>
 									<td class="text-center" v-on:click="mostraVendas(caixa)"
 									v-bind:class="{ 'warning': caixa.diferenca_final < 0, 'success': caixa.diferenca_final >= 0 }">R$ @{{caixa.diferenca_final}}</td>
+								</tr>
+								<tr v-if="caixa.payments">
+									<td colspan="12">
+										<table class="table table-bordered">
+										    <thead>
+										        <tr>
+										            <th>Vr. abertura</th>
+										            <th>Vr. Fechamento</th>
+										            <th>Vendas total dinheiro</th>
+										            <th>Vendas total cartão</th>
+										            <th>Vendas Ticket</th>
+										            <th>Vendas Stone</th>
+										            <th>Vendas Rede</th>
+										            <th>Vendas Cielo</th>
+										            <th>Vendas iFood</th>
+										        </tr>
+										    </thead>
+										    <tbody>
+										        <tr v-if="caixa.payments">
+										            <td>R$ @{{caixa.payments.register_init_value}}</td>
+										            <td>R$ @{{caixa.payments.register_end_value}}</td>
+										            <td>R$ @{{caixa.payments.total_money.toFixed(2)}}</td>
+										            <td>R$ @{{caixa.payments.total_cards.toFixed(2)}}</td>
+										            <td>R$ @{{caixa.payments.items[0].value}}</td>
+										            <td>R$ @{{caixa.payments.items[1].value}}</td>
+										            <td>R$ @{{caixa.payments.items[2].value}}</td>
+										            <td>R$ @{{caixa.payments.items[3].value}}</td>
+										            <td>R$ @{{caixa.payments.items[4].value}}</td>
+										        </tr>
+										    </tbody>
+										</table>
+									</td>
 
 								</tr>
 							</tbody>
@@ -89,7 +121,7 @@
 		     		<legend>Detalhes caixa</legend>
 			      	<div class="col-md-6">
 			      		<label>Data abertura</label>
-			      		<p>@{{caixaSelected.caixa.dt_abertura}}</p>
+			      		<p>@{{caixaSelected.caixa.dt_abertura | moment 'DD/MM/YYYY HH:mm:ss'}}</p>
 			      		<label>Usuário abertura</label>
 			      		<p>@{{caixaSelected.caixa.usuario_abertura.name}}</p>
 			      		<label>Vendas total</label>
@@ -322,6 +354,14 @@
 				    		}
 				    		
 				    	},
+				    },
+
+				    filters: {
+				    	moment: {
+				    		read: function(val, format){
+				    			return moment(val).format(format)
+				    		}
+				    	}
 				    },
 
 				    ready: function(){
