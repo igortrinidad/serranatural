@@ -75,6 +75,12 @@
 
 						<div class="col-md-4 col-xs-12">
 							<div class="form-group">
+							<label>Retiradas total</label>
+								<input class="form-control" v-model="caixa.total_retirada" disabled>
+							</div>
+						</div>
+						<div class="col-md-4 col-xs-12">
+							<div class="form-group">
 							<label>Venda total</label>
 								<input class="form-control" v-model="caixa.vendas" disabled>
 							</div>
