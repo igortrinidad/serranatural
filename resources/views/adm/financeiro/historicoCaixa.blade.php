@@ -29,75 +29,97 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">Caixas</div>
 			<div class="panel-body">
-						<table class="table table-bordered">
-							<thead>
-								<tr>
-									<th class="text-center">Abertura</th>
-									<th class="text-center">Usuario abertura</th>
-									<th class="text-center">Fechamento</th>
-									<th class="text-center">Usuario fechamento</th>
-									<th class="text-center">Valor abertura</th>
-									<th class="text-center">Venda total</th>
-									<th class="text-center">Cielo</th>
-									<th class="text-center">Rede</th>
-									<th class="text-center">Fundo de caixa</th>
-									<th class="text-center">Retirada total</th>
-									<th class="text-center">Diferença total</th>
-								</tr>
-							</thead>
-							<tbody v-for="caixa in caixas">
-								<tr>
-									<td class="text-center">@{{caixa.dt_abertura | moment 'DD/MM/YYYY HH:mm:ss'}}</td>
-									<td class="text-center" v-if="caixa.usuario_abertura">@{{caixa.usuario_abertura.name}}</td>
-									<td class="text-center" v-if="!caixa.usuario_abertura">--</td>
-									<td class="text-center" v-if="caixa.dt_fechamento > '2010-10-10'">@{{caixa.dt_fechamento | moment 'DD/MM/YYYY HH:mm:ss'}}</td>
-									<td class="text-center" v-if="caixa.dt_fechamento < '2010-10-10'">--</td>
-									<td class="text-center" v-if="caixa.usuario_fechamento">@{{caixa.usuario_fechamento.name}}</td>
-									<td class="text-center" v-if="!caixa.usuario_fechamento">--</td>
-									<td class="text-center">R$ @{{caixa.vr_abertura}}</td>
-									<td class="text-center">@{{caixa.vendas}}</td>
-									<td class="text-center">R$ @{{caixa.vendas_cielo}}</td>
-									<td class="text-center">R$ @{{caixa.vendas_rede}}</td>
-									<td class="text-center">R$ @{{caixa.vr_emCaixa}}</td>
-									<td class="text-center">R$ @{{caixa.total_retirada}}</td>
-									<td class="text-center" v-on:click="mostraVendas(caixa)"
-									v-bind:class="{ 'warning': caixa.diferenca_final < 0, 'success': caixa.diferenca_final >= 0 }">R$ @{{caixa.diferenca_final}}</td>
-								</tr>
-								<tr v-if="caixa.payments">
-									<td colspan="12">
-										<table class="table table-bordered">
-										    <thead>
-										        <tr>
-										            <th>Vr. abertura</th>
-										            <th>Vr. Fechamento</th>
-										            <th>Vendas total dinheiro</th>
-										            <th>Vendas total cartão</th>
-										            <th>Vendas Ticket</th>
-										            <th>Vendas Stone</th>
-										            <th>Vendas Rede</th>
-										            <th>Vendas Cielo</th>
-										            <th>Vendas iFood</th>
-										        </tr>
-										    </thead>
-										    <tbody>
-										        <tr v-if="caixa.payments">
-										            <td>R$ @{{caixa.payments.register_init_value}}</td>
-										            <td>R$ @{{caixa.payments.register_end_value}}</td>
-										            <td>R$ @{{caixa.payments.total_money.toFixed(2)}}</td>
-										            <td>R$ @{{caixa.payments.total_cards.toFixed(2)}}</td>
-										            <td>R$ @{{caixa.payments.items[0].value}}</td>
-										            <td>R$ @{{caixa.payments.items[1].value}}</td>
-										            <td>R$ @{{caixa.payments.items[2].value}}</td>
-										            <td>R$ @{{caixa.payments.items[3].value}}</td>
-										            <td>R$ @{{caixa.payments.items[4].value}}</td>
-										        </tr>
-										    </tbody>
-										</table>
-									</td>
 
-								</tr>
-							</tbody>
-						</table>
+				<div v-for="caixa in caixas" v-if="caixa.payments">
+
+					<div class="row" style="cursor: pointer" v-on:click="mostraVendas(caixa)">
+						<div class="col-md-4 col-xs-12">
+							<div class="form-group">
+							<label>Responsável abertura</label>
+								<input class="form-control" v-model="caixa.usuario_abertura.name" disabled>
+							</div>
+						</div>
+						<div class="col-md-4 col-xs-12">
+							<div class="form-group">
+							<label>Data abertura</label>
+								<input class="form-control" v-model="caixa.dt_abertura | moment 'DD/MM/YYYY HH:mm:ss'" disabled>
+							</div>
+						</div>
+
+						<div class="col-md-4 col-xs-12">
+							<div class="form-group">
+							<label>Valor abertura</label>
+								<input class="form-control" v-model="caixa.payments.register_init_value" disabled>
+							</div>
+						</div>
+
+						<div class="col-md-4 col-xs-12">
+							<div class="form-group">
+							<label>Responsável fechamento</label>
+								<input class="form-control" v-model="caixa.usuario_fechamento.name" disabled>
+							</div>
+						</div>
+						<div class="col-md-4 col-xs-12">
+							<div class="form-group">
+							<label>Data fechamento</label>
+								<input class="form-control" v-model="caixa.dt_fechamento | moment 'DD/MM/YYYY HH:mm:ss'" disabled>
+							</div>
+						</div>
+
+						<div class="col-md-4 col-xs-12">
+							<div class="form-group">
+							<label>Valor fechamento</label>
+								<input class="form-control" v-model="caixa.payments.register_end_value" disabled>
+							</div>
+						</div>
+
+						<div class="col-md-4 col-xs-12">
+							<div class="form-group">
+							<label>Venda total</label>
+								<input class="form-control" v-model="caixa.vendas" disabled>
+							</div>
+						</div>
+
+						<div class="col-md-4 col-xs-12">
+							<div class="form-group">
+							<label>Diferença</label>
+								<input class="form-control" v-model="caixa.diferenca_final" disabled v-bind:class="{ 'warning': caixa.diferenca_final < 0, 'success': caixa.diferenca_final >= 0 }">
+							</div>
+						</div>
+					</div>
+					
+					<table class="table table-bordered">
+					    <thead>
+					        <tr>
+					            <th>Vr. abertura</th>
+					            <th>Vr. Fechamento</th>
+					            <th>Vendas total dinheiro</th>
+					            <th>Vendas total cartão</th>
+					            <th>Vendas Ticket</th>
+					            <th>Vendas Stone</th>
+					            <th>Vendas Rede</th>
+					            <th>Vendas Cielo</th>
+					            <th>Vendas iFood</th>
+					        </tr>
+					    </thead>
+					    <tbody>
+					        <tr v-if="caixa.payments">
+					            <td>R$ @{{caixa.payments.register_init_value}}</td>
+					            <td>R$ @{{caixa.payments.register_end_value}}</td>
+					            <td>R$ @{{caixa.payments.total_money.toFixed(2)}}</td>
+					            <td>R$ @{{caixa.payments.total_cards.toFixed(2)}}</td>
+					            <td>R$ @{{caixa.payments.items[0].value}}</td>
+					            <td>R$ @{{caixa.payments.items[1].value}}</td>
+					            <td>R$ @{{caixa.payments.items[2].value}}</td>
+					            <td>R$ @{{caixa.payments.items[3].value}}</td>
+					            <td>R$ @{{caixa.payments.items[4].value}}</td>
+					        </tr>
+					    </tbody>
+					</table>
+
+					<hr line-height="3px">
+				</div>
+
 			</div>
 		
 		</div>
