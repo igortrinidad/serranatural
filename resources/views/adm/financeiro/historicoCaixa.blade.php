@@ -91,8 +91,6 @@
 					<table class="table table-bordered">
 					    <thead>
 					        <tr>
-					            <th>Vr. abertura</th>
-					            <th>Vr. Fechamento</th>
 					            <th>Vendas total dinheiro</th>
 					            <th>Vendas total cartão</th>
 					            <th>Vendas Ticket</th>
@@ -104,8 +102,6 @@
 					    </thead>
 					    <tbody>
 					        <tr v-if="caixa.payments">
-					            <td>R$ @{{caixa.payments.register_init_value}}</td>
-					            <td>R$ @{{caixa.payments.register_end_value}}</td>
 					            <td>R$ @{{caixa.payments.total_money.toFixed(2)}}</td>
 					            <td>R$ @{{caixa.payments.total_cards.toFixed(2)}}</td>
 					            <td>R$ @{{caixa.payments.items[0].value}}</td>
