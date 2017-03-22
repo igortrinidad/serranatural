@@ -49,7 +49,7 @@
 						<div class="col-md-4 col-xs-12">
 							<div class="form-group">
 							<label>Valor abertura</label>
-								<input class="form-control" v-model="caixa.payments.register_init_value" disabled>
+								<input class="form-control" v-model="caixa.payments.register_init_value | formatMoney" disabled>
 							</div>
 						</div>
 
@@ -69,14 +69,14 @@
 						<div class="col-md-4 col-xs-12">
 							<div class="form-group">
 							<label>Valor fechamento</label>
-								<input class="form-control" v-model="caixa.payments.register_end_value" disabled>
+								<input class="form-control" v-model="caixa.payments.register_end_value | formatMoney" disabled>
 							</div>
 						</div>
 
 						<div class="col-md-4 col-xs-12">
 							<div class="form-group">
 							<label>Venda total</label>
-								<input class="form-control" v-model="caixa.vendas" disabled>
+								<input class="form-control" v-model="caixa.vendas | formatMoney" disabled>
 							</div>
 						</div>
 
@@ -102,13 +102,13 @@
 					    </thead>
 					    <tbody>
 					        <tr v-if="caixa.payments">
-					            <td>R$ @{{caixa.payments.total_money.toFixed(2)}}</td>
-					            <td>R$ @{{caixa.payments.total_cards.toFixed(2)}}</td>
-					            <td>R$ @{{caixa.payments.items[0].value}}</td>
-					            <td>R$ @{{caixa.payments.items[1].value}}</td>
-					            <td>R$ @{{caixa.payments.items[2].value}}</td>
-					            <td>R$ @{{caixa.payments.items[3].value}}</td>
-					            <td>R$ @{{caixa.payments.items[4].value}}</td>
+					            <td>R$ @{{caixa.payments.total_money.toFixed(2) | formatMoney}}</td>
+					            <td>R$ @{{caixa.payments.total_cards.toFixed(2) | formatMoney}}</td>
+					            <td>R$ @{{caixa.payments.items[0].value | formatMoney}}</td>
+					            <td>R$ @{{caixa.payments.items[1].value | formatMoney}}</td>
+					            <td>R$ @{{caixa.payments.items[2].value | formatMoney}}</td>
+					            <td>R$ @{{caixa.payments.items[3].value | formatMoney}}</td>
+					            <td>R$ @{{caixa.payments.items[4].value | formatMoney}}</td>
 					        </tr>
 					    </tbody>
 					</table>
@@ -378,6 +378,11 @@
 				    	moment: {
 				    		read: function(val, format){
 				    			return moment(val).format(format)
+				    		}
+				    	},
+				    	formatMoney: {
+				    		read: function(val, format){
+				    			return val.replace('.', ',');
 				    		}
 				    	}
 				    },
