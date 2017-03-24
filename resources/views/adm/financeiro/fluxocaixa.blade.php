@@ -762,6 +762,11 @@
 
 						    			if(oldPayment.label == payment.label){
 						    				payment.value = parseFloat(payment.value) - parseFloat(oldPayment.value)
+
+						    				if(payment.value < 0){
+						    					payment.value = 0;
+						    					swal('oO!', 'PRESTA ATENÇÃO AI !!!!', 'error');
+						    				}
 						    			}
 
 						    		});
