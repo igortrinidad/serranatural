@@ -35,14 +35,15 @@
 					<div class="row" style="cursor: pointer" v-on:click="mostraVendas(caixa)">
 						<div class="col-md-4 col-xs-12">
 							<div class="form-group">
-							<label>Responsável abertura</label>
-								<input class="form-control" v-model="caixa.usuario_abertura.name" disabled>
-							</div>
-						</div>
-						<div class="col-md-4 col-xs-12">
-							<div class="form-group">
 							<label>Data abertura</label>
 								<input class="form-control" v-model="caixa.dt_abertura | moment 'DD/MM/YYYY HH:mm:ss'" disabled>
+							</div>
+						</div>
+
+						<div class="col-md-4 col-xs-12">
+							<div class="form-group">
+							<label>Responsável abertura</label>
+								<input class="form-control" v-model="caixa.usuario_abertura.name" disabled>
 							</div>
 						</div>
 
@@ -99,6 +100,7 @@
 					        <tr>
 					            <th>Vendas total dinheiro</th>
 					            <th>Vendas total cartão</th>
+					            <th>Contas aberto total</th>
 					            <th>Vendas Ticket</th>
 					            <th>Vendas Stone</th>
 					            <th>Vendas Rede</th>
@@ -110,6 +112,7 @@
 					        <tr v-if="caixa.payments">
 					            <td>R$ @{{caixa.payments.total_money.toFixed(2)}}</td>
 					            <td>R$ @{{caixa.payments.total_cards.toFixed(2)}}</td>
+					            <td>R$ @{{caixa.contas.total}}</td>
 					            <td>R$ @{{caixa.payments.items[0].value}}</td>
 					            <td>R$ @{{caixa.payments.items[1].value}}</td>
 					            <td>R$ @{{caixa.payments.items[2].value}}</td>
