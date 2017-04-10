@@ -48,8 +48,7 @@ class SiteController extends Controller
 
     public function promocoes()
     {
-        $promocoes = Promocoes::orderBy('created_at', 'DESC')
-                    ->get();
+        $promocoes = Promocoes::orderBy('created_at', 'DESC')->where('is_ativo', 1)->get();
 
         return view('landing.promocoes', compact('promocoes'));
     }
