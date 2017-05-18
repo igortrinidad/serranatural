@@ -169,7 +169,7 @@
 
 								<div class="col-md-6">
 									<div class="form-group">
-										<label>Substrair cartões anteriores</label>
+										<label>Subtrair cartões anteriores</label>
 										<br>
 										<button v-if="unlock" class="btn btn-primary btn-block" @click="substract($event)">Subtrair</button>
 										<button v-if="!unlock" class="btn btn-danger btn-block" @click="substract($event)">Desbloquear</button>

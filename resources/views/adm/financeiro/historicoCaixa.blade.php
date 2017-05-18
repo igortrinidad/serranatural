@@ -30,9 +30,9 @@
 			<div class="panel-heading">Caixas</div>
 			<div class="panel-body">
 
-				<div v-for="caixa in caixas" v-if="caixa.payments">
+				<div v-for="caixa in caixas" v-if="caixa.payments" track-by="$index">
 
-					<div class="row" style="cursor: pointer" v-on:click="mostraVendas(caixa)">
+					<div class="row" style="cursor: pointer" v-on:click="mostraVendas(caixa, $index)">
 						<div class="col-md-4 col-xs-12">
 							<div class="form-group">
 							<label>Data abertura</label>
@@ -162,20 +162,25 @@
 			      		<label>Responsável fechamento</label>
 			      		<p>@{{caixaSelected.caixa.usuario_fechamento.name}}</p>
 			      	</div>
-			      	<div class="col-md-6">
+			      	<div class="col-md-4">
 			      		<p>Valor abertura</p>
 			      		<h3 v-if="!isEditing">@{{caixaSelected.caixa.payments.register_init_value}}</h3>
 			      		<input v-if="isEditing" class="form-control" v-model="caixaSelected.caixa.payments.register_init_value" @blur="calcula()">
 			      	</div>
 
-			      	<div class="col-md-6">
+			      	<div class="col-md-4">
 			      		<p>Valor fechamento</p>
 						<h3 v-if="!isEditing">@{{caixaSelected.caixa.payments.register_end_value}}</h3>
 						<input v-if="isEditing" class="form-control" v-model="caixaSelected.caixa.payments.register_end_value" @blur="calcula()">
 			      	</div>
+
+			      	<div class="col-md-4">
+			      		<p>Vendas no caixa</p>
+						<h3>@{{caixaSelected.fetched.vendaBruta}}</h3>
+			      	</div>
 					
-					<div class="col-md-3" v-for="payment in caixaSelected.caixa.payments.items">
-						<p>@{{payment.label}} anterior</p>
+					<div class="col-md-4" v-for="payment in caixaSelected.caixa.payments.items">
+						<p>@{{payment.label}}</p>
 						<h3 v-if="!isEditing">R$ @{{payment.value}}</h3>
 						<input v-if="isEditing" class="form-control" v-model="payment.value" @blur="calcula()">
 
@@ -190,6 +195,7 @@
 			      		<label>Observações</label>
 			      		<p>@{{{ caixaSelected.caixa.obs }}}</p>
 			      	</div>
+
 		      	</fieldset>
 	     	</div>
 	    </div>
@@ -418,8 +424,54 @@
 				    		fetched: {
 				    			vendaBruta: '0',
 				    			vendas_resumo: []
-				    		}
-				    		
+				    		}	
+				    	},
+				    	caixaAnterior: {
+				    		caixa: {
+					    		senha: '', 
+					    		senha_conferente: '',
+					    		contas: {
+				    				contas_abertas: [],
+				    				contas_pagas: [],
+				    				total: 0,
+					    		},
+					    		payments: {
+					    			register_init_value: 0,
+					    			register_end_value: 0,
+					    			total_money: 0,
+					    			total_cards: 0,
+					    			total_accounts: 0,
+					    			total: 0,
+					    			items: [
+					    			{
+						    			label: 'Ticket',
+						    			value: 0
+						    		},
+						    		{
+						    			label: 'Stone',
+						    			value: 0
+						    		},
+						    		{
+						    			label: 'Rede',
+						    			value: 0
+						    		},
+						    		{
+						    			label: 'iFood',
+						    			value: 0
+						    		},
+						    		{
+						    			label: 'Cielo',
+						    			value: 0
+						    		},
+						    		]
+						    	},
+						    	usuario_abertura: {name: ''},
+						    	usuario_fechamento: {name: ''}
+				    		}, 
+				    		fetched: {
+				    			vendaBruta: '0',
+				    			vendas_resumo: []
+				    		}	
 				    	},
 				    },
 
@@ -453,7 +505,7 @@
 				    		this.isEditing = true;
 				    	    
 				    	},
-				    	mostraVendas: function(caixa){
+				    	mostraVendas: function(caixa, index){
 					    	var self = this;	
 					      	// GET request
 					      	
@@ -462,8 +514,7 @@
 					      		self.loading = true;
 
 					      		self.caixaSelected.caixa = caixa;
-
-						      	self.calcula();
+					      		self.$set('caixaAnterior', this.caixas[index+1]);
 
 						      	$('#modalCaixaSelected').modal('show');
 
@@ -473,6 +524,7 @@
 
 						          	console.log(self.caixaSelected);
 						          	self.loading = false;
+						          	self.calcula();
 
 								}, function (response) {
 									self.loading = false;
@@ -502,13 +554,14 @@
 				    		that.caixaSelected.caixa.payments.total_money = parseFloat(that.caixaSelected.caixa.payments.register_end_value) + 
 				    			parseFloat(that.caixaSelected.caixa.total_retirada) -
 				    			parseFloat(that.caixaSelected.caixa.payments.register_init_value);
+				    		that.caixaSelected.caixa.payments.total_accounts = parseFloat(that.caixaSelected.caixa.contas.total) - parseFloat(that.caixaAnterior.contas.total);
 
 				    		var conferencia1 = 
 				    			( parseFloat( that.caixaSelected.caixa.payments.register_end_value )
 				    			+ parseFloat( that.caixaSelected.caixa.total_retirada ) 
-				    			- (parseFloat( that.caixaSelected.caixa.payments.register_init_value) ) );
+				    			- (parseFloat( that.caixaSelected.caixa.payments.register_init_value) + parseFloat( that.caixaAnterior.contas.total ) ) );
 
-				    		var conferencia2 = parseFloat( this.caixaSelected.fetched.vendaBruta.replace(',', '') ) - totalPayments; 
+				    		var conferencia2 = parseFloat( that.caixaSelected.fetched.vendaBruta.replace(',', '') ) - (totalPayments + parseFloat( that.caixaSelected.caixa.contas.total )); 
 
 				    		var diferenca = (conferencia1) - (conferencia2);
 
@@ -517,7 +570,7 @@
 				    		console.log(': ' + diferenca);
 
 					    	that.caixaSelected.caixa.diferenca_final = diferenca.toFixed(2);
-					    	that.caixaSelected.caixa.vendas = this.caixaSelected.fetched.vendaBruta.replace(',', '');
+					    	that.caixaSelected.caixa.vendas = that.caixaSelected.fetched.vendaBruta.replace(',', '');
 				    	},
 
 				    	salva: function() {
