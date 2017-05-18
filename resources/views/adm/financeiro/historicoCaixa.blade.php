@@ -149,36 +149,44 @@
 			      	<div class="col-md-6">
 			      		<label>Data abertura</label>
 			      		<p>@{{caixaSelected.caixa.dt_abertura | moment 'DD/MM/YYYY HH:mm:ss'}}</p>
-			      		<label>Usuário abertura</label>
+			      	</div>
+			      	<div class="col-md-6">
+			      		<label>Data fechamento</label>
+			      		<p>@{{caixaSelected.caixa.dt_fechamento | moment 'DD/MM/YYYY HH:mm:ss'}}</p>
+			      	</div>
+			      	<div class="col-md-6">
+			      		<label>Responsável abertura</label>
 			      		<p>@{{caixaSelected.caixa.usuario_abertura.name}}</p>
-			      		<label>Vendas total</label>
-			      		<p>R$ @{{caixaSelected.caixa.vendas}}</p>
-			      		<label>Ticket Médio</label>
-			      		<p>R$ @{{(caixaSelected.caixa.vendas / caixaSelected.fetched.vendas_resumo.length).toFixed(2)}}</p>
-			      		<label>Vendas rede</label>
-			      		<p>@{{caixaSelected.caixa.vendas_rede}}</p>
-			      		<label>Abertura</label>
-			      		<p>@{{caixaSelected.caixa.vr_abertura}}</p>
+			      	</div>
+			      	<div class="col-md-6">
+			      		<label>Responsável fechamento</label>
+			      		<p>@{{caixaSelected.caixa.usuario_fechamento.name}}</p>
+			      	</div>
+			      	<div class="col-md-6">
+			      		<p>Valor abertura</p>
+			      		<h3 v-if="!isEditing">@{{caixaSelected.caixa.payments.register_init_value}}</h3>
+			      		<input v-if="isEditing" class="form-control" v-model="caixaSelected.caixa.payments.register_init_value" @blur="calcula()">
 			      	</div>
 
 			      	<div class="col-md-6">
-			      		<label>Data fechamento</label>
-			      		<p>@{{caixaSelected.caixa.dt_fechamento}}</p>
-			      		<label>Usuário fechamento</label>
-			      		<p>@{{caixaSelected.caixa.usuario_fechamento.name}}</p>
-			      		<label>Volume de vendas</label>
-			      		<p>@{{caixaSelected.fetched.vendas_resumo.length}}</p>
-			      		<label>Vendas cielo</label>
-			      		<p>@{{caixaSelected.caixa.vendas_cielo}}</p>
-			      		<label>Total retiradas</label>
-			      		<p>@{{caixaSelected.caixa.total_retirada}}</p>
-			      		<label>Fundo de caixa</label>
-			      		<p>@{{caixaSelected.caixa.vr_emCaixa}}</p>
+			      		<p>Valor fechamento</p>
+						<h3 v-if="!isEditing">@{{caixaSelected.caixa.payments.register_end_value}}</h3>
+						<input v-if="isEditing" class="form-control" v-model="caixaSelected.caixa.payments.register_end_value" @blur="calcula()">
+			      	</div>
+					
+					<div class="col-md-3" v-for="payment in caixaSelected.caixa.payments.items">
+						<p>@{{payment.label}} anterior</p>
+						<h3 v-if="!isEditing">R$ @{{payment.value}}</h3>
+						<input v-if="isEditing" class="form-control" v-model="payment.value" @blur="calcula()">
+
+					</div>
+
+					<div class="col-md-6">
+			      		<p>Diferença final</p>
+						<h3>R$ @{{ caixaSelected.caixa.diferenca_final }}</h3>
 			      	</div>
 
-			      	<div class="col-md-12 text-center">
-			      		<label>Diferença</label>
-			      		<p>R$ @{{ caixaSelected.caixa.diferenca_calculada }}</p>
+			      	<div class="col-md-12">
 			      		<label>Observações</label>
 			      		<p>@{{{ caixaSelected.caixa.obs }}}</p>
 			      	</div>
@@ -333,7 +341,10 @@
       	</div>
 		
       </div>
+
       <div class="modal-footer">
+        <button type="button" class="btn btn-primary" @click="showEditCaixa()" v-show="!isEditing" :disabled="user_type != 'super_adm'">Editar caixa</button>
+        <button type="button" class="btn btn-danger" @click="salva()" v-show="isEditing">Salvar alterações</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
       </div>
     </div>
@@ -349,8 +360,6 @@
 
 			<script type="text/javascript">
 
-
-
 				$('.maskValor').mask("0000.00", {reverse: true});
 
 				Vue.config.debug = true;
@@ -358,25 +367,56 @@
 
 				var vm = new Vue({
 				    el: '#elHistoricoCaixa',
-				    data: 
-				    {	loading: false,
+				    data: {
+				    	isEditing: false,
+				    	loading: false,
 				    	caixas: [],
 				    	retorno: [],
+				    	user_type: '{{Auth::user()->user_type}}',
 				    	caixaSelected: {
 				    		caixa: {
-				    			usuario_abertura: {name: ''},
-				    			usuario_fechamento: {name: ''},
-				    			vendas: 0,
-				    			retiradas: [
-				    				{valor: '', descricao: '', tipo: '', usuario: {name: ''}, funcionario: {nome: ''}}
-				    			],
-				    			diferenca_calculada: '',
-				    			contas: {
+					    		senha: '', 
+					    		senha_conferente: '',
+					    		contas: {
 				    				contas_abertas: [],
-				    				contas_pagas: []
-				    			}
+				    				contas_pagas: [],
+				    				total: 0,
+					    		},
+					    		payments: {
+					    			register_init_value: 0,
+					    			register_end_value: 0,
+					    			total_money: 0,
+					    			total_cards: 0,
+					    			total_accounts: 0,
+					    			total: 0,
+					    			items: [
+					    			{
+						    			label: 'Ticket',
+						    			value: 0
+						    		},
+						    		{
+						    			label: 'Stone',
+						    			value: 0
+						    		},
+						    		{
+						    			label: 'Rede',
+						    			value: 0
+						    		},
+						    		{
+						    			label: 'iFood',
+						    			value: 0
+						    		},
+						    		{
+						    			label: 'Cielo',
+						    			value: 0
+						    		},
+						    		]
+						    	},
+						    	usuario_abertura: {name: ''},
+						    	usuario_fechamento: {name: ''}
 				    		}, 
 				    		fetched: {
+				    			vendaBruta: '0',
 				    			vendas_resumo: []
 				    		}
 				    		
@@ -407,6 +447,12 @@
 				    },
 				    methods:
 				    {	
+				    	showEditCaixa: function(){
+				    	    let that = this
+				    		
+				    		this.isEditing = true;
+				    	    
+				    	},
 				    	mostraVendas: function(caixa){
 					    	var self = this;	
 					      	// GET request
@@ -436,26 +482,74 @@
 					      	}
 					      	
 				    	},
-				    	calcula: function(){
-				    		that = this;
+				    	calcula: function(ev) {
+				    		var that = this
+				    		this.substracted = false;
 
-				    		var retirada = that.caixaSelected.caixa.total_retirada;
-				    		var abertura = that.caixaSelected.caixa.vr_abertura;
-				    		var fundo = that.caixaSelected.caixa.vr_emCaixa;
-				    		var cielo = that.caixaSelected.caixa.vendas_cielo;
-				    		var rede = that.caixaSelected.caixa.vendas_rede;
-				    		var vendas = that.caixaSelected.caixa.vendas;
+				    		var totalPayments = 0;
 
-				    		console.log(retirada + ' | ' + abertura + ' | '+ fundo + ' | '+ cielo + ' | '+ rede + ' | '+ vendas);
+				    		that.caixaSelected.caixa.payments.items.forEach(function(payment){
+				    			if(isNaN(payment.value) || !payment.value){
+				    				payment.value = 0;
+				    			}
+				    			totalPayments += parseFloat(payment.value);
 
-				    		that.caixaSelected.caixa.diferenca_calculada = 
-				    		( parseFloat(fundo) + parseFloat(cielo) + parseFloat(rede) + parseFloat(retirada))
-				    		-
-				    		( parseFloat(vendas) + parseFloat(abertura) )
-				    		;
+				    		});
 
-				    		that.caixaSelected.caixa.diferenca_calculada = that.caixaSelected.caixa.diferenca_calculada.toFixed(2);
-				    	}
+				    		if (!that.caixaSelected.caixa.payments.register_end_value || isNaN(that.caixaSelected.caixa.payments.register_end_value)) that.caixaSelected.caixa.payments.register_end_value = 0;
+
+				    		that.caixaSelected.caixa.payments.total_cards = totalPayments;
+				    		that.caixaSelected.caixa.payments.total_money = parseFloat(that.caixaSelected.caixa.payments.register_end_value) + 
+				    			parseFloat(that.caixaSelected.caixa.total_retirada) -
+				    			parseFloat(that.caixaSelected.caixa.payments.register_init_value);
+
+				    		var conferencia1 = 
+				    			( parseFloat( that.caixaSelected.caixa.payments.register_end_value )
+				    			+ parseFloat( that.caixaSelected.caixa.total_retirada ) 
+				    			- (parseFloat( that.caixaSelected.caixa.payments.register_init_value) ) );
+
+				    		var conferencia2 = parseFloat( this.caixaSelected.fetched.vendaBruta.replace(',', '') ) - totalPayments; 
+
+				    		var diferenca = (conferencia1) - (conferencia2);
+
+				    		console.log('Conferencia 1: ' + conferencia1);
+				    		console.log('Conferencia 2: ' + conferencia2);
+				    		console.log(': ' + diferenca);
+
+					    	that.caixaSelected.caixa.diferenca_final = diferenca.toFixed(2);
+					    	that.caixaSelected.caixa.vendas = this.caixaSelected.fetched.vendaBruta.replace(',', '');
+				    	},
+
+				    	salva: function() {
+				    		var that = this;
+
+				    		if(!this.loading){
+
+				    			this.loading = true;
+
+					    		this.calcula();
+
+					    		this.$http.post('/admin/financeiro/caixa/update', this.caixaSelected.caixa).then(function (response) {
+								       swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
+
+								       setTimeout(function()
+									    {
+									    	location.reload();
+									    }, 3000);
+								       that.isEditing = false;
+								       that.loading = false;
+
+								    }, function (response) {
+
+								      	console.log('Erro ao tentar fechar o caixa.');
+
+								      	swal('ERRO', 'ERRO AO SALVAR O CAIXA! TENTE NOVAMENTE E VERIFIQUE SE O CAIXA FOI FECHADO. INFORME AO ASSISTÊNCIA.', 'error');
+								      	that.authorization = false;
+								      	that.loading = false;
+								    });
+				    		}
+
+				    	},
 
 					},
 				});

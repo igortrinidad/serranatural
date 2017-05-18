@@ -452,6 +452,8 @@ class ClienteController extends Controller
                                 ->where('produto', '=', $cliente['produto'])
                                 ->get();
 
+        /**
+        PROMOÇÃO SERRA TODO DIA...
         $semana = Carbon::now()->subDays(7);
 
         $pontosSemana = PontoColetado::where('cliente_id', '=', $cliente['cliente_id'])
@@ -489,6 +491,8 @@ class ClienteController extends Controller
             return redirect()->back();
 
         }
+
+        */
 
 
         if (count($pontos) >= 15)

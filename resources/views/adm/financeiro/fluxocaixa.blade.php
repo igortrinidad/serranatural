@@ -588,6 +588,14 @@
 					    			label: 'Cielo',
 					    			value: 0
 					    		},
+					    		{
+					    			label: 'Beblue',
+					    			value: 0
+					    		},
+					    		{
+					    			label: 'Santander',
+					    			value: 0
+					    		},
 					    		]
 					    	},
 
