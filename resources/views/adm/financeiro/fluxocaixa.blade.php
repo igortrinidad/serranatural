@@ -393,9 +393,19 @@
 
 				</div>
 			
-			
-
 				<div class="col-md-4">
+					
+					<!-- DIFERENÇA -->
+					<div class="panel panel-default" v-if="user_type == 'super_adm'">
+						<div class="panel-heading">Diferença</div>
+						<div class="panel-body">
+							<span class="" >
+								<h3>@{{caixa_aberto.diferenca_final}}</h3>
+							</span>
+						</div>
+					</div>
+					
+					<!-- AÇÕES -->
 					<div class="panel panel-default">
 						<div class="panel-heading">Ações</div>
 						<div class="panel-body">
@@ -422,9 +432,9 @@
 
 
 						</div>
-
 					</div>
-
+					
+					<!-- RETIRADAS -->
 					<div class="panel panel-default">
 						<div class="panel-heading">Retiradas</div>
 						<div class="panel-body">
@@ -448,9 +458,7 @@
 							<a href="/admin/financeiro/retirada" class="btn btn-primary btn-block">Fazer retirada</a>
 
 						</div>
-
 					</div>
-
 				</div>
 			</div>
 
@@ -612,6 +620,7 @@
 				    	retiradas: [],
 				    	substracted: false,
 				    	unlock: false,
+				    	user_type: '{{Auth::user()->user_type}}'
 				    },
 				    filters: {
 					    formatDate: {
@@ -1033,8 +1042,6 @@
 			<script type="text/javascript">
 		        $('.moneyInteger').mask('000000', {reverse: true});
 		        $('.moneyFloat').mask('0000.00', {reverse: true});
-
-
 
 			</script>
 

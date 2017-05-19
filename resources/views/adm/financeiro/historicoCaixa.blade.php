@@ -101,23 +101,15 @@
 					            <th>Vendas total dinheiro</th>
 					            <th>Vendas total cartão</th>
 					            <th>Contas aberto total</th>
-					            <th>Vendas Ticket</th>
-					            <th>Vendas Stone</th>
-					            <th>Vendas Rede</th>
-					            <th>Vendas Cielo</th>
-					            <th>Vendas iFood</th>
+					            <th v-for="item in caixa.payments.items">@{{item.label}}</th>
 					        </tr>
 					    </thead>
 					    <tbody>
 					        <tr v-if="caixa.payments">
-					            <td>R$ @{{caixa.payments.total_money.toFixed(2)}}</td>
+					            <td >R$ @{{caixa.payments.total_money.toFixed(2)}}</td>
 					            <td>R$ @{{caixa.payments.total_cards.toFixed(2)}}</td>
 					            <td>R$ @{{caixa.contas.total}}</td>
-					            <td>R$ @{{caixa.payments.items[0].value}}</td>
-					            <td>R$ @{{caixa.payments.items[1].value}}</td>
-					            <td>R$ @{{caixa.payments.items[2].value}}</td>
-					            <td>R$ @{{caixa.payments.items[3].value}}</td>
-					            <td>R$ @{{caixa.payments.items[4].value}}</td>
+					            <td v-for="item in caixa.payments.items">R$ @{{item.value}}</td>
 					        </tr>
 					    </tbody>
 					</table>
