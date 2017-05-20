@@ -755,8 +755,6 @@
 
 				    		var diferenca = (conferencia1) - (conferencia2);
 
-				    		console.log('Conferencia 1: ' + conferencia1);
-				    		console.log('Conferencia 2: ' + conferencia2);
 				    		console.log(': ' + diferenca);
 
 					    	this.caixa_aberto.diferenca_final = diferenca.toFixed(2);
@@ -970,6 +968,19 @@
 				    			this.loading = true;
 
 					    		this.calcula();
+
+					    		if(this.caixa_aberto.diferenca_final > 50 && this.user_type != 'super_adm'){
+					    			console.log('dddd: ' + this.caixa_aberto.diferenca_final);
+					    			swal('Atenção!', 'Confira o caixa antes de fecha-lo, não será aceito fechamento de caixa com diferença superior a R$50,00.', 'warning');
+					    			this.loading = false;
+					    			return false;
+					    		}
+
+					    		if(this.caixa_aberto.diferenca_final < -50 && this.user_type != 'super_adm'){
+					    			swal('Atenção!', 'Confira o caixa antes de fecha-lo, não será aceito fechamento de caixa com diferença superior a R$50,00.', 'warning');
+					    			this.loading = false;
+					    			return false;
+					    		}
 
 					    		this.$http.post('/admin/financeiro/caixa/fecha', this.caixa_aberto).then(function (response) {
 								       swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
