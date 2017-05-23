@@ -9,7 +9,6 @@
 	     {{Session::get('msg_retorno')}}
 	 </div>
 	@endif
-
 		<div class="panel panel-default">
 			<div class="panel-heading">
 
