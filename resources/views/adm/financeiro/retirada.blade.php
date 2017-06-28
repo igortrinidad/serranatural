@@ -70,7 +70,7 @@
 						</div>
 
 		                <div class="form-group">
-							<label>Observações (se houver)</label>
+							<label>Observações (informe o motivo dessa retirada - obrigatório)</label>
 							<input type="text" 
 								name="descricao" 
 								class="form-control"
@@ -148,7 +148,7 @@
 
 						<button type="submit" 
 							v-on:click="confirmRetirada($event)" 
-							:disabled=" !retirada.tipo || !retirada.valor || !retirada.fontePgto"
+							:disabled=" !retirada.tipo || !retirada.valor || !retirada.fontePgto || !retirada.descricao"
 							class="btn btn-block btn-primary">Fazer retirada</button>
 
 				</div>

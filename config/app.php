@@ -156,6 +156,7 @@ return [
         Laracasts\Flash\FlashServiceProvider::class,
         Huddle\Zendesk\Providers\ZendeskServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        
 
 
 
