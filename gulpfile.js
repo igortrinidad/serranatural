@@ -116,5 +116,13 @@ elixir(function(mix) {
 	], 'public/landing/js/vendor.js');
 //
 
-	mix.version(['js/app.js', 'js/votacao.js', 'js/clientes.js', 'js/financeiro.js', 'js/funcionarios.js'])
+	mix.version([
+		'public/js/vendor.js', 
+		'js/app.js', 
+		'js/votacao.js', 
+		'js/clientes.js', 
+		'js/financeiro.js', 
+		'js/funcionarios.js',
+		'public/css/vendor.css',
+	])
 });

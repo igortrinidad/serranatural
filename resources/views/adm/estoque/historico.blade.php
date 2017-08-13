@@ -41,7 +41,7 @@
 					        <tr>
 					        	<td>@{{balanco.id}}
 					        	<td>@{{ balanco.created_at }}
-					            <td colspan="3">@{{balanco.usuario.name}}</td>
+					            <td colspan="3">@{{balanco.usuario ? balanco.usuario.name : 'Usuário não localizado'}}</td>
 					            <td>@{{balanco.finished}}%</td>
 					        </tr>
 					        <tr>

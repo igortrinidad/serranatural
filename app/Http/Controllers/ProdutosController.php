@@ -769,7 +769,7 @@ class ProdutosController extends Controller
 
                 Movimentacao::create([
                         'is_saida' => 1,
-                        'motivo' => $produto['motivo'],
+                        'obs' => $produto['motivo'],
                         'quantity' => $produto['quantidade'],
                         'produto_id' => $produto['id'],
                         'user_id' => \Auth::user()->id,
@@ -785,6 +785,52 @@ class ProdutosController extends Controller
                 'return' => [
                     'type' => 'success',
                     'message' => 'Baixa no estoque cadastrada',
+                    'status_code' => 200,
+                ],
+            ], 200);
+        } else {
+            return response()->json([
+                'return' => [
+                    'type' => 'error',
+                    'message' => 'Produtos não chegaram no local',
+                    'status_code' => 404,
+                ],
+            ], 404);
+        }
+    }
+
+    public function entradaestoque()
+    {
+        return view('adm.estoque.darentrada');
+    }
+
+    public function entradaestoquePost(Request $request)
+    {
+
+        if(is_array($request->produtos)) {
+            
+            foreach ($request->produtos as $produto) {
+
+                Movimentacao::create([
+                        'is_saida' => 0,
+                        'is_entrada' => 1,
+                        'produto_id' => $produto['id'],
+                        'quantity' => $produto['quantidade'],
+                        'valor' => $produto['valor'],
+                        'obs' => $produto['observacao'],
+                        'user_id' => \Auth::user()->id,
+                    ]);
+
+                $prod = Produto::find($produto['id']);
+                $prod->quantidadeEstoque = $prod->quantidadeEstoque + $produto['quantidade'];
+                $prod->save();
+
+            }
+
+            return response()->json([
+                'return' => [
+                    'type' => 'success',
+                    'message' => 'Entrada no estoque cadastrada',
                     'status_code' => 200,
                 ],
             ], 200);

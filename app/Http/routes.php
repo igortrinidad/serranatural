@@ -211,6 +211,8 @@ Route::group(['as' => 'produtos.'], function()
 		Route::get('/admin/produtos/produtosForSelectJson/{trackeds}', ['as' => 'select', 'uses' => 'ProdutosController@produtosForSelectJson']);
 		Route::get('/admin/produtos/baixaestoque', ['uses' => 'ProdutosController@baixaestoque']);
 		Route::post('/admin/produtos/baixaestoquePost', ['uses' => 'ProdutosController@baixaestoquePost']);
+		Route::get('/admin/produtos/entradaestoque', ['uses' => 'ProdutosController@entradaestoque']);
+		Route::post('/admin/produtos/entradaestoquePost', ['uses' => 'ProdutosController@entradaestoquePost']);
 		Route::get('/admin/produtos/balanco', ['uses' => 'ProdutosController@balanco']);
 		Route::post('/admin/produtos/balancoPost', ['uses' => 'ProdutosController@balancoPost']);
 		Route::get('/admin/produtos/historico/balanco', ['uses' => 'ProdutosController@historicoBalanco']);

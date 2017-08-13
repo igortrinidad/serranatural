@@ -1,7 +1,9 @@
 {
-  "js/app.js": "js/app-fc4cce35.js",
-  "js/votacao.js": "js/votacao-220432d8.js",
-  "js/clientes.js": "js/clientes-d7e2e2d5.js",
-  "js/financeiro.js": "js/financeiro-7f1d5e99.js",
-  "js/funcionarios.js": "js/funcionarios-66d04100.js"
+  "js/vendor.js": "js/vendor-7bc89f9e.js",
+  "js/app.js": "js/app-52fddcb1.js",
+  "js/votacao.js": "js/votacao-ff70ad65.js",
+  "js/clientes.js": "js/clientes-75bb4040.js",
+  "js/financeiro.js": "js/financeiro-e42b752c.js",
+  "js/funcionarios.js": "js/funcionarios-e42b752c.js",
+  "css/vendor.css": "css/vendor-dab41c44.css"
 }
