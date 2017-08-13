@@ -801,7 +801,7 @@ class ProdutosController extends Controller
 
     public function entradaestoque()
     {
-        return view('adm.estoque.darentrada');
+        return view('adm.estoque.darEntrada');
     }
 
     public function entradaestoquePost(Request $request)
