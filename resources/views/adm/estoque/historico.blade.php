@@ -40,7 +40,7 @@
 					    <tbody >
 					        <tr>
 					        	<td>@{{balanco.id}}
-					        	<td>@{{ balanco.created_at }}
+					        	<td>@{{ balanco.created_at | moment 'DD/MM/YYYY HH:mm:ss' }}
 					            <td colspan="3">@{{balanco.usuario ? balanco.usuario.name : 'Usuário não localizado'}}</td>
 					            <td>@{{balanco.finished}}%</td>
 					        </tr>
@@ -52,7 +52,7 @@
 					            <th>Quantidade real</th>
 					            <th>Diferença</th>
 					        </tr>
-					        <tr v-for="produto in balanco['lista']" track-by="$index">
+					        <tr v-for="produto in balanco['lista'] | orderBy 'nome' 1" track-by="$index">
 								<td colspan="1"> @{{produto.nome}} </td>
 								<td colspan="1"> @{{produto.validade}} </td>
 								<td colspan="1"> @{{produto.quantidadeEstoque}} </td>
@@ -88,6 +88,16 @@
 				    data: {
 			    		listaBalancos: '',
 				    	return: '',
+				    },
+				    filters: {
+				    	moment: {
+				    		read: function(val, format){
+				    		    let that = this
+				    			
+				    			return moment(val).format(format);
+				    		    
+				    		},
+				    	}
 				    },
 				    attached: function()
     					{

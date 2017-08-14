@@ -45,7 +45,7 @@
 
 						<div class="form-group">
 							<label>Produtos</label>
-				            <select v-model="selected" class="form-control">
+				            <select v-model="selected" class="form-control" id="produtos">
 								<option 
 									v-for="produtoSelected in produtosForSelect" 
 									track-by="$index" 
@@ -70,14 +70,14 @@
 				</div>
 
 				<a 
-					class="btn btn-default btn-block" 
+					class="btn btn-primary btn-block" 
 					:disabled="'true', ! selected.nome || ! selected.quantidade || ! selected.motivo" 
 					v-on:click="addProduto($event)"
 				>Adiciona</a>
-<br>
+				<br>
 				<a 
 					v-if="produtos != ''"
-					class="btn btn-primary btn-block" 
+					class="btn btn-success btn-block" 
 					:disabled="'true', produtos.produtos == ''"
 					v-on:click="confirmBaixa($event)"
 				>Salvar</a>
@@ -89,9 +89,7 @@
 		</div>
 
 	</div>
-			<br><br><br>
-			<p>Debug somente para verificação do status de Vue.js</p>
-			<pre>@{{ $data | json}}</pre>
+	<br><br><br>
 </div>
 
 </div>
@@ -130,6 +128,8 @@
 					      }, function (response) {
 					          console.log(response);
 					      });
+
+					      	$('#produtos').select2();
 					    },
 				    methods: {
 				    	addProduto: function(ev, quantidade) {

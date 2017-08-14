@@ -104,7 +104,7 @@
 							<div class="col-md-8">
 
 								<div class="form-group">
-									<select v-model="selected" class="form-control">
+									<select v-model="selected" class="form-control" id="produtos">
 										<option
 												v-for="produtoSelected in produtosForSelect"
 												track-by="$index"
@@ -215,6 +215,8 @@
 							console.log(response);
 							self.loading = false;
 						});
+
+						$('#produtos').select2();
 					},
 					methods: {
 						addProduto: function(ev, quantidade) {

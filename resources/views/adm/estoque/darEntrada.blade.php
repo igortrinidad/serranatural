@@ -52,7 +52,7 @@
 
 						<div class="form-group">
 							<label>Produtos</label>
-				            <select v-model="selected" class="form-control">
+				            <select v-model="selected" class="form-control" id="produtos">
 								<option 
 									v-for="produtoSelected in produtosForSelect" 
 									track-by="$index" 
@@ -91,7 +91,7 @@
 <br>
 				<a 
 					v-if="produtos != ''"
-					class="btn btn-primary btn-block" 
+					class="btn btn-success btn-block" 
 					:disabled="!produtos.produtos.length"
 					v-on:click="confirmaEntrada($event)"
 				>Salvar</a>
@@ -130,6 +130,7 @@
 				    	produtosForSelect: [],
 				    	selected: {id: '', nome: '', quantidade: '', observacao: '', valor: 0},
 				    },
+
 				    attached: function()
     					{
 
@@ -140,10 +141,12 @@
 				 	      	var self = this;	
 					      	// GET request
 					      	this.$http.get('/admin/produtos/produtosForSelectJson/trackeds').then(function (response) {
-					          self.produtosForSelect = response.data;
-					      }, function (response) {
+					          	self.produtosForSelect = response.data;
+					      	}, function (response) {
 					          console.log(response);
-					      });
+					      	});
+
+					      	$('#produtos').select2();
 					    },
 				    methods: {
 				    	addProduto: function(ev, quantidade) {
