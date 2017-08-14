@@ -337,6 +337,28 @@
 				</fieldset>
 	      	</div>
       	</div>
+
+      	<br>
+      	<!-- REABRIR CAIXA -->
+		<div class="row">
+	      	<div class="col-md-12">
+	      		<fieldset>
+	      			<legend>Baixar estoque caixa</legend>
+	  				<form method="post" action="/admin/financeiro/caixa/baixarEstoqueCaixa/@{{caixaSelected.caixa.id}}">
+						{!! csrf_field() !!}
+
+						<div class="" v-if="caixaSelected.caixa.estoquebaixadoem == '0000-00-00 00:00:00'">
+							<button type="submit" class="btn btn-danger btn-block">Baixar estoque Caixa</button>
+						</div>
+
+						<div class="" v-if="caixaSelected.caixa.estoquebaixadoem != '0000-00-00 00:00:00'">
+							<h3>@{{caixaSelected.caixa.estoquebaixadoem}}</h3>
+						</div>
+
+					</form>
+				</fieldset>
+	      	</div>
+      	</div>
 		
       </div>
 
@@ -373,6 +395,7 @@
 				    	user_type: '{{Auth::user()->user_type}}',
 				    	caixaSelected: {
 				    		caixa: {
+				    			estoquebaixadoem: '',
 					    		senha: '', 
 					    		senha_conferente: '',
 					    		contas: {
@@ -471,7 +494,13 @@
 				    	moment: {
 				    		read: function(val, format){
 				    			return moment(val).format(format)
-				    		}
+				    		},
+				    		write: function(val, format){
+				    		    let that = this
+				    		
+				    			return moment(val).format(format)
+				    		    
+				    		},
 				    	}
 				    },
 

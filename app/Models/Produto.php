@@ -20,9 +20,6 @@ class Produto extends Model
     		'is_ativo', 
     		'preco', 
     		'tracked',
-    		'square_id',
-    		'square_name',
-            'calc',
             'validade'
     		);
 
@@ -43,6 +40,10 @@ class Produto extends Model
 
 	public function movimentacoes(){
     	return $this->hasMany('serranatural\Models\Movimentacao');
+    }
+
+    public function squareproducts(){
+        return $this->hasMany('serranatural\Models\Squareproduct', 'produto_id');
     }
 
 }

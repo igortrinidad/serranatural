@@ -58,6 +58,80 @@
 <div class="row">
 	<div class="col-md-9">
 		<div class="panel panel-default">
+			<div class="panel-heading"><h5>Produtos de venda vinculados</h5></div>
+			<div class="panel-body">
+
+				<fieldset>
+					<legend>Lista de produtos vinculados</legend>
+
+					<table class="table table-bordered table-hover table-striped">
+					    <thead>
+					        <tr>
+					            <th>Nome</th>
+					            <th>Quantidade por venda</th>
+					            <th>Remover</th>
+					        </tr>
+					    </thead>
+					    <tbody>
+					    	@foreach($produto->squareproducts as $square)
+					        <tr>
+					            <td>{{$square->square_name}}</td>
+					            <td>{{$square->quantidade_por_venda}}</td>
+					            <td>
+					            	<form method="POST" action="/admin/produtos/removeSquareProduct">
+					            	{!! csrf_field()!!}
+
+					            	<input name="produto_id" type="hidden" value="{{$produto->id}}">
+					            	<input name="square_id" type="hidden" value="{{$square->square_id}}">
+					            	<button class="btn btn-danger" type="submit">Remover</button>
+					            	</form>
+					            </td>
+					        </tr>
+					        @endforeach
+					    </tbody>
+					</table>
+				</fieldset>
+
+
+				<div class="row">
+					
+					<div class="col-md-12">
+
+					<fieldset>
+						<legend>Adicionar novo vinculo de produto</legend>
+
+						<form method="POST" action="/admin/produtos/addSquareProduct">
+			            	{!! csrf_field()!!}
+
+			            	<input name="produto_id" type="hidden" value="{{$produto->id}}">
+							<div class="form-group">
+								<label>Produto correspondente no aplicativo de venda</label>
+			              		{!! Form::select('square_id', $squareItemsForSelect, null, ['class' => 'form-control', 'single' => 'single', 'id' => 'square', 'placeholder' => 'Selecione um produto'])   !!}
+			              		<input type="hidden" value="" name="square_name" />
+			        		</div>
+
+			        		<div class="form-group">
+			        			<label>Quantidade por venda</label>
+			        			<input class="form-control" name="quantidade_por_venda" value="0">
+			        		</div>
+
+			        		<button class="btn btn-primary" type="submit">Adicionar</button>
+			        	</form>
+					</fieldset>
+
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-9">
+		<div class="panel panel-default">
 			<div class="panel-heading"><h5>Movimentações de estoque</h5></div>
 			<div class="panel-body">
 				<table class="table table-bordered table-hover table-striped">
@@ -100,6 +174,18 @@
     @section('scripts')
 	    @parent
 
+			<script type="text/javascript">
+			$('#fornecedores').select2();
+			$('#square').select2();
+			$('.money').mask("0000.00", {reverse: true});
+			$('.unity').mask("000.000", {reverse: true});
+		
+			$('#square').on('change', function(){
+				$('input[name="square_name"]').val($("#square option:selected").text());
+				console.log($('#square :selected').text());
+			});
+
+			</script>
 
 		@stop
 

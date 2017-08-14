@@ -32,30 +32,9 @@
 
 			<script type="text/javascript">
 			$('#fornecedores').select2();
-			$('#square').select2();
 			$('.money').mask("0000.00", {reverse: true});
 			$('.unity').mask("000.000", {reverse: true});
 		
-			$('#square').on('change', function(){
-				$('input[name="square_name"]').val($("#square option:selected").text());
-				console.log($('#square :selected').text());
-			});
-
-				Vue.config.debug = true;
-				Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#_tokenLaravel').getAttribute('value');
-				var vm = new Vue({
-				    el: '#elProduto',
-				    data: 
-				    {
-				    	produto: {
-				    		id: '',
-				    		square_id: '',
-				    		square_name: '',
-				    		is_tracked: '',
-				    		is_ativo: ''
-				    	}
-				    }
-				});
 
 			</script>
 

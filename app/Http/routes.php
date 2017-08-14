@@ -92,6 +92,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::get('financeiro/historico/caixa/fetchAll', ['uses' => 'CaixaController@fetchAll']);
 		Route::post('financeiro/historico/caixa/fetchVendasResume', ['uses' => 'CaixaController@fetchVendasResume']);
 
+		Route::post('financeiro/caixa/baixarEstoqueCaixa/{id}', ['as' => 'reabre', 'uses' => 'CaixaController@baixarEstoqueCaixa']);
 		Route::get('financeiro/testeOrders', ['uses' => 'CaixaController@testeOrders']);
 	});
 
@@ -217,6 +218,9 @@ Route::group(['as' => 'produtos.'], function()
 		Route::post('/admin/produtos/balancoPost', ['uses' => 'ProdutosController@balancoPost']);
 		Route::get('/admin/produtos/historico/balanco', ['uses' => 'ProdutosController@historicoBalanco']);
 		Route::get('/admin/produtos/historico/balancosJson', ['uses' => 'ProdutosController@balancosJson']);
+
+		Route::post('/admin/produtos/addSquareProduct', ['uses' => 'ProdutosController@addSquareProduct']);
+		Route::post('/admin/produtos/removeSquareProduct', ['uses' => 'ProdutosController@removeSquareProduct']);
 
 		Route::get('/admin/produtos/disponiveis', 'ProdutosController@editProdutosDisponiveis');
 	});

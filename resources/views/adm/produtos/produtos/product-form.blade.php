@@ -47,29 +47,3 @@
 			        		</div>
 						</div>
 					</div>
-
-					<div class="row">
-					
-						<hr line-height="3px" />
-
-						<div class="col-md-12">
-							<p>Caso este produto seja venda direta, preencha os campos abaixo.</p>
-						</div>
-						
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Quantidade por venda (grama, kilo, unidade, caixa)</label>
-								<input type="text" name="calc" value="1" id="calc" class="form-control unity"/>
-							</div>
-						</div>
-
-						
-
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Produto correspondente no aplicativo de venda</label>
-			              		{!! Form::select('square_id', $squareItemsForSelect, null, ['class' => 'form-control', 'single' => 'single', 'id' => 'square', 'placeholder' => 'Selecione um produto'])   !!}
-			              		<input type="hidden" value="" name="square_name" />
-			        		</div>
-						</div>
-					</div>

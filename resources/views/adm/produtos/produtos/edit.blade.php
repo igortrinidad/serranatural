@@ -39,12 +39,6 @@
 				$('.unity').mask("000.000", {reverse: true});
 
 				$('#fornecedores').select2();
-				$('#square').select2();
-
-				$('#square').on('change', function(){
-					$('input[name="square_name"]').val($("#square option:selected").text());
-					console.log($('#square :selected').text());
-				});
 
 			</script>
 

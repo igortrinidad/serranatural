@@ -11,6 +11,7 @@ use serranatural\Models\Caixa;
 use serranatural\Models\Retirada;
 use serranatural\User;
 use serranatural\Models\Produto;
+use serranatural\Models\Squareproduct;
 use serranatural\Models\Cliente;
 
 use Mail;
@@ -303,26 +304,40 @@ class CaixaController extends Controller
 
         }
 
-        
-        
-        //Linha que faz a baixa dos produtos pela venda - com erro...
-       //$caixa_anterior = Caixa::where('is_aberto', '=', '0')->orderBy('created_at', 'desc')->first();
+    }
 
-       //$response = $this->payments($caixa_anterior->dt_fechamento, $caixa->dt_fechamento);
+    public function baixarEstoqueCaixa($id)
+    {
 
-       //foreach($response->body as $venda){
-       //   foreach($venda->itemizations as $item){
-       //       if(!$item->item_detail->item_id){
-       //           dd($item->item_detail);
-       //       }
-       //       $prod = Produto::where('square_id', '=', $item->item_detail->item_id)->first();
-       //       if($prod){
-       //           $prod['quantidadeEstoque'] = $prod['quantidadeEstoque'] - $item->quantity;
-       //           $prod->save();
-       //       }
-       //   }
-       //}
+        $caixa = Caixa::find($id);
+        $caixa_anterior = Caixa::where('is_aberto', '=', '0')->orderBy('created_at', 'desc')->first();
 
+        $response = $this->payments($caixa_anterior->dt_fechamento, $caixa->dt_fechamento);
+
+        foreach($response->body as $venda){
+
+            foreach($venda->itemizations as $item){
+
+                if(isset($item->item_detail) && isset($item->item_detail->item_id)){
+
+                    $squares = Squareproduct::where('square_id', '=', $item->item_detail->item_id)->get();
+
+                    foreach($squares as $squareproduct){
+                        $produto = Produto::find($squareproduct->produto_id);
+                        $produto->quantidadeEstoque = $produto->quantidadeEstoque - $item->quantity;
+                        $produto->save();
+                    }
+
+                    
+                }
+
+            }
+        }
+
+        $caixa->estoquebaixadoem = Date('Y-m-d H:i:s');
+        $caixa->save();
+
+        return redirect('admin/financeiro/historico/caixa');
 
     }
 
@@ -335,7 +350,7 @@ class CaixaController extends Controller
     {
         $caixas = Caixa::with('usuarioAbertura', 'usuarioFechamento', 'retiradas', 'retiradas.usuario', 'retiradas.funcionario')
                         ->where('is_aberto', '=', '0')
-                        ->orderBy('created_at', 'DESC')->get();
+                        ->orderBy('created_at', 'DESC')->limit(50)->get();
 
                 return response()->json([
                 'retorno' => [

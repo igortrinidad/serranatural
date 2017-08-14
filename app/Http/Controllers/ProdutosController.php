@@ -18,6 +18,7 @@ use serranatural\Models\Pratos;
 use serranatural\Models\AgendaPratos;
 use serranatural\Models\Cliente;
 use serranatural\Models\Produto;
+use serranatural\Models\Squareproduct;
 use serranatural\Models\ReceitaPrato;
 use serranatural\Models\Preferencias;
 use serranatural\Models\Movimentacao;
@@ -596,26 +597,26 @@ class ProdutosController extends Controller
         return $result;
     }
 
-        public function produtosForSelectJson($trackeds)
-        {
-            if($trackeds == 'trackeds') {
-                $produtos = Produto::where('tracked', '=', '1')->get();
-            } else {
-                $produtos = Produto::all();
-            }
-            
-            $result = array();
-
-            foreach ($produtos as $key => $value) {
-                $result[$key]['id'] = $value->id;
-                $result[$key]['nome'] = $value->nome_produto;
-                $result[$key]['quantidadeEstoque'] = $value->quantidadeEstoque;
-                $result[$key]['quantidadeReal'] = '';
-                $result[$key]['diferenca'] = '0';
-            }
-
-            return json_encode($result);
+    public function produtosForSelectJson($trackeds)
+    {
+        if($trackeds == 'trackeds') {
+            $produtos = Produto::where('tracked', '=', '1')->get();
+        } else {
+            $produtos = Produto::all();
         }
+        
+        $result = array();
+
+        foreach ($produtos as $key => $value) {
+            $result[$key]['id'] = $value->id;
+            $result[$key]['nome'] = $value->nome_produto;
+            $result[$key]['quantidadeEstoque'] = $value->quantidadeEstoque;
+            $result[$key]['quantidadeReal'] = '';
+            $result[$key]['diferenca'] = '0';
+        }
+
+        return json_encode($result);
+    }
 
     public function fornecedoresForSelect()
     {
@@ -631,14 +632,16 @@ class ProdutosController extends Controller
 
     public function showProduto($id)
     {
-        $produto = Produto::with('categoria')->find($id);
+        $produto = Produto::with(['categoria', 'squareproducts'])->find($id);
+
+        $squareItemsForSelect = $this->squareItemsForSelect();
 
         $movimentacoes = Movimentacao::with('usuario')
             ->where('produto_id', '=', $id)
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
-        return view('adm.produtos.produtos.show', compact('produto', 'movimentacoes'));
+        return view('adm.produtos.produtos.show', compact('produto', 'movimentacoes', 'squareItemsForSelect'));
     }
 
     public function editProduto($id)
@@ -657,37 +660,13 @@ class ProdutosController extends Controller
              $fornecedoresSelecionados[] = $f->fornecedor_id;
         }
 
-        $squareItemsForSelect = $this->squareItemsForSelect();
 
         return view('adm.produtos.produtos.edit', compact(
             'produto', 
             'fornecedoresForSelect', 
             'categorias',
-            'squareItemsForSelect',
             'fornecedoresSelecionados'
         ));
-    }
-
-    public function updateProduto(Request $request, $id)
-    {
-
-        $produto = Produto::find($id);
-        $produto->nome_produto = $request->nome_produto;
-        $produto->descricao = $request->descricao;
-        $produto->preco = $request->preco;
-        $produto->is_ativo = $request->is_ativo;
-        $produto->tracked = $request->tracked;
-        $produto->categoria_id = $request->categoria_id;
-        $produto->square_id = $request->square_id;
-        $produto->square_name = $request->square_name;
-        $produto->calc = $request->calc;
-
-        if($request->fornecedor_id) {
-            $produto->fornecedores()->sync($request->fornecedor_id);  
-        }
-        $produto->save();
-
-        return redirect(route('produtos.produtos.show', $id));
     }
 
     public function listaProdutos()
@@ -718,17 +697,15 @@ class ProdutosController extends Controller
             $categorias[$key] = $value->nome;
         }
 
-        $squareItemsForSelect = $this->squareItemsForSelect();
-
         return view('adm.produtos.produtos.create', compact(
             'fornecedoresForSelect', 
-            'categorias',
-            'squareItemsForSelect'
+            'categorias'
             ));
     }
 
     public function storeProduto(Request $request)
     {
+
         $produto = Produto::create($request->all());
 
         if($request->fornecedor_id)
@@ -743,6 +720,78 @@ class ProdutosController extends Controller
         ];
 
         return redirect()->back()->with($dados);
+    }
+
+    public function addSquareProduct(Request $request)
+    {
+
+        Squareproduct::create([
+            'square_name' => $request->square_name,
+            'square_id' => $request->square_id,
+            'produto_id' => $request->produto_id,
+            'quantidade_por_venda' => $request->quantidade_por_venda,
+        ]);
+
+        $dados =
+        [
+            'msg_retorno' => 'Vinculo adicionado com sucesso',
+            'tipo_retorno' => 'success'
+        ];
+
+        return redirect('/admin/produtos/show/' . $request->produto_id);
+
+    }
+
+    public function removeSquareProduct(Request $request)
+    {
+
+
+        $square = Squareproduct::where('produto_id', $request->produto_id)->where('square_id', $request->square_id)->delete();
+
+        $dados =
+        [
+            'msg_retorno' => 'Vinculo removido com sucesso',
+            'tipo_retorno' => 'success'
+        ];
+
+        return redirect('/admin/produtos/show/' . $request->produto_id);
+
+    }
+
+    public function updateProduto(Request $request, $id)
+    {
+
+        $produto = Produto::find($id);
+        $produto->nome_produto = $request->nome_produto;
+        $produto->descricao = $request->descricao;
+        $produto->preco = $request->preco;
+        $produto->is_ativo = $request->is_ativo;
+        $produto->tracked = $request->tracked;
+        $produto->categoria_id = $request->categoria_id;
+
+        if($request->fornecedor_id) {
+            $produto->fornecedores()->sync($request->fornecedor_id);  
+        }
+        $produto->save();
+
+        if(!empty($request->square_id)){
+            $square = Squareproduct::where('produto_id', $produto->id)->get();
+
+            if($square){
+                $square->quantidade_por_venda = $request->quantidade_por_venda;
+                $square->save();
+            } else {
+
+                Squareproduct::create([
+                    'square_name' => $request->square_name,
+                    'square_id' => $request->square_id,
+                    'produto_id' => $produto['id'],
+                    'quantidade_por_venda' => $request->quantidade_por_venda,
+                ]);
+            }
+        }
+
+        return redirect(route('produtos.produtos.show', $id));
     }
 
     public function destroyProduto($id)
