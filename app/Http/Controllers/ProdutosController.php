@@ -587,7 +587,7 @@ class ProdutosController extends Controller
 
     public function produtosForSelect()
     {
-        $produtos = Produto::all();
+        $produtos = Produto::orderBy('nome_produto', 'ASC')->all();
         $result = array();
 
         foreach ($produtos as $key => $value) {
@@ -600,9 +600,9 @@ class ProdutosController extends Controller
     public function produtosForSelectJson($trackeds)
     {
         if($trackeds == 'trackeds') {
-            $produtos = Produto::where('tracked', '=', '1')->get();
+            $produtos = Produto::where('tracked', '=', '1')->orderBy('nome_produto', 'ASC')->get();
         } else {
-            $produtos = Produto::all();
+            $produtos = Produto::orderBy('nome_produto', 'ASC')->all();
         }
         
         $result = array();

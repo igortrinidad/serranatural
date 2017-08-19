@@ -25,7 +25,7 @@
 					<div class="col-md-3">
 						<div class="form-group" >
 							<label>Quantidade</label>
-							<input type="text" class="form-control" v-model="produto.quantidade" v-el="produtoQuantidade" placeholder="Quantidade" >
+							<input type="text" class="form-control moneySql5" v-model="produto.quantidade" placeholder="Quantidade" >
 						</div>
 					</div>
 
@@ -57,14 +57,14 @@
 					<div class="col-md-3">
 						<div class="form-group" >
 							<label>Quantidade</label>
-							<input type="text" class="form-control quantity" :disabled="! selected.nome" v-model="selected.quantidade"  v-el:produtoQuantidade placeholder="quantidade">
+							<input type="text" class="form-control moneySql5" :disabled="! selected.nome" v-model="selected.quantidade" >
 						</div>
 					</div>
 
 					<div class="col-md-5">
 						<div class="form-group" >
 							<label>Motivo da baixa</label>
-							<input type="text" class="form-control quantity" :disabled="! selected.nome" v-model="selected.motivo" v-el:produtoQuantidade placeholder="Motivo">
+							<input type="text" class="form-control" :disabled="! selected.nome" v-model="selected.motivo" placeholder="Motivo">
 						</div>
 					</div>
 				</div>
@@ -123,13 +123,13 @@
 					    ready: function() {
 				 	      	var self = this;	
 					      	// GET request
-					      	this.$http.get('/admin/produtos/produtosForSelectJson/trackeds').then(function (response) {
-					          self.produtosForSelect = response.data;
-					      }, function (response) {
-					          console.log(response);
-					      });
+					      	this.$http.get('/admin/produtos/produtosForSelectJson/trackeds').then(function (response){
+					          	self.produtosForSelect = response.data;
+					      	}, function (response) {
+					          	console.log(response);
+					      	});
 
-					      	$('#produtos').select2();
+					      	$('.moneySql5').mask('00000.000', {reverse: true});
 					    },
 				    methods: {
 				    	addProduto: function(ev, quantidade) {

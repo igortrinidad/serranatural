@@ -25,14 +25,14 @@
 					<div class="col-md-2">
 						<div class="form-group" >
 							<label>Quantidade</label>
-							<input type="text" class="form-control" v-model="produto.quantidade" v-el="produtoQuantidade" placeholder="Quantidade" >
+							<input type="text" class="form-control moneySql5" v-model="produto.quantidade" placeholder="Quantidade" >
 						</div>
 					</div>
 
 					<div class="col-md-2">
 						<div class="form-group" >
 							<label>Valor unitário</label>
-							<input type="text" class="form-control moneySql3" v-model="produto.valor" placeholder="Valor" >
+							<input type="text" class="form-control moneySql5" v-model="produto.valor" placeholder="Valor" >
 						</div>
 					</div>
 
@@ -64,21 +64,21 @@
 					<div class="col-md-2">
 						<div class="form-group" >
 							<label>Quantidade</label>
-							<input type="text" class="form-control quantity moneySql3" :disabled="! selected.nome" v-model="selected.quantidade"  v-el:produtoQuantidade placeholder="quantidade">
+							<input type="text" class="form-control moneySql5" :disabled="! selected.nome" v-model="selected.quantidade" >
 						</div>
 					</div>
 
 					<div class="col-md-2">
 						<div class="form-group" >
 							<label>Valor unitário</label>
-							<input type="text" class="form-control moneySql3" v-model="selected.valor" :disabled="! selected.nome" placeholder="Valor unitário" >
+							<input type="text" class="form-control moneySql5" v-model="selected.valor" :disabled="! selected.nome" placeholder="Valor unitário" >
 						</div>
 					</div>
 
 					<div class="col-md-4">
 						<div class="form-group" >
 							<label>Observações</label>
-							<input type="text" class="form-control quantity" :disabled="! selected.nome" v-model="selected.observacao" v-el:produtoQuantidade placeholder="observações">
+							<input type="text" class="form-control" :disabled="! selected.nome" v-model="selected.observacao" placeholder="observações">
 						</div>
 					</div>
 				</div>
@@ -146,7 +146,7 @@
 					          console.log(response);
 					      	});
 
-					      	$('#produtos').select2();
+					      	$('.moneySql5').mask('00000.000', {reverse: true});
 					    },
 				    methods: {
 				    	addProduto: function(ev, quantidade) {
