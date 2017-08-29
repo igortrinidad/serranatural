@@ -587,7 +587,7 @@ class ProdutosController extends Controller
 
     public function produtosForSelect()
     {
-        $produtos = Produto::orderBy('nome_produto', 'ASC')->all();
+        $produtos = Produto::orderBy('nome_produto', 'ASC')->get();
         $result = array();
 
         foreach ($produtos as $key => $value) {
@@ -676,7 +676,6 @@ class ProdutosController extends Controller
         $produtosNaoRastreados = Produto::with('categoria')->where('tracked', '=', '0')->orderBy('nome_produto', 'asc')->get();
 
         $produtosForSelect = $this->produtosForSelect();
-
         
         $squareItemsForSelect = $this->squareItemsForSelect();
 
