@@ -242,6 +242,7 @@ Route::get('/me/edita/{email}', 'ClienteController@clienteSelfEdita');
 Route::get('/me/{email}', [
     'as' => 'selfClient.mostraSelected', 'uses' => 'ClienteController@clienteSelfMostra'
 ]);
+Route::get('me/sairEmail/{email}', ['uses' => 'ClienteController@sairSelfEmail']);
 
 // Rotas para teste
 Route::group(['as' => 'teste.', 'prefix' => 'teste'], function()

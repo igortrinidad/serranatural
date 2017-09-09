@@ -334,7 +334,7 @@ Alameda do Ingá, 754 - Vila da Serra - Nova Lima<br>
 <a href="mailto:mkt@serranatural.com" target="_blank">mkt@serranatural.com</a><br>
 <br>
 Não quer mais receber nossos e-mails?<br>
-<strong><a href="{{ url().'/me/' }}" target="_blank">Clique aqui</a> e altere suas preferências de recebimento.
+<strong><a href="https://serranatural.com/me/sairEmail/{{$emailCliente}}" target="_blank">Clique aqui</a> para sair da lista de email do prato do dia.
                         </td>
                     </tr>
                 </tbody></table>

@@ -30,7 +30,7 @@ class ClienteController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['cadastro', 'storeSelfCliente', 'clienteSelfEdita', 'clienteSelfMostra', 'selfChangeClient', 'testeApi', 'reenviaSenha', 'destroy', 'clienteLocalizar']]);
+        $this->middleware('auth', ['except' => ['cadastro', 'storeSelfCliente', 'clienteSelfEdita', 'clienteSelfMostra', 'selfChangeClient', 'testeApi', 'reenviaSenha', 'destroy', 'clienteLocalizar', 'sairSelfEmail']]);
 
     }
 
@@ -144,6 +144,20 @@ class ClienteController extends Controller
         ];
 
         return back()->with($dados);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function sairSelfEmail($email)
+    {
+        Cliente::where('email', '=', $email)
+                ->update(['opt_email' => 0]);
+
+        return view('landing.sair-email');
     }
 
 
