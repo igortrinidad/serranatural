@@ -362,7 +362,7 @@ class FinanceiroController extends Controller
         $data['align'] = 'center';
         $data['messageTitle'] = '<h4>Retirada no caixa de R$' . $request->valor. '</h4>';
         $data['messageOne'] = '
-        <p>O usuário: ' . $user->name. ' acabou de fazer uma retirada no caixa no valor de ' . $request->valor . ' com a descrição: ' $request->descricao .' </p>';
+        <p>O usuário: ' . $user->name. ' acabou de fazer uma retirada no caixa no valor de ' . $request->valor . ' com a descrição: ' . $request->descricao .' </p>';
 
         $data['messageSubject'] = 'Retirada caixa: R$' . $request->valor;
 
