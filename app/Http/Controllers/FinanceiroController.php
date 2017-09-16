@@ -357,6 +357,20 @@ class FinanceiroController extends Controller
 
         $retirada->save();
 
+        //Envia email para informar o cliente do cadastro
+        $data = [];
+        $data['align'] = 'center';
+        $data['messageTitle'] = '<h4>Retirada no caixa de R$' . $request->valor. '</h4>';
+        $data['messageOne'] = '
+        <p>O usuário: ' . $user->name. ' acabou de fazer uma retirada </p>';
+
+        $data['messageSubject'] = 'Retirada caixa: R$' . $request->valor;
+
+        \Mail::send('emails.standart',['data' => $data], function ($message) use ($data, $request){
+            $message->from('no-reply@serranatural.com', 'Serra Natural');
+            $message->to('contato@maisbartenders.com.br', 'Igor Trindade')->subject($data['messageSubject']);
+        });
+
         //dd($request->all());
 
         if ($request->retiradoCaixa == 1) {
