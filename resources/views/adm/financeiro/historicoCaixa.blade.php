@@ -24,101 +24,235 @@
 	</div>
 
 
-	<div class="col-md-12">
-
-		<div class="panel panel-default">
-			<div class="panel-heading">Caixas</div>
-			<div class="panel-body">
-
-				<div v-for="caixa in caixas" v-if="caixa.payments" track-by="$index">
-
-					<div class="row" style="cursor: pointer" v-on:click="mostraVendas(caixa, $index)">
-						<div class="col-md-4 col-xs-12">
-							<div class="form-group">
-							<label>Data abertura</label>
-								<input class="form-control" v-model="caixa.dt_abertura | moment 'DD/MM/YYYY HH:mm:ss'" disabled>
-							</div>
-						</div>
-
-						<div class="col-md-4 col-xs-12">
-							<div class="form-group">
-							<label>Responsável abertura</label>
-								<input class="form-control" v-model="caixa.usuario_abertura.name" disabled>
-							</div>
-						</div>
-
-						<div class="col-md-4 col-xs-12">
-							<div class="form-group">
-							<label>Valor abertura</label>
-								<input class="form-control" v-model="caixa.payments.register_init_value" disabled>
-							</div>
-						</div>
-
-						<div class="col-md-4 col-xs-12">
-							<div class="form-group">
-							<label>Responsável fechamento</label>
-								<input class="form-control" v-model="caixa.usuario_fechamento.name" disabled>
-							</div>
-						</div>
-						<div class="col-md-4 col-xs-12">
-							<div class="form-group">
-							<label>Data fechamento</label>
-								<input class="form-control" v-model="caixa.dt_fechamento | moment 'DD/MM/YYYY HH:mm:ss'" disabled>
-							</div>
-						</div>
-
-						<div class="col-md-4 col-xs-12">
-							<div class="form-group">
-							<label>Valor fechamento</label>
-								<input class="form-control" v-model="caixa.payments.register_end_value" disabled>
-							</div>
-						</div>
-
-						<div class="col-md-4 col-xs-12">
-							<div class="form-group">
-							<label>Retiradas total</label>
-								<input class="form-control" v-model="caixa.total_retirada" disabled>
-							</div>
-						</div>
-						<div class="col-md-4 col-xs-12">
-							<div class="form-group">
-							<label>Venda total</label>
-								<input class="form-control" v-model="caixa.vendas" disabled>
-							</div>
-						</div>
-
-						<div class="col-md-4 col-xs-12">
-							<div class="form-group">
-							<label>Diferença</label>
-								<input class="form-control" v-model="caixa.diferenca_final" disabled v-bind:class="{ 'warning': caixa.diferenca_final < 0, 'success': caixa.diferenca_final >= 0 }">
-							</div>
-						</div>
-					</div>
-					
-					<table class="table table-bordered">
-					    <thead>
-					        <tr>
-					            <th>Vendas total dinheiro</th>
-					            <th>Vendas total cartão</th>
-					            <th>Contas aberto total</th>
-					            <th v-for="item in caixa.payments.items">@{{item.label}}</th>
-					        </tr>
-					    </thead>
-					    <tbody>
-					        <tr v-if="caixa.payments">
-					            <td >R$ @{{caixa.payments.total_money.toFixed(2)}}</td>
-					            <td>R$ @{{caixa.payments.total_cards.toFixed(2)}}</td>
-					            <td>R$ @{{caixa.contas.total}}</td>
-					            <td v-for="item in caixa.payments.items">R$ @{{item.value}}</td>
-					        </tr>
-					    </tbody>
-					</table>
-
-					<hr line-height="3px">
-				</div>
-
+	<div class="row">
+		<div class="col-md-4">
+			<div class="form-group">
+				<label>Inicio</label>
+				<input class="form-control" v-model="init" data-mask="00/00/0000">
 			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="form-group">
+				<label>Término</label>
+				<input class="form-control" v-model="end" data-mask="00/00/0000">
+			</div>
+		</div>
+
+		<div class="col-md-4">
+			<div class="form-group m-t-25">
+				<button class="btn btn-primary btn-block" @click="getCaixas()">Alterar</button>
+			</div>
+		</div>
 		
+	</div>
+
+	<div class="" v-if="user_type == 'super_adm'">
+		
+
+		<div class="row">
+			<div class="col-md-12 col-xs-12 text-center">
+				<h3>Resumo</h3>
+				<hr>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-3 col-xs-6 text-center">
+				<div class="panel panel-default">
+					<h5>Vendas total</h5>
+					<p>@{{insights.sell_total | formatCurrency}}</p>
+				</div>
+			</div>
+
+			<div class="col-md-3 col-xs-6 text-center">
+				<div class="panel panel-default">
+					<h5>Média de vendas</h5>
+					<p>@{{insights.sell_medium | formatCurrency}}</p>
+				</div>
+			</div>
+
+			<div class="col-md-3 col-xs-6 text-center">
+				<div class="panel panel-default">
+					<h5>Número de caixas</h5>
+					<p>@{{insights.numbers_of_caixas}}</p>
+				</div>
+			</div>
+
+			<div class="col-md-3 col-xs-6 text-center">
+				<div class="panel panel-default">
+					<h5>Total cartões</h5>
+					<p>@{{insights.total_sell_cards | formatCurrency}}</p>
+				</div>
+			</div>
+
+			<div class="col-md-3 col-xs-6 text-center">
+				<div class="panel panel-default">
+					<h5>Total dinheiro</h5>
+					<p>@{{insights.total_sell_money | formatCurrency}}</p>
+				</div>
+			</div>
+
+			<div class="col-md-3 col-xs-6 text-center">
+				<div class="panel panel-default">
+					<h5>Maior diferença positiva</h5>
+					<p>@{{insights.bigger_positive_diff.total | formatCurrency}}</p>
+					<p>@{{insights.bigger_positive_diff.user_name}}</p>
+				</div>
+			</div>
+
+			<div class="col-md-3 col-xs-6 text-center">
+				<div class="panel panel-default">
+					<h5>Maior diferença negativa</h5>
+					<p>@{{insights.bigger_negative_diff.total | formatCurrency}}</p>
+					<p>@{{insights.bigger_negative_diff.user_name}}</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12 col-xs-12 text-center">
+				<h3>Cartões</h3>
+				<hr>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12 col-xs-12">
+				<div class="col-md-3 col-xs-6 text-center" v-for="card in insights.total_by_cards">
+					<div class="panel panel-default">
+						<h5>Total @{{card.label}}</h5>
+						<p>@{{card.value | formatCurrency}}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12 col-xs-12 text-center">
+				<h3>Por dia da semana</h3>
+				<hr>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-2 col-xs-6 text-center" v-for="dow in insights.sell_by_dow">
+				<div class="panel panel-default">
+					<h5>@{{dow.dow}}</h5>
+					<p>Max: @{{dow.max | formatCurrency}}</p>
+					<p>Min: @{{dow.min | formatCurrency}}</p>
+					<p>Med: @{{dow.med | formatCurrency}}</p>
+					<p>Qtde caixas: @{{dow.total_caixas | formatCurrency}}</p>
+					<p>Valor total: @{{dow.total_sell | formatCurrency}}</p>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="row">
+		<div class="col-md-12 col-xs-12 text-center">
+			<h3>Lista de caixas</h3>
+			<hr>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+
+			<div class="panel panel-default">
+				<div class="panel-heading">Caixas</div>
+				<div class="panel-body">
+
+					<div v-for="caixa in caixas" v-if="caixa.payments" track-by="$index">
+
+						<div class="row" style="cursor: pointer" v-on:click="mostraVendas(caixa, $index)">
+							<div class="col-md-4 col-xs-12">
+								<div class="form-group">
+								<label>Data abertura</label>
+									<input class="form-control" v-model="caixa.dt_abertura | moment 'DD/MM/YYYY HH:mm:ss'" disabled>
+								</div>
+							</div>
+
+							<div class="col-md-4 col-xs-12">
+								<div class="form-group">
+								<label>Responsável abertura</label>
+									<input class="form-control" v-model="caixa.usuario_abertura.name" disabled>
+								</div>
+							</div>
+
+							<div class="col-md-4 col-xs-12">
+								<div class="form-group">
+								<label>Valor abertura</label>
+									<input class="form-control" v-model="caixa.payments.register_init_value" disabled>
+								</div>
+							</div>
+
+							<div class="col-md-4 col-xs-12">
+								<div class="form-group">
+								<label>Responsável fechamento</label>
+									<input class="form-control" v-model="caixa.usuario_fechamento.name" disabled>
+								</div>
+							</div>
+							<div class="col-md-4 col-xs-12">
+								<div class="form-group">
+								<label>Data fechamento</label>
+									<input class="form-control" v-model="caixa.dt_fechamento | moment 'DD/MM/YYYY HH:mm:ss'" disabled>
+								</div>
+							</div>
+
+							<div class="col-md-4 col-xs-12">
+								<div class="form-group">
+								<label>Valor fechamento</label>
+									<input class="form-control" v-model="caixa.payments.register_end_value" disabled>
+								</div>
+							</div>
+
+							<div class="col-md-4 col-xs-12">
+								<div class="form-group">
+								<label>Retiradas total</label>
+									<input class="form-control" v-model="caixa.total_retirada" disabled>
+								</div>
+							</div>
+							<div class="col-md-4 col-xs-12">
+								<div class="form-group">
+								<label>Venda total</label>
+									<input class="form-control" v-model="caixa.vendas" disabled>
+								</div>
+							</div>
+
+							<div class="col-md-4 col-xs-12">
+								<div class="form-group">
+								<label>Diferença</label>
+									<input class="form-control" v-model="caixa.diferenca_final" disabled v-bind:class="{ 'warning': caixa.diferenca_final < 0, 'success': caixa.diferenca_final >= 0 }">
+								</div>
+							</div>
+						</div>
+						
+						<table class="table table-bordered">
+						    <thead>
+						        <tr>
+						            <th>Vendas total dinheiro</th>
+						            <th>Vendas total cartão</th>
+						            <th>Contas aberto total</th>
+						            <th v-for="item in caixa.payments.items">@{{item.label}}</th>
+						        </tr>
+						    </thead>
+						    <tbody>
+						        <tr v-if="caixa.payments">
+						            <td >R$ @{{caixa.payments.total_money.toFixed(2)}}</td>
+						            <td>R$ @{{caixa.payments.total_cards.toFixed(2)}}</td>
+						            <td>R$ @{{caixa.contas.total}}</td>
+						            <td v-for="item in caixa.payments.items">R$ @{{item.value}}</td>
+						        </tr>
+						    </tbody>
+						</table>
+
+						<hr line-height="3px">
+					</div>
+
+				</div>
+			
+			</div>
 		</div>
 	</div>
 
@@ -378,16 +512,41 @@
 	    @parent
 	        <script src="{!! elixir('js/financeiro.js') !!}"></script>
 
+
+
 			<script type="text/javascript">
 
 				$('.maskValor').mask("0000.00", {reverse: true});
 
+
+
+				accounting.settings = {
+				    currency: {
+				        symbol : "R$ ",   // default currency symbol is '$'
+				        format: "%s%v", // controls output: %s = symbol, %v = value/number (can be object: see below)
+				        decimal : ",",  // decimal point separator
+				        thousand: ".",  // thousands separator
+				        precision : 2   // decimal places
+				    },
+				    number: {
+				        precision: 2,  // default precision on numbers is 0
+				        thousand: ".",
+				        decimal : ","
+				    }
+				}
+
 				Vue.config.debug = true;
 				Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#_tokenLaravel').getAttribute('value');
+
+				Vue.filter('formatCurrency', function(value){
+				    return accounting.formatMoney(parseFloat(value))
+				})
 
 				var vm = new Vue({
 				    el: '#elHistoricoCaixa',
 				    data: {
+				    	init: moment().startOf('month').format('DD/MM/YYYY'),
+				    	end: moment().endOf('month').format('DD/MM/YYYY'),
 				    	isEditing: false,
 				    	loading: false,
 				    	caixas: [],
@@ -439,7 +598,7 @@
 				    		fetched: {
 				    			vendaBruta: '0',
 				    			vendas_resumo: []
-				    		}	
+				    		}
 				    	},
 				    	caixaAnterior: {
 				    		caixa: {
@@ -486,8 +645,28 @@
 				    		fetched: {
 				    			vendaBruta: '0',
 				    			vendas_resumo: []
-				    		}	
+				    		},
+
 				    	},
+			    		insights: {
+			    			sell_total: 0,
+			    			sell_medium: 0,
+			    			numbers_of_caixas: 0,
+			    			total_sell_money: 0,
+			    			total_sell_cards: 0,
+			    			total_by_cards: [],
+			    			sell_by_dow: [],
+			    			min_sell_by_day: [],
+			    			bigger_negative_diff: {
+			    				user_name: '',
+			    				total: 0
+			    			},
+			    			bigger_positive_diff: {
+			    				user_name: '',
+			    				total: 0
+			    			},
+
+			    		}
 				    },
 
 				    filters: {
@@ -505,18 +684,7 @@
 				    },
 
 				    ready: function(){
-				    	var self = this;	
-				      	// GET request
-				      	this.$http.get('/admin/financeiro/historico/caixa/fetchAll').then(function (response) {
-				          	self.caixas = response.data.caixas;
-				          	self.retorno = response.data.retorno;
-				          	console.log('Caixas carregados com sucesso.');
-
-						}, function (response) {
-
-					      	console.log('Erro ao tentar carregar caixas.');
-
-					    });
+				    	this.getCaixas();
 				    },
 				    methods:
 				    {	
@@ -524,6 +692,132 @@
 				    	    let that = this
 				    		
 				    		this.isEditing = true;
+				    	    
+				    	},
+
+				    	checkInsights: function(){
+				    	    let that = this
+				    		
+				    		var insights = {
+				    			sell_total: 0,
+				    			sell_medium: 0,
+				    			numbers_of_caixas: 0,
+				    			total_sell_money: 0,
+				    			total_sell_cards: 0,
+				    			total_by_cards: [],
+				    			sell_by_dow: [],
+				    			bigger_negative_diff: {
+				    				user_name: '',
+				    				total: 0
+				    			},
+				    			bigger_positive_diff: {
+				    				user_name: '',
+				    				total: 0
+				    			},
+
+				    		}
+				    	    
+				    	    that.caixas.forEach( function(caixa, index, array){
+
+				    	    	insights.numbers_of_caixas++;
+				    	    	insights.sell_total+= parseFloat(caixa.vendas);
+				    	    	insights.total_sell_money+= parseFloat(caixa.payments.total_money);
+				    	    	insights.total_sell_cards+= parseFloat(caixa.payments.total_cards);
+
+
+				    	    	caixa.payments.items.forEach( function(payment_type){
+
+				    	    		var index = insights.total_by_cards.indexFromAttr('label', payment_type.label);
+
+				    	    		if(index > -1){
+				    	    			insights.total_by_cards[index].value +=parseFloat(payment_type.value);
+				    	    		} else {
+				    	    			payment_type.value = parseFloat(payment_type.value)
+				    	    			insights.total_by_cards.push(payment_type);
+				    	    		}
+
+				    	    	})
+
+
+				    	    	if(insights.bigger_positive_diff.total < parseFloat(caixa.diferenca_final)){
+				    	    		insights.bigger_positive_diff.total = parseFloat(caixa.diferenca_final);
+				    	    		insights.bigger_positive_diff.user_name = caixa.usuario_fechamento.name;
+				    	    	}
+
+				    	    	if(insights.bigger_negative_diff.total > parseFloat(caixa.diferenca_final)){
+				    	    		insights.bigger_negative_diff.total = parseFloat(caixa.diferenca_final);
+				    	    		insights.bigger_negative_diff.user_name = caixa.usuario_fechamento.name;
+				    	    	}
+
+				    	    	var indexMaxDayOfWeek = insights.sell_by_dow.indexFromAttr('dow', moment(caixa.created_at).format('dddd'))
+
+				    	    	if(indexMaxDayOfWeek > -1){
+				    	    		
+				    	    		var dow = insights.sell_by_dow[indexMaxDayOfWeek];
+
+				    	    		if(dow.max < parseFloat(caixa.vendas)){
+				    	    			dow.max = parseFloat(caixa.vendas);
+				    	    		}
+
+				    	    		if(dow.min > parseFloat(caixa.vendas)){
+				    	    			dow.min = parseFloat(caixa.vendas);
+				    	    		}
+
+				    	    		dow.total_sell+= parseFloat(caixa.vendas);
+
+				    	    		dow.total_caixas++;
+				    	    	} else {
+
+				    	    		var data = {
+				    	    			dow: moment(caixa.created_at).locale('pt-BR').format('dddd'),
+				    	    			dow_number: moment(caixa.created_at).locale('pt-BR').day(),
+				    	    			max: parseFloat(caixa.vendas),
+				    	    			min: parseFloat(caixa.vendas),
+				    	    			med: parseFloat(caixa.vendas),
+				    	    			total_caixas: 1,
+				    	    			total_sell: parseFloat(caixa.vendas)
+				    	    		}
+
+				    	    		insights.sell_by_dow.push(data)
+				    	    	}
+
+
+				    	    	if(index+1 == array.length){
+				    	    		insights.sell_medium = insights.sell_total / insights.numbers_of_caixas;
+
+				    	    		insights.sell_by_dow.med = insights.sell_by_dow.total_sell / insights.sell_by_dow.total_caixas;
+
+				    	    		insights.sell_by_dow.sort( function(a, b){return a.dow_number-b.dow_number});
+
+				    	    		that.pushInsights(insights)
+				    	    	}
+
+				    	    });
+				    	},
+
+				    	pushInsights: function(insights){
+				    	    let that = this
+				    	
+				    		that.insights = insights;
+				    	    
+				    	},
+
+				    	getCaixas: function(){
+				    	    let that = this
+				    	
+					    	var self = this;	
+					      	// GET request
+					      	this.$http.post('/admin/financeiro/historico/caixa/fetchByTime', {init: moment(self.init, 'DD/MM/YYYYY').format('YYYY-MM-DD'), end: moment(self.end, 'DD/MM/YYYYY').format('YYYY-MM-DD')}).then(function (response) {
+					          	self.caixas = response.data.caixas;
+					          	self.retorno = response.data.retorno;
+					          	console.log('Caixas carregados com sucesso.');
+					          	that.checkInsights();
+
+							}, function (response) {
+
+						      	console.log('Erro ao tentar carregar caixas.');
+
+						    });
 				    	    
 				    	},
 				    	mostraVendas: function(caixa, index){

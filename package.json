@@ -5,6 +5,7 @@
     "gulp-notify": "^2.2.0"
   },
   "dependencies": {
+    "accounting": "^0.4.1",
     "bootstrap": "^3.3.6",
     "bootstrap-datepicker": "^1.6.1",
     "bootstrap-sass": "^3.0.0",
@@ -14,7 +15,7 @@
     "jquery-mask-plugin": "^1.14.0",
     "jquery-ui": "^1.10.5",
     "laravel-elixir": "^2.0.0",
-    "moment": "^2.13.0",
+    "moment": "^2.19.1",
     "papaparse": "^4.1.2",
     "require": "^2.4.20",
     "select2": "^4.0.3",

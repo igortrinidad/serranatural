@@ -364,6 +364,26 @@ class CaixaController extends Controller
 
     }
 
+    public function fetchByTime(Request $request)
+    {
+        $caixas = Caixa::with('usuarioAbertura', 'usuarioFechamento', 'retiradas', 'retiradas.usuario', 'retiradas.funcionario')
+                        ->where('is_aberto', '=', '0')
+                        ->where('created_at', '>=', $request->get('init'))
+                        ->where('created_at', '<=', $request->get('end'))
+                        ->orderBy('created_at', 'DESC')->limit(50)->get();
+
+                return response()->json([
+                'retorno' => [
+                    'type' => 'success',
+                    'message' => 'Caixas encontrados.',
+                    'title' => 'Ok!',
+                    'status_code' => 200,
+                ],
+                'caixas' => $caixas,
+            ], 200);
+
+    }
+
     public function fetchVendasResume(Request $request)
     {
         //dd($request->all());

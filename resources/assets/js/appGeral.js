@@ -26,3 +26,5 @@ $('.hora').mask('00:00');
 $('.maskValor').mask("#.##0,00", {reverse: true});
 
  $('div.alert').not('.alert-important').delay(3500).fadeOut();
+
+ moment.locale('pt-BR');

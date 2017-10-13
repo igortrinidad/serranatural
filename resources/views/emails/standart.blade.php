@@ -170,7 +170,7 @@
                                     <hr>
                                     <span style="font-size: 12px; font-style: italic; font-weight: 80;">
                                         <p>
-                                            © 2017 <a href="https://serranatural.com" target="_blank">serranatural.com - sua saúde em boas mãos!</a>
+                                            © 2017 <a href="https://serranatural.com" target="_blank">serranatural.com</a>
                                         </p>
                                         <P>
                                         <!-- texto de informações -->
