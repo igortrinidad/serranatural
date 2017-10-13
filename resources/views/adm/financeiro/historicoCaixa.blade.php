@@ -73,6 +73,20 @@
 
 			<div class="col-md-3 col-xs-6 text-center">
 				<div class="panel panel-default">
+					<h5>Menor de venda</h5>
+					<p>@{{insights.sell_min | formatCurrency}}</p>
+				</div>
+			</div>
+
+			<div class="col-md-3 col-xs-6 text-center">
+				<div class="panel panel-default">
+					<h5>Maior de venda</h5>
+					<p>@{{insights.sell_max | formatCurrency}}</p>
+				</div>
+			</div>
+
+			<div class="col-md-3 col-xs-6 text-center">
+				<div class="panel panel-default">
 					<h5>Número de caixas</h5>
 					<p>@{{insights.numbers_of_caixas}}</p>
 				</div>
@@ -701,6 +715,8 @@
 				    		var insights = {
 				    			sell_total: 0,
 				    			sell_medium: 0,
+				    			sell_min: 2000,
+				    			sell_max: 0,
 				    			numbers_of_caixas: 0,
 				    			total_sell_money: 0,
 				    			total_sell_cards: 0,
@@ -738,6 +754,14 @@
 
 				    	    	})
 
+
+				    	    	if(insights.sell_max < parseFloat(caixa.vendas)){
+				    	    		insights.sell_max = parseFloat(caixa.vendas);
+				    	    	}
+
+				    	    	if(insights.sell_min > parseFloat(caixa.vendas)){
+				    	    		insights.sell_min = parseFloat(caixa.vendas);
+				    	    	}
 
 				    	    	if(insights.bigger_positive_diff.total < parseFloat(caixa.diferenca_final)){
 				    	    		insights.bigger_positive_diff.total = parseFloat(caixa.diferenca_final);
