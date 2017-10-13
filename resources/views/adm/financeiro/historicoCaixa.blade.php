@@ -51,115 +51,126 @@
 
 		<div class="row">
 			<div class="col-md-12 col-xs-12 text-center">
-				<h3>Resumo</h3>
-				<hr>
+				
+				<h3>Resumo
+					<button class="btn btn-default pull-right" @click="showResumo = !showResumo" v-if="!showResumo">+</button>
+					<button class="btn btn-default pull-right" @click="showResumo = !showResumo" v-if="showResumo">-</button>
+				</h3>
+
+				<hr>				
 			</div>
+
 		</div>
 
-		<div class="row">
-			<div class="col-md-3 col-xs-6 text-center">
-				<div class="panel panel-default">
-					<h5>Vendas total</h5>
-					<p>@{{insights.sell_total | formatCurrency}}</p>
-				</div>
-			</div>
+		<div class="" v-if="showResumo">
 
-			<div class="col-md-3 col-xs-6 text-center">
-				<div class="panel panel-default">
-					<h5>Média de vendas</h5>
-					<p>@{{insights.sell_medium | formatCurrency}}</p>
-				</div>
-			</div>
-
-			<div class="col-md-3 col-xs-6 text-center">
-				<div class="panel panel-default">
-					<h5>Menor de venda</h5>
-					<p>@{{insights.sell_min | formatCurrency}}</p>
-				</div>
-			</div>
-
-			<div class="col-md-3 col-xs-6 text-center">
-				<div class="panel panel-default">
-					<h5>Maior de venda</h5>
-					<p>@{{insights.sell_max | formatCurrency}}</p>
-				</div>
-			</div>
-
-			<div class="col-md-3 col-xs-6 text-center">
-				<div class="panel panel-default">
-					<h5>Número de caixas</h5>
-					<p>@{{insights.numbers_of_caixas}}</p>
-				</div>
-			</div>
-
-			<div class="col-md-3 col-xs-6 text-center">
-				<div class="panel panel-default">
-					<h5>Total cartões</h5>
-					<p>@{{insights.total_sell_cards | formatCurrency}}</p>
-				</div>
-			</div>
-
-			<div class="col-md-3 col-xs-6 text-center">
-				<div class="panel panel-default">
-					<h5>Total dinheiro</h5>
-					<p>@{{insights.total_sell_money | formatCurrency}}</p>
-				</div>
-			</div>
-
-			<div class="col-md-3 col-xs-6 text-center">
-				<div class="panel panel-default">
-					<h5>Maior diferença positiva</h5>
-					<p>@{{insights.bigger_positive_diff.total | formatCurrency}}</p>
-					<p>@{{insights.bigger_positive_diff.user_name}}</p>
-				</div>
-			</div>
-
-			<div class="col-md-3 col-xs-6 text-center">
-				<div class="panel panel-default">
-					<h5>Maior diferença negativa</h5>
-					<p>@{{insights.bigger_negative_diff.total | formatCurrency}}</p>
-					<p>@{{insights.bigger_negative_diff.user_name}}</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-md-12 col-xs-12 text-center">
-				<h3>Cartões</h3>
-				<hr>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-md-12 col-xs-12">
-				<div class="col-md-3 col-xs-6 text-center" v-for="card in insights.total_by_cards">
+			<div class="row">
+				<div class="col-md-3 col-xs-6 text-center">
 					<div class="panel panel-default">
-						<h5>Total @{{card.label}}</h5>
-						<p>@{{card.value | formatCurrency}}</p>
+						<h5>Vendas total</h5>
+						<p>@{{insights.sell_total | formatCurrency}}</p>
+					</div>
+				</div>
+
+				<div class="col-md-3 col-xs-6 text-center">
+					<div class="panel panel-default">
+						<h5>Média de vendas</h5>
+						<p>@{{insights.sell_medium | formatCurrency}}</p>
+					</div>
+				</div>
+
+				<div class="col-md-3 col-xs-6 text-center">
+					<div class="panel panel-default">
+						<h5>Menor de venda</h5>
+						<p>@{{insights.sell_min | formatCurrency}}</p>
+					</div>
+				</div>
+
+				<div class="col-md-3 col-xs-6 text-center">
+					<div class="panel panel-default">
+						<h5>Maior de venda</h5>
+						<p>@{{insights.sell_max | formatCurrency}}</p>
+					</div>
+				</div>
+
+				<div class="col-md-3 col-xs-6 text-center">
+					<div class="panel panel-default">
+						<h5>Número de caixas</h5>
+						<p>@{{insights.numbers_of_caixas}}</p>
+					</div>
+				</div>
+
+				<div class="col-md-3 col-xs-6 text-center">
+					<div class="panel panel-default">
+						<h5>Total cartões</h5>
+						<p>@{{insights.total_sell_cards | formatCurrency}}</p>
+					</div>
+				</div>
+
+				<div class="col-md-3 col-xs-6 text-center">
+					<div class="panel panel-default">
+						<h5>Total dinheiro</h5>
+						<p>@{{insights.total_sell_money | formatCurrency}}</p>
+					</div>
+				</div>
+
+				<div class="col-md-3 col-xs-6 text-center">
+					<div class="panel panel-default">
+						<h5>Maior diferença positiva</h5>
+						<p>@{{insights.bigger_positive_diff.total | formatCurrency}}</p>
+						<p>@{{insights.bigger_positive_diff.user_name}}</p>
+					</div>
+				</div>
+
+				<div class="col-md-3 col-xs-6 text-center">
+					<div class="panel panel-default">
+						<h5>Maior diferença negativa</h5>
+						<p>@{{insights.bigger_negative_diff.total | formatCurrency}}</p>
+						<p>@{{insights.bigger_negative_diff.user_name}}</p>
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<div class="row">
-			<div class="col-md-12 col-xs-12 text-center">
-				<h3>Por dia da semana</h3>
-				<hr>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-md-2 col-xs-6 text-center" v-for="dow in insights.sell_by_dow">
-				<div class="panel panel-default">
-					<h5>@{{dow.dow}}</h5>
-					<p>Max: @{{dow.max | formatCurrency}}</p>
-					<p>Min: @{{dow.min | formatCurrency}}</p>
-					<p>Med: @{{dow.med | formatCurrency}}</p>
-					<p>Qtde caixas: @{{dow.total_caixas | formatCurrency}}</p>
-					<p>Valor total: @{{dow.total_sell | formatCurrency}}</p>
+			<div class="row">
+				<div class="col-md-12 col-xs-12 text-center">
+					<h3>Cartões</h3>
+					<hr>
 				</div>
 			</div>
+
+			<div class="row">
+				<div class="col-md-12 col-xs-12">
+					<div class="col-md-3 col-xs-6 text-center" v-for="card in insights.total_by_cards">
+						<div class="panel panel-default">
+							<h5>Total @{{card.label}}</h5>
+							<p>@{{card.value | formatCurrency}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12 col-xs-12 text-center">
+					<h3>Por dia da semana</h3>
+					<hr>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-2 col-xs-6 text-center" v-for="dow in insights.sell_by_dow">
+					<div class="panel panel-default">
+						<h5>@{{dow.dow}}</h5>
+						<p>Max: @{{dow.max | formatCurrency}}</p>
+						<p>Min: @{{dow.min | formatCurrency}}</p>
+						<p>Med: @{{dow.med | formatCurrency}}</p>
+						<p>Qtde caixas: @{{dow.total_caixas | formatCurrency}}</p>
+						<p>Valor total: @{{dow.total_sell | formatCurrency}}</p>
+					</div>
+				</div>
+			</div>
+			
 		</div>
+
 
 	</div>
 
@@ -561,6 +572,7 @@
 				    data: {
 				    	init: moment().startOf('month').format('DD/MM/YYYY'),
 				    	end: moment().endOf('month').format('DD/MM/YYYY'),
+				    	showResumo: true,
 				    	isEditing: false,
 				    	loading: false,
 				    	caixas: [],
