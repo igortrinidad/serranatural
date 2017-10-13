@@ -370,7 +370,7 @@ class CaixaController extends Controller
                         ->where('is_aberto', '=', '0')
                         ->where('created_at', '>=', $request->get('init'))
                         ->where('created_at', '<=', $request->get('end'))
-                        ->orderBy('created_at', 'DESC')->limit(50)->get();
+                        ->orderBy('created_at', 'DESC')->get();
 
                 return response()->json([
                 'retorno' => [
