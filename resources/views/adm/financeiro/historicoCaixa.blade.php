@@ -51,7 +51,7 @@
 
 		<div class="row">
 			<div class="col-md-12 col-xs-12 text-center">
-				
+
 				<h3>Resumo
 					<button class="btn btn-default pull-right" @click="showResumo = !showResumo" v-if="!showResumo">+</button>
 					<button class="btn btn-default pull-right" @click="showResumo = !showResumo" v-if="showResumo">-</button>
@@ -163,8 +163,48 @@
 						<p>Max: @{{dow.max | formatCurrency}}</p>
 						<p>Min: @{{dow.min | formatCurrency}}</p>
 						<p>Med: @{{dow.med | formatCurrency}}</p>
-						<p>Qtde caixas: @{{dow.total_caixas | formatCurrency}}</p>
+						<p>Qtde caixas: @{{dow.total_caixas}}</p>
 						<p>Valor total: @{{dow.total_sell | formatCurrency}}</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12 col-xs-12 text-center">
+					<h3>Por semana do mês</h3>
+					<hr>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-2 col-xs-6 text-center" v-for="week in insights.sell_by_week">
+					<div class="panel panel-default">
+						<h5>Semana @{{week.week}}</h5>
+						<p>Max: @{{week.max | formatCurrency}}</p>
+						<p>Min: @{{week.min | formatCurrency}}</p>
+						<p>Med: @{{week.med | formatCurrency}}</p>
+						<p>Qtde caixas: @{{week.total_caixas}}</p>
+						<p>Valor total: @{{week.total_sell | formatCurrency}}</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12 col-xs-12 text-center">
+					<h3>Por mês</h3>
+					<hr>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-2 col-xs-6 text-center" v-for="month in insights.sell_by_month">
+					<div class="panel panel-default">
+						<h5>Mês @{{month.month}}</h5>
+						<p>Max: @{{month.max | formatCurrency}}</p>
+						<p>Min: @{{month.min | formatCurrency}}</p>
+						<p>Med: @{{month.med | formatCurrency}}</p>
+						<p>Qtde caixas: @{{month.total_caixas}}</p>
+						<p>Valor total: @{{month.total_sell | formatCurrency}}</p>
 					</div>
 				</div>
 			</div>
@@ -208,7 +248,7 @@
 							<div class="col-md-4 col-xs-12">
 								<div class="form-group">
 								<label>Valor abertura</label>
-									<input class="form-control" v-model="caixa.payments.register_init_value" disabled>
+									<input class="form-control" v-model="caixa.payments.register_init_value  | formatCurrency" disabled>
 								</div>
 							</div>
 
@@ -228,27 +268,27 @@
 							<div class="col-md-4 col-xs-12">
 								<div class="form-group">
 								<label>Valor fechamento</label>
-									<input class="form-control" v-model="caixa.payments.register_end_value" disabled>
+									<input class="form-control" v-model="caixa.payments.register_end_value  | formatCurrency" disabled>
 								</div>
 							</div>
 
 							<div class="col-md-4 col-xs-12">
 								<div class="form-group">
 								<label>Retiradas total</label>
-									<input class="form-control" v-model="caixa.total_retirada" disabled>
+									<input class="form-control" v-model="caixa.total_retirada  | formatCurrency" disabled>
 								</div>
 							</div>
 							<div class="col-md-4 col-xs-12">
 								<div class="form-group">
 								<label>Venda total</label>
-									<input class="form-control" v-model="caixa.vendas" disabled>
+									<input class="form-control" v-model="caixa.vendas  | formatCurrency" disabled>
 								</div>
 							</div>
 
 							<div class="col-md-4 col-xs-12">
 								<div class="form-group">
 								<label>Diferença</label>
-									<input class="form-control" v-model="caixa.diferenca_final" disabled v-bind:class="{ 'warning': caixa.diferenca_final < 0, 'success': caixa.diferenca_final >= 0 }">
+									<input class="form-control" v-model="caixa.diferenca_final  | formatCurrency" disabled v-bind:class="{ 'warning': caixa.diferenca_final < 0, 'success': caixa.diferenca_final >= 0 }">
 								</div>
 							</div>
 						</div>
@@ -264,10 +304,10 @@
 						    </thead>
 						    <tbody>
 						        <tr v-if="caixa.payments">
-						            <td >R$ @{{caixa.payments.total_money.toFixed(2)}}</td>
-						            <td>R$ @{{caixa.payments.total_cards.toFixed(2)}}</td>
-						            <td>R$ @{{caixa.contas.total}}</td>
-						            <td v-for="item in caixa.payments.items">R$ @{{item.value}}</td>
+						            <td >@{{caixa.payments.total_money  | formatCurrency}}</td>
+						            <td>@{{caixa.payments.total_cards  | formatCurrency}}</td>
+						            <td>@{{caixa.contas.total  | formatCurrency}}</td>
+						            <td v-for="item in caixa.payments.items">@{{item.value  | formatCurrency}}</td>
 						        </tr>
 						    </tbody>
 						</table>
@@ -315,31 +355,31 @@
 			      	</div>
 			      	<div class="col-md-4">
 			      		<p>Valor abertura</p>
-			      		<h3 v-if="!isEditing">@{{caixaSelected.caixa.payments.register_init_value}}</h3>
+			      		<h3 v-if="!isEditing">@{{caixaSelected.caixa.payments.register_init_value  | formatCurrency}}</h3>
 			      		<input v-if="isEditing" class="form-control" v-model="caixaSelected.caixa.payments.register_init_value" @blur="calcula()">
 			      	</div>
 
 			      	<div class="col-md-4">
 			      		<p>Valor fechamento</p>
-						<h3 v-if="!isEditing">@{{caixaSelected.caixa.payments.register_end_value}}</h3>
+						<h3 v-if="!isEditing">@{{caixaSelected.caixa.payments.register_end_value  | formatCurrency}}</h3>
 						<input v-if="isEditing" class="form-control" v-model="caixaSelected.caixa.payments.register_end_value" @blur="calcula()">
 			      	</div>
 
 			      	<div class="col-md-4">
 			      		<p>Vendas no caixa</p>
-						<h3>@{{caixaSelected.fetched.vendaBruta}}</h3>
+						<h3>@{{caixaSelected.fetched.vendaBruta  | formatCurrency}}</h3>
 			      	</div>
 					
 					<div class="col-md-4" v-for="payment in caixaSelected.caixa.payments.items">
 						<p>@{{payment.label}}</p>
-						<h3 v-if="!isEditing">R$ @{{payment.value}}</h3>
+						<h3 v-if="!isEditing">@{{payment.value | formatCurrency}}</h3>
 						<input v-if="isEditing" class="form-control" v-model="payment.value" @blur="calcula()">
 
 					</div>
 
 					<div class="col-md-6">
 			      		<p>Diferença final</p>
-						<h3>R$ @{{ caixaSelected.caixa.diferenca_final }}</h3>
+						<h3>@{{ caixaSelected.caixa.diferenca_final | formatCurrency }}</h3>
 			      	</div>
 
 			      	<div class="col-md-12">
@@ -682,6 +722,8 @@
 			    			total_sell_cards: 0,
 			    			total_by_cards: [],
 			    			sell_by_dow: [],
+			    			sell_by_week: [],
+			    			sell_by_month: [],
 			    			min_sell_by_day: [],
 			    			bigger_negative_diff: {
 			    				user_name: '',
@@ -721,6 +763,25 @@
 				    	    
 				    	},
 
+				    	getCaixas: function(){
+				    	    let that = this
+				    	
+					    	var self = this;	
+					      	// GET request
+					      	this.$http.post('/admin/financeiro/historico/caixa/fetchByTime', {init: moment(self.init, 'DD/MM/YYYYY').format('YYYY-MM-DD'), end: moment(self.end, 'DD/MM/YYYYY').format('YYYY-MM-DD')}).then(function (response) {
+					          	self.caixas = response.data.caixas;
+					          	self.retorno = response.data.retorno;
+					          	console.log('Caixas carregados com sucesso.');
+					          	that.checkInsights();
+
+							}, function (response) {
+
+						      	console.log('Erro ao tentar carregar caixas.');
+
+						    });
+				    	    
+				    	},
+
 				    	checkInsights: function(){
 				    	    let that = this
 				    		
@@ -734,6 +795,8 @@
 				    			total_sell_cards: 0,
 				    			total_by_cards: [],
 				    			sell_by_dow: [],
+				    			sell_by_week: [],
+				    			sell_by_month: [],
 				    			bigger_negative_diff: {
 				    				user_name: '',
 				    				total: 0
@@ -785,6 +848,7 @@
 				    	    		insights.bigger_negative_diff.user_name = caixa.usuario_fechamento.name;
 				    	    	}
 
+				    	    	//Sell by day of week
 				    	    	var indexMaxDayOfWeek = insights.sell_by_dow.indexFromAttr('dow', moment(caixa.created_at).format('dddd'))
 
 				    	    	if(indexMaxDayOfWeek > -1){
@@ -817,13 +881,93 @@
 				    	    		insights.sell_by_dow.push(data)
 				    	    	}
 
+				    	    	//Sells by week of the months
+				    	    	var indexSellByWeek = insights.sell_by_week.indexFromAttr('week', Math.ceil(moment(caixa.created_at).format('DD') / 7) )
 
+				    	    	if(indexSellByWeek > -1){
+				    	    		
+				    	    		var week = insights.sell_by_week[indexSellByWeek];
+
+				    	    		if(week.max < parseFloat(caixa.vendas)){
+				    	    			week.max = parseFloat(caixa.vendas);
+				    	    		}
+
+				    	    		if(week.min > parseFloat(caixa.vendas)){
+				    	    			week.min = parseFloat(caixa.vendas);
+				    	    		}
+
+				    	    		week.total_sell+= parseFloat(caixa.vendas);
+
+				    	    		week.total_caixas++;
+
+				    	    	} else {
+
+				    	    		var data = {
+				    	    			week: Math.ceil(moment(caixa.created_at).format('DD') / 7),
+				    	    			max: parseFloat(caixa.vendas),
+				    	    			min: parseFloat(caixa.vendas),
+				    	    			med: parseFloat(caixa.vendas),
+				    	    			total_caixas: 1,
+				    	    			total_sell: parseFloat(caixa.vendas)
+				    	    		}
+
+				    	    		insights.sell_by_week.push(data)
+				    	    	}
+
+
+				    	    	//Sells by month
+				    	    	var indexSellByMonth = insights.sell_by_month.indexFromAttr('month', moment(caixa.created_at).format('MMMM') )
+
+				    	    	if(indexSellByMonth > -1){
+				    	    		
+				    	    		var month = insights.sell_by_month[indexSellByMonth];
+
+				    	    		if(month.max < parseFloat(caixa.vendas)){
+				    	    			month.max = parseFloat(caixa.vendas);
+				    	    		}
+
+				    	    		if(month.min > parseFloat(caixa.vendas)){
+				    	    			month.min = parseFloat(caixa.vendas);
+				    	    		}
+
+				    	    		month.total_sell+= parseFloat(caixa.vendas);
+
+				    	    		month.total_caixas++;
+
+				    	    	} else {
+
+				    	    		var data = {
+				    	    			month: moment(caixa.created_at).format('MMMM'),
+				    	    			max: parseFloat(caixa.vendas),
+				    	    			min: parseFloat(caixa.vendas),
+				    	    			med: parseFloat(caixa.vendas),
+				    	    			total_caixas: 1,
+				    	    			total_sell: parseFloat(caixa.vendas)
+				    	    		}
+
+				    	    		insights.sell_by_month.push(data)
+				    	    	}
+
+
+				    	    	//Se for o ultimo item chama as funções que calculam a media e pusha os dados
 				    	    	if(index+1 == array.length){
 				    	    		insights.sell_medium = insights.sell_total / insights.numbers_of_caixas;
 
-				    	    		insights.sell_by_dow.med = insights.sell_by_dow.total_sell / insights.sell_by_dow.total_caixas;
+				    	    		insights.sell_by_dow.forEach( function(dow){
+				    	    			dow.med = dow.total_sell / dow.total_caixas;
+				    	    		})
+
+				    	    		insights.sell_by_week.forEach( function(week){
+				    	    			week.med = week.total_sell / week.total_caixas;
+				    	    		})
+
+				    	    		insights.sell_by_month.forEach( function(month){
+				    	    			month.med = month.total_sell / month.total_caixas;
+				    	    		})
 
 				    	    		insights.sell_by_dow.sort( function(a, b){return a.dow_number-b.dow_number});
+				    	    		insights.sell_by_week.sort( function(a, b){return a.week-b.week});
+				    	    		insights.sell_by_month.sort( function(a, b){return a.month-b.month});
 
 				    	    		that.pushInsights(insights)
 				    	    	}
@@ -838,24 +982,8 @@
 				    	    
 				    	},
 
-				    	getCaixas: function(){
-				    	    let that = this
-				    	
-					    	var self = this;	
-					      	// GET request
-					      	this.$http.post('/admin/financeiro/historico/caixa/fetchByTime', {init: moment(self.init, 'DD/MM/YYYYY').format('YYYY-MM-DD'), end: moment(self.end, 'DD/MM/YYYYY').format('YYYY-MM-DD')}).then(function (response) {
-					          	self.caixas = response.data.caixas;
-					          	self.retorno = response.data.retorno;
-					          	console.log('Caixas carregados com sucesso.');
-					          	that.checkInsights();
 
-							}, function (response) {
 
-						      	console.log('Erro ao tentar carregar caixas.');
-
-						    });
-				    	    
-				    	},
 				    	mostraVendas: function(caixa, index){
 					    	var self = this;	
 					      	// GET request
