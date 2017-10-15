@@ -38,7 +38,7 @@ class ClienteController extends Controller
     {
         $lista = Cliente::paginate(10);
 
-        $clientesForSelect = $this->clientesForSelect();
+        $clientesForSelect = $this->clientesForSelect(false);
 
         $urlPagination = '/admin/clientes/lista/?page=';
 
@@ -391,9 +391,14 @@ class ClienteController extends Controller
         return $json;
     }
 
-    public function clientesForSelect()
+    public function clientesForSelect($active = true)
     {
-        $clientes = Cliente::where('is_ativo', '=', 1)->get();
+        if($active){
+            $clientes = Cliente::where('is_ativo', '=', $active)->get();
+        } else {
+            $clientes = Cliente::get();  
+        }
+
         $result = array();
 
         foreach($clientes as $key => $value) {
