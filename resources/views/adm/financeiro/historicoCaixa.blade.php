@@ -307,7 +307,7 @@
 						            <td >@{{caixa.payments.total_money  | formatCurrency}}</td>
 						            <td>@{{caixa.payments.total_cards  | formatCurrency}}</td>
 						            <td>@{{caixa.contas.total  | formatCurrency}}</td>
-						            <td v-for="item in caixa.payments.items">@{{item.value  | formatCurrency}}</td>
+						            <td v-for="item in caixa.payments.items">R$ @{{item.value}}</td>
 						        </tr>
 						    </tbody>
 						</table>
