@@ -307,7 +307,7 @@
 						            <td >@{{caixa.payments.total_money  | formatCurrency}}</td>
 						            <td>@{{caixa.payments.total_cards  | formatCurrency}}</td>
 						            <td>@{{caixa.contas.total  | formatCurrency}}</td>
-						            <td v-for="item in caixa.payments.items">R$ @{{item.value}}</td>
+						            <td v-for="item in caixa.payments.items">@{{item.value  | formatCurrency}}</td>
 						        </tr>
 						    </tbody>
 						</table>
@@ -824,7 +824,7 @@
 				    	    			insights.total_by_cards[index].value +=parseFloat(payment_type.value);
 				    	    		} else {
 				    	    			payment_type.value = parseFloat(payment_type.value)
-				    	    			insights.total_by_cards.push(payment_type);
+				    	    			insights.total_by_cards.push(JSON.parse(JSON.stringify(payment_type)));
 				    	    		}
 
 				    	    	})
