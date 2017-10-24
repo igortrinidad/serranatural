@@ -18,7 +18,7 @@
 					<p><strong>{{$produto->categoria['nome']}}</strong></p>
 					<p>Produto está ativo?</p>
 					<p><strong>@if($produto->is_ativo) Sim @else Não @endif</strong></p>
-					<p>Produto está ativo?</p>
+					<p>Controlar estoque?</p>
 					<p><strong>@if($produto->tracked) Sim @else Não @endif</strong></p>
 				</div>
 				<div class="col-md-6">

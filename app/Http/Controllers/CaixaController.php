@@ -326,6 +326,15 @@ class CaixaController extends Controller
                         $produto = Produto::find($squareproduct->produto_id);
                         $produto->quantidadeEstoque = $produto->quantidadeEstoque - $item->quantity;
                         $produto->save();
+
+                        Movimentacao::create([
+                            'is_saida' => 1,
+                            'obs' => 'Baixa Caixa: ' . $caixa->id,
+                            'quantity' => $item->quantity,
+                            'produto_id' => $produto->id,
+                            'user_id' => \Auth::user()->id,
+                        ]);
+
                     }
 
                     
