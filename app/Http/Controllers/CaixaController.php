@@ -8,6 +8,7 @@ use serranatural\Http\Requests;
 use serranatural\Http\Controllers\Controller;
 
 use serranatural\Models\Caixa;
+use serranatural\Models\Movimentacao;
 use serranatural\Models\Retirada;
 use serranatural\User;
 use serranatural\Models\Produto;
