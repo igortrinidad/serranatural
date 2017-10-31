@@ -588,22 +588,6 @@
 					    			label: 'Rede',
 					    			value: 0
 					    		},
-					    		{
-					    			label: 'iFood',
-					    			value: 0
-					    		},
-					    		{
-					    			label: 'Cielo',
-					    			value: 0
-					    		},
-					    		{
-					    			label: 'Beblue',
-					    			value: 0
-					    		},
-					    		{
-					    			label: 'Santander',
-					    			value: 0
-					    		},
 					    		]
 					    	},
 
