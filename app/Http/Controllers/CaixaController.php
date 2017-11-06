@@ -78,7 +78,7 @@ class CaixaController extends Controller
         $caixa = Caixa::where('is_aberto', '=', '0')->orderBy('dt_fechamento', 'DESC')->first();
 
         date_default_timezone_set('America/Sao_Paulo'); // Seta a timezone
-        $horarioVerao = date('I', $timeStamp); 
+        $horarioVerao = date('I'); 
 
         if($horarioVerao){
             $horas = 2;
