@@ -78,7 +78,7 @@ class CaixaController extends Controller
         $caixa = Caixa::where('is_aberto', '=', '0')->orderBy('dt_fechamento', 'DESC')->first();
 
         $begin = Carbon::createFromFormat('Y-m-d H:i:s', $caixa['dt_fechamento']);
-        $begin->addHours(3);
+        $begin->addHours(2);
         $begin = 'begin_time='.$begin->format('Y-m-d\TH:i:s\Z');
 
 

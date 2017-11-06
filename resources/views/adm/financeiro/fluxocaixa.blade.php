@@ -14,6 +14,7 @@
 </style>
 
 <h2 class="text-right">Controle de caixa</h2><br>
+<p> <?php echo date('d/m/Y H:i:s'); ?></p>
 
 <div id="contentCaixa">
 
