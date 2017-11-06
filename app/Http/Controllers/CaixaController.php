@@ -77,8 +77,17 @@ class CaixaController extends Controller
 
         $caixa = Caixa::where('is_aberto', '=', '0')->orderBy('dt_fechamento', 'DESC')->first();
 
+        date_default_timezone_set('America/Sao_Paulo'); // Seta a timezone
+        $horarioVerao = date('I', $timeStamp); 
+
+        if($horarioVerao){
+            $horas = 2;
+        } else {
+            $horas = 3;
+        }
+
         $begin = Carbon::createFromFormat('Y-m-d H:i:s', $caixa['dt_fechamento']);
-        $begin->addHours(2);
+        $begin->addHours($horas);
         $begin = 'begin_time='.$begin->format('Y-m-d\TH:i:s\Z');
 
 
