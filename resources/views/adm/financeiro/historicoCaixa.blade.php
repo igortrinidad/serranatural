@@ -356,13 +356,13 @@
 			      	<div class="col-md-4">
 			      		<p>Valor abertura</p>
 			      		<h3 v-if="!isEditing">@{{caixaSelected.caixa.payments.register_init_value  | formatCurrency}}</h3>
-			      		<input v-if="isEditing" class="form-control" v-model="caixaSelected.caixa.payments.register_init_value" @blur="calcula()">
+			      		<input v-if="isEditing" class="form-control" v-model="caixaSelected.caixa.payments.register_init_value" >
 			      	</div>
 
 			      	<div class="col-md-4">
 			      		<p>Valor fechamento</p>
 						<h3 v-if="!isEditing">@{{caixaSelected.caixa.payments.register_end_value  | formatCurrency}}</h3>
-						<input v-if="isEditing" class="form-control" v-model="caixaSelected.caixa.payments.register_end_value" @blur="calcula()">
+						<input v-if="isEditing" class="form-control" v-model="caixaSelected.caixa.payments.register_end_value" >
 			      	</div>
 
 			      	<div class="col-md-4">
@@ -373,7 +373,7 @@
 					<div class="col-md-4" v-for="payment in caixaSelected.caixa.payments.items">
 						<p>@{{payment.label}}</p>
 						<h3 v-if="!isEditing">@{{payment.value | formatCurrency}}</h3>
-						<input v-if="isEditing" class="form-control" v-model="payment.value" @blur="calcula()">
+						<input v-if="isEditing" class="form-control" v-model="payment.value" >
 
 					</div>
 
@@ -1003,7 +1003,6 @@
 
 						          	console.log(self.caixaSelected);
 						          	self.loading = false;
-						          	self.calcula();
 
 								}, function (response) {
 									self.loading = false;
@@ -1013,44 +1012,7 @@
 					      	}
 					      	
 				    	},
-				    	calcula: function(ev) {
-				    		var that = this
-				    		this.substracted = false;
 
-				    		var totalPayments = 0;
-
-				    		that.caixaSelected.caixa.payments.items.forEach(function(payment){
-				    			if(isNaN(payment.value) || !payment.value){
-				    				payment.value = 0;
-				    			}
-				    			totalPayments += parseFloat(payment.value);
-
-				    		});
-
-				    		if (!that.caixaSelected.caixa.payments.register_end_value || isNaN(that.caixaSelected.caixa.payments.register_end_value)) that.caixaSelected.caixa.payments.register_end_value = 0;
-
-				    		that.caixaSelected.caixa.payments.total_cards = totalPayments;
-				    		that.caixaSelected.caixa.payments.total_money = parseFloat(that.caixaSelected.caixa.payments.register_end_value) + 
-				    			parseFloat(that.caixaSelected.caixa.total_retirada) -
-				    			parseFloat(that.caixaSelected.caixa.payments.register_init_value);
-				    		that.caixaSelected.caixa.payments.total_accounts = parseFloat(that.caixaSelected.caixa.contas.total) - parseFloat(that.caixaAnterior.contas.total);
-
-				    		var conferencia1 = 
-				    			( parseFloat( that.caixaSelected.caixa.payments.register_end_value )
-				    			+ parseFloat( that.caixaSelected.caixa.total_retirada ) 
-				    			- (parseFloat( that.caixaSelected.caixa.payments.register_init_value) + parseFloat( that.caixaAnterior.contas.total ) ) );
-
-				    		var conferencia2 = parseFloat( that.caixaSelected.fetched.vendaBruta.replace(',', '') ) - (totalPayments + parseFloat( that.caixaSelected.caixa.contas.total )); 
-
-				    		var diferenca = (conferencia1) - (conferencia2);
-
-				    		console.log('Conferencia 1: ' + conferencia1);
-				    		console.log('Conferencia 2: ' + conferencia2);
-				    		console.log(': ' + diferenca);
-
-					    	that.caixaSelected.caixa.diferenca_final = diferenca.toFixed(2);
-					    	that.caixaSelected.caixa.vendas = that.caixaSelected.fetched.vendaBruta.replace(',', '');
-				    	},
 
 				    	salva: function() {
 				    		var that = this;
@@ -1059,7 +1021,6 @@
 
 				    			this.loading = true;
 
-					    		this.calcula();
 
 					    		this.$http.post('/admin/financeiro/caixa/update', this.caixaSelected.caixa).then(function (response) {
 								       swal(response.data.retorno.title, response.data.retorno.message, response.data.retorno.type);
