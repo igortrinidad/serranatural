@@ -55,7 +55,7 @@
 
                         <p class="p1">3.4 Não é necessária a efetivação de uma compra para associar-se ao Programa Fidelidade Serra Natural.&nbsp;</p>
 
-                        <p class="p1">3.5 Para efetuar o cadastro, o cliente precisará preencher o formulário no endereço web <a href="http://www.admin.serranatural.com">www.admin.serranatural.com</a> com seus dados pessoais e de contato (nome completo, email e telefone). - os quais serão protegidos).</p>
+                        <p class="p1">3.5 Para efetuar o cadastro, o cliente precisará preencher o formulário no endereço web <a href="http://www.serranatural.com">www.serranatural.com</a> com seus dados pessoais e de contato (nome completo, email e telefone). - os quais serão protegidos).</p>
 
                         <p class="p1">3.6 Os dados fornecidos pelo cliente apenas serão alterados mediante sua solicitação ou, o cliente pode fazer as alterações no site, após acessar seu cadastro.</p>
 
@@ -87,7 +87,7 @@
 
                         <p class="p1">a. nos casos de clientes que tenham problemas de inadimplência com o Serra Natural, sendo que, nesses casos, todos os pontos desses clientes permanecerão bloqueados até a total regularização de sua situação.</p>
 
-                        <p class="p1">b. nos casos de clientes com cadastro desatualizado, incompleto ou com erros. 4.10 O cliente poderá consultar sua conta-corrente de pontos no Site do Sistema admin.serranatural.com/me/(email do cliente).&nbsp;</p>
+                        <p class="p1">b. nos casos de clientes com cadastro desatualizado, incompleto ou com erros. 4.10 O cliente poderá consultar sua conta-corrente de pontos no Site do Sistema serranatural.com/cliente/(email do cliente).&nbsp;</p>
 
                         <p class="p1">V. DOS RESGATES</p>
 
