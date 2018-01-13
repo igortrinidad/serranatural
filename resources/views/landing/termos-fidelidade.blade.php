@@ -59,6 +59,8 @@
 
                         <p class="p1">3.6 Os dados fornecidos pelo cliente apenas serão alterados mediante sua solicitação ou, o cliente pode fazer as alterações no site, após acessar seu cadastro.</p>
 
+                        <p class="p1">3.7 Ao se inscrever, o cliente automaticamente aceita todas condições presentes neste instrumento, ficando responsável por consultar eventualmente atualizações no REGULAMENTO DO PROGRAMA DE RELACIONAMENTO DO RESTAURANTE SERRA NATURAL.</p>
+
                         <p class="p1">IV. DA POLÍTICA DE PONTOS&nbsp;</p>
 
                         <p class="p1">4.1 A cada compra de um dos produtos participantes (Almoço ou Açai, independente do tamanho) o cliente receberá 1 (um) ponto do Programa Fidelidade Serra Natural de acordo com sua compra.</p>
