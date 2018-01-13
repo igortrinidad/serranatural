@@ -150,6 +150,11 @@ class SiteController extends Controller
         return view('landing.contato');
     }
 
+    public function termsFidelidade()
+    {
+        return view('landing.termos-fidelidade');
+    }
+
     public function contatoForm(Request $request)
     {
 

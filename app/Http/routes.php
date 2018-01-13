@@ -5,6 +5,7 @@ Route::get('/', ['uses' => 'SiteController@home']);
 Route::get('/cardapio', ['uses' => 'SiteController@cardapio']);
 Route::get('/promocoes', ['uses' => 'SiteController@promocoes']);
 Route::get('/fidelidade', ['uses' => 'SiteController@fidelidade']);
+Route::get('/termos-fidelidade-serranatural', ['uses' => 'SiteController@termsFidelidade']);
 Route::get('/cliente/{email}', ['uses' => 'SiteController@detalhesCliente']);
 Route::post('/fidelidade/cadastra/post', ['uses' => 'ClienteController@storeSelfCliente']);
 Route::post('/cliente/detalhes/post', ['uses' => 'ClienteController@clienteMostraSite']);

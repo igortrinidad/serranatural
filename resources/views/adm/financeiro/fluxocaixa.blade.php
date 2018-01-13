@@ -210,7 +210,7 @@
 								<div class="col-md-12">
 									<div class="form-group">
 										<label>Observações e relatório do dia</label>
-										<textarea rows="7" class="form-control" v-model="caixa_aberto.obs"></textarea>
+										<textarea rows="7" class="form-control" v-model="caixa_aberto.obs" placeholder="É obrigatorio o preenchimento correto com a quantidade de salgados que sobraram, se sobraram e qualquer fato relevante que tenha ocorrido no turno. Como a falta de algum produto que o cliente solicitou, a urgencia em algum produto que precisa reposição, uma reclamação de algum cliente, atitudes de funcionários em desacordo com as politicas da empresa entre outras. O não cumprimento dessas obrigações poderá ser penalizada com advertência pela empresa."></textarea>
 									</div>
 								</div>
 								
@@ -419,7 +419,7 @@
 							<hr size="3px" style="margin: 10px;"/>
 							<button class="btn btn-primary btn-block" 
 								v-on:click="fecha($event)"
-								:disabled="!caixa_aberto.vendas_cielo || !caixa_aberto.vendas_rede || !caixa_aberto.vr_emCaixa || !vendas.vendaBruta || !caixa_aberto.senha"
+								:disabled="!caixa_aberto.vendas_cielo || !caixa_aberto.vendas_rede || !caixa_aberto.vr_emCaixa || !vendas.vendaBruta || !caixa_aberto.senha || !caixa_aberto.obs"
 							>Fechar caixa</button >
 							<hr size="3px" style="margin: 10px;"/>
 							<br>

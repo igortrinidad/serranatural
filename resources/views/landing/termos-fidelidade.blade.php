@@ -18,162 +18,16 @@
         <div class="box">
             <div class="col-lg-12">
 
-                {!! csrf_field() !!}
-
-                @include('flash::message')
-
-                <div class="text-center">
-                	<hr>
-                    <h2 class="intro-text">
-                        <strong>Cliente: {{$cliente->nome}}</strong>
-                    </h2>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-4 col-xs-12">
-                            <label>Nome</label>
-                            <p>{{$cliente->nome}}</p>
-                        </div>
-                        <div class="col-md-4 col-xs-12">
-                            <label>Email</label>
-                            <p>{{$cliente->email}}</p>
-                        </div>
-                        <div class="col-md-4 col-xs-12">
-                            <label>Telefone</label>
-                            <p>{{$cliente->telefone}}</p>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4 col-xs-12">
-                            
-                        </div>
-
-                        <div class="col-md-4 col-xs-12">
-                            <div class="form-group">
-                                <a href="/admin/clientes/reenviaSenha/{{$cliente->id}}" class="btn btn-default btn-block">Reenviar senha de resgate </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    
-                    
-                    
-                </div>
-
-                <div class="row" >
-
-                    <hr>
-                        <h2 class="intro-text text-center">
-                            <strong>Pontos válidos</strong>
-                        </h2>
-                    <hr>
-
-                    <div class="row">
-                        
-                        <div class="col-md-@{{interactions.cols}} text-center" v-for="pontos in pontosProgress">
-
-                            <label style="font-size: 20px">@{{pontos.produto}}</label>
-                            <p>Faltam: @{{pontos.faltam}}</p>
-                            <div class="progress progress-striped m-b-10">
-                                <div class="progress-bar progress-bar-success"
-                                     role="progressbar"
-                                     :aria-valuenow="pontos.percentual"
-                                     aria-valuemin="0"
-                                     aria-valuemax="100"
-                                     :style="{ width: pontos.percentual+'%' }"
-                                >
-                                </div>
-                            </div>
-
-                        </div>
-                        
-                        <br>
-
-                    </div>
-
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <td class="text-center">Data</td>
-                                <td class="text-center">Produto</td>
-                                <td class="text-center">Vencimento</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="ponto in pontos">
-                                <td class="text-center">@{{ponto.data_coleta}}</td>
-                                <td class="text-center">@{{ponto.produto}}</td>
-                                <td class="text-center">@{{ponto.vencimento}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                </div>
-
-                <div class="row" >
-
-                    <hr>
-                    <h2 class="intro-text text-center">
-                        <strong>Vouchers válidos</strong>
-                    </h2>
-                    <hr>
-
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <td class="text-center">Data</td>
-                                <td class="text-center">Produto</td>
-                                <td class="text-center">Vencimento</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="voucher in vouchers">
-                                <td class="text-center">@{{voucher.data_voucher}}</td>
-                                <td class="text-center">@{{voucher.produto}}</td>
-                                <td class="text-center">@{{voucher.vencimento}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                </div>
-
-                <div class="row" >
-
-                    <hr>
-                    <h2 class="intro-text text-center">
-                        <strong>Vouchers utilizados</strong>
-                    </h2>
-                    <hr>
-
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <td class="text-center">Data</td>
-                                <td class="text-center">Produto</td>
-                                <td class="text-center">Data utilizado</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="voucher in vouchersUtilizados">
-                                <td class="text-center">@{{voucher.data_voucher}}</td>
-                                <td class="text-center">@{{voucher.produto}}</td>
-                                <td class="text-center">@{{voucher.data_utilizado}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                </div>
-
 
 
                 <div class="row text-center">
                     <hr>
-                    <h2 class="intro-text text-center" data-toggle="collapse" data-target="#collapseRegulamento">
-                        <strong>REGULAMENTO DO PROGRAMA DE RELACIONAMENTO DO RESTAURANTE SERRA NATURAL</b></p>Clique aqui<i class="fa fa-chevron-down"></i></strong>
+                    <h2 class="intro-text text-center">
+                        <strong>REGULAMENTO DO PROGRAMA DE RELACIONAMENTO DO RESTAURANTE SERRA NATURAL</strong>
                     </h2>
                     <hr>
 
-                    <div id="collapseRegulamento" class="collapse">
+                    <div>
 
                         <p class="p1">I. PROGRAMA FIDELIDADE SERRA NATURAL&nbsp;</p>
 
@@ -278,32 +132,6 @@
 	        
 		<script type="text/javascript">
 
-
-                $('.phone').mask("(00) 0 0000-0000");
-
-                Vue.config.debug = true;
-                Vue.http.headers.common['X-CSRF-TOKEN'] = $('input[name="_token"]').val();
-                var vm = new Vue({
-                    el: '#elCliente',
-                    data: 
-                    {
-                        interactions: {
-                            totalProducts: {{$pontosProgress->count()}},
-                            cols: ''
-                        },
-                        styles: [],
-                        pontos: JSON.parse('{!!$pontosAll->toJson()!!}'),
-                        pontosProgress: JSON.parse('{!!$pontosProgress->toJson()!!}'),
-                        vouchers: JSON.parse('{!!$vouchers->toJson()!!}'),
-                        vouchersUtilizados: JSON.parse('{!!$vouchersUtilizados->toJson()!!}')
-                    },
-                    ready: function(){
-                        var that = this
-
-                        that.interactions.cols = 12 / that.interactions.totalProducts.toFixed(0);
-
-                    }
-                });
 
 
 		</script>
