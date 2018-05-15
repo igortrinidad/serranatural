@@ -210,9 +210,7 @@
                         <li>
                             <a href="#"><i class="fa fa-tasks"></i> Financeiro<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="{{route('admin.financeiro.pagamentos')}}"> Cadastrar pagamento</a>
-                                </li>
+
 
                                 <li>
                                     <a href="{{route('admin.financeiro.despesa')}}"> Despesa simples</a>
