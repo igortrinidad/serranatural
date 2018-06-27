@@ -223,31 +223,10 @@ class ProdutosController extends Controller
 
         $prato = Pratos::where('id', '=', $request->get('pratos_id'))->first();
 
-        $data = [
-            'prato' => $prato,
-            'nomeCliente' => 'Direção',
-            'emailCliente' => 'contato@serranatural.com',
-            'dataAgendado' => $dataMysql
-        ];
-
-        //dd($dados);
-
-        Mail::queue('emails.marketing.pratoNovo', $data, function ($message) use ($data) {
-
-            $message->to('contato@serranatural.com', 'Serra Natural');
-            $message->from('mkt@serranatural.com', 'Serra Natural');
-            $message->subject(
-                'Cardápio alterado: ' . $data['prato']['prato'] . ' - ' . dataMysqlParaDateTime($data['dataAgendado']) . ' - ' . dataMysqlParaPtBr($data['dataAgendado']) 
-                );
-            $message->getSwiftMessage();
-
-        });
 
         $dados = [
-
-        'msg_retorno' => 'Prato agendado para ' . $request->get('dataStr') . ' com sucesso.',
-        'tipo_retorno' => 'success'
-
+            'msg_retorno' => 'Prato agendado para ' . $request->get('dataStr') . ' com sucesso.',
+            'tipo_retorno' => 'success'
         ];
 
         return redirect()->action('ProdutosController@semanaIndex')->with($dados);
