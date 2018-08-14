@@ -577,18 +577,22 @@
 				    			total_accounts: 0,
 				    			total: 0,
 				    			items: [
-				    			{
-					    			label: 'Ticket',
-					    			value: 0
-					    		},
-					    		{
-					    			label: 'Stone',
-					    			value: 0
-					    		},
-					    		{
-					    			label: 'Rede',
-					    			value: 0
-					    		},
+					    			{
+						    			label: 'Ticket',
+						    			value: 0
+						    		},
+						    		{
+						    			label: 'Stone',
+						    			value: 0
+						    		},
+						    		{
+						    			label: 'Rede',
+						    			value: 0
+						    		},
+						    		{
+						    			label: 'PagSimples',
+						    			value: 0
+						    		},
 					    		]
 					    	},
 
