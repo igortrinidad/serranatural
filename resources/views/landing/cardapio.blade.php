@@ -57,7 +57,7 @@
                     </h2>
                     <hr>
         
-                    <h3>Estamos preparando um novo cardápio para vocês pessoal, aguardem!</h3>
+                    <img class="" width="70%" src="/img/CARDAPIO-2018-01.png" />
 
                 </div>
             </div>

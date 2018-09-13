@@ -593,6 +593,10 @@
 						    			label: 'PagSimples',
 						    			value: 0
 						    		},
+						    		{
+						    			label: 'JOSÉ SARAIVA',
+						    			value: 0
+						    		},
 					    		]
 					    	},
 

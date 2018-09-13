@@ -138,7 +138,7 @@
 
         <script src="{!! asset('landing/js/vendor.js') !!}"></script>
 
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJ5ANKHZZw8pasBTic7V62VI7HVGdZaX4&callback=initMap"
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJvXR4bgllXu4Q64vqC21j7UQbN7czwEo&callback=initMap"
     async defer></script>
 
 
