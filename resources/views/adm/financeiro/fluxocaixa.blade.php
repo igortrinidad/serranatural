@@ -261,7 +261,7 @@
 							<hr size="3px" style="margin: 10px;"/>
 							<button class="btn btn-primary btn-block" 
 								v-on:click="fecha($event)"
-								:disabled="!caixa_aberto.vr_emCaixa || !vendas.vendaBruta || !caixa_aberto.senha || !caixa_aberto.obs"
+								:disabled="!caixa_aberto.vr_emCaixa || !caixa_aberto.senha || !caixa_aberto.obs"
 							>Fechar caixa</button >
 							<hr size="3px" style="margin: 10px;"/>
 							<br>
@@ -485,8 +485,6 @@
 				          	self.retiradas = response.data.retiradas;
 				          	self.clientes = response.data.clientes;
 
-				          	self.checkContas()
-
 				          	this.$http.get('/admin/financeiro/caixa/consultaVendas').then(function (response) {
 						        self.vendas = response.data;
 						        self.caixa_aberto.vendas = parseFloat(self.vendas.vendaBruta);
@@ -500,9 +498,6 @@
 
 				          	self.caixa_anterior = response.data.caixa_anterior;
 				          	self.caixa_is_aberto = false;
-				          	self.abrir_caixa.contas = self.caixa_anterior.contas
-
-				          	self.checkContas()
 
 				          }
 
@@ -580,16 +575,15 @@
 				    		that.caixa_aberto.payments.total_money = parseFloat(that.caixa_aberto.payments.register_end_value) + 
 				    			parseFloat(this.caixa_aberto.total_retirada) -
 				    			parseFloat(that.caixa_aberto.payments.register_init_value);
-				    		that.caixa_aberto.payments.total_accounts = parseFloat(this.caixa_aberto.contas.total) - parseFloat(this.caixa_anterior.contas.total);
 
 				    		var conferencia1 = 
 				    			( parseFloat( that.caixa_aberto.payments.register_end_value )
 				    			+ parseFloat( this.caixa_aberto.total_retirada ) 
-				    			- (parseFloat( that.caixa_aberto.payments.register_init_value) + parseFloat( this.caixa_anterior.contas.total ) ) );
+				    			- (parseFloat( that.caixa_aberto.payments.register_init_value)  ) );
 							
 							this.vendas.vendaBruta = parseFloat(this.vendas.vendaBruta)
 
-				    		var conferencia2 = this.vendas.vendaBruta - (totalPayments + parseFloat( this.caixa_aberto.contas.total )); 
+				    		var conferencia2 = this.vendas.vendaBruta - totalPayments; 
 
 				    		var diferenca = (conferencia1) - (conferencia2);
 
@@ -632,134 +626,7 @@
 				    		this.substracted = true;
 				    	},
 
-				    	addNewConta: function(){
-				    		var that = this
 
-				    		if(!that.newConta.cliente || !that.newConta.valor){
-				    			swal('Ops!', 'Preencha corretamente a conta.', 'error');
-				    			return false
-				    		}
-
-				    		that.newConta.data_init = moment().format('DD/MM/YYYY HH:mm:ss')
-				    		
-
-				    		var cliente = that.newConta.cliente;
-
-				    		var conta = {
-				    			data_init: that.newConta.data_init,
-				    			data_pay: that.newConta.data_pay,
-				    			usuario_add: that.newConta.usuario_add,
-				    			usuario_pay: '',
-				    			valor: that.newConta.valor
-				    		}
-
-				    		var clienteIndex = that.caixa_aberto.contas.contas_abertas.indexFromAttr('id', that.newConta.cliente.id)
-
-				    		if(clienteIndex === false){
-
-				    			cliente.contas = [];
-				    			cliente.contas.push(conta);
-
-				    			that.caixa_aberto.contas.contas_abertas.push($.extend(true, {}, cliente))
-				    		} else {
-				    			that.caixa_aberto.contas.contas_abertas[clienteIndex].contas.push(conta)
-				    		}
-
-				    		that.newConta.data_init = '';
-				    		that.newConta.data_pay = '';
-				    		that.newConta.cliente = '';
-				    		that.newConta.valor = '';
-
-				    		that.checkContas();
-				    	},
-
-				    	baixaConta: function(conta){
-				    		var that = this
-
-				    		that.caixa_aberto.contas.contas_abertas.$remove(conta)
-
-				    		conta.data_pay = moment().format('DD/MM/YYYY HH:mm:ss')
-
-				    		that.caixa_aberto.contas.contas_pagas.push(conta)
-
-				    		that.checkContas()
-
-				    		swal('Ok!', 'Conta liquidada corretamente.', 'success');
-				    	},
-
-				    	liquidaConta: function(conta){
-				    		var that = this
-
-				    		conta.data_pay = moment().format('DD/MM/YYYY HH:mm:ss');
-				    		conta.usuario_pay = that.newConta.usuario_pay;
-
-				    		that.checkContas()
-
-				    		swal('Ok!', 'Conta liquidada corretamente.', 'success');
-				    	},
-
-				    	removeConta: function(cliente, index){
-				    		var that = this
-
-				    		if(that.newConta.usuario_add != 'Igor Trindade'){
-				    			return false
-				    			swal('Ops!', 'Você não pode remover uma conta', 'error');
-
-				    		} else {
-
-				    			//Condição para antigo contas
-				    			if(!cliente.contas){
-				    				that.caixa_aberto.contas.contas_pagas.$remove(cliente);
-				    			} else {
-
-					    			cliente.contas.splice(index, 1)
-
-					    			if(!cliente.contas.length){
-					    				var index = that.caixa_aberto.contas.contas_abertas.indexFromAttr('id', cliente.id);
-					    				that.caixa_aberto.contas.contas_abertas.splice(index, 1);
-					    			}
-				    				
-				    			}
-				    		}
-				    	},
-
-				    	checkContas: function(){
-				    		var that = this
-
-				    		var soma = 0;
-
-				    		if(that.caixa_aberto.contas.contas_abertas.length){
-
-				    			that.caixa_aberto.contas.contas_abertas.forEach( function(cliente){
-
-				    				if(cliente.contas){
-
-
-					    				cliente.contasTotal = cliente.contas.reduce( function(a, conta){
-
-					    					if(!conta.data_pay){
-					    						return a + parseFloat(conta.valor);
-					    					} else {
-					    						return a;
-					    					}
-					    					
-					    				}, 0);
-
-					    				soma = soma + parseFloat(cliente.contasTotal);
-				    					
-				    				} else {
-
-				    					soma = soma + parseFloat(cliente.valor);
-				    				}
-
-				    			})
-
-				    		}
-
-				    		that.caixa_aberto.contas.total = soma.toFixed(2);
-
-				    		that.calcula();
-				    	},
 				    	
 				    	confere: function(ev) {
 				    		ev.preventDefault();
