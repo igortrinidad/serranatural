@@ -17,6 +17,7 @@ use serranatural\Models\Funcionario;
 use serranatural\Models\Pagamento;
 use serranatural\Models\Produto;
 use serranatural\Models\Movimentacao;
+use serranatural\Models\FinancesTransaction;
 
 use Image;
 use Input;
@@ -158,103 +159,6 @@ class FinanceiroController extends Controller
         return $dados;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function fecharCaixa(Request $request)
-    {
-        $autoriza = User::where('id', '=', \Auth::user()->id)
-            ->where('senha_operacao', '=', $request->senha)
-            ->first();
-
-        if (is_null($autoriza) or empty($autoriza)) {
-            $dados =
-                [
-                    'msg_retorno' => 'Senha inválida',
-                    'tipo_retorno' => 'error'
-                ];
-            return $dados;
-        }
-
-        Caixa::where('id', '=', $request->id)
-            ->update([
-                'is_aberto' => 0,
-                'user_id_fechamento' => \Auth::user()->id,
-                'dt_fechamento' => date('Y-m-d H:i:s')
-            ]);
-
-        $caixa = Caixa::with('usuarioAbertura', 'retiradas')->where('id', '=', $request->id)->first();
-
-        $dados = [
-            'dt_abertura' => $caixa->dt_abertura->format('d/m/Y H:i:s'),
-            'dt_fechamento' => $caixa->dt_fechamento->format('d/m/Y H:i:s'),
-            'vendas_cash' => $caixa->vendas_cash,
-            'vendas_card' => $caixa->vendas_card,
-            'total_vendas' => number_format($caixa->vendas_cash + $caixa->vendas_card, 2, ',', '.'),
-            'total_retirada' => $caixa->total_retirada,
-            'vendas_rede' => $caixa->vendas_rede,
-            'vendas_cielo' => $caixa->vendas_cielo,
-            'esperado_caixa' => $caixa->esperado_caixa,
-            'vr_emCaixa' => $caixa->vr_emCaixa,
-            'vr_abertura' => $caixa->vr_abertura,
-            'diferenca_cartoes' => $caixa->diferenca_cartoes,
-            'diferenca_caixa' => $caixa->diferenca_caixa,
-            'diferenca_final' => $caixa->diferenca_final,
-            'user_abertura' => $caixa->usuarioAbertura->name,
-            'user_fechamento' => $caixa->usuarioFechamento->name,
-            'retiradas' => $caixa->retiradas,
-        ];
-
-        $email = Mail::queue('emails.admin.fechamentoCaixa', $dados, function ($message) use ($dados, $caixa) {
-
-            $message->to('contato@maisbartenders.com.br', 'Igor Trindade');
-            $message->from('mkt@serranatural.com', 'Serra Natural');
-            $message->subject('Fechamento de caixa : ' . $caixa->dt_fechamento->format('d/m/Y H:i:s'));
-            $message->getSwiftMessage();
-
-        });
-
-        $body = json_encode($dados);
-
-        \serranatural\Models\LogEmail::create([
-
-            'email' => 'contato@maisbartenders.com.br',
-            'assunto' => 'Fechamento de caixa: ' . $caixa->dt_fechamento->format('d/m/Y H:i:s'),
-            'mensagem' => $body
-
-        ]);
-
-        if (!$email) {
-            $return = [
-                'msg_retorno' => 'Ocorreu algum problema no envio do email.',
-                'tipo_retorno' => 'error'
-            ];
-
-            return $return;
-        }
-
-        $return = [
-            'msg_retorno' => 'Caixa fechado com sucesso, consulte o caixa em histórico.',
-            'tipo_retorno' => 'success',
-        ];
-
-        return $return;
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -328,50 +232,8 @@ class FinanceiroController extends Controller
 
         $retirada->fonte_pgto = $request->fontePgto;
 
-        //dd($request->all());
-
-        if ($request->funcionario_id >= 1) {
-            $retirada->funcionario_id = $request->funcionario_id;
-            if ($request->is_debito) {
-                $retirada->is_debito = 1;
-            }
-
-            $retirada->init = Carbon::createFromFormat('d/m/Y', $request->init)->format('Y-m-d');
-            $retirada->end = Carbon::createFromFormat('d/m/Y', $request->end)->format('Y-m-d');
-        }
-
-        if ($request->registraPagamento) {
-
-            Pagamento::create([
-                'user_id_cadastro' => $user->id,
-                'descricao' => $request->tipo.' '.$request->descricao,
-                'vencimento' => date('d/m/Y'),
-                'data_pgto' => date('d/m/Y'),
-                'valor' => $request->valor,
-                'is_liquidado' => '1',
-                'fonte_pgto' => $request->fontePgto,
-                'user_id_pagamento' => \Auth::user()->id,
-            ]);
-
-        }
 
         $retirada->save();
-
-        //Envia email para informar o cliente do cadastro
-        $data = [];
-        $data['align'] = 'center';
-        $data['messageTitle'] = '<h4>Retirada no caixa de R$' . $request->valor. '</h4>';
-        $data['messageOne'] = '
-        <p>O usuário: ' . $user->name. ' acabou de fazer uma retirada no caixa no valor de ' . $request->valor . ' com a descrição: ' . $request->descricao .' </p>';
-
-        $data['messageSubject'] = 'Retirada caixa: R$' . $request->valor;
-
-        \Mail::send('emails.standart',['data' => $data], function ($message) use ($data, $request){
-            $message->from('no-reply@serranatural.com', 'Serra Natural');
-            $message->to('contato@maisbartenders.com.br', 'Igor Trindade')->subject($data['messageSubject']);
-        });
-
-        //dd($request->all());
 
         if ($request->retiradoCaixa == 1) {
             $caixa = Caixa::where('is_aberto', '=', 1)->first();
@@ -394,6 +256,39 @@ class FinanceiroController extends Controller
 
 
         }
+        
+        //Gera a transação para contabilizar retirada
+        $finance = FinancesTransaction::create([
+            'company_id' => 2, // Serra Natural
+            'category_id' => 61, // REtiradas caixa
+            'account_id' => 10, // Caixa Serra Natural
+            'created_by' => 1, // Igor Trindade
+            'confirmed_by' => 1, // Igor Trindade
+            'confirmed_at' => date('Y-m-d H:i:s'),
+            'expire_at' => date('Y-m-d H:i:s'),
+            'name' => 'Retirada Serra Natural (' . $user->name . '): ' . $retirada->descricao,
+            'date' => date('Y-m-d'),
+            'value' => 0 - $request->valor,
+            'tax' => 0,
+            'total' => 0 - $request->valor,
+            'observation' => null
+        ]);
+
+        //Envia email para informar o cliente do cadastro
+        $data = [];
+        $data['align'] = 'center';
+        $data['messageTitle'] = '<h4>Retirada no caixa de R$' . $request->valor. '</h4>';
+        $data['messageOne'] = '
+        <p>O usuário: ' . $user->name. ' acabou de fazer uma retirada no caixa no valor de ' . $request->valor . ' com a descrição: ' . $request->descricao .' </p>';
+
+        $data['messageSubject'] = 'Retirada caixa: R$' . $request->valor;
+
+        \Mail::send('emails.standart',['data' => $data], function ($message) use ($data, $request){
+            $message->from('no-reply@serranatural.com', 'Serra Natural');
+            $message->to('contato@maisbartenders.com.br', 'Igor Trindade')->subject($data['messageSubject']);
+        });
+
+
 
         $return = [
             'success' => '1',

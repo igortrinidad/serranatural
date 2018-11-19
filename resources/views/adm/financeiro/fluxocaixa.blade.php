@@ -192,15 +192,6 @@
 									</div>
 								</div>
 
-								<div class="col-md-6 col-xs-6">
-									<div class="form-group">
-										<label>Contas em aberto total</label>
-										<input type="text" class="form-control" 
-											v-model="caixa_aberto.contas.total"
-											disabled
-										/>
-									</div>
-								</div>
 
 							</div>
 
@@ -219,155 +210,6 @@
 						</div>
 					</div>
 
-
-
-					<div class="panel panel-default">
-						<div class="panel-heading">Contas | Total de contas pendentes: R$ @{{caixa_aberto.contas.total}}</div>
-						<div class="panel-body">
-							<p>Obs. Toda conta adicionada deve ser impressa e arquivada até o momento do pagamento.</p>
-
-							<div class="row">
-								<div class="col-md-5">
-									<div class="form-group">
-										<label>Selecione o cliente</label>
-										<select v-model="newConta.cliente" class="form-control">
-											  <option v-for="cliente in clientes" v-bind:value="cliente" >
-											    @{{ cliente.nome }}
-											  </option>
-											</select>
-									</div>
-								</div>
-
-								<div class="col-md-3">
-									<div class="form-group">
-										<label>Valor</label>
-										<input class="form-control moneyFloat" placeholder="Valor do vale" data-mask="000.00" v-model="newConta.valor">
-									</div>
-								</div>
-
-								<div class="col-md-4">
-									<button class="btn btn-block btn-primary m-t-25" @click="addNewConta()">Adicionar conta</button>
-								</div>
-							</div>
-
-							
-							<h3>Contas por cliente *novo</h3>
-							
-
-							<span v-for="cliente in caixa_aberto.contas.contas_abertas" v-if="cliente.contas">
-								<hr line-height="3px" />
-								<h4>@{{cliente.nome}}</h4>
-								<h5>Valor total conta: @{{cliente.contasTotal}}</h5>
-
-								<table class="table table-bordered table-hover table-striped">
-								    <thead>
-								        <tr>
-								            <td>Data</td>
-								            <td>Valor</td>
-								            <td colspan="2">Autorizado por:</td>
-								            <td>Quitar</td>
-								        </tr>
-								    </thead>
-								    <tbody>
-								    	<tr>
-								    		<td colspan="5">
-								    			<h5>Contas em aberto</h5>
-								    		</td>
-								    	</tr>
-								        <tr v-for="conta in cliente.contas" v-show="!conta.data_pay">
-								            <td>@{{conta.data_init}}</td>
-								            <td>R$ @{{conta.valor}}</td>
-								            <td colspan="2">@{{conta.usuario_add}}</td>
-								            <td class="text-center"><button class="btn btn-primary" @click="liquidaConta(conta)">Quitar notinha</button></td>
-								        </tr>
-								        <tr>
-								        	<td colspan="5"><h5>Contas liquidadas</h5></td>
-								        </tr>
-								        <tr>
-								        	<td>Data liquidação</td>
-								        	<td>Valor</td>
-								        	<td>Autorizado por</td>
-								        	<td>Quem recebeu</td>
-								        	<td>Cancelar quitação</td>
-								        </tr>
-								        <tr v-for="conta in cliente.contas" v-show="conta.data_pay">
-								            <td>@{{conta.data_pay}}</td>
-								            <td>R$ @{{conta.valor}}</td>
-								            <td>@{{conta.usuario_add}}</td>
-								            <td>@{{conta.usuario_pay}}</td>
-								            <td class="text-center"><button class="btn btn-danger" @click="removeConta(cliente, conta)">Remover conta</button></td>
-								        </tr>
-								    </tbody>
-								</table>
-
-							</span>
-
-
-							<hr line-height="3px" />
-
-							<h4>Contas *antigo</h4>
-
-							<table class="table table-bordered table-hover table-striped">
-							    <thead>
-							        <tr>
-							            <td>Nome cliente</td>
-							            <td>Autorizado por</td>
-							            <td>Data</td>
-							            <td>Valor</td>
-							            <td>Baixar</td>
-							        </tr>
-							    </thead>
-							    <tbody>
-							        <tr v-for="cliente in caixa_aberto.contas.contas_abertas" v-show="!cliente.contas">
-							            <td>@{{cliente.cliente}}</td>
-							            <td>@{{cliente.usuario}}</td>
-							            <td>@{{cliente.data_init}}</td>
-							            <td>R$ @{{cliente.valor}}</td>
-							            <td><button class="btn btn-primary" @click="baixaConta(cliente)">Quitar conta</button></td>
-							        </tr>
-							    </tbody>
-							</table>
-
-							<br>
-
-
-							
-							<h4>Contas arquivadas</h4>
-
-							<table class="table">
-							    <thead>
-							        <tr>
-							            <th width="20%">Data compras</th>
-							            <th width="15%">Cliente</th>
-							            <th width="10%">Telefone</th>
-							            <th width="20%">Valor</th>
-							            <th width="10%" class="text-center">Excluir</th>
-							        </tr>
-							    </thead>
-							    <tbody v-for="conta in caixa_aberto.contas.contas_pagas">
-								        <tr >
-								            <td>@{{conta.data_init}}</td>
-								            <td>@{{conta.cliente}}</td>
-								            <td>@{{conta.telefone}}</td>
-								            <td>R$ @{{conta.valor}}</td>
-								            <td class="text-center" @click="removeConta(conta)"><i class="fa fa-trash" style="cursor:pointer;"></i></td>
-								        </tr>
-								        <tr>
-											<td colspan="2">Data quitação</td>
-											<td colspan="3">Usuário quitação</td>
-								        </tr>
-								        <tr>
-											<td colspan="2"> @{{conta.data_pay}}</td>
-											<td colspan="3"> @{{conta.usuario_pay}}</td>
-								        </tr>
-							    </tbody>
-							</table>
-
-
-
-						</div>
-
-					</div>
 
 					<div class="panel panel-default">
 						<div class="panel-heading">Vendas</div>
@@ -419,7 +261,7 @@
 							<hr size="3px" style="margin: 10px;"/>
 							<button class="btn btn-primary btn-block" 
 								v-on:click="fecha($event)"
-								:disabled="!caixa_aberto.vendas_cielo || !caixa_aberto.vendas_rede || !caixa_aberto.vr_emCaixa || !vendas.vendaBruta || !caixa_aberto.senha || !caixa_aberto.obs"
+								:disabled="!caixa_aberto.vr_emCaixa || !vendas.vendaBruta || !caixa_aberto.senha || !caixa_aberto.obs"
 							>Fechar caixa</button >
 							<hr size="3px" style="margin: 10px;"/>
 							<br>
@@ -557,10 +399,10 @@
 				    	clientes: [],
 				    	caixa_is_aberto: false,
 				    	vendas: {
-				    		vendaBruta: '',
-				    		taxa_dia: '',
+				    		vendaBruta: 0,
+				    		taxa_dia: 0,
 				    		vendas_resumo: [
-				    			{id: '', valor: '', url: '', data: ''},
+				    			{id: '', valor: 0, url: '', data: ''},
 				    		]
 				    	},
 				    	abrir_caixa: {
@@ -579,24 +421,24 @@
 				    			items: [
 					    			{
 						    			label: 'Ticket',
-						    			value: 0
+						    			value: 0,
+										tax: 10
 						    		},
 						    		{
 						    			label: 'Stone',
-						    			value: 0
+						    			value: 0,
+										tax: 5
 						    		},
 						    		{
 						    			label: 'Rede',
-						    			value: 0
+						    			value: 0,
+										tax: 5
 						    		},
 						    		{
 						    			label: 'PagSimples',
-						    			value: 0
-						    		},
-						    		{
-						    			label: 'JOSÉ SARAIVA',
-						    			value: 0
-						    		},
+						    			value: 0,
+										tax: 5
+						    		}
 					    		]
 					    	},
 
@@ -647,7 +489,8 @@
 
 				          	this.$http.get('/admin/financeiro/caixa/consultaVendas').then(function (response) {
 						        self.vendas = response.data;
-						        self.caixa_aberto.vendas = self.vendas.vendaBruta;
+						        self.caixa_aberto.vendas = parseFloat(self.vendas.vendaBruta);
+								self.calcula();
 
 						    }, function (response) {
 						      	console.log('Erro ao tentar buscar vendas.');
@@ -743,15 +586,15 @@
 				    			( parseFloat( that.caixa_aberto.payments.register_end_value )
 				    			+ parseFloat( this.caixa_aberto.total_retirada ) 
 				    			- (parseFloat( that.caixa_aberto.payments.register_init_value) + parseFloat( this.caixa_anterior.contas.total ) ) );
+							
+							this.vendas.vendaBruta = parseFloat(this.vendas.vendaBruta)
 
-				    		var conferencia2 = parseFloat( this.vendas.vendaBruta.replace(',', '') ) - (totalPayments + parseFloat( this.caixa_aberto.contas.total )); 
+				    		var conferencia2 = this.vendas.vendaBruta - (totalPayments + parseFloat( this.caixa_aberto.contas.total )); 
 
 				    		var diferenca = (conferencia1) - (conferencia2);
 
-				    		console.log(': ' + diferenca);
-
 					    	this.caixa_aberto.diferenca_final = diferenca.toFixed(2);
-					    	this.caixa_aberto.vendas = this.vendas.vendaBruta.replace(',', '');
+					    	this.caixa_aberto.vendas = this.vendas.vendaBruta;
 				    	},
 
 				    	substract: function(ev){

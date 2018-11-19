@@ -14,6 +14,7 @@ use serranatural\User;
 use serranatural\Models\Produto;
 use serranatural\Models\Squareproduct;
 use serranatural\Models\Cliente;
+use serranatural\Models\FinancesTransaction;
 
 use Mail;
 use Carbon\Carbon;
@@ -255,23 +256,41 @@ class CaixaController extends Controller
 
         if($caixa) {
 
+        
+
             $caixa->update([
-                    'user_id_fechamento' => \Auth::user()->id,
-                    'vr_abertura' => $request->vr_abertura,
-                    'vendas' => $request->vendas,
-                    'vendas_cielo' => $request->vendas_cielo,
-                    'vendas_rede' => $request->vendas_rede,
-                    'vendas_online' => $request->vendas_online,
-                    'total_retirada' => $request->total_retirada,
-                    'esperado_caixa' => $request->esperado_caixa,
-                    'vr_emCaixa' => $request->vr_emCaixa,
-                    'diferenca_final' => $request->diferenca_final,
-                    'dt_fechamento' => date('Y-m-d H:i:s'),
-                    'obs' => $request->obs,
-                    'contas' => $request->contas,
-                    'payments' => $request->payments,
-                    'is_aberto' => 0
-                ]);
+                'user_id_fechamento' => \Auth::user()->id,
+                'vr_abertura' => $request->vr_abertura,
+                'vendas' => $request->vendas,
+                'vendas_online' => $request->vendas_online,
+                'total_retirada' => $request->total_retirada,
+                'esperado_caixa' => $request->esperado_caixa,
+                'vr_emCaixa' => $request->vr_emCaixa,
+                'diferenca_final' => $request->diferenca_final,
+                'dt_fechamento' => date('Y-m-d H:i:s'),
+                'obs' => $request->obs,
+                'contas' => $request->contas,
+                'payments' => $request->payments,
+                'is_aberto' => 0
+            ]);
+
+            //Gera a transação para contabilizar retirada
+            $finance = FinancesTransaction::create([
+                'company_id' => 2, // Serra Natural
+                'category_id' => 39, // ID 60 = Venda SN
+                'account_id' => 2, // Itau SN
+                'created_by' => 1, // Igor Trindade
+                'confirmed_by' => 1, // Igor Trindade
+                'confirmed_at' => date('Y-m-d H:i:s'),
+                'expire_at' => date('Y-m-d H:i:s'),
+                'name' => 'Vendas Serra Natural: ' . $caixa->dt_abertura->format('d/m/Y H:i:s') . ' - ' . $caixa->dt_fechamento->format('d/m/Y H:i:s'),
+                'date' => date('Y-m-d'),
+                'value' => $request->vendas,
+                'tax' => 0,
+                'total' => $request->vendas,
+                'observation' => null
+            ]);
+
 
             $email = Mail::queue('emails.admin.fechamentoCaixaNovo', ['caixa' => $caixa], function ($message) use ($caixa) {
 

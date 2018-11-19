@@ -82,8 +82,7 @@
 						<div class="form-group">
 							<label>Origem retirada</label>
 								<select class="form-control" v-model="retirada.fontePgto">
-									<option value="" selected disabled>Selecione uma opção</option>
-									<option value="Dinheiro Caixa">Dinheiro Caixa</option>
+									<option value="Dinheiro Caixa" selected>Dinheiro Caixa</option>
 									<option value="Dinheiro externo">Dinheiro externo</option>
 									<option value="Conta Loja">Conta Loja</option>
 									<option value="Conta MB">Conta MB</option>
@@ -91,58 +90,6 @@
 									<option value="Outros">Outros</option>
 								</select>
 						</div>
-
-		                <div class="form-group" >
-		                	<input type="hidden" name="retirado_caixa" value="0" />
-		                	<label >Registrar retirada no financeiro?</label><br>
-		                	<small>Ex. vale-transporte, adiantamento, pagamentos de contas gas entre outras.</small><br>
-		                    <button class="btn btn-danger" 
-		                    	v-show="retirada.registraPagamento"
-		                    	v-on:click="registraPagamento"
-		                    >Sim</button>
-							<button class="btn btn-default" 
-								v-show="!retirada.registraPagamento"
-								v-on:click="registraPagamento"
-							>Não</button>
-		                </div>
-
-
-
-
-					
-						<div class="form-group">
-							{!! Form::select('funcionario_id', $funcionarios, null, ['class' => 'form-control', 
-							'single' => 'single', 
-							'id' => 'funcionarios', 
-							'placeholder' => 'Selecione um funcionario',
-							'v-model' => 'retirada.funcionario_id'])   !!}
-						</div>
-
-						<div class="form-group"  v-show="retirada.funcionario_id">
-		                	<input type="hidden" name="retirado_caixa" value="0" />
-		                	<label >O valor é algum tipo de desconto do pagamento do funcionário?</label><br>
-		                	<small>Ex. Adiantamento / Mau uso / INSS</small><br>
-		                    <button class="btn btn-danger" 
-		                    	v-show="retirada.is_debito"
-		                    	v-on:click="pagamentoFuncionario"
-		                    >Sim</button>
-							<button class="btn btn-default" 
-								v-show="!retirada.is_debito"
-								v-on:click="pagamentoFuncionario"
-							>Não</button>
-		                  
-		                </div>
-
-						<div class="form-group" v-show="retirada.funcionario_id">
-								<label>Referência periodo - início</label>
-								<input type="text" v-model="retirada.init" class="form-control datepicker dataCompleta" required/>
-						</div>
-
-						<div class="form-group" v-show="retirada.funcionario_id">
-								<label>Referência periodo - final</label>
-								<input type="text" v-model="retirada.end" class="form-control datepicker dataCompleta" required/>
-						</div>
-						
 
 
 
@@ -196,12 +143,12 @@
 				    {	
 				    	loading: false,
 				    	retirada: {
-				    		usuario_id: '',
+				    		usuario_id: {{\Auth::user()->id}},
 				    		senha_operacao: '',
 				    		tipo: '',
 				    		valor: '',
 					    	descricao: '',
-					    	retiradoCaixa: 0,
+					    	retiradoCaixa: 1,
 					    	funcionario_id: '',
 					    	is_debito: 0,
 					    	motivo: '',
