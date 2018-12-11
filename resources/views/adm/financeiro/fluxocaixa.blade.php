@@ -487,7 +487,8 @@
 
 				          	this.$http.get('/admin/financeiro/caixa/consultaVendas').then(function (response) {
 						        self.vendas = response.data;
-						        self.caixa_aberto.vendas = parseFloat(self.vendas.vendaBruta);
+						        self.caixa_aberto.vendas = parseFloat(self.vendas.vendaBruta.replace(',', ''));
+
 								self.calcula();
 
 						    }, function (response) {
