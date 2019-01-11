@@ -57,7 +57,11 @@
                     </h2>
                     <hr>
         
-                    <img class="" width="70%" src="/img/CARDAPIO-2018-01.png" />
+                    <img class="" width="70%" src="/img/cardapio_p1.png" />
+
+                    <hr>
+
+                    <img class="" width="70%" src="/img/cardapio_p2.png" />
 
                 </div>
             </div>
