@@ -438,7 +438,17 @@
 						    			label: 'PagSimples',
 						    			value: 0,
 										tax: 5
-						    		}
+						    		},
+									{
+						    			label: 'Glovo',
+						    			value: 0,
+										tax: 22
+						    		},
+									{
+						    			label: 'iFood',
+						    			value: 0,
+										tax: 22
+						    		},
 					    		]
 					    	},
 
