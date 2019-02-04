@@ -447,7 +447,12 @@
 									{
 						    			label: 'iFood',
 						    			value: 0,
-										tax: 22
+										tax: 12
+						    		},
+									{
+						    			label: 'Uber Eats',
+						    			value: 0,
+										tax: 25
 						    		},
 					    		]
 					    	},
