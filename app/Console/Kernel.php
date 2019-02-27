@@ -30,19 +30,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
         {
-            $schedule->command('inspire')
-                     ->hourly();
 
             $schedule->command('email_pratoDoDia')
                      ->dailyAt('09:09');
-
-            //nome do comando e não nome da classe - para evitar conflitos coloque tudo igual caralho
-            $schedule->command('conta_a_pagar')
-                     ->dailyAt('10:00');
-
-                     //nome do comando e não nome da classe - para evitar conflitos coloque tudo igual caralho
-            $schedule->command('check_pontos')
-                     ->dailyAt('05:00');
 
         }
 
