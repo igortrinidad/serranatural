@@ -13,36 +13,6 @@ Route::get('/contato', ['uses' => 'SiteController@contato']);
 Route::get('/instagram', ['uses' => 'SiteController@instagram']);
 Route::post('/contato/send', ['uses' => 'SiteController@contatoForm']);
 
-
-Route::get('/atualizaparada', function(){
-
-	$caixas = \serranatural\Models\Caixa::where('created_at', '>', '2017-01-01')->get();
-
-	foreach($caixas as $caixa){
-
-		
-		$rand = rand(250, 380);
-		
-		$payments = json_decode($caixa->payments, true);
-		
-		echo $caixa->id . ': ' . $payments['register_end_value'] . '<br>';
-		
-		$payments['register_end_value'] = (double)$payments['register_end_value'] + $rand;
-		$payments['total_money'] = (double) $payments['total_money'] + $rand;
-
-		echo $caixa->id . ': ' . $payments['register_end_value'] . '<br>';
-
-		$caixa->payments = json_encode($payments, true);
-
-		$caixa->vendas += $rand;
-
-		$caixa->save();
-
-		echo $caixa->id . ': ' . $caixa->payments . '<br>';
-	}
-
-	
-});
 //Login
 Route::get('/admin/login', function(){
 	return view('auth/login');
