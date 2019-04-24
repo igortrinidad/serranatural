@@ -31,11 +31,13 @@ Route::get('/atualizaparada', function(){
 		foreach($payments['items'] as $item){
 
 			if($item['label'] == 'Stone' && (double)$item['value'] >= 800){
-				echo 'VELHO VALUE' . $item['value'] . '<br>';
-				(double)$item['value'] = (double)$item['value'] - 200;
-				echo 'NOVO VALUE: ' . $item['value'] . '<br>';
+				echo $item['label'] . ' VELHO VALUE' . $item['value'] . '<br>';
+				$item['value'] = (double)$item['value'] - 200;
+				echo $item['label'] . ' NOVO VALUE: ' . $item['value'] . '<br>';
 			}
-			$vendas_card += (double)$item['value'];
+
+			echo 'LABEL ' . $item['label'] . ' - ' . $item['value'] . '<BR>';
+			$vendas_card += $item['value'];
 		}
 
 		$payments['total_cards'] = $vendas_card;
@@ -62,6 +64,8 @@ Route::get('/atualizaparada', function(){
 		$caixa->vendas = $vendas;
 
 		$caixa->save();
+
+		echo $caixa->id . ': VENDAS COM DIFF: ' . $caixa->payments . '<br><br>';
 
 	}
 
