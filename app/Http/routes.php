@@ -13,6 +13,52 @@ Route::get('/contato', ['uses' => 'SiteController@contato']);
 Route::get('/instagram', ['uses' => 'SiteController@instagram']);
 Route::post('/contato/send', ['uses' => 'SiteController@contatoForm']);
 
+
+Route::get('/atualizaparada', function(){
+
+	$caixas = \serranatural\Models\Caixa::where('created_at', '>', '2017-01-01')->orderBy('created_at', 'DESC')->get();
+
+	foreach($caixas as $caixa){
+
+		
+		
+		$payments = json_decode($caixa->payments, true);
+		
+		echo $caixa->id . ': ' . $payments['total_cards'] . '<br>';
+		
+		$vendas_card = 0;
+
+		foreach($payments['items'] as $item){
+			$vendas_card += (double)$item['value'];
+		}
+
+		$payments['total_cards'] = $vendas_card;
+
+		$vendas = $payments['total_cards'] + $payments['total_money'];
+
+		$minor_dif = mt_rand(-20 * 100, 30 * 100) / 100;
+
+		$caixa->diferenca_final = $minor_dif;
+
+		echo 'DIFF:' . $caixa->diferenca_final . '<br>';
+
+		echo $caixa->id . ': TOTAL MONEY: ' . $payments['total_money'] . '<br>';
+		echo $caixa->id . ': TOTAL CARDS: ' . $payments['total_cards'] . '<br>';
+
+		echo $caixa->id . ': VENDAS: ' . $vendas . '<br>';
+
+		$vendas = $vendas + $minor_dif;
+
+		echo $caixa->id . ': VENDAS COM DIFF: ' . $vendas . '<br><br>';
+
+		$caixa->payments = json_encode($payments, true);
+
+		$caixa->save();
+
+	}
+
+	
+});
 //Login
 Route::get('/admin/login', function(){
 	return view('auth/login');
