@@ -819,7 +819,7 @@
 				    	    	caixa.payments.items.forEach( function(payment_type){
 
 				    	    		var index = insights.total_by_cards.indexFromAttr('label', payment_type.label);
-
+									
 				    	    		if(index > -1){
 				    	    			insights.total_by_cards[index].value +=parseFloat(payment_type.value);
 				    	    		} else {
