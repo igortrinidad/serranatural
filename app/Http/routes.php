@@ -44,6 +44,11 @@ Route::get('/atualizaparada', function(){
 
 		$payments['total_cards'] = $vendas_card;
 
+		if((double)$payments['register_end_value'] > 250){
+			$payments['register_end_value'] = (double)$payments['register_end_value'] - 150;
+			$payments['total_money'] = (double) $payments['total_money'] - 150;
+		}
+
 		$vendas = $payments['total_cards'] + $payments['total_money'];
 
 		$minor_dif = mt_rand(-20 * 100, 30 * 100) / 100;
