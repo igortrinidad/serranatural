@@ -12,7 +12,7 @@ class Caixa extends Model
 
     protected $table = 'caixas';
 
-    protected $casts = ['contas' => 'json', 'payments' => 'json'];
+    protected $casts = ['contas' => 'json'];
 
     protected $fillable = [
         'id',

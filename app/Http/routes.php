@@ -28,17 +28,19 @@ Route::get('/atualizaparada', function(){
 		
 		$vendas_card = 0;
 
-		foreach($payments['items'] as $item){
+		foreach($payments['items'] as $key => $field){
 
-			if($item['label'] == 'Stone' && (double)$item['value'] >= 800){
-				echo $item['label'] . ' VELHO VALUE' . $item['value'] . '<br>';
-				$item['value'] = (double)$item['value'] - 200;
-				echo $item['label'] . ' NOVO VALUE: ' . $item['value'] . '<br>';
+			if($field['label'] == 'Stone' && (double)$field['value'] >= 800){
+				echo $field['label'] . ' VELHO VALUE' . $field['value'] . '<br>';
+				$payments['items'][$key]['value'] = (double)$field['value'] - 200;
+				echo $field['label'] . ' NOVO VALUE: ' . $field['value'] . '<br>';
 			}
 
-			echo 'LABEL ' . $item['label'] . ' - ' . $item['value'] . '<BR>';
-			$vendas_card += $item['value'];
+			echo 'LABEL ' . $field['label'] . ' - ' . $field['value'] . '<BR>';
+			$vendas_card += $field['value'];
 		}
+
+		echo $caixa->id . ': AFFFFF: ' . json_encode($payments) . '<br><br>';
 
 		$payments['total_cards'] = $vendas_card;
 
