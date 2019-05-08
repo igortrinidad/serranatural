@@ -254,36 +254,6 @@
                             </ul>
                         </li>
 
-                        <li>
-                            <a href="admin/marketing"><i class="fa fa-reply-all"></i> Marketing<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="{{ route('admin.marketing.criarModelo') }}">Criar modelo</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('admin.marketing.lista')}}">Lista modelos</a>
-                                </li>
-                               <li>
-                                    <a href="{{ route('admin.marketing.lastLogs')}}">Ultimos logs</a>
-                                </li>
-                            </ul>
-                        </li>
-<!--
-                        <li>
-                            <a href="admin/promocoes"><i class="fa fa-diamond"></i> Promoções<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="/admin/promocoes">Dashboard</a>
-                                </li>
-                                <li>
-                                    <a href="#">Vouchers</a>
-                                </li>
-
-
-                            </ul>
-                        </li>
--->
-
 
                         <li>
                             <a href="#"><i class="fa fa-sitemap fa-fw"></i> Equipe<span class="fa arrow"></span></a>

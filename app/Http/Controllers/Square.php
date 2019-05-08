@@ -6,7 +6,7 @@ trait Square {
 
 	public function headers()
     {
-        $token = '5bDwfv16l7I02iePbc2GcQ';
+        $token = 'EAAAEHz3dirTeuQQe4xaEE1OFBcnRO35f38p1u8GYEaqHWGfQDD_kN9DhmEAHCO8';
         \Unirest\Request::defaultHeader("Authorization", "Bearer ".$token);
         \Unirest\Request::defaultHeader("Content-Type", "application/json");
     }

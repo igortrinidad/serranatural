@@ -45,11 +45,11 @@
 			<div class="panel-heading"><h5>Ações</h5></div>
 			<div class="panel-body">
 				<div class="form-group">
-					<label>Newsletter </label>
+					<label>Aceita receber email com os pratos</label>
 					@if($cliente->opt_email == 1)
-					<a href="/admin/clientes/sairEmail/{{$cliente->id}}"><i class="fa fa-check-square-o"></i></a>
+						<i class="fa fa-check-square-o"></i>
 					@else
-					<a href="/admin/clientes/entrarEmail/{{$cliente->id}}"><i class="fa fa-square-o"></i></a>
+						<i class="fa fa-square-o"></i>
 					@endif
 				</div>
 

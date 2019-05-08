@@ -11,33 +11,11 @@
 	@endif
 		<div class="panel panel-default">
 			<div class="panel-heading">
-
-			<div class="row">
-				<div class="col-md-6">
-					<h4>Lista de clientes</h4>
-				</div>
+				<div class="row">
 					<div class="col-md-6">
-						<div class="inline text-right">
-							<ul class="pagination">
-								<li>
-									<a href="{!! $lista->previousPageUrl() !!}" rel="prev">«</a>
-								</li>
-								<li>
-									<a href="{!! $urlPagination.'1' !!}">1</a>
-								</li>
-								<li class="active">
-									<a href="#">{!! $lista->currentPage() !!}</a>
-								</li>
-								<li>
-									<a href="{!! $urlPagination.$lista->lastPage() !!}" rel="prev">{!! $lista->lastPage() !!}</a>
-								</li>
-								<li>
-									<a href="{!! $lista->nextPageUrl() !!}" rel="prev">»</a>
-								</li>
-							</ul>	
-						</div>
+						<h4>Lista de clientes</h4>
 					</div>
-			</div>
+				</div>
 			</div>
 
 			<div class="panel-body">
@@ -63,39 +41,45 @@
 					</div>
 				</div>
 
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<td>Nome</td>
+							<td>E-mail</td>
+							<td>Telefone</td>
+							<td>Mostra</td>
+							<td>Excluir</td>
+							<td>Lista Email</td>
+							<td>Envia prato</td>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach($lista as $li)
+							<tr>
+								<td>{{$li->nome}}</td>
+								<td>{{$li->email}}</td>
+								<td>{{$li->telefone}}</td>
+								<td class="text-center" width="10%"><a href="/admin/clientes/{{$li->id}}/mostra"><i class="fa fa-search"></i></a></td>
+								<td class="text-center" width="10%"><a href="/admin/clientes/excluir/{{$li->id}}"><i class="fa fa-trash"></i></a></td>
+								<td class="text-center" width="10%">
+									@if($li->opt_email == 1)
+										<i class="fa fa-check-square-o"></i>
+									@else
+										<i class="fa fa-square-o"></i>
+									@endif
 
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<td>Nome</td>
-						<td>E-mail</td>
-						<td>Telefone</td>
-						<td>Mostra</td>
-						<td>Excluir</td>
-						<td>Lista Email</td>
-						<td>Envia prato</td>
-					</tr>
-				</thead>
+								</td>
+								<td class="text-center" width="10%"><a href="/admin/clientes/enviaPrato/{{$li->id}}"><i class="fa fa-envelope-o"></i></a></td>
+							</tr>	
+						@endforeach
+					</tbody>
+				</table>
 
-		@foreach($lista as $li)
-				<tr>
-					<td>{{$li->nome}}</td>
-					<td>{{$li->email}}</td>
-					<td>{{$li->telefone}}</td>
-					<td class="text-center" width="10%"><a href="/admin/clientes/{{$li->id}}/mostra"><i class="fa fa-search"></i></a></td>
-					<td class="text-center" width="10%"><a href="/admin/clientes/excluir/{{$li->id}}"><i class="fa fa-trash"></i></a></td>
-					<td class="text-center" width="10%">
-					@if($li->opt_email == 1)
-						<a href="/admin/clientes/sairEmail/{{$li->id}}"><i class="fa fa-check-square-o"></i></a>
-					@else
-						<a href="/admin/clientes/entrarEmail/{{$li->id}}"><i class="fa fa-square-o"></i></a>
-					@endif
-
-					</td>
-					<td class="text-center" width="10%"><a href="/admin/clientes/enviaPrato/{{$li->id}}"><i class="fa fa-envelope-o"></i></a></td>
-				</tr>	
-		@endforeach
-			</table>
+				<div class="row">
+					<div class="col-md-12 text-center">
+						{!! $lista->render() !!}
+					</div>
+				</div>
 			
 			</div>
 		</div>
