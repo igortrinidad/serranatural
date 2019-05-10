@@ -17,7 +17,6 @@ use serranatural\Models\Funcionario;
 use serranatural\Models\Pagamento;
 use serranatural\Models\Produto;
 use serranatural\Models\Movimentacao;
-use serranatural\Models\FinancesTransaction;
 
 use Image;
 use Input;
@@ -257,22 +256,6 @@ class FinanceiroController extends Controller
 
         }
         
-        //Gera a transação para contabilizar retirada
-        $finance = FinancesTransaction::create([
-            'company_id' => 2, // Serra Natural
-            'category_id' => 61, // REtiradas caixa
-            'account_id' => 10, // Caixa Serra Natural
-            'created_by' => 1, // Igor Trindade
-            'confirmed_by' => 1, // Igor Trindade
-            'confirmed_at' => date('Y-m-d H:i:s'),
-            'expire_at' => date('Y-m-d H:i:s'),
-            'name' => 'Retirada Serra Natural (' . $user->name . '): ' . $retirada->descricao,
-            'date' => date('Y-m-d'),
-            'value' => 0 - $request->valor,
-            'tax' => 0,
-            'total' => 0 - $request->valor,
-            'observation' => null
-        ]);
 
         //Envia email para informar o cliente do cadastro
         $data = [];
