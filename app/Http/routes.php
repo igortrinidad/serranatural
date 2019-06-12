@@ -113,6 +113,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::post('funcionarios/recibo/salva/{id}', ['as' => 'reciboSalva', 'uses' => 'FuncionariosController@salvaRecibo']);
 		Route::get('funcionarios/recibo/gerado/{id}', ['as' => 'reciboSalvo', 'uses' => 'FuncionariosController@abreReciboSalvo']);
 		Route::get('funcionarios/recibo/gerado/deleta/{id}', ['as' => 'reciboSalvoDeleta', 'uses' => 'FuncionariosController@deletaRecibo']);
+		Route::get('funcionarios/detroy/{id}', ['as' => 'destroy', 'uses' => 'FuncionariosController@destroy']);
 
 	});
 
@@ -127,6 +128,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function()
 		Route::get('usuarios/configuracoes', ['as' => 'edit', 'uses' =>'Auth\AuthController@editaUsuario']);
 		Route::post('usuarios/configuracoes/update', ['as' => 'update', 'uses' =>'Auth\AuthController@updateUsuario']);
 		Route::get('usuarios/lista', ['as' => 'list', 'uses' =>'UsuarioController@index']);
+		Route::get('usuarios/deletar/{id}', ['as' => 'destroy', 'uses' =>'UsuarioController@destroy']);
 
 	});
 

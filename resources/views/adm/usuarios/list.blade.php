@@ -16,6 +16,7 @@
 			            <td>Nome</td>
 			            <td>Email</td>
 			            <td>Tipo</td>
+			            <td class="text-center">Excluir</td>
 			        </tr>
 			    </thead>
 			    <tbody>
@@ -24,6 +25,9 @@
 			            <td>{{$user->name}}</td>
 			            <td>{{$user->email}}</td>
 			            <td>{{$user->user_type}}</td>
+			            <td class="text-center">
+							<a class="btn btn-danger" href="{{route('admin.users.destroy', $user->id)}}">Deletar</a>	
+						</td>
 			        </tr>
 			        @endforeach
 			    </tbody>

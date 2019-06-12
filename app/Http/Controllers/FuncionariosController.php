@@ -144,7 +144,9 @@ class FuncionariosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Funcionario::destroy($id);
+
+        return redirect()->back();
     }
 
     public function funcionariosForSelect()
