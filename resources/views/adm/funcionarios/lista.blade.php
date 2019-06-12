@@ -10,6 +10,10 @@
 	 </div>
 	@endif
 
+	<div class="alert alert-warning">
+		Desative um funcionário para excluir o mesmo.
+	</div>
+
 <div class="row">
 
 	<table class="table table-bordered table-hover table-striped">
