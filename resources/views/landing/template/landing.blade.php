@@ -102,7 +102,7 @@
 
     <div class="row">
         <div class="box">
-            <div id="map" style="width:100%;height:500px"></div>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3749.652314363901!2d-43.94172568508467!3d-19.981118986575098!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xa6980405ca0c1b%3A0xf170000137425aa9!2sSerra+Natural!5e0!3m2!1spt-BR!2sbr!4v1564497308042!5m2!1spt-BR!2sbr" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
         </div>
         
     </div>
