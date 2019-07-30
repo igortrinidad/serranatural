@@ -123,7 +123,7 @@
                         <br>
                         Alameda do Ingá, 754, Vila da Serra - Nova Lima.
                         <br>
-                        31 3658-8052 | <i class="fa fa-whatsapp"></i> 98282-8052
+                        <a href="tel:3199281-5262" target="_blank">31 99281-5262</a> | <i class="fa fa-whatsapp"></i> <a href="https://api.whatsapp.com/send?phone=+5531992815262&text=Oi" target="_blank"> 99281-5262</a>
                         <br>
                     </p>
                 </div>
