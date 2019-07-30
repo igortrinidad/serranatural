@@ -11,7 +11,7 @@
             </h2>
             <hr>
 
-            <iframe src="https://www.google.com/maps/embed?pb=!1m0!3m2!1spt-BR!2sbr!4v1481292965789!6m8!1m7!1sF%3A-jOTxnqmEupc%2FWElm4Onx_zI%2FAAAAAAAAF64%2FarHdjMe58zI9AXdYC-nRnCGu_J7QhLhRgCLIB!2m2!1d-19.98122255332469!2d-43.93946528434753!3f79.6239518401576!4f-2.4485701505543176!5f0.7820865974627469" width="100%" height="500" frameborder="0" style="border:0" allowfullscreen></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3749.652314363901!2d-43.94172568508467!3d-19.981118986575098!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xa6980405ca0c1b%3A0xf170000137425aa9!2sSerra+Natural!5e0!3m2!1spt-BR!2sbr!4v1564497308042!5m2!1spt-BR!2sbr" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
         </div>
         
     </div>

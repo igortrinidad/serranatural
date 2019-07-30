@@ -175,7 +175,7 @@
             '<h4>Serra Natural</h4>'+
             '<p>Alameda do Ingá, 754<p>'+
             '<p>Vila da Serra - Nova Lima<p>'+
-            '<p>31 3658-8052 | 98282-8052<p>'+
+            '<p>31 99281-5262<p>'+
           '</div>'
 
           var infowindow = new google.maps.InfoWindow({

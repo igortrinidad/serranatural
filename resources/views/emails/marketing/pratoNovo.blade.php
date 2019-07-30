@@ -328,10 +328,10 @@ Equipe Serra Natural.
                             <strong><em>Copyright © 2015 Serra Natural</em><br>
 <br>
 Alameda do Ingá, 754 - Vila da Serra - Nova Lima<br>
-<a href="tel:31%208282-8052" value="+553182828052" target="_blank">31 8282-8052</a></strong><br>
+<a href="tel:31992815262" value="+5531992815262" target="_blank">31 99281-5262</a></strong><br>
 <br>
 <strong>Nosso email é:</strong><br>
-<a href="mailto:mkt@serranatural.com" target="_blank">mkt@serranatural.com</a><br>
+<a href="mailto:lojaserranatural@gmail.com" target="_blank">lojaserranatural@gmail.com</a><br>
 <br>
 Não quer mais receber nossos e-mails?<br>
 <strong><a href="https://serranatural.com/me/sairEmail/{{$emailCliente}}" target="_blank">Clique aqui</a> para sair da lista de email do prato do dia.
