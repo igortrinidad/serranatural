@@ -52,23 +52,25 @@
         <tbody>
 
         @foreach($agenda as $a)
-  			<tr>
-  				<td><b>{{ dataMysqlParaDateTime($a->dataStamp) }}</b>, {{ dataMysqlParaPtBr($a->dataStamp) }}</td>
-          <td>{{ $a->pratos['prato'] }}</td>
-          <td>{{ $a->pratos['acompanhamentos'] }}</td>
-          <td>{{ $a->pratos['valor_pequeno'] }}</td>
-  				<td>{{ $a->pratos['valor_grande'] }}</td>
-          <td><a href="/admin/produtos/pratos/edita/{{$a->pratos->id}}"><i class="fa fa-pencil"></i>
-              </a>
-          </td>
-          <td><a href="/admin/produtos/excluiPratoSemana/{{$a->id}}">
-                <i class="fa fa-trash"></i>
-              </a>
-          </td>
-          <td>
-            <a href="/admin/produtos/pratos/mostra/{{$a->pratos->id}}"><img src="/arquivos/produtos/{{$a->pratos['foto']}}" width="80px" /></a>
-          </td>
-  			</tr>
+          @if($a->pratos)
+            <tr>
+              <td><b>{{ dataMysqlParaDateTime($a->dataStamp) }}</b>, {{ dataMysqlParaPtBr($a->dataStamp) }}</td>
+              <td>{{ $a->pratos['prato'] }}</td>
+              <td>{{ $a->pratos['acompanhamentos'] }}</td>
+              <td>{{ $a->pratos['valor_pequeno'] }}</td>
+              <td>{{ $a->pratos['valor_grande'] }}</td>
+              <td><a href="/admin/produtos/pratos/edita/{{$a->pratos->id}}"><i class="fa fa-pencil"></i>
+                  </a>
+              </td>
+              <td><a href="/admin/produtos/excluiPratoSemana/{{$a->id}}">
+                    <i class="fa fa-trash"></i>
+                  </a>
+              </td>
+              <td>
+                <a href="/admin/produtos/pratos/mostra/{{$a->pratos->id}}"><img src="/arquivos/produtos/{{$a->pratos['foto']}}" width="80px" /></a>
+              </td>
+            </tr>
+          @endif
         @endforeach
 
         </tbody>
